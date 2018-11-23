@@ -1,3 +1,7 @@
+/*
+ * @author
+ * 		Constantinos Loizou
+ */
 package application;
 
 public class Fine {
@@ -7,8 +11,9 @@ public class Fine {
 
 	// FineID = F + fine number. Example F1
 	private String fineID = ("F" + nextID);
-	private double amount;
+	private double amountTotal;
 	private double amountPaid;
+	private double amountLeft;
 
 	private String loanID;
 	private Date dateIssued;
@@ -19,18 +24,18 @@ public class Fine {
 
 	// Constructor
 	public Fine(String loanID) {
-		this.amount = calculateAmount();
-		this.loanID = loanID;
+		this.amountTotal = calculateAmount();
 		this.amountPaid = 0;
+		this.amountLeft = 0;
 		this.dateIssued = new Date();
 		this.paid = false;
-
+		this.loanID = loanID;
 		nextID++;
 	}
 
 	// to do this
 	private double calculateAmount() {
-		amount = (fineDay * numberOfDaysOverdue);
+		amountTotal = (fineDay * numberOfDaysOverdue);
 		// this is very wrong but just to show our thoughts
 	}
 	
@@ -44,10 +49,24 @@ public class Fine {
 	/*
 	 * @return Fine amount
 	 */
-	public double getAmount() {
-		return amount;
+	public double getAmountTotal() {
+		return amountTotal;
 	}
-
+	
+	/*
+	 * @return Amount Paid
+	 */
+	public double getAmountPaid() {
+		return amountPaid;
+	}
+	
+	/*
+	 * @return Amount left to pay
+	 */
+	public double getAmountLeft() {
+		return amountLeft;
+	}
+	
 	/*
 	 * @return date the fine was issued
 	 */
@@ -83,10 +102,12 @@ public class Fine {
 	public void payFine(double amount) throws IllegalArgumentException {
 		if (amount < MINIMUM_PAYMENT) {
 			throw new IllegalArgumentException("Can't pay less than £" + MINIMUM_PAYMENT);
-		} else if (amount > (this.amount - amountPaid)) {
-			throw new IllegalArgumentException("Can't pay fore than total fine amount");
+		} else if (amount > (this.amountLeft - amountPaid)) {
+			throw new IllegalArgumentException("Can't pay more than total fine amount");
 		}
+		
 		amountPaid += amount;
+		amountLeft -= amount;
 	}
 
 	//TODO : IMPLEMENT TOSTRING()
