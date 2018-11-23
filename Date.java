@@ -1,10 +1,26 @@
 import java.util.Calendar;
 
 public class Date {
-	Date(int year, int month, int day){
+	public Date(int year, int month, int day){
 		//makes date with set date
 	}
-	Date(){
+	public Date(){
 		//sets current date
 	}
+	public int getYear() {
+		
+	}
+	
+	public int getMonth() {
+		
+	}
+	
+	public int getDay() {
+		
+	}
+	
+	public String toString() {
+		
+	}
+	
 }
