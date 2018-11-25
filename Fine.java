@@ -2,7 +2,6 @@
  * @author
  * 		Constantinos Loizou
  */
-package application;
 
 public class Fine {
 
