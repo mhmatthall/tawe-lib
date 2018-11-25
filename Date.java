@@ -13,18 +13,22 @@ public class Date {
 		//sets current date
 	}
 	public int getYear() {
+		return 0;
 		
 	}
 	
 	public int getMonth() {
+		return 0;
 		
 	}
 	
 	public int getDay() {
+		return 0;
 		
 	}
 	
 	public String toString() {
+		return null;
 		
 	}
 	
