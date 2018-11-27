@@ -19,6 +19,7 @@ public class GUIController {
 	@FXML
 	public Button btnExit;
 
+	@FXML
 	public void buttonAboutPressed() throws Exception {
 	//	btnAbout.setText("DONT TOUCH ME OK?");
 		
@@ -33,6 +34,7 @@ public class GUIController {
 		
 	}
 
+	@FXML
 	public void buttonExitPressed() {
 		// TODO: Implement exit confirmation dialog primaryStage
 		Platform.exit();
