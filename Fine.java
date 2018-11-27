@@ -26,15 +26,27 @@ public class Fine {
 		this.amountTotal = calculateAmount();
 		this.amountPaid = 0;
 		this.amountLeft = 0;
-		this.dateIssued = new Date();
+		this.dateIssued = new Date(); //Current date set
 		this.paid = false;
 		this.loanID = loanID;
 		nextID++;
 	}
 
-	// to do this
+	// SUPPOSE THAT WE HAVE A DUE DATE ATTRIBUTE IN LOAN
 	private double calculateAmount() {
-		amountTotal = (fineDay * numberOfDaysOverdue);
+		
+		int yearsOverdue = loan.getReturnDate.getYear();
+		int monthsOverdue = loan.getReturnDate.getMonth();
+		int daysOverdue = loan.getReturnDate.getDay();
+		
+		Date today = new Date();
+		int curYear = today.getYear();
+		int curMonth = today.getMonth();
+		int curDay = today.getDay();
+		
+		int timeOverdue = ((yearsOverdue*365) + (monthsOverdue*30) + daysOverdue);
+		
+		amountTotal = (resource.getFinePerDay() * timeOverdue);
 		// this is very wrong but just to show our thoughts
 	}
 	
@@ -92,6 +104,7 @@ public class Fine {
 	 */
 	public void setPaid() {
 		paid = true;
+		datePaid = new Date();
 	}
 
 	/*
