@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Borrower {
 	private double balance; //mby float?
 	
@@ -7,6 +9,7 @@ public class Borrower {
 	//Array or arrayLists? cause we will know how many copies the guy has, right?
 	public ArrayList<Copy> getLoanedResources() {
 		//checking resources in possesion?
+		return null;
 	}
 	public ArrayList<Resource> getReservedResources(){
 		//get reserves

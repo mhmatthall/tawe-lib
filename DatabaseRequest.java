@@ -1,3 +1,3 @@
 /* DatabaseRequest
-   @author me
+   @author Matt Hall
 */
