@@ -104,6 +104,10 @@ public class Date {
 		return "Year: " + getYear() + ", Month: " + getMonth() + ", Day: " + getDay();
 	}
 	
+	/**
+	 * @param date
+	 * @return boolean, whatever the the object is before param date
+	 */
 	public boolean isBefore(Date date) {
 		int bool = this.date.compareTo(date.toCalendar());
 		return bool > 0;
