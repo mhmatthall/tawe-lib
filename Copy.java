@@ -8,7 +8,7 @@ public class Copy {
 	
 	private String copyID;
 	private String resourceID;
-	private int LoanTime;
+	private int loanTime;
 	
 	
 }

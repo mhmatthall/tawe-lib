@@ -47,7 +47,6 @@ public class Fine {
 		int timeOverdue = ((yearsOverdue*365) + (monthsOverdue*30) + daysOverdue);
 		
 		amountTotal = (resource.getFinePerDay() * timeOverdue);
-		// this is very wrong but just to show our thoughts
 	}
 	
 	/*
