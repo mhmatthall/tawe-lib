@@ -104,4 +104,11 @@ public class Date {
 		return "Year: " + getYear() + ", Month: " + getMonth() + ", Day: " + getDay();
 	}
 	
+	public boolean isBefore(Date date) {
+		int bool = this.date.compareTo(date.toCalendar());
+		return bool > 0;
+	}
+	private Calendar toCalendar() {
+		return date;
+	}
 }
