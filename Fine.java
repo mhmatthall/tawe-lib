@@ -1,6 +1,8 @@
 /*
  * @author
  * 		Constantinos Loizou
+ * 
+ * @version 1.0
  */
 
 public class Fine {
@@ -32,19 +34,18 @@ public class Fine {
 		nextID++;
 	}
 
-	// SUPPOSE THAT WE HAVE A DUE DATE ATTRIBUTE IN LOAN
+	/*
+	 * Calculates the amount of the fine
+	 */
 	private double calculateAmount() {
+		int timeOverdue;
 		
-		int yearsOverdue = loan.getReturnDate.getYear();
-		int monthsOverdue = loan.getReturnDate.getMonth();
-		int daysOverdue = loan.getReturnDate.getDay();
-		
-		Date today = new Date();
-		int curYear = today.getYear();
-		int curMonth = today.getMonth();
-		int curDay = today.getDay();
-		
-		int timeOverdue = ((yearsOverdue*365) + (monthsOverdue*30) + daysOverdue);
+		//If copy was returned on time fine is 0.
+		if  ( loan.getActualReturnDate().isBefore(loan.getExpectedReturnDay())) {
+			amountTotal = 0;
+		} else {
+			amountTotal = loan.getActualReturnDate().compare(loan.expectedReturnDate());
+		}
 		
 		amountTotal = (resource.getFinePerDay() * timeOverdue);
 	}
