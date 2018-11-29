@@ -25,9 +25,6 @@ public class Borrower {
 	public void requestReservedItem(String resourceID) {
 		//ya wot? if its reserved, ya dont need to request? or is this checking?
 	}
-	public void displayStatistics() {
-		//return type and how do i structure them?
-	}
 	public String toString() {
 		return "filler";
 	}
