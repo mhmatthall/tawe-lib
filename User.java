@@ -1,9 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.apache.commons.collections.ListUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 public class User {
 	String username;
@@ -44,12 +42,13 @@ public class User {
 	
 	
 	public ArrayList[] browseResources(){
-		List DVDs = new ArrayList[DatabaseRequest.search("DVD","*","",null)]
-		List books = new ArrayList[DatabaseRequest.search("Book","*","",null)]
-		List laptops = new ArrayList[DatabaseRequest.search("Laptop","*","",null)]
+		List DVDs = new ArrayList[DatabaseRequest.browse("DVD")]
+		List books = new ArrayList[DatabaseRequest.browse("Book")]
+		List laptops = new ArrayList[DatabaseRequest.browse("Laptop")]
 		List resources = DVDs;
 		resources.addAll(books);
 		resources.addAll(laptops);
+		return resources;
 		
 		
 	}
