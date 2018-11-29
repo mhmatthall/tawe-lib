@@ -1,3 +1,8 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+
 public class User {
 	String username;
 	String forename;
@@ -31,17 +36,25 @@ public class User {
 		return phoneNumber;
 	}
 	
-	public String getPhoneNumber(){
-	
+	public String getaddress(){
+		return address;
 	}
 	
 	
-	public browseResources(){
-	
+	public ArrayList[] browseResources(){
+		List DVDs = new ArrayList[DatabaseRequest.browse("DVD")]
+		List books = new ArrayList[DatabaseRequest.browse("Book")]
+		List laptops = new ArrayList[DatabaseRequest.browse("Laptop")]
+		List resources = DVDs;
+		resources.addAll(books);
+		resources.addAll(laptops);
+		return resources;
+		
+		
 	}
 	
-	public searchResources(String searchType, String query){
-	
+	public ArrayList[] searchResources(String searchType, String query, int numberOfResults){
+		return DatabaseRequest.search(searchType,"*",query, numberOfResults)
 	}
 	
 	public viewResourceDetails(){

@@ -22,6 +22,7 @@ public class UserImage extends Image {
 		super(filename)
 	
 	public createImage(){
+		
 	
 	}
 	
@@ -29,14 +30,14 @@ public class UserImage extends Image {
 		try {
 			Robot robot = new Robot(); 
 			String format = "jpg";
-			String fileName = "PartialScreenshot." + format;
+			String fileName = "CustomProfilePic." + format;
 			
 			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-			Rectangle captureRect = new Rectangle(0, 0, screenSize.width / 2, screenSize.height / 2);
+			Rectangle customPic = new Rectangle(0, 0, screenSize.width / 2, screenSize.height / 2);
 			BufferedImage screenFullImage = robot.createScreenCapture(captureRect);
 			ImageIO.write(screenFullImage, format, new File(fileName));
 			
-			System.out.println("A partial screenshot saved!");
+			System.out.println("Profile Pic saved!");
 		} catch (AWTException | IOException ex) {
 			System.err.println(ex);
 		}
