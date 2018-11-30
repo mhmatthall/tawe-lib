@@ -69,8 +69,10 @@ public class DatabaseRequest {
 //	}
 	
 	public static ArrayList<ArrayList<String>> viewTable(String name) throws SQLException {
+		name = name.toUpperCase();
+		
 		// Alters request for USER table to LIBRARY_USER table in order to match actual database table name
-		if (name.toUpperCase() == "USER") {
+		if (name == "USER") {
 			name = "LIBRARY_USER";
 		}
 		
