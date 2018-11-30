@@ -46,10 +46,10 @@ public class User {
 	}
 	
 	public ArrayList[] browseResources(){
-		List DVDs = new ArrayList[DatabaseRequest.viewTable("DVD")]
-		List books = new ArrayList[DatabaseRequest.viewTable("Book")]
-		List laptops = new ArrayList[DatabaseRequest.viewTable("Laptop")]
-		List resources = DVDs;
+		ArrayList[] DVDs = new ArrayList[DatabaseRequest.viewTable("DVD")];
+		ArrayList[] books = new ArrayList[DatabaseRequest.viewTable("Book")];
+		ArrayList[] laptops = new ArrayList[DatabaseRequest.viewTable("Laptop")];
+		ArrayList[] resources = DVDs;
 		resources.addAll(books);
 		resources.addAll(laptops);
 		return resources;
