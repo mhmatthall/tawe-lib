@@ -1,10 +1,11 @@
 public class User {
-	String username;
-	String forename;
-	String surname;
-	String phoneNumber;
-	String address;	
-	UserImage profileImage;
+	private String username;
+	private String forename;
+	private String surname;
+	private String phoneNumber;
+	private String address;	
+	private UserImage profileImage;
+	private boolean isLibrarian;
 	
 	public User(String username, String forename, String surname, String phoneNumber, String address, UserImage profileImage){
 		this.username = username;
@@ -15,26 +16,29 @@ public class User {
 		this.profileImage = profileImage;
 	}
 	
-	public String getSurname(){
+	public String getSurname() {
 		return surname;
 	}
 	
-	public String getForename(){
+	public String getForename() {
 		return forename;
 	}
 
-	public String getUsername(){
+	public String getUsername() {
 		return username;
 	}
 	
-	public String getPhoneNumber(){
+	public String getPhoneNumber() {
 		return phoneNumber;
+	}	
+	
+	public String getAddress() {
+		return address;
 	}
 	
-	public String getPhoneNumber(){
-	
+	public UserImage getProfileImage() {
+		return profileImage;
 	}
-	
 	
 	public browseResources(){
 	
@@ -48,6 +52,9 @@ public class User {
 	
 	}
 	
+	public boolean isLibrarian() {
+		return isLibrarian;
+	}
 	
 	public loadUserData(){
 	
