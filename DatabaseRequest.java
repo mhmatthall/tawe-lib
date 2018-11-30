@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 
 public class DatabaseRequest {
-	private static final String databaseName = "C:\\Users\\mhmat\\Desktop\\tawe-lib\\tawe-lib";
+	private static final String databaseName = "tawe-lib";
 	private static Connection conn;
 
 	// FOR TESTING ONLY
