@@ -2,6 +2,8 @@
  * @author Constantinos Loizou
  */
 
+import java.io.IOException;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,13 +13,17 @@ import javafx.scene.control.Button;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class GUIController {
+public class WelcomeController {
 
 	@FXML
 	public Button btnAbout;
 	
 	@FXML
 	public Button btnExit;
+	
+	@FXML
+	public Button btnLogin;
+
 
 	@FXML
 	public void buttonAboutPressed() throws Exception {
@@ -36,8 +42,16 @@ public class GUIController {
 
 	@FXML
 	public void buttonExitPressed() {
-		// TODO: Implement exit confirmation dialog primaryStage
-		Platform.exit();
+		boolean exit = ConfirmationBox.display("Exit", "Are you sure you want to exit?");
+		if (exit) {
+			Platform.exit();
+		}
+	}
+	
+	@FXML
+	public void buttonLoginPressed() throws IOException {
+		 GUIMain.showDashboard();
+		 System.out.println("Login button pressed");
 	}
 
 
