@@ -1,6 +1,12 @@
 import java.util.ArrayList;
 
-public class Borrower {
+public class Borrower extends User {
+	
+	public Borrower(String username, String forename, String surname, String phoneNumber, String address,
+			UserImage profileImage) {
+		super(username, forename, surname, phoneNumber, address, profileImage);
+		// TODO Auto-generated constructor stub
+	}
 	private double balance; //mby float?
 	
 	public void requestResource(String resourceID) {
