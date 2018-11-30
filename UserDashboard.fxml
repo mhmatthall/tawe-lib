@@ -14,8 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="250.0" minWidth="300.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" 
-			fx:controller="DashboardController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="250.0" minWidth="300.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DashboardController">
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
    </padding>
@@ -55,7 +54,7 @@
             </VBox>
             <VBox alignment="CENTER_LEFT" prefHeight="154.0" prefWidth="184.0">
                <children>
-                  <Label text="Welcome, USER_FIRSTNAME">
+                  <Label fx:id="lblWelcome" text="Welcome, USER_FIRSTNAME">
                      <font>
                         <Font size="14.0" />
                      </font>
