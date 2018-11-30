@@ -117,9 +117,12 @@ public class Fine {
 		} else if (amount > (this.amountLeft - amountPaid)) {
 			throw new IllegalArgumentException("Can't pay more than total fine amount");
 		}
-		
 		amountPaid += amount;
 		amountLeft -= amount;
+		
+		if (amountLeft <= amountPaid) {
+			setPaid();
+		}
 	}
 
 	//TODO : IMPLEMENT TOSTRING()
