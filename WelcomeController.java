@@ -10,6 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -24,6 +26,11 @@ public class WelcomeController {
 	@FXML
 	public Button btnLogin;
 
+	
+	@FXML
+	   private BorderPane welcomeScene;
+	
+	
 
 	@FXML
 	public void buttonAboutPressed() throws Exception {
@@ -50,8 +57,13 @@ public class WelcomeController {
 	
 	@FXML
 	public void buttonLoginPressed() throws IOException {
-		 GUIMain.showDashboard();
-		 System.out.println("Login button pressed");
+		//Login methods here 
+		GUIMain.showDashboard();
+		System.out.println("Login button pressed");
+		
+		AnchorPane pane = FXMLLoader.load(getClass().getResource("UserDashboard.fxml"));
+	    welcomeScene.getChildren().setAll(pane);
+		
 	}
 
 

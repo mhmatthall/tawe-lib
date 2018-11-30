@@ -1,13 +1,13 @@
 public class Image {
-	abstract String default
-	String filename
+	String defaultImage;
+	String filename;
 	
 	public Image (String filename){
 		if (filename == null){
-			this.filename = default
+			this.filename = defaultImage;
 		}
 		else{
-			this.filename = filename
+			this.filename = filename;
 		}
 	
 	}
@@ -16,7 +16,7 @@ public class Image {
 		return this.filename;
 	}
 	
-	public setImage(String filename){
+	public void setImage(String filename){
 		this.filename = filename;
 	}
 
