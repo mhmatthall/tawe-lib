@@ -9,7 +9,7 @@ public class DVD extends Resource {
 	ArrayList<String> SubLang = new ArrayList<String>();
 	
 	public DVD(String title, int year, Thumbnail thumbnail,String director, int runtime, String language, ArrayList<String> SubLang) {
-		
+		super (title, year, thumbnail);
 		this.director = director;
 		this.language = language;
 		this.runtime = runtime;
