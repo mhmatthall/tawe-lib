@@ -4,12 +4,13 @@ import java.util.List;
 
 
 public class User {
-	String username;
-	String forename;
-	String surname;
-	String phoneNumber;
-	String address;	
-	UserImage profileImage;
+	private String username;
+	private String forename;
+	private String surname;
+	private String phoneNumber;
+	private String address;	
+	private UserImage profileImage;
+	private boolean isLibrarian;
 	
 	public User(String username, String forename, String surname, String phoneNumber, String address, UserImage profileImage){
 		this.username = username;
@@ -20,31 +21,34 @@ public class User {
 		this.profileImage = profileImage;
 	}
 	
-	public String getSurname(){
+	public String getSurname() {
 		return surname;
 	}
 	
-	public String getForename(){
+	public String getForename() {
 		return forename;
 	}
 
-	public String getUsername(){
+	public String getUsername() {
 		return username;
 	}
 	
-	public String getPhoneNumber(){
+	public String getPhoneNumber() {
 		return phoneNumber;
-	}
+	}	
 	
-	public String getaddress(){
+	public String getAddress() {
 		return address;
 	}
 	
+	public UserImage getProfileImage() {
+		return profileImage;
+	}
 	
 	public ArrayList[] browseResources(){
-		List DVDs = new ArrayList[DatabaseRequest.browse("DVD")]
-		List books = new ArrayList[DatabaseRequest.browse("Book")]
-		List laptops = new ArrayList[DatabaseRequest.browse("Laptop")]
+		List DVDs = new ArrayList[DatabaseRequest.viewTable("DVD")]
+		List books = new ArrayList[DatabaseRequest.viewTable("Book")]
+		List laptops = new ArrayList[DatabaseRequest.viewTable("Laptop")]
 		List resources = DVDs;
 		resources.addAll(books);
 		resources.addAll(laptops);
@@ -61,6 +65,9 @@ public class User {
 	
 	}
 	
+	public boolean isLibrarian() {
+		return isLibrarian;
+	}
 	
 	public loadUserData(){
 	
