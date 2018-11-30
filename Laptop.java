@@ -1,7 +1,7 @@
 
 public class Laptop extends Resource {
-	protected static int fineDay;
-	protected static int fineMax;
+	protected static double fineDay = 10.00;
+	protected static double fineMax = 100.00;
 	private String manufacturer;
 	private String model;
 	private String operatingSys;

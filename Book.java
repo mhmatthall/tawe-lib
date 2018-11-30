@@ -1,7 +1,7 @@
 
 public class Book extends Resource {
-	protected static int fineDay;
-	protected static int fineMax;
+	protected static double fineDay = 2.00;
+	protected static double fineMax = 25.00;
 	private String author;
 	private String publisher;
 	private String genre;

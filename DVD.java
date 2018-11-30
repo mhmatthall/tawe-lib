@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public class DVD extends Resource {
-	protected static int fineDay;
-	protected static int fineMax;
+	protected static double fineDay = 2.00;
+	protected static double fineMax = 25.00;
 	private String director;
 	private int runtime;
 	private String language;
