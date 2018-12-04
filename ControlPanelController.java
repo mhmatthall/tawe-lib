@@ -26,6 +26,8 @@ public class ControlPanelController implements Initializable {
 
 	@FXML Button btnExit;
 	@FXML Button btnLogout;
+	@FXML Label lblUsername;
+	@FXML Label lblControlPanelTitle;
 	
 	//THE PROBLEM IS IN THESE 2
 /*	@FXML Label lblUsername;
@@ -55,6 +57,7 @@ public class ControlPanelController implements Initializable {
 //		}
 		
 		
+		
 
 	}
 
@@ -64,6 +67,8 @@ public class ControlPanelController implements Initializable {
 	 */
 	public void setUserID(String userID) {
 		this.userID = userID;
+		lblUsername.setText("Welcome " + userID);
+		
 	}
 
 }
