@@ -39,8 +39,11 @@ public class DatabaseRequest {
 	public static void main(String[] args) {
 		establishConnection();
 		try {
-			User u1 = new User("l.oreilly", "Liam", "OReilly", "077065452332", "Trafalgar Place, Brynmill, SA2 0DC", null);
-			addUser(u1);
+			Librarian meme = (Librarian)getUser("matt");
+			System.out.println("Hi, " + meme.getForename() + meme.getSurname() + meme.getPhoneNumber() + meme.getAddress() + meme.getUsername() + meme.getProfileImage() + meme.getStaffNumber() + meme.getEmploymentDate().toString() + "!");
+			
+			//User u1 = new User("l.oreilly", "Liam", "OReilly", "077065452332", "Trafalgar Place, Brynmill, SA2 0DC", null);
+			//addUser(u1);
 		} catch (SQLException e) {
 			System.out.println("ERROR: " + e.getMessage());
 		}
@@ -119,32 +122,43 @@ public class DatabaseRequest {
 		query.executeQuery("DELETE FROM LIBRARY_USER WHERE username = '" + username + "'");
 	}
 	
-	public User getUser(String username) throws SQLException {
+	public static User getUser(String username) throws SQLException {
 		Statement query = conn.createStatement();
-		
-		ResultSet results = query.executeQuery("SELECT * FROM LIBRARY_USER WHERE username = '" + username + "'");
 		
 		// Determine the type of user being retrieved; 1 = Librarian, 0 = Borrower
 		Statement userTypeCheck = conn.createStatement();
-		int userType = userTypeCheck.executeQuery("SELECT COUNT(*) FROM LIBRARIAN WHERE username = '" + username + "'").getInt(1);
+		ResultSet rs = userTypeCheck.executeQuery("SELECT COUNT(*) FROM LIBRARIAN WHERE username = '" + username + "'");
+		rs.next();
+		int userType = rs.getInt(1);
 		
+		ResultSet results;
 		User out = null;
 		
 		if (userType == 1) {
-			String ed = results.getString("employment_date");
-			Date empDate = new Date(Integer.parseInt(ed.substring(0, 1)),
-									Integer.parseInt(ed.substring(2, 3)),
-									Integer.parseInt(ed.substring(4, 5)));
+			// User is a librarian
+			results = query.executeQuery("SELECT LIBRARY_USER.*, LIBRARIAN.STAFF_NUMBER, LIBRARIAN.EMPLOYMENT_DATE "
+					+ "FROM LIBRARY_USER INNER JOIN LIBRARIAN ON LIBRARY_USER.USERNAME = LIBRARIAN.USERNAME "
+					+ "WHERE LIBRARY_USER.USERNAME = '" + username + "'");
+			results.next();
+			
+			String ed = results.getString(8);
+			Date empDate = new Date(Integer.parseInt(ed.substring(4, 6)),
+									Integer.parseInt(ed.substring(2, 4)),
+									Integer.parseInt(ed.substring(0, 2)));
 			
 			out = new Librarian(username,
-					results.getString("forename"),
-					results.getString("surname"),
-					results.getString("phone_number"),
-					results.getString("address"),
-					new UserImage(results.getString("profile_image")),
-					results.getInt("staff_number"),
+					results.getString(2),
+					results.getString(3),
+					results.getString(4),
+					results.getString(5),
+					new UserImage(results.getString(6)),
+					results.getInt(7),
 					empDate);
 		} else {
+			// User is a borrower
+			results = query.executeQuery("SELECT * FROM BORROWER WHERE username = '" + username + "'");
+			results.next();
+			
 			out = new Borrower(username,
 					results.getString("forename"),
 					results.getString("surname"),
