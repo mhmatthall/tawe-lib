@@ -36,7 +36,7 @@
             <HBox alignment="CENTER" spacing="10.0">
                <children>
                   <Label fx:id="lblUsername" text="Username:" />
-                  <TextField fx:id="txtUsername" promptText="username" />
+                  <TextField fx:id="txtUsername" onAction="#onEnter" promptText="username" />
                   <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#buttonLoginPressed" prefHeight="25.0" prefWidth="75.0" text="Login" />
                </children>
             </HBox>
