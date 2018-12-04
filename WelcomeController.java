@@ -63,7 +63,7 @@ public class WelcomeController {
 		username = txtUsername.getText().trim();
 
 		boolean librarianAccess;
-/*		try {
+	/*	try {
 			librarianAccess = new DatabaseRequest().getUser(username).isLibrarian();
 		} catch (SQLException e1) {
 			AlertBox.display("Invalid username");
@@ -73,7 +73,7 @@ public class WelcomeController {
 		}*/
 
 		// Display the librarian control screen or user dashboard accordingly
-		if (librarianAccess) {
+		if (true) {
 			try {
 				showControlPanel();
 			} catch (IOException e) {
