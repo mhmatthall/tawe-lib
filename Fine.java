@@ -1,3 +1,5 @@
+
+
 /*
  * @author
  * 		Constantinos Loizou
@@ -32,6 +34,8 @@ public class Fine {
 		this.paid = false;
 		this.loanID = loanID;
 		nextID++;
+		
+		
 	}
 
 	/*

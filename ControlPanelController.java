@@ -5,6 +5,7 @@
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
@@ -19,20 +20,16 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class DashboardController implements Initializable {
-/*
-	@FXML
-	public Label lblWelcome;
-	
-	@FXML
-	public Label lblUsername;
-	*/
-	
-	@FXML
-	public Button btnExit;
+public class ControlPanelController implements Initializable {
 
-	@FXML
-	public Button btnLogout;
+	private String userID;
+
+	@FXML Button btnExit;
+	@FXML Button btnLogout;
+	
+	//THE PROBLEM IS IN THESE 2
+/*	@FXML Label lblUsername;
+	@FXML Label lblWelcome; */
 
 	@FXML
 	public void exit() {
@@ -49,10 +46,24 @@ public class DashboardController implements Initializable {
 	}
 
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-	//	lblWelcome.setText("Welcome " + new DatabaseRequest().getUser(username).getForename());
+	public void initialize(URL location, ResourceBundle resources) {
+//		try {
+//			btnExit.setText("Welcome " + new DatabaseRequest().getUser(userID).getForename());
+//		} catch (SQLException e) {
+//			System.out.println("Error, username not in database");
+//			e.printStackTrace();
+//		}
 		
 		
+
+	}
+
+	/*
+	 * @param userID 
+	 * 		username of the logged in user
+	 */
+	public void setUserID(String userID) {
+		this.userID = userID;
 	}
 
 }
