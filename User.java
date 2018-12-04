@@ -10,7 +10,6 @@ public class User {
 	private String phoneNumber;
 	private String address;	
 	private UserImage profileImage;
-	private boolean isLibrarian;
 	
 	public User(String username, String forename, String surname, String phoneNumber, String address, UserImage profileImage){
 		this.username = username;
@@ -45,30 +44,30 @@ public class User {
 		return profileImage;
 	}
 	
-	public ArrayList[] browseResources(){
-		ArrayList[] DVDs = new ArrayList[DatabaseRequest.viewTable("DVD")];
-		ArrayList[] books = new ArrayList[DatabaseRequest.viewTable("Book")];
-		ArrayList[] laptops = new ArrayList[DatabaseRequest.viewTable("Laptop")];
-		ArrayList[] resources = DVDs;
-		resources.addAll(books);
-		resources.addAll(laptops);
-		return resources;
-		
-		
-	}
-	
-	public ArrayList[] searchResources(String searchType, String query, int numberOfResults){
-		return DatabaseRequest.search(searchType,"*",query, numberOfResults)
-	}
-	
-	public viewResourceDetails(){
-	
-	}
-	
-	public boolean isLibrarian() {
-		return isLibrarian;
-	}
-	
-	public loadUserData(){
-	
+//	public ArrayList[] browseResources(){
+//		ArrayList[] DVDs = new ArrayList[DatabaseRequest.viewTable("DVD")];
+//		ArrayList[] books = new ArrayList[DatabaseRequest.viewTable("Book")];
+//		ArrayList[] laptops = new ArrayList[DatabaseRequest.viewTable("Laptop")];
+//		ArrayList[] resources = DVDs;
+//		resources.addAll(books);
+//		resources.addAll(laptops);
+//		return resources;
+//		
+//		
+//	}
+//	
+//	public ArrayList[] searchResources(String searchType, String query, int numberOfResults){
+//		return DatabaseRequest.search(searchType,"*",query, numberOfResults)
+//	}
+//	
+//	public viewResourceDetails(){
+//	
+//	}
+//	
+//	public boolean isLibrarian() {
+//		return isLibrarian;
+//	}
+//	
+//	public loadUserData(){
+//	
 	}

@@ -1,7 +1,7 @@
  /*
- * @author Caleb Warburton
- * @version 1.0.0
- */
+  * @author Caleb Warburton
+  * @version 1.0.0
+  */
  
 import java.awt.AWTException;
 import java.awt.Dimension;
@@ -15,18 +15,18 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class UserImage extends Image {
-	String default
-	String[4] premadeImages = ["ProfilePic1.jpg","ProfilePic2.jpg","ProfilePic3.jpg","ProfilePic4.jpg"] 
+	private String defaultFilename;
+    private String[] premadeImages = {"ProfilePic1.jpg","ProfilePic2.jpg","ProfilePic3.jpg","ProfilePic4.jpg"};
 	
-	public UserImage (String filename){
-		super(filename)
-	
-	public createImage(){
-		
-	
+	public UserImage(String filename) {
+		super(filename);
 	}
 	
-	public saveImage(){
+	public void createImage() {
+		
+	}
+	
+	public void saveImage() {
 		try {
 			Robot robot = new Robot(); 
 			String format = "jpg";
@@ -43,23 +43,24 @@ public class UserImage extends Image {
 		}
 	}
 	
-	public addShape(String type, String colour, double originX, double originY, double height, double width, boolean isFilled)
-		if (type == "Circle"){
+	public void addShape(String type, String colour, double originX, double originY, double height, double width, boolean isFilled) {
+		if (type == "Circle") {
 			Circle shape = new Circle(colour, originX, originY, isFilled, height)
 		}
-		else if (type == "Rectangle"){
+		else if (type == "Rectangle") {
 			Rectangle shape = new Rectangle(colour, originX, originY, isFilled, width, height) 
 		}
-		else if (type == "Triangle"){
+		else if (type == "Triangle") {
 			Triangle shape = new Triangle(colour, originX, originY, isFilled, width, height)
 		}
-		else if (type == "Line"){
+		else if (type == "Line") {
 			Line shape = new Line(colour, originX, originY, width, height) 
 		}
 		
-		shape.draw()
+		shape.draw();
 	}
 	
-	public selectImage(int Selection){
+	public void selectImage(int Selection) {
 		setFilename(premadeImages[Selection]);
 	}
+}
