@@ -19,20 +19,16 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class DashboardController implements Initializable {
-/*
-	@FXML
-	public Label lblWelcome;
-	
-	@FXML
-	public Label lblUsername;
-	*/
-	
-	@FXML
-	public Button btnExit;
+public class DashboardController {
 
-	@FXML
-	public Button btnLogout;
+	private User user;
+	
+	@FXML Label lblWelcome;	
+	@FXML Label lblUsername;	
+	@FXML Button btnExit;
+	@FXML Button btnLogout;
+
+
 
 	@FXML
 	public void exit() {
@@ -41,18 +37,19 @@ public class DashboardController implements Initializable {
 			Platform.exit();
 		}
 	}
-
+	
+	@FXML
 	public void logout() throws IOException {
 		Stage window = (Stage) btnExit.getScene().getWindow();
 		Pane previous = FXMLLoader.load(getClass().getResource("Welcome.fxml"));
 		window.setScene(new Scene(previous));
 	}
 
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-	//	lblWelcome.setText("Welcome " + new DatabaseRequest().getUser(username).getForename());
-		
-		
+
+	public void setUser(User user) {
+		this.user = user;
+		lblUsername.setText("Username: " + user.getUsername());
+		lblWelcome.setText("Welcome " + user.getForename());
 	}
 
 }

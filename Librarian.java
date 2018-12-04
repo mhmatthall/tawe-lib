@@ -10,6 +10,7 @@ public class Librarian extends User {
 		super(username, forename, surname, phoneNumber, address, profileImage);
 		this.staffNumber = staffNumber;
 		this.employmentDate = employmentDate;
+		this.isLibrarian = true;
 	}
 
 	public int getStaffNumber() {

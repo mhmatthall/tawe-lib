@@ -20,10 +20,12 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class ControlPanelController implements Initializable {
+public class ControlPanelController {
 
-	private String userID;
-
+	private User user;
+	
+	@FXML Label lblWelcome;
+	@FXML Label lblUsername;
 	@FXML Button btnExit;
 	@FXML Button btnLogout;
 	
@@ -45,25 +47,14 @@ public class ControlPanelController implements Initializable {
 		window.setScene(new Scene(previous));
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-//		try {
-//			btnExit.setText("Welcome " + new DatabaseRequest().getUser(userID).getForename());
-//		} catch (SQLException e) {
-//			System.out.println("Error, username not in database");
-//			e.printStackTrace();
-//		}
-		
-		
-
-	}
-
 	/*
 	 * @param userID 
 	 * 		username of the logged in user
 	 */
-	public void setUserID(String userID) {
-		this.userID = userID;
+	public void setUser(User user) {
+		this.user = user;
+		lblUsername.setText("Username: " + user.getUsername());
+		lblWelcome.setText("Welcome " + user.getForename());
 	}
 
 }

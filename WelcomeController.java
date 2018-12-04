@@ -4,12 +4,15 @@
  */
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,8 +25,10 @@ import javafx.stage.Stage;
 
 public class WelcomeController {
 
+	private User user;
+
 	private String username;
-	
+
 	@FXML Button btnAbout;
 	@FXML Button btnExit;
 	@FXML Button btnLogin;
@@ -40,6 +45,8 @@ public class WelcomeController {
 		primaryStage.setScene(scene);
 		primaryStage.initModality(Modality.APPLICATION_MODAL); // Set window on top
 		primaryStage.show();
+		
+
 
 	}
 
@@ -62,61 +69,65 @@ public class WelcomeController {
 
 		username = txtUsername.getText().trim();
 
-		boolean librarianAccess;
-	/*	try {
-			librarianAccess = new DatabaseRequest().getUser(username).isLibrarian();
+		try {
+			user = new DatabaseRequest().getUser(username);
 		} catch (SQLException e1) {
 			AlertBox.display("Invalid username");
 			txtUsername.setText("");
 			return;
 
-		}*/
+		}
 
 		// Display the librarian control screen or user dashboard accordingly
-		if (true) {
+		if (user.isLibrarian()) {
 			try {
 				showControlPanel();
 			} catch (IOException e) {
-				System.out.println("IO Exception");
+				System.out.println(e.getMessage());
 				Platform.exit();
 			}
 		} else {
 			try {
 				showDashboard();
 			} catch (IOException e) {
-				System.out.println("IO Exception");
+				System.out.println(e.getMessage());
 				Platform.exit();
 			}
 		}
 	}
 
 	private void showControlPanel() throws IOException {
-//		Stage window = (Stage) btnExit.getScene().getWindow();
-//		Pane controlPanel = FXMLLoader.load(getClass().getResource("ControlPanel.fxml"));
-//		window.setScene(new Scene(controlPanel));
-	
-	
-	 	Stage window = (Stage) btnExit.getScene().getWindow();
+
+		Stage window = (Stage) btnExit.getScene().getWindow();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("ControlPanel.fxml"));
 		Pane controlPanel = loader.load();
 		ControlPanelController controller = loader.getController();
-		controller.setUserID(username);
+		controller.setUser(user);
 		Scene scene = new Scene(controlPanel);
 		window.setScene(scene);
-	 
+		window.show();
 
 	}
 
 	private void showDashboard() throws IOException {
+		
 		Stage window = (Stage) btnExit.getScene().getWindow();
-		Pane dashboard = FXMLLoader.load(getClass().getResource("UserDashboard.fxml"));
-		window.setScene(new Scene(dashboard));
-		// window.show();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("UserDashboard.fxml"));
+		Pane dashboard = loader.load();
+		DashboardController controller = loader.getController();
+		controller.setUser(user);
+		Scene scene = new Scene(dashboard);
+		window.setScene(scene);
+		window.show();
+
 	}
-	
+
 	@FXML
 	public void onEnter(ActionEvent ae) {
 		buttonLoginPressed();
 	}
 
+	public void initialize() {
+		txtUsername.requestFocus();
+	}	
 }

@@ -4,9 +4,10 @@ public class Borrower extends User {
 	private double balance;
 	
 	public Borrower(String username, String forename, String surname, String phoneNumber, String address,
-			UserImage profileImage, double balance) {
+		UserImage profileImage, double balance) {
 		super(username, forename, surname, phoneNumber, address, profileImage);
 		this.balance = balance;
+		this.isLibrarian = false;
 	}
 	
 	public void requestResource(String resourceID) {

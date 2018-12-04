@@ -35,13 +35,13 @@
          <children>
             <HBox prefHeight="106.0" prefWidth="370.0" spacing="10.0">
                <children>
-                  <VBox fx:id="lblWelcome" alignment="CENTER_LEFT" prefHeight="112.0" prefWidth="178.0" spacing="5.0">
+                  <VBox alignment="CENTER_LEFT" prefHeight="112.0" prefWidth="178.0" spacing="5.0">
                      <children>
                         <Label fx:id="lblWelcome" text="Welcome, USER_NAME">
                            <font>
                               <Font size="16.0" />
                            </font></Label>
-                        <Label fx:id="lblUsername" onDragDetected="#lblUsername" text="Username: username" />
+                        <Label fx:id="lblUsername" text="Username: username" />
                         <Label fx:id="lblAccountType" text="Account type: Standard" />
                      </children>
                      <opaqueInsets>
