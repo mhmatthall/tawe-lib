@@ -5,6 +5,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /* DatabaseRequest
    @author Matt Hall
@@ -71,9 +72,9 @@ public class DatabaseRequest {
 								"'" + newUser.getUsername() + "', " +
 								"'" + newUser.getForename() + "', " +
 								"'" + newUser.getSurname() + "'," +
-								"'" + ((newUser.getPhoneNumber() == null) ? "" : newUser.getPhoneNumber()) + "', " +
-								"'" + ((newUser.getAddress() == null) ? "" : newUser.getAddress()) + "', " +
-								"'" + ((newUser.getProfileImage().filename == null) ? "" : newUser.getProfileImage().filename));
+								"'" + newUser.getPhoneNumber() + "', " +
+								"'" + newUser.getAddress() + "', " +
+								"'" + (Objects.toString(newUser.getProfileImage().filename, "")));
 		
 		// librarian/borrower table insertion
 		StringBuilder custQuery = new StringBuilder("INSERT INTO ");
@@ -123,14 +124,13 @@ public class DatabaseRequest {
 	}
 	
 	public User getUser(String username) throws SQLException {
-		Statement query = conn.createStatement();
-		
 		// Determine the type of user being retrieved; 1 = Librarian, 0 = Borrower
 		Statement userTypeCheck = conn.createStatement();
 		ResultSet rs = userTypeCheck.executeQuery("SELECT COUNT(*) FROM LIBRARIAN WHERE username = '" + username + "'");
 		rs.next();
-		int userType = rs.getInt(1);
+		int userType = rs.getInt(1);	// userType = 0 if borrower, 1 if librarian
 		
+		Statement query = conn.createStatement();
 		ResultSet results;
 		User out = null;
 		
@@ -141,31 +141,33 @@ public class DatabaseRequest {
 					+ "WHERE LIBRARY_USER.USERNAME = '" + username + "'");
 			results.next();
 			
-			String ed = results.getString(8);
+			String ed = results.getString(8);	// employment date
 			Date empDate = new Date(Integer.parseInt(ed.substring(4, 6)),
 									Integer.parseInt(ed.substring(2, 4)),
 									Integer.parseInt(ed.substring(0, 2)));
 			
 			out = new Librarian(username,
-					results.getString(2),
-					results.getString(3),
-					results.getString(4),
-					results.getString(5),
-					new UserImage(results.getString(6)),
-					results.getInt(7),
+					results.getString(2),	// forename
+					results.getString(3),	// surname
+					results.getString(4),	// phone number
+					results.getString(5),	// address
+					new UserImage(results.getString(6)),	// profile image
+					results.getInt(7),	// balance
 					empDate);
 		} else {
 			// User is a borrower
-			results = query.executeQuery("SELECT * FROM BORROWER WHERE username = '" + username + "'");
+			results = query.executeQuery("SELECT LIBRARY_USER.*, BORROWER.BALANCE "
+					+ "FROM LIBRARY_USER INNER JOIN BORROWER ON LIBRARY_USER.USERNAME = BORROWER.USERNAME "
+					+ "WHERE LIBRARY_USER.USERNAME = '" + username + "'");
 			results.next();
 			
 			out = new Borrower(username,
-					results.getString("forename"),
-					results.getString("surname"),
-					results.getString("phone_number"),
-					results.getString("address"),
-					new UserImage(results.getString("profile_image")),
-					results.getDouble("balance"));
+					results.getString(2),	// forename
+					results.getString(3),	// surname
+					results.getString(4),	// phone number
+					results.getString(5),	// address
+					new UserImage(results.getString(6)), // profile image
+					results.getDouble(7));	// balance
 		};
 		
 		return out;
