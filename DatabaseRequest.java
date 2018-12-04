@@ -42,8 +42,8 @@ public class DatabaseRequest {
 			//Librarian meme = (Librarian)getUser("matt");
 			//System.out.println("Hi, " + meme.getForename() + meme.getSurname() + meme.getPhoneNumber() + meme.getAddress() + meme.getUsername() + meme.getProfileImage() + meme.getStaffNumber() + meme.getEmploymentDate().toString() + "!");
 			
-			//User u1 = new User("l.oreilly", "Liam", "OReilly", "077065452332", "Trafalgar Place, Brynmill, SA2 0DC", null);
-			//addUser(u1);
+			User u1 = new User("l.oreilly", "Liam", "OReilly", "077065452332", "Trafalgar Place, Brynmill, SA2 0DC", null);
+			addUser(u1);
 		} catch (SQLException e) {
 			System.out.println("ERROR: " + e.getMessage());
 		}
