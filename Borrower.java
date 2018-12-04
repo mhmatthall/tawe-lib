@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
 public class Borrower extends User {
+	private double balance;
 	
 	public Borrower(String username, String forename, String surname, String phoneNumber, String address,
-			UserImage profileImage) {
+			UserImage profileImage, double balance) {
 		super(username, forename, surname, phoneNumber, address, profileImage);
-		// TODO Auto-generated constructor stub
+		this.balance = balance;
 	}
-	private double balance; //mby float?
 	
 	public void requestResource(String resourceID) {
 		//void? and huh?

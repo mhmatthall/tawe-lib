@@ -6,7 +6,7 @@ public class Resource {
 	private String title;
 	private int year;
 	private Thumbnail thumbnail;
-	private queue RequestQueue;
+	private RequestQueue queue;
 	
 	
 	public Resource (String title, int year, Thumbnail thumbnail) {
@@ -14,7 +14,7 @@ public class Resource {
 		this.year = year;
 		this.nextID = counter++;
 	}
-	
+
 	public String getResourceID() {
 		return resourceID;
 	}
@@ -23,18 +23,32 @@ public class Resource {
 		return title;
 	}
 	
+	public void setTitle(String title) {
+		
+	}
+	
 	// change in document
 	public int getYear() {
 		return year;
-	}
-	
-	public void setTitle(String title) {	
 	}
 	
 	public void setYear(String year) {
 		
 	}
 	
+	public Thumbnail getThumbnail() {
+		return thumbnail;
+	}
 	
-
+	public void setThumbnail(Thumbnail thumbnail) {
+		this.thumbnail = thumbnail;
+	}
+	
+	public RequestQueue getQueue() {
+		return queue;
+	}
+	
+	public void setQueue(RequestQueue queue) {
+		this.queue = queue;
+	}
 }

@@ -1,6 +1,5 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -64,19 +63,19 @@ public class DatabaseRequest {
 		//						the other inserts the user into either the LIBRARIAN or BORROWER table
 		
 		// user table insertion
-		Statement genQuery;
+		Statement genQuery = conn.createStatement();
 		genQuery.executeQuery("INSERT INTO LIBRARY_USER VALUES(" +
 								"'" + newUser.getUsername() + "', " +
 								"'" + newUser.getForename() + "', " +
 								"'" + newUser.getSurname() + "'," +
-								"'" + newUser.getPhoneNumber() + "', " +
-								"'" + newUser.getAddress() + "', " +
-								"'" + newUser.getProfileImage().filename);
+								"'" + ((newUser.getPhoneNumber() == null) ? "" : newUser.getPhoneNumber()) + "', " +
+								"'" + ((newUser.getAddress() == null) ? "" : newUser.getAddress()) + "', " +
+								"'" + ((newUser.getProfileImage().filename == null) ? "" : newUser.getProfileImage().filename));
 		
 		// librarian/borrower table insertion
 		StringBuilder custQuery = new StringBuilder("INSERT INTO ");
 		
-		if (newUser.isLibrarian()) {
+		if (newUser instanceof Librarian) {
 			custQuery.append(
 					"LIBRARIAN VALUES('" + newUser.getUsername() + "', " +
 							((Librarian)newUser).getEmploymentDate() + ", " +
@@ -87,12 +86,13 @@ public class DatabaseRequest {
 							((Borrower)newUser).getBalance() + ")");
 		}
 		
-		Statement query;
+		Statement query = conn.createStatement();
 		query.executeQuery(custQuery.toString());	// Collate the statements and execute the query
 	}
 	
 	public void editUser(User newDetails) throws SQLException {
 		Statement query = conn.createStatement();
+		
 		query.addBatch("UPDATE LIBRARY_USER SET" +
 						"forename = '" + newDetails.getForename() + "', " +
 						"surname = '" + newDetails.getForename() + "', " +
@@ -101,7 +101,7 @@ public class DatabaseRequest {
 						"profile_image = '" + newDetails.getProfileImage().getImage() + "' " +
 						"WHERE username = '" + newDetails.getUsername() + "'");
 		
-		if (newDetails.isLibrarian()) {
+		if (newDetails instanceof Librarian) {
 			query.addBatch("UPDATE LIBRARIAN SET " +
 							"staff_number = " + ((Librarian) newDetails).getStaffNumber() + ", " +
 							"employment_date = " + ((Librarian) newDetails).getEmploymentDate() + " " +
@@ -124,28 +124,51 @@ public class DatabaseRequest {
 		
 		ResultSet results = query.executeQuery("SELECT * FROM LIBRARY_USER WHERE username = '" + username + "'");
 		
-		User out = new User(username,
-							results.getString("forename"),
-							results.getString("surname"),
-							results.getString("phone_number"),
-							results.getString("address"),
-							new UserImage(results.getString("profile_image"))
-							);
+		// Determine the type of user being retrieved; 1 = Librarian, 0 = Borrower
+		Statement userTypeCheck = conn.createStatement();
+		int userType = userTypeCheck.executeQuery("SELECT COUNT(*) FROM LIBRARIAN WHERE username = '" + username + "'").getInt(1);
+		
+		User out = null;
+		
+		if (userType == 1) {
+			String ed = results.getString("employment_date");
+			Date empDate = new Date(Integer.parseInt(ed.substring(0, 1)),
+									Integer.parseInt(ed.substring(2, 3)),
+									Integer.parseInt(ed.substring(4, 5)));
+			
+			out = new Librarian(username,
+					results.getString("forename"),
+					results.getString("surname"),
+					results.getString("phone_number"),
+					results.getString("address"),
+					new UserImage(results.getString("profile_image")),
+					results.getInt("staff_number"),
+					empDate);
+		} else {
+			out = new Borrower(username,
+					results.getString("forename"),
+					results.getString("surname"),
+					results.getString("phone_number"),
+					results.getString("address"),
+					new UserImage(results.getString("profile_image")),
+					results.getDouble("balance"));
+		};
+		
 		return out;
 	}
 	
+	// TODO needs fixing like adduser was
 	public void addResource(Resource newResource) throws SQLException {
 		// Two queries are run; one inserts the resource into the RESOURCE table,
 		//						the other inserts the resource into either the BOOK, DVD, or LAPTOP table
 
 		// resource table insertion
-		Statement genQuery;
+		Statement genQuery = conn.createStatement();
 		genQuery.executeQuery("INSERT INTO RESOURCE VALUES(" +
 				"'" + newResource.getResourceID() + "', " +
 				"'" + newResource.getTitle() + "', " +
 				"'" + newResource.getYear() + "'," +
-				"'" + newResource.getThumbnail().getImage() + "', " +
-				"'')");
+				"'" + newResource.getThumbnail().getImage() + "')");
 
 		// librarian/borrower table insertion
 		StringBuilder custQuery = new StringBuilder("INSERT INTO ");
@@ -168,7 +191,7 @@ public class DatabaseRequest {
 			String subtitleLanguages = "";
 			
 			for (String language : ((DVD)newResource).getSubLang()) {
-				subtitleLanguages = subtitleLanguages + ",";
+				subtitleLanguages = subtitleLanguages + language + ",";
 			}
 			
 			custQuery.append("'" + subtitleLanguages + "')");
@@ -180,7 +203,7 @@ public class DatabaseRequest {
 							((Laptop)newResource).getOperatingSys() + ")");
 		}
 		
-		Statement query;
+		Statement query = conn.createStatement();
 		query.executeQuery(custQuery.toString());	// Collate the statements and execute the query
 	}
 	

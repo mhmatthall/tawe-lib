@@ -7,12 +7,13 @@ public class Laptop extends Resource {
 	private String operatingSys;
 	
 	public Laptop (String title, int year, Thumbnail thumbnail, String manufacturer, String model, String operatingSys) {
-			this.manufacturer = manufacturer;
-			this.model = model;
-			this.operatingSys = operatingSys;
-		
+		super(title, year, thumbnail);
+		this.manufacturer = manufacturer;
+		this.model = model;
+		this.operatingSys = operatingSys;
+
 	}
-	
+
 	
 	public String getManufacturer() {
 		return manufacturer;
@@ -22,7 +23,7 @@ public class Laptop extends Resource {
 		return model;
 	}
 	
-	public String operatingSys() {
+	public String getOperatingSys() {
 		return operatingSys;
 	}
 
