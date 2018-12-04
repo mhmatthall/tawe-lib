@@ -27,8 +27,8 @@ public class GUIMain extends Application {
 	}
 
 	@Override
-	public void start(Stage primaryStage) throws Exception {
-		window = primaryStage;
+	public void start(Stage window) throws Exception {
+
 
 		// Specify the FXML controller
 		Parent root = FXMLLoader.load(getClass().getResource("Welcome.fxml"));

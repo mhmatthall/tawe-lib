@@ -52,4 +52,9 @@ public class DashboardController {
 		lblWelcome.setText("Welcome " + user.getForename());
 	}
 
+	public void initialize() {
+
+		
+	}
+
 }

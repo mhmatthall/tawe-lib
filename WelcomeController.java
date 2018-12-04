@@ -128,6 +128,6 @@ public class WelcomeController {
 	}
 
 	public void initialize() {
-		txtUsername.requestFocus();
+	//	txtUsername.requestFocus();
 	}	
 }
