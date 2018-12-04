@@ -39,8 +39,8 @@ public class DatabaseRequest {
 	public static void main(String[] args) {
 		establishConnection();
 		try {
-			Librarian meme = (Librarian)getUser("matt");
-			System.out.println("Hi, " + meme.getForename() + meme.getSurname() + meme.getPhoneNumber() + meme.getAddress() + meme.getUsername() + meme.getProfileImage() + meme.getStaffNumber() + meme.getEmploymentDate().toString() + "!");
+			//Librarian meme = (Librarian)getUser("matt");
+			//System.out.println("Hi, " + meme.getForename() + meme.getSurname() + meme.getPhoneNumber() + meme.getAddress() + meme.getUsername() + meme.getProfileImage() + meme.getStaffNumber() + meme.getEmploymentDate().toString() + "!");
 			
 			//User u1 = new User("l.oreilly", "Liam", "OReilly", "077065452332", "Trafalgar Place, Brynmill, SA2 0DC", null);
 			//addUser(u1);
@@ -122,7 +122,7 @@ public class DatabaseRequest {
 		query.executeQuery("DELETE FROM LIBRARY_USER WHERE username = '" + username + "'");
 	}
 	
-	public static User getUser(String username) throws SQLException {
+	public User getUser(String username) throws SQLException {
 		Statement query = conn.createStatement();
 		
 		// Determine the type of user being retrieved; 1 = Librarian, 0 = Borrower
