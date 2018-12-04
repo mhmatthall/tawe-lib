@@ -1,3 +1,6 @@
+/*
+ * TODO complete setter methods
+ */
 
 public class Laptop extends Resource {
 	protected static double fineDay = 10.00;

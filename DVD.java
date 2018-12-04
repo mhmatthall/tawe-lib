@@ -1,19 +1,23 @@
 import java.util.ArrayList;
 
+/*
+ * TODO Complete setter methods
+ * TODO fix constructor to inherit
+ */
 public class DVD extends Resource {
 	protected static double fineDay = 2.00;
 	protected static double fineMax = 25.00;
 	private String director;
 	private int runtime;
 	private String language;
-	ArrayList<String> SubLang = new ArrayList<String>();
+	ArrayList<String> subLang = new ArrayList<String>();
 	
 	public DVD(String title, int year, Thumbnail thumbnail,String director, int runtime, String language, ArrayList<String> SubLang) {
 		
 		this.director = director;
 		this.language = language;
 		this.runtime = runtime;
-		this.SubLang = SubLang;
+		this.subLang = SubLang;
 		
 	}
 		
@@ -31,7 +35,7 @@ public class DVD extends Resource {
 	}
 	
 	public ArrayList<String> getSubLang() {
-		return SubLang;
+		return subLang;
 	}
 	
 	public void setDirector(String director) {

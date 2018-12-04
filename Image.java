@@ -1,3 +1,8 @@
+/*
+ * TODO update access modifiers for variables
+ * TODO add missing methods according to UML
+ */
+
 public class Image {
 	String defaultImage;
 	String filename;

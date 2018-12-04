@@ -2,6 +2,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/*
+ * TODO sort out broken (commented out) methods
+ * TODO add missing UML methods
+ */
 public class User {
 	private String username;
 	private String forename;
@@ -19,7 +23,6 @@ public class User {
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.profileImage = profileImage;
-		
 	}
 
 	public String getSurname() {

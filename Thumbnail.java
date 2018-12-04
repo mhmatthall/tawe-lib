@@ -1,3 +1,7 @@
+/*
+ * TODO Conform to coding standards, fix blatant issues
+ */
+
 public class Thumbnail {
 	abstract String default
 	String filename

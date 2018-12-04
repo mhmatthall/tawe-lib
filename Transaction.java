@@ -1,7 +1,10 @@
+/*
+ * Don't think we need setters, as this should only be created as a read-only 'receipt'
+ */
 
 public class Transaction {
 
-	private Date tdate;
+	private Date tdate; // consider better name?
 	private String fineId;
 	private double amount;
 	

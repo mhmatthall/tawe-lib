@@ -1,5 +1,9 @@
 import java.util.NoSuchElementException;
 
+/*
+ * What is this class doing? Isn't this what RequestQueue is supposed to do?
+ */
+
 /**
  * @author Rimantas
  *

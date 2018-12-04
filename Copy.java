@@ -1,11 +1,12 @@
 /*
- * @author
- * 		Constantinos Loizou
+ * @author Constantinos Loizou
+ * 
+ * TODO add missing variables
+ * TODO fix constructor to add missing variables
  */
 public class Copy {
 	
 	private static int nextCopyID;
-	
 	private String copyID = ("C" + nextCopyID);
 	private String resourceID;
 	private int loanTime;

@@ -1,3 +1,7 @@
+/*
+ * TODO fix double constructor
+ * TODO add missing UML methods 
+ */
 
 public class Loan {
 	private static int nextLoanID;
@@ -8,7 +12,7 @@ public class Loan {
 	private Date returnDate;
 	
 	public Loan() {
-		// TOD
+
 	}
 
 	public Loan(String copyID, Date issueDate, String username, Date returnDate) {

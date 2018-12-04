@@ -1,4 +1,7 @@
-
+/*
+ * TODO add missing methods defined in UML diagram
+ * TODO fix missing setters
+ */
 public class Resource {
 	private static int counter = 0; 
 	private final int nextID;
@@ -7,7 +10,6 @@ public class Resource {
 	private int year;
 	private Thumbnail thumbnail;
 	private RequestQueue queue;
-	
 	
 	public Resource (String title, int year, Thumbnail thumbnail) {
 		this.title = title;
