@@ -1,9 +1,9 @@
 
 public class Transaction {
 
-	Date tdate;
-	String fineId;
-	double amount;
+	private Date tdate;
+	private String fineId;
+	private double amount;
 	
 	public Transaction(Date tdate, String fineID, double amount) {
 		this.tdate = tdate;
