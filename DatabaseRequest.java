@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -11,7 +12,6 @@ import java.util.ArrayList;
    @version 1.0
    
    TODO Need to remove static attributes (and main method) when testing complete
-	+ addResource(newResource : Resource)
    	+ editResource
 	+ deleteResource(resourceID : string) + editResource(resourceID : string, newDetails : Resource)
 	+ getResource
@@ -40,9 +40,8 @@ public class DatabaseRequest {
 	public static void main(String[] args) {
 		establishConnection();
 		try {
-			System.out.println("USER table: " + viewTable("USER").toString());
-			System.out.println("RESOURCE table: " + viewTable("RESOURCE").toString());
-			System.out.println("BOOK table: " + viewTable("BOOK").toString());
+			User u1 = new User("l.oreilly", "Liam", "OReilly", "077065452332", "Trafalgar Place, Brynmill, SA2 0DC", null);
+			addUser(u1);
 		} catch (SQLException e) {
 			System.out.println("ERROR: " + e.getMessage());
 		}
@@ -60,8 +59,12 @@ public class DatabaseRequest {
 		}
 	}
 	
-	public void addUser(User newUser) throws SQLException {
-		Statement genQuery = conn.createStatement();	// General query to update User table
+	public static void addUser(User newUser) throws SQLException {
+		// Two queries are run; one inserts the user into the LIBRARY_USER table,
+		//						the other inserts the user into either the LIBRARIAN or BORROWER table
+		
+		// user table insertion
+		Statement genQuery;
 		genQuery.executeQuery("INSERT INTO LIBRARY_USER VALUES(" +
 								"'" + newUser.getUsername() + "', " +
 								"'" + newUser.getForename() + "', " +
@@ -70,8 +73,9 @@ public class DatabaseRequest {
 								"'" + newUser.getAddress() + "', " +
 								"'" + newUser.getProfileImage().filename);
 		
-		// Custom query changes depending on whether user is Librarian or Borrower
+		// librarian/borrower table insertion
 		StringBuilder custQuery = new StringBuilder("INSERT INTO ");
+		
 		if (newUser.isLibrarian()) {
 			custQuery.append(
 					"LIBRARIAN VALUES('" + newUser.getUsername() + "', " +
@@ -82,7 +86,9 @@ public class DatabaseRequest {
 					"BORROWER VALUES('" + newUser.getUsername() + "', " +
 							((Borrower)newUser).getBalance() + ")");
 		}
-
+		
+		Statement query;
+		query.executeQuery(custQuery.toString());	// Collate the statements and execute the query
 	}
 	
 	public void editUser(User newDetails) throws SQLException {
@@ -125,13 +131,60 @@ public class DatabaseRequest {
 							results.getString("address"),
 							new UserImage(results.getString("profile_image"))
 							);
-		
-		results.close();
-		query.close();
 		return out;
 	}
+	
+	public void addResource(Resource newResource) throws SQLException {
+		// Two queries are run; one inserts the resource into the RESOURCE table,
+		//						the other inserts the resource into either the BOOK, DVD, or LAPTOP table
 
-	///help////////////////////////////////////
+		// resource table insertion
+		Statement genQuery;
+		genQuery.executeQuery("INSERT INTO RESOURCE VALUES(" +
+				"'" + newResource.getResourceID() + "', " +
+				"'" + newResource.getTitle() + "', " +
+				"'" + newResource.getYear() + "'," +
+				"'" + newResource.getThumbnail().getImage() + "', " +
+				"'')");
+
+		// librarian/borrower table insertion
+		StringBuilder custQuery = new StringBuilder("INSERT INTO ");
+
+		if (newResource instanceof Book) {
+			custQuery.append(
+					"BOOK VALUES('" + newResource.getResourceID() + "', " +
+							((Book)newResource).getAuthor() + ", " +
+							((Book)newResource).getPublisher() + ", " +
+							((Book)newResource).getGenre() + ", " +
+							((Book)newResource).getISBN() + ", " +
+							((Book)newResource).getLanguage() + ")");
+		} else if (newResource instanceof DVD) {
+			custQuery.append(
+					"DVD VALUES('" + newResource.getResourceID() + "', " +
+							((DVD)newResource).getDirector() + ", " +
+							((DVD)newResource).getRuntime() + ", " +
+							((DVD)newResource).getLanguage() + ", ");
+			
+			String subtitleLanguages = "";
+			
+			for (String language : ((DVD)newResource).getSubLang()) {
+				subtitleLanguages = subtitleLanguages + ",";
+			}
+			
+			custQuery.append("'" + subtitleLanguages + "')");
+		} else {
+			custQuery.append(
+					"LAPTOP VALUES('" + newResource.getResourceID() + "', " +
+							((Laptop)newResource).getManufacturer() + ", " +
+							((Laptop)newResource).getModel() + ", " +
+							((Laptop)newResource).getOperatingSys() + ")");
+		}
+		
+		Statement query;
+		query.executeQuery(custQuery.toString());	// Collate the statements and execute the query
+	}
+	
+	///not finished don't use!!!!////////////////////////////////////
 	public static ArrayList<ArrayList<String>> retrieve(String name) throws SQLException {
 		return retrieve(name, null);
 	}
