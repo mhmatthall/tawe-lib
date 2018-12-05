@@ -1,30 +1,34 @@
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Polygon;;
 
-public class Drawrectangle extends Application{
-	Rectangle rectangleR;
+public class Drawtriangle extends Application{
+	Polygon triangleR;
     double orgSceneX, orgSceneY;
     double orgTranslateX, orgTranslateY;
     @Override
     
     public void start(Stage primaryStage) {
-    	rectangleR = new Rectangle(200,200,400,140);
-    	rectangleR.setCursor(Cursor.MOVE);
-    	rectangleR.setOnMousePressed(rectangleOnMousePressedEventHandler);
-    	rectangleR.setOnMouseDragged(rectangleOnMouseDraggedEventHandler);
+    	triangleR = new Polygon(300,250,200);
+    	triangleR.setCursor(Cursor.MOVE);
+    	triangleR.setOnMousePressed(triangleOnMousePressedEventHandler);
+    	triangleR.setOnMouseDragged(triangleOnMouseDraggedEventHandler);
     	
-    	Group root = new Group();
-    	root.getChildren().addAll(rectangleR);
+    	Group root = new Group(triangleR);
+    	triangleR.getPoints().addAll(new Double[] {
+    			300.0, 200.0,
+    			450.0,
+    	});
     	
     	primaryStage.setResizable(false);
     	primaryStage.setScene(new Scene(root, 600,450));
-    	primaryStage.setTitle("Rectangle");
+    	primaryStage.setTitle("Triangle");
     	primaryStage.show();  	
     }
     
@@ -32,18 +36,18 @@ public class Drawrectangle extends Application{
     	launch(args);	
     }
     
-    EventHandler<MouseEvent> rectangleOnMousePressedEventHandler = 
+    EventHandler<MouseEvent> triangleOnMousePressedEventHandler = 
             new EventHandler<MouseEvent>() {
      
             @Override
             public void handle(MouseEvent t) {
                 orgSceneX = t.getSceneX();
                 orgSceneY = t.getSceneY();
-                orgTranslateX = ((Rectangle)(t.getSource())).getTranslateX();
-                orgTranslateY = ((Rectangle)(t.getSource())).getTranslateY();
+                orgTranslateX = ((Polygon)(t.getSource())).getTranslateX();
+                orgTranslateY = ((Polygon)(t.getSource())).getTranslateY();
             }
             };
-         EventHandler<MouseEvent> rectangleOnMouseDraggedEventHandler = 
+         EventHandler<MouseEvent> triangleOnMouseDraggedEventHandler = 
             new EventHandler<MouseEvent>() {
      
             @Override
@@ -53,8 +57,8 @@ public class Drawrectangle extends Application{
                 double newTranslateX = orgTranslateX + offsetX;
                 double newTranslateY = orgTranslateY + offsetY;
                  
-                ((Rectangle)(t.getSource())).setTranslateX(newTranslateX);
-                ((Rectangle)(t.getSource())).setTranslateY(newTranslateY);
+                ((Polygon)(t.getSource())).setTranslateX(newTranslateX);
+                ((Polygon)(t.getSource())).setTranslateY(newTranslateY);
             }
         };
     }
