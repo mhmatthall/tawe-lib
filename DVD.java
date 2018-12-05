@@ -12,13 +12,19 @@ public class DVD extends Resource {
 	private String language;
 	ArrayList<String> subLang = new ArrayList<String>();
 	
-	public DVD(String title, int year, Thumbnail thumbnail,String director, int runtime, String language, ArrayList<String> SubLang) {
+	public DVD(String title, int year, Thumbnail thumbnail,String director, int runtime, String language) {
 		super (title, year, thumbnail);
 		this.director = director;
 		this.language = language;
 		this.runtime = runtime;
-		this.subLang = SubLang;
 		
+		
+	}
+	
+	public String toString() {	
+		String x;
+		x = ("Title: " + title + " \n"+ "Year: " + year + " \n" + "Director: " + director + " \n" + "Runtime: " + runtime + " \n" + "Language: " + language);
+		return x;
 	}
 		
 
@@ -53,5 +59,9 @@ public class DVD extends Resource {
 	public void setSubLang(ArrayList<String> SubLang) {
 		
 	}
+	
+	
+		
+	
 	
 }

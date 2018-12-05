@@ -5,10 +5,10 @@
 public class Resource { 
 	private static int nextID = 1;
 	private String resourceID;
-	private String title;
-	private int year;
-	private Thumbnail thumbnail;
-	private RequestQueue queue;
+	protected String title;
+	protected int year;
+	protected Thumbnail thumbnail;
+	protected RequestQueue queue;
 	
 	public Resource (String title, int year, Thumbnail thumbnail) {
 		this.title = title;

@@ -15,7 +15,7 @@ public class Laptop extends Resource {
 		this.model = model;
 		this.operatingSys = operatingSys;
 
-
+	}
 	
 	public String getManufacturer() {
 		return manufacturer;
