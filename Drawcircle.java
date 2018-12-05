@@ -1,10 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package userimage;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,14 +14,14 @@ import javafx.scene.shape.Circle;
  *
  * @author kevin
  */
-public class UserImage extends Application {
+public class Drawcircle extends Application {
     Circle circleR;
     double orgSceneX, orgSceneY;
     double orgTranslateX, orgTranslateY;
     @Override
     public void start(Stage primaryStage) {
         circleR = new Circle(70.0f, Color.RED);
-        circleR.setCursor(Cursor.HAND);
+        circleR.setCursor(Cursor.MOVE);
         circleR.setCenterX(150);
         circleR.setCenterY(150);
         circleR.setOnMousePressed(circleOnMousePressedEventHandler);
@@ -39,9 +32,8 @@ public class UserImage extends Application {
         root.getChildren().addAll(circleR);
         
         primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(root, 400,350));
-         
-        primaryStage.setTitle("User Image");
+        primaryStage.setScene(new Scene(root, 400,350));       
+        primaryStage.setTitle("Circle");
         primaryStage.show();
     }
 
