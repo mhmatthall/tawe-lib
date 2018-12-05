@@ -17,6 +17,12 @@ public class Laptop extends Resource {
 
 	}
 	
+	public String toString() {	
+		String x;
+		x = ("Title: " + title + " \nYear: " + year + " \nManufacturer: " + manufacturer + " \nModel: " + model + " \nOperating System: " + operatingSys);
+		return x;
+	}
+		
 	public String getManufacturer() {
 		return manufacturer;
 	}

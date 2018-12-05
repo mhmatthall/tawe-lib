@@ -23,7 +23,7 @@ public class DVD extends Resource {
 	
 	public String toString() {	
 		String x;
-		x = ("Title: " + title + " \n"+ "Year: " + year + " \n" + "Director: " + director + " \n" + "Runtime: " + runtime + " \n" + "Language: " + language);
+		x = ("Title: " + title + " \nYear: " + year + " \nDirector: " + director + " \nRuntime: " + runtime + " \nLanguage: " + language);
 		return x;
 	}
 		
