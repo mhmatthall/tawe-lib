@@ -1,7 +1,6 @@
 import javafx.scene.*;
 import javafx.stage.*;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
 import javafx.scene.control.*;
 import javafx.geometry.*;
 
@@ -16,7 +15,6 @@ public class AlertBox {
 		window.setMinWidth(225);
 		
 		Label lbl1 = new Label(msg);
-	//	lbl1.setFont(new Font(16));
 		
 		Button btn1 = new Button("OK");
 		btn1.setMinWidth(50);
@@ -26,7 +24,7 @@ public class AlertBox {
 		 * Inside the VBox we load a label and an HBox that
 		 * holds out command buttons
 		 */
-		VBox layout = new VBox(10); //pixels apart
+		VBox layout = new VBox(10);
 		layout.getChildren().addAll(lbl1,btn1);
 		layout.setAlignment(Pos.CENTER); 
 		

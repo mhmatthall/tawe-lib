@@ -60,8 +60,8 @@
             <Button id="btnCreate" layoutX="590.0" layoutY="328.0" mnemonicParsing="false" onAction="#buttonCreatePressed" text="Add" />
             <CheckBox layoutX="454.0" layoutY="332.0" mnemonicParsing="false" text="Fill" />
             <Button layoutX="14.0" layoutY="396.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="89.0" text="Exit" />
-            <Button layoutX="628.0" layoutY="396.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="89.0" text="Save" />
-            <Canvas id="canvas1" height="239.0" layoutX="196.0" layoutY="42.0" width="334.0" />
+            <Button fx:id="btnSave" layoutX="628.0" layoutY="396.0" mnemonicParsing="false" onAction="#buttonSavePressed" prefHeight="38.0" prefWidth="89.0" text="Save" />
+            <Canvas id="canvas1" fx:id="canvas1" height="239.0" layoutX="196.0" layoutY="42.0" width="334.0" />
          </children>
     </AnchorPane>
   </children>

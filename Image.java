@@ -1,20 +1,17 @@
 /*
- * TODO update access modifiers for variables
  * TODO add missing methods according to UML
  */
 
 public class Image {
-	String defaultImage;
-	String filename;
+	private String defaultImage;
+	private String filename;
 	
 	public Image (String filename){
-		if (filename == null){
+		if (filename == null) {
 			this.filename = defaultImage;
-		}
-		else{
+		} else {
 			this.filename = filename;
 		}
-	
 	}
 	
 	public String getImage(){
