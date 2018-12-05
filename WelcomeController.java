@@ -75,7 +75,6 @@ public class WelcomeController {
 			AlertBox.display("Invalid username");
 			txtUsername.setText("");
 			return;
-
 		}
 
 		// Display the librarian control screen or user dashboard accordingly
@@ -129,5 +128,7 @@ public class WelcomeController {
 
 	public void initialize() {
 	//	txtUsername.requestFocus();
+	//	txtUsername.setText("Foo");
+		System.out.println(this);
 	}	
 }
