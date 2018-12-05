@@ -2,26 +2,11 @@
  * TODO Conform to coding standards, fix blatant issues
  */
 
-public class Thumbnail {
-	abstract String default
-	String filename
+public class Thumbnail extends Image {
+	String defaulImage = "defaultResource.png";
 	
-	public Image (String filename){
-		if (filename == null){
-			this.filename = default
-		}
-		else{
-			this.filename = filename
-		}
-	
+	public Thumbnail (String fileName){
+		super(fileName);
 	}
 	
-	public String getImage(){
-		return this.filename;
-	}
-	
-	public setImage(String filename){
-		this.filename = filename;
-	}
-
 }
