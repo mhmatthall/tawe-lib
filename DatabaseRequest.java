@@ -43,8 +43,12 @@ public class DatabaseRequest {
 			//Librarian meme = (Librarian)getUser("matt");
 			//System.out.println("Hi, " + meme.getForename() + meme.getSurname() + meme.getPhoneNumber() + meme.getAddress() + meme.getUsername() + meme.getProfileImage() + meme.getStaffNumber() + meme.getEmploymentDate().toString() + "!");
 			
-			User u1 = new User("l.oreilly", "Liam", "OReilly", "077065452332", "Trafalgar Place, Brynmill, SA2 0DC", null);
-			addUser(u1);
+			Statement uhoh = conn.createStatement();
+			ResultSet uhohRes = uhoh.executeQuery("SELECT * FROM LIBRARY_USER");
+			uhohRes.next();
+			
+			//Librarian u1 = new Librarian("l.oreilly", "Liam", "OReilly", "07706545232", "Trafalgar Place, Brynmill, SA2 0DC", null, 18, new Date(14, 12, 12));
+			//addUser(u1);
 		} catch (SQLException e) {
 			System.out.println("ERROR: " + e.getMessage());
 		}
@@ -66,23 +70,33 @@ public class DatabaseRequest {
 		// Two queries are run; one inserts the user into the LIBRARY_USER table,
 		//						the other inserts the user into either the LIBRARIAN or BORROWER table
 		
+		String imageFilename;
+		if (newUser.getProfileImage() == null) {
+			imageFilename = "";
+		} else {
+			imageFilename = newUser.getProfileImage().getImage();
+		}
+		
 		// user table insertion
 		Statement genQuery = conn.createStatement();
-		genQuery.executeQuery("INSERT INTO LIBRARY_USER VALUES(" +
+		genQuery.executeUpdate("INSERT INTO LIBRARY_USER VALUES(" +
 								"'" + newUser.getUsername() + "', " +
 								"'" + newUser.getForename() + "', " +
 								"'" + newUser.getSurname() + "'," +
 								"'" + newUser.getPhoneNumber() + "', " +
 								"'" + newUser.getAddress() + "', " +
-								"'" + (Objects.toString(newUser.getProfileImage().filename, "")));
+								"'" + imageFilename + "')");
 		
 		// librarian/borrower table insertion
 		StringBuilder custQuery = new StringBuilder("INSERT INTO ");
 		
 		if (newUser instanceof Librarian) {
+			Date ed = ((Librarian)newUser).getEmploymentDate();
+			String employmentDate = String.valueOf(ed.getDay() + ed.getMonth() + ed.getYear());
+			
 			custQuery.append(
 					"LIBRARIAN VALUES('" + newUser.getUsername() + "', " +
-							((Librarian)newUser).getEmploymentDate() + ", " +
+							 employmentDate + ", " +
 							((Librarian)newUser).getStaffNumber() + ")");
 		} else {
 			custQuery.append(
@@ -91,7 +105,7 @@ public class DatabaseRequest {
 		}
 		
 		Statement query = conn.createStatement();
-		query.executeQuery(custQuery.toString());	// Collate the statements and execute the query
+		query.executeUpdate(custQuery.toString());	// Collate the statements and execute the query
 	}
 	
 	public void editUser(User newDetails) throws SQLException {
