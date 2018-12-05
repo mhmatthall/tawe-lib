@@ -25,7 +25,6 @@ import javafx.scene.shape.Rectangle;
  */
 public class UserImage extends Application {
     Circle circleR;
-    Rectangle rectangleR;
     double orgSceneX, orgSceneY;
     double orgTranslateX, orgTranslateY;
     @Override
@@ -37,13 +36,9 @@ public class UserImage extends Application {
         circleR.setOnMousePressed(circleOnMousePressedEventHandler);
         circleR.setOnMouseDragged(circleOnMouseDraggedEventHandler);
         
-        rectangleR = new Rectangle();
-        rectangleR.setCursor(Cursor.HAND);
-        rectangleR.setOnMousePressed(circleOnMousePressedEventHandler);
-        rectangleR.setOnMouseDragged(circleOnMouseDraggedEventHandler);
         
         Group root = new Group();
-        root.getChildren().addAll(circleR, rectangleR);
+        root.getChildren().addAll(circleR);
         
         primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root, 400,350));
