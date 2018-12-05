@@ -1,3 +1,6 @@
+/*
+ * TODO complete setter methods
+ */
 
 public class Laptop extends Resource {
 	protected static double fineDay = 10.00;
@@ -11,9 +14,8 @@ public class Laptop extends Resource {
 		this.manufacturer = manufacturer;
 		this.model = model;
 		this.operatingSys = operatingSys;
-		
-	}
-	
+
+
 	
 	public String getManufacturer() {
 		return manufacturer;
@@ -23,7 +25,7 @@ public class Laptop extends Resource {
 		return model;
 	}
 	
-	public String operatingSys() {
+	public String getOperatingSys() {
 		return operatingSys;
 	}
 

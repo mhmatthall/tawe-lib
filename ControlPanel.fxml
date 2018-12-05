@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="326.0" prefWidth="390.0" xmlns="http://javafx.com/javafx/8.0.191" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DashboardController">
+<BorderPane prefHeight="326.0" prefWidth="390.0" xmlns="http://javafx.com/javafx/8.0.191" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ControlPanelController">
    <top>
-      <Label fx:id="lblDashboardTitle" text="MY DASHBOARD" BorderPane.alignment="CENTER">
+      <Label fx:id="lblControlPanelTitle" text="LIBRARIAN CONTROL PANEL" BorderPane.alignment="CENTER">
          <font>
             <Font size="23.0" />
          </font></Label>
@@ -42,8 +42,7 @@
                               <Font size="16.0" />
                            </font></Label>
                         <Label fx:id="lblUsername" text="Username: username" />
-                        <Label fx:id="lblAccountType" text="Account type: Standard" />
-                        <Label fx:id="lblBalance" text="Account Balance: £0.00" />
+                        <Label fx:id="lblAccountType" text="Account type: Librarian" />
                      </children>
                      <opaqueInsets>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -64,16 +63,16 @@
                <children>
                   <VBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>
-                        <Button mnemonicParsing="false" prefWidth="145.0" text="My Borrwed Items" />
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="My Requested Items" />
-                        <Button mnemonicParsing="false" prefWidth="145.0" text="My Reserved tems" />
+                        <Button mnemonicParsing="false" prefWidth="145.0" text="Search for User" />
+                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="Search Overdues" />
+                        <Button mnemonicParsing="false" prefWidth="145.0" text="Search the Library" />
                      </children>
                   </VBox>
                   <Region HBox.hgrow="ALWAYS" />
                   <VBox alignment="CENTER_RIGHT" spacing="5.0">
                      <children>
-                        <Button mnemonicParsing="false" prefWidth="145.0" text="Search the Library" />
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="My Transactions" />
+                        <Button mnemonicParsing="false" prefWidth="145.0" text="Create new User" />
+                        <Button fx:id="btnCreateResource" mnemonicParsing="false" onAction="#createResource" prefHeight="25.0" prefWidth="145.0" text="Create new Resource" />
                      </children>
                   </VBox>
                </children></HBox>

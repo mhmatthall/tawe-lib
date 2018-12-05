@@ -1,8 +1,9 @@
 /*
- * @author
- * 		Constantinos Loizou
- * 
+ * @author Constantinos Loizou
  * @version 1.0
+ * 
+ * TODO fix broken methods 
+ * TODO add auto fineID generation
  */
 
 public class Fine {
@@ -14,12 +15,12 @@ public class Fine {
 	private String fineID = ("F" + nextID);
 	private double amountTotal;
 	private double amountPaid;
-	private double amountLeft;
+	private double amountLeft;	// unnecessary, can calculate from amtTotal and amtPaid
 
 	private String loanID;
 	private Date dateIssued;
 	private Date datePaid;
-	private Loan loanFined;
+	private Loan loanFined;	// unnecessary, already have loanID
 
 	private boolean paid;
 

@@ -1,4 +1,6 @@
-
+/*
+ * TODO Complete setter methods
+ */
 public class Book extends Resource {
 	protected static double fineDay = 2.00;
 	protected static double fineMax = 25.00;
@@ -9,6 +11,7 @@ public class Book extends Resource {
 	private String language;
 	
 	public Book(String title, int year, Thumbnail thumbnail, String author, String publisher, String genre, int ISBN, String language) {
+
 		super (title, year, thumbnail);
 		this.author = author;
 		this.publisher = publisher;

@@ -1,14 +1,45 @@
 /*
- * @author
- * 		Constantinos Loizou
+ * @author Constantinos Loizou
+ * 
+ * TODO add missing variables
+ * TODO fix constructor to add missing variables
  */
 public class Copy {
 	
-	private static String nextCopyID;
-	
-	private String copyID;
+	private static int nextCopyID;
+	private String copyID = ("C" + nextCopyID);
 	private String resourceID;
 	private int loanTime;
+	
+	public Copy(String resourceID, int loanTime) {
+		this.resourceID = resourceID;
+		this.loanTime = loanTime;
+		nextCopyID++;
+	}
+
+	public String getCopyID() {
+		return copyID;
+	}
+
+	public void setCopyID(String copyID) {
+		this.copyID = copyID;
+	}
+
+	public String getResourceID() {
+		return resourceID;
+	}
+
+	public void setResourceID(String resourceID) {
+		this.resourceID = resourceID;
+	}
+
+	public int getLoanTime() {
+		return loanTime;
+	}
+
+	public void setLoanTime(int loanTime) {
+		this.loanTime = loanTime;
+	}
 	
 	
 }
