@@ -23,15 +23,24 @@ import javafx.stage.Stage;
 public class ControlPanelController {
 
 	private User user;
-	
-	@FXML Label lblWelcome;
-	@FXML Label lblUsername;
-	@FXML Button btnExit;
-	@FXML Button btnLogout;
-	
-	//THE PROBLEM IS IN THESE 2
-/*	@FXML Label lblUsername;
-	@FXML Label lblWelcome; */
+
+	@FXML
+	Label lblWelcome;
+	@FXML
+	Label lblUsername;
+	@FXML
+	Button btnExit;
+	@FXML
+	Button btnLogout;
+	@FXML
+	Button btnCreateResource;
+
+	// THE PROBLEM IS IN THESE 2
+	/*
+	 * @FXML Label lblUsername;
+	 * 
+	 * @FXML Label lblWelcome;
+	 */
 
 	@FXML
 	public void exit() {
@@ -47,10 +56,73 @@ public class ControlPanelController {
 		window.setScene(new Scene(previous));
 	}
 
-	/*
-	 * @param userID 
-	 * 		username of the logged in user
-	 */
+	//Pops out a new window to select resource type and then creates a resource of that type
+	public void createResource() {
+		String type = SelectionBox.display("Select", "Please select resource type", "Book", "DVD", "Laptop");
+		switch (type) {
+		case "Book":
+			try {
+				createBook();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+				Platform.exit();
+			}
+			break;
+		case "DVD":
+			try {
+				createDVD();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+				Platform.exit();
+			}
+			break;
+		case "Laptop":
+			try {
+				createLaptop();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+				Platform.exit();
+			}
+			break;
+		//TODO: Throw an exception if the window has closed an no value returned.
+		}
+	}
+
+	private void createLaptop() throws IOException {
+		Stage window = new Stage();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("NewLaptop.fxml"));
+		Pane pane = loader.load();
+		NewLaptopController controller = loader.getController();
+		Scene scene = new Scene(pane);
+		window.setScene(scene);
+		window.show();
+		
+	}
+
+	private void createDVD() throws IOException {
+		Stage window = new Stage();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("NewDVD.fxml"));
+		Pane pane = loader.load();
+		NewDVDController controller = loader.getController();
+		Scene scene = new Scene(pane);
+		window.setScene(scene);
+		window.show();
+	}
+
+	@FXML
+	private void createBook() throws IOException {
+		Stage window = new Stage();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("NewBook.fxml"));
+		Pane pane = loader.load();
+		NewBookController controller = loader.getController();
+		Scene scene = new Scene(pane);
+		window.setScene(scene);
+		window.show();
+
+	}
+
+	
+	//Set user object
 	public void setUser(User user) {
 		this.user = user;
 		lblUsername.setText("Username: " + user.getUsername());
