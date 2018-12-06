@@ -45,6 +45,7 @@ public class GUIMain extends Application {
 		window.setMinWidth(WINDOW_WIDTH);
 		window.setMinHeight(WINDOW_HEIGHT);
 		window.show();
+		
 
 	}
 
