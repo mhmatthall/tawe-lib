@@ -40,16 +40,16 @@ public class DatabaseRequest {
 	public static void main(String[] args) {
 		establishConnection();
 		try {
-			//Librarian meme = (Librarian)getUser("matt");
-			//System.out.println("Hi, " + meme.getForename() + meme.getSurname() + meme.getPhoneNumber() + meme.getAddress() + meme.getUsername() + meme.getProfileImage() + meme.getStaffNumber() + meme.getEmploymentDate().toString() + "!");
-			
 			Statement uhoh = conn.createStatement();
-			ResultSet uhohRes = uhoh.executeQuery("SELECT * FROM LIBRARY_USER");
-			uhohRes.next();
-			
+			//ResultSet uhohRes =
+			//uhoh.executeUpdate("UPDATE LIBRARIAN SET EMPLOYMENT_DATE = 131211 WHERE USERNAME = 'l.oreilly'");
+			//uhohRes.next();
+			//System.out.println(uhohRes.getString(2) + " " + uhohRes.getString(3));
 			//Librarian u1 = new Librarian("l.oreilly", "Liam", "OReilly", "07706545232", "Trafalgar Place, Brynmill, SA2 0DC", null, 18, new Date(14, 12, 12));
 			//addUser(u1);
-		} catch (SQLException e) {
+			//Librarian meme = (Librarian)getUser("l.oreilly");
+			//System.out.println("Hi, " + meme.getForename() + meme.getSurname() + meme.getPhoneNumber() + meme.getAddress() + meme.getUsername() + meme.getProfileImage() + meme.getStaffNumber() + " empdate: " + meme.getEmploymentDate().getDay() + meme.getEmploymentDate().getMonth() + meme.getEmploymentDate().getYear());
+		} catch (Exception e) {
 			System.out.println("ERROR: " + e.getMessage());
 		}
 	}
@@ -66,10 +66,12 @@ public class DatabaseRequest {
 		}
 	}
 	
-	public static void addUser(User newUser) throws SQLException {
-		// Two queries are run; one inserts the user into the LIBRARY_USER table,
-		//						the other inserts the user into either the LIBRARIAN or BORROWER table
+	public void addUser(User newUser) throws SQLException {
+		// Two queries are added to a batch, then run sequentially:
+		//		- one inserts the user into the LIBRARY_USER table,
+		//		- the other inserts the user into either the LIBRARIAN or BORROWER table
 		
+		// Reformatting image for database insertion
 		String imageFilename;
 		if (newUser.getProfileImage() == null) {
 			imageFilename = "";
@@ -78,8 +80,8 @@ public class DatabaseRequest {
 		}
 		
 		// user table insertion
-		Statement genQuery = conn.createStatement();
-		genQuery.executeUpdate("INSERT INTO LIBRARY_USER VALUES(" +
+		Statement queries = conn.createStatement();
+		queries.addBatch("INSERT INTO LIBRARY_USER VALUES(" +
 								"'" + newUser.getUsername() + "', " +
 								"'" + newUser.getForename() + "', " +
 								"'" + newUser.getSurname() + "'," +
@@ -87,25 +89,23 @@ public class DatabaseRequest {
 								"'" + newUser.getAddress() + "', " +
 								"'" + imageFilename + "')");
 		
-		// librarian/borrower table insertion
-		StringBuilder custQuery = new StringBuilder("INSERT INTO ");
-		
+		// librarian/borrower table insertion	
 		if (newUser instanceof Librarian) {
+			// Reformatting date for database insertion
 			Date ed = ((Librarian)newUser).getEmploymentDate();
 			String employmentDate = String.valueOf(ed.getDay() + ed.getMonth() + ed.getYear());
 			
-			custQuery.append(
-					"LIBRARIAN VALUES('" + newUser.getUsername() + "', " +
+			queries.addBatch(
+					"INSERT INTO LIBRARIAN VALUES('" + newUser.getUsername() + "', " +
 							 employmentDate + ", " +
 							((Librarian)newUser).getStaffNumber() + ")");
 		} else {
-			custQuery.append(
-					"BORROWER VALUES('" + newUser.getUsername() + "', " +
+			queries.addBatch(
+					"INSERT INTO BORROWER VALUES('" + newUser.getUsername() + "', " +
 							((Borrower)newUser).getBalance() + ")");
 		}
 		
-		Statement query = conn.createStatement();
-		query.executeUpdate(custQuery.toString());	// Collate the statements and execute the query
+		queries.executeBatch();	// Execute both statements in sequence
 	}
 	
 	public void editUser(User newDetails) throws SQLException {
@@ -134,21 +134,24 @@ public class DatabaseRequest {
 	
 	public void deleteUser(String username) throws SQLException {
 		Statement query = conn.createStatement();
-		query.executeQuery("DELETE FROM LIBRARY_USER WHERE username = '" + username + "'");
+		
+		if (userIsLibrarian(username)) {
+			query.addBatch("DELETE FROM LIBRARIAN WHERE username = '" + username + "'");
+		} else {
+			query.addBatch("DELETE FROM BORROWER WHERE username = '" + username + "'");
+		}
+		
+		query.addBatch("DELETE FROM LIBRARY_USER WHERE username = '" + username + "'");
+		
+		query.executeBatch();
 	}
 	
 	public User getUser(String username) throws SQLException {
-		// Determine the type of user being retrieved; 1 = Librarian, 0 = Borrower
-		Statement userTypeCheck = conn.createStatement();
-		ResultSet rs = userTypeCheck.executeQuery("SELECT COUNT(*) FROM LIBRARIAN WHERE username = '" + username + "'");
-		rs.next();
-		int userType = rs.getInt(1);	// userType = 0 if borrower, 1 if librarian
-		
 		Statement query = conn.createStatement();
 		ResultSet results;
 		User out = null;
 		
-		if (userType == 1) {
+		if (userIsLibrarian(username)) {
 			// User is a librarian
 			results = query.executeQuery("SELECT LIBRARY_USER.*, LIBRARIAN.STAFF_NUMBER, LIBRARIAN.EMPLOYMENT_DATE "
 					+ "FROM LIBRARY_USER INNER JOIN LIBRARIAN ON LIBRARY_USER.USERNAME = LIBRARIAN.USERNAME "
@@ -156,9 +159,9 @@ public class DatabaseRequest {
 			results.next();
 			
 			String ed = results.getString(8);	// employment date
-			Date empDate = new Date(Integer.parseInt(ed.substring(4, 6)),
+			Date empDate = new Date(Integer.parseInt(ed.substring(0, 2)),
 									Integer.parseInt(ed.substring(2, 4)),
-									Integer.parseInt(ed.substring(0, 2)));
+									Integer.parseInt(ed.substring(4, 6)));
 			
 			out = new Librarian(username,
 					results.getString(2),	// forename
@@ -182,9 +185,18 @@ public class DatabaseRequest {
 					results.getString(5),	// address
 					new UserImage(results.getString(6)), // profile image
 					results.getDouble(7));	// balance
-		};
+		}
 		
 		return out;
+	}
+	
+	// Determine the type of user being retrieved
+	private boolean userIsLibrarian(String username) throws SQLException {
+		Statement userTypeCheck = conn.createStatement();
+		ResultSet rs = userTypeCheck.executeQuery("SELECT COUNT(*) FROM LIBRARIAN WHERE username = '" + username + "'");
+		rs.next();
+		int userType = rs.getInt(1);	// userType = 0 if borrower, 1 if librarian
+		return (userType == 1);
 	}
 	
 	// TODO needs fixing like adduser was
