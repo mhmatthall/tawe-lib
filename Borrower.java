@@ -2,16 +2,17 @@ import java.util.ArrayList;
 
 public class Borrower extends User {
 	private double balance;
+	private DatabaseRequest db = new DatabaseRequest();
 	
 	public Borrower(String username, String forename, String surname, 
-			String phoneNumber, String address, UserImage profileImage, 
-			double balance) {
+			String phoneNumber, String address, UserImage profileImage) {
 		super(username, forename, surname, phoneNumber, address, profileImage);
-		this.balance = balance;
+		this.balance = 0;
 		this.isLibrarian = false;
 	}
 	
 	public void requestResource(String resourceID) {
+		
 		// this method should request a copy of the given resource by either:
 		//			+ adding their name to the request queue
 		//			+ asking resource to get a list of the copies and reserve one copy
