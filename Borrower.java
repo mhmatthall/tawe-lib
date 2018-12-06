@@ -25,6 +25,7 @@ public class Borrower extends User {
 	public ArrayList<Resource> getReservedResources(){
 		// get reserved resources by the current user in a similar way to getLoanedResources
 		// however Resources not Copies as we're not sure which copy is reserved yet
+		return null;
 	}
 	public double getBalance() {
 		return balance;

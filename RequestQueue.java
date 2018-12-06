@@ -2,6 +2,8 @@ import java.util.NoSuchElementException;
 
 /*
  * What is this class doing? Isn't this what RequestQueue is supposed to do?
+ * 
+ * now it is request que
  */
 
 /**
@@ -26,6 +28,7 @@ public class RequestQueue {
 	
 	public void reserveCopy() {
 		//wuh?
+		//how do i check if there is a copy available?
 	}
 	
 	/**
