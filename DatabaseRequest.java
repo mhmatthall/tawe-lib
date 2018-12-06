@@ -88,7 +88,7 @@ public class DatabaseRequest {
 		if (newUser instanceof Librarian) {
 			// Reformatting date for database insertion
 			Date ed = ((Librarian)newUser).getEmploymentDate();
-			String employmentDate = String.valueOf(ed.getDay() + ed.getMonth() + ed.getYear());
+			String employmentDate = ed.getDay() + ed.getMonth() + ed.getYear();
 			
 			queries.addBatch(
 					"INSERT INTO LIBRARIAN VALUES('" + newUser.getUsername() + "', " +
@@ -115,9 +115,13 @@ public class DatabaseRequest {
 						"WHERE username = '" + newDetails.getUsername() + "'");
 		
 		if (newDetails instanceof Librarian) {
+			// Reformatting date for database insertion
+			Date ed = ((Librarian)newDetails).getEmploymentDate();
+			String employmentDate = ed.getDay() + ed.getMonth() + ed.getYear();
+			
 			query.addBatch("UPDATE LIBRARIAN SET " +
 							"staff_number = " + ((Librarian) newDetails).getStaffNumber() + ", " +
-							"employment_date = " + ((Librarian) newDetails).getEmploymentDate() + " " +
+							"employment_date = " + employmentDate + " " +
 							"WHERE username = '" + newDetails.getUsername() + "'");
 		} else {
 			query.addBatch("UPDATE BORROWER SET " +
@@ -158,7 +162,7 @@ public class DatabaseRequest {
 			String ed = results.getString(8);	// employment date
 			Date empDate = new Date(Integer.parseInt(ed.substring(0, 2)),
 									Integer.parseInt(ed.substring(2, 4)),
-									Integer.parseInt(ed.substring(4, 6)));
+									Integer.parseInt(ed.substring(4, 8)));
 			
 			out = new Librarian(username,
 					results.getString(2),	// forename
