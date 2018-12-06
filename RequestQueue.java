@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
  */
 public class RequestQueue {
 	private QueueElement first;
-	private String resourceID;
+	private String resourceID = null;
 	
 	/**
 	 * Constructs an empty Queue.
@@ -126,5 +126,11 @@ public class RequestQueue {
 	    	
 	    }
 	    return r;
+	}
+	
+	public void setResourceID(String resourceId) {
+		if (resourceID == null) {
+			this.resourceID = resourceId;
+		}
 	}
 }
