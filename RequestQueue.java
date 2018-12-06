@@ -1,7 +1,8 @@
 import java.util.NoSuchElementException;
 
 /*
- * What is this class doing? Isn't this what RequestQueue is supposed to do?
+ * TODO conform to code style
+ * TODO change it from storing Objects to Strings, as it should only be storing usernames
  */
 
 /**
@@ -18,6 +19,10 @@ public class RequestQueue {
 	public RequestQueue (String resourceID) {
 		this.resourceID = resourceID;
 	    first = new QueueElement(null, new QueueElement(null,null));
+	}
+	
+	public RequestQueue() {
+		first = new QueueElement(null, new QueueElement(null,null));
 	}
 	
 	public String getResourceID() {
