@@ -71,7 +71,7 @@
                   <Region HBox.hgrow="ALWAYS" />
                   <VBox alignment="CENTER_RIGHT" spacing="5.0">
                      <children>
-                        <Button mnemonicParsing="false" prefWidth="145.0" text="Create new User" />
+                        <Button mnemonicParsing="false" onAction="#newUser" prefWidth="145.0" text="Create new User" />
                         <Button fx:id="btnCreateResource" mnemonicParsing="false" onAction="#createResource" prefHeight="25.0" prefWidth="145.0" text="Create new Resource" />
                      </children>
                   </VBox>

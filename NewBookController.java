@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javafx.fxml.FXML;
@@ -26,17 +27,20 @@ public class NewBookController {
 	
 	
 	@FXML
-	private void constructBook(){
+	private void constructBook() throws SQLException{
 		String title = txtTitle.getText();
 		int year = Integer.parseInt(txtYear.getText());
 		String author = txtAuthor.getText(); 
 		String publisher = (txtPublisher.getText());
 		String language = txtLanguage.getText();
-		Thumbnail thumb = new Thumbnail(null);
+		Thumbnail thumb = new Thumbnail("C:/Users/lkonn/Google Drive/University/Year 2/CS230/Assignment 2/tawe-lib/image_files/notliam.jpg");
 		int isbn = Integer.parseInt(txtISBN.getText());
 		String genre = txtGenre.getText();
 		
 		Book book1 = new Book(title, year, thumb, author, publisher, genre, isbn, language);
+		
+		DatabaseRequest db = new DatabaseRequest();
+		db.addResource(book1);
 		
 		System.out.println(book1.toString());
 	}
