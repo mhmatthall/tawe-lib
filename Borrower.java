@@ -6,7 +6,7 @@ public class Borrower extends User {
 	
 	public Borrower(String username, String forename, String surname, 
 			String phoneNumber, String address, UserImage profileImage,
-			int balance) {
+			double balance) {
 		super(username, forename, surname, phoneNumber, address, profileImage);
 		this.balance = balance;
 		this.isLibrarian = false;
