@@ -5,19 +5,17 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.Arrays;
 
 /* DatabaseRequest
    @author Matt Hall
    @version 1.0
    
    TODO Need to remove static attributes (and main method) when testing complete
-   	+ editResource
-	+ deleteResource(resourceID : string) + editResource(resourceID : string, newDetails : Resource)
-	+ getResource
 	+ addCopy(newCopy : Copy)
    	+ editCopy
-	+ deleteCopy(copyID : string) + editCopy(copyID : string, newDetails : Copy)
+	+ deleteCopy(copyID : string)
+	+ editCopy(copyID : string, newDetails : Copy)
 	+ getCopy
 	+ search(tables : string, fieldName : string, query : string, numberOfResults : int) : ArrayList<Object>
 	+ browse(table : string) : ArrayList<Object>
@@ -41,10 +39,16 @@ public class DatabaseRequest {
 		establishConnection();
 		try {
 			Statement uhoh = conn.createStatement();
-			//ResultSet uhohRes =
-			//uhoh.executeUpdate("UPDATE LIBRARIAN SET EMPLOYMENT_DATE = 131211 WHERE USERNAME = 'l.oreilly'");
+			//uhoh.addBatch("DELETE FROM LIBRARIAN WHERE USERNAME = 'l.oreilly'");
+			//uhoh.addBatch("DELETE FROM LIBRARY_USER WHERE USERNAME = 'l.oreilly'");
+			//uhoh.executeBatch();
+			//System.out.println(check + " rows changed by " + uhoh.getUpdateCount() + " statements");
+			
+			//ResultSet uhohRes = uhoh.executeQuery("SELECT * FROM LIBRARIAN WHERE USERNAME = 'l.oreilly'");
 			//uhohRes.next();
 			//System.out.println(uhohRes.getString(2) + " " + uhohRes.getString(3));
+			
+			//uhoh.executeUpdate("UPDATE LIBRARIAN SET EMPLOYMENT_DATE = 131211 WHERE USERNAME = 'l.oreilly'");
 			//Librarian u1 = new Librarian("l.oreilly", "Liam", "OReilly", "07706545232", "Trafalgar Place, Brynmill, SA2 0DC", null, 18, new Date(14, 12, 12));
 			//addUser(u1);
 			//Librarian meme = (Librarian)getUser("l.oreilly");
@@ -70,15 +74,7 @@ public class DatabaseRequest {
 		// Two queries are added to a batch, then run sequentially:
 		//		- one inserts the user into the LIBRARY_USER table,
 		//		- the other inserts the user into either the LIBRARIAN or BORROWER table
-		
-		// Reformatting image for database insertion
-		String imageFilename;
-		if (newUser.getProfileImage() == null) {
-			imageFilename = "";
-		} else {
-			imageFilename = newUser.getProfileImage().getImage();
-		}
-		
+				
 		// user table insertion
 		Statement queries = conn.createStatement();
 		queries.addBatch("INSERT INTO LIBRARY_USER VALUES(" +
@@ -87,7 +83,7 @@ public class DatabaseRequest {
 								"'" + newUser.getSurname() + "'," +
 								"'" + newUser.getPhoneNumber() + "', " +
 								"'" + newUser.getAddress() + "', " +
-								"'" + imageFilename + "')");
+								"'" + newUser.getProfileImage().getImage() + "')");
 		
 		// librarian/borrower table insertion	
 		if (newUser instanceof Librarian) {
@@ -111,7 +107,7 @@ public class DatabaseRequest {
 	public void editUser(User newDetails) throws SQLException {
 		Statement query = conn.createStatement();
 		
-		query.addBatch("UPDATE LIBRARY_USER SET" +
+		query.addBatch("UPDATE LIBRARY_USER SET " +
 						"forename = '" + newDetails.getForename() + "', " +
 						"surname = '" + newDetails.getForename() + "', " +
 						"phone_number = '" + newDetails.getPhoneNumber() + "', " +
@@ -125,16 +121,18 @@ public class DatabaseRequest {
 							"employment_date = " + ((Librarian) newDetails).getEmploymentDate() + " " +
 							"WHERE username = '" + newDetails.getUsername() + "'");
 		} else {
-			query.addBatch("UPDATE BORROWER SET" +
+			query.addBatch("UPDATE BORROWER SET " +
 					"balance = " + ((Borrower) newDetails).getBalance() + ", " +
 					"WHERE username = '" + newDetails.getUsername() + "'");
 		}
+		
 		query.executeBatch();	// Runs the queued queries sequentially
 	}
 	
 	public void deleteUser(String username) throws SQLException {
 		Statement query = conn.createStatement();
 		
+		// Must delete from subclass tables first as to not break dependencies
 		if (userIsLibrarian(username)) {
 			query.addBatch("DELETE FROM LIBRARIAN WHERE username = '" + username + "'");
 		} else {
@@ -169,8 +167,9 @@ public class DatabaseRequest {
 					results.getString(4),	// phone number
 					results.getString(5),	// address
 					new UserImage(results.getString(6)),	// profile image
-					results.getInt(7),	// balance
+					results.getInt(7),	// staff number
 					empDate);
+			
 		} else {
 			// User is a borrower
 			results = query.executeQuery("SELECT LIBRARY_USER.*, BORROWER.BALANCE "
@@ -199,54 +198,209 @@ public class DatabaseRequest {
 		return (userType == 1);
 	}
 	
-	// TODO needs fixing like adduser was
 	public void addResource(Resource newResource) throws SQLException {
-		// Two queries are run; one inserts the resource into the RESOURCE table,
-		//						the other inserts the resource into either the BOOK, DVD, or LAPTOP table
-
+		// Two queries are added to a batch, then run sequentially:
+		//		- one inserts the resource into the RESOURCE table,
+		//		- the other inserts the resource into either the BOOK, DVD, or LAPTOP table
+	
 		// resource table insertion
-		Statement genQuery = conn.createStatement();
-		genQuery.executeQuery("INSERT INTO RESOURCE VALUES(" +
+		Statement queries = conn.createStatement();
+		queries.addBatch("INSERT INTO RESOURCE VALUES(" +
 				"'" + newResource.getResourceID() + "', " +
 				"'" + newResource.getTitle() + "', " +
-				"'" + newResource.getYear() + "'," +
+				"'" + newResource.getYear() + "', " +
 				"'" + newResource.getThumbnail().getImage() + "')");
 
 		// librarian/borrower table insertion
-		StringBuilder custQuery = new StringBuilder("INSERT INTO ");
-
 		if (newResource instanceof Book) {
-			custQuery.append(
-					"BOOK VALUES('" + newResource.getResourceID() + "', " +
-							((Book)newResource).getAuthor() + ", " +
-							((Book)newResource).getPublisher() + ", " +
-							((Book)newResource).getGenre() + ", " +
-							((Book)newResource).getISBN() + ", " +
-							((Book)newResource).getLanguage() + ")");
+			queries.addBatch(
+					"INSERT INTO BOOK VALUES('" + newResource.getResourceID() + "', " +
+							"'" + ((Book)newResource).getAuthor() + "', " +
+							"'" + ((Book)newResource).getPublisher() + "', " +
+							"'" + ((Book)newResource).getGenre() + "', " +
+							"'" + ((Book)newResource).getISBN() + "', " +
+							"'" + ((Book)newResource).getLanguage() + "')");
+			
 		} else if (newResource instanceof DVD) {
-			custQuery.append(
-					"DVD VALUES('" + newResource.getResourceID() + "', " +
-							((DVD)newResource).getDirector() + ", " +
-							((DVD)newResource).getRuntime() + ", " +
-							((DVD)newResource).getLanguage() + ", ");
-			
+			// Reformat list of languages for database insertion 
 			String subtitleLanguages = "";
-			
 			for (String language : ((DVD)newResource).getSubLang()) {
 				subtitleLanguages = subtitleLanguages + language + ",";
 			}
+
+			queries.addBatch(
+					"INSERT INTO DVD VALUES('" + newResource.getResourceID() + "', " +
+							"'" + ((DVD)newResource).getDirector() + "', " +
+							"'" + ((DVD)newResource).getRuntime() + "', " +
+							"'" + ((DVD)newResource).getLanguage() + "', " +
+							"'" + subtitleLanguages + "')");
 			
-			custQuery.append("'" + subtitleLanguages + "')");
 		} else {
-			custQuery.append(
-					"LAPTOP VALUES('" + newResource.getResourceID() + "', " +
-							((Laptop)newResource).getManufacturer() + ", " +
-							((Laptop)newResource).getModel() + ", " +
-							((Laptop)newResource).getOperatingSys() + ")");
+			queries.addBatch(
+					"INSERT INTO LAPTOP VALUES('" + newResource.getResourceID() + "', " +
+							"'" + ((Laptop)newResource).getManufacturer() + "', " +
+							"'" + ((Laptop)newResource).getModel() + "', " +
+							"'" + ((Laptop)newResource).getOperatingSys() + "')");
 		}
 		
+		queries.executeBatch();	// Execute both statements in sequence
+	}
+	
+	public void editResource(Resource newDetails) throws SQLException {
 		Statement query = conn.createStatement();
-		query.executeQuery(custQuery.toString());	// Collate the statements and execute the query
+		
+		query.addBatch("UPDATE RESOURCE SET " +
+				"title = '" + newDetails.getTitle() + "', " +
+				"year_released = '" + newDetails.getYear() + "', " +
+				"thumbnail = '" + newDetails.getThumbnail().getImage() + "', " +
+				"queue = '" + newDetails.getQueue().toString() + "', " +
+				"WHERE resource_id = '" + newDetails.getResourceID() + "'");
+	
+		if (newDetails instanceof Book) {
+			query.addBatch("UPDATE BOOK SET " +
+					"author = '" + ((Book) newDetails).getAuthor() + "', " +
+					"publisher = '" + ((Book) newDetails).getPublisher() + "', " +
+					"genre = '" + ((Book) newDetails).getGenre() + "', " +
+					"isbn = '" + ((Book) newDetails).getISBN() + "', " +
+					"language = '" + ((Book) newDetails).getLanguage() + "', " +
+					"WHERE resource_id = '" + newDetails.getResourceID() + "'");
+	
+		} else if (newDetails instanceof DVD) {
+			String subtitleLanguages = "";
+			for (String language : ((DVD)newDetails).getSubLang()) {
+				subtitleLanguages = subtitleLanguages + language + ",";
+			}
+			
+			query.addBatch("UPDATE DVD SET " +
+					"director = '" + ((DVD) newDetails).getDirector() + "', " +
+					"runtime = '" + ((DVD) newDetails).getRuntime() + "', " +
+					"language = '" + ((DVD) newDetails).getLanguage() + "', " +
+					"subtitle_languages = '" + subtitleLanguages + "', " +
+					"WHERE resource_id = '" + newDetails.getResourceID() + "'");
+		} else {
+			query.addBatch("UPDATE LAPTOP SET " +
+					"manufacturer = '" + ((Laptop) newDetails).getManufacturer() + "', " +
+					"model = '" + ((Laptop) newDetails).getModel() + "', " +
+					"operating_system = '" + ((Laptop) newDetails).getOperatingSys() + "', " +
+					"WHERE resource_id = '" + newDetails.getResourceID() + "'");
+		}
+		
+		query.executeBatch();	// Runs the queued queries sequentially
+	}
+	
+	public void deleteResource(String resourceID) throws SQLException {
+		Statement query = conn.createStatement();
+		
+		// Must delete from subclass tables first as to not break dependencies
+		query.addBatch("DELETE FROM " + getResourceType(resourceID) + " WHERE resource_id = '" + resourceID + "'");
+		
+		query.addBatch("DELETE FROM RESOURCE WHERE resource_id = '" + resourceID + "'");
+		
+		query.executeBatch();
+	}
+	
+	public Resource getResource(String resourceID) throws SQLException {
+		Statement query = conn.createStatement();
+		ResultSet results;
+		Resource out = null;
+		
+		if (getResourceType(resourceID).equals("BOOK")) {
+			// Resource is a book
+			results = query.executeQuery("SELECT RESOURCE.*, BOOK.AUTHOR, BOOK.PUBLISHER, BOOK.GENRE, BOOK.ISBN, BOOK.LANGUAGE "
+					+ "FROM RESOURCE INNER JOIN BOOK ON RESOURCE.RESOURCE_ID = BOOK.RESOURCE_ID "
+					+ "WHERE RESOURCE.RESOURCE_ID = '" + resourceID + "'");
+			results.next();
+			
+			RequestQueue queue = convertRequestQueue(results.getString(5));	// request queue
+			
+			out = new Book(resourceID,
+					results.getString(2),	// title
+					results.getInt(3),	// year
+					new Thumbnail(results.getString(4)),	// thumbnail
+					queue,	// queue
+					results.getString(6),	// author
+					results.getString(7),	// publisher
+					results.getString(8),	// genre
+					results.getInt(9),	// isbn
+					results.getString(10));	// language
+			
+		} else if (getResourceType(resourceID).equals("DVD")) {
+			// Resource is a DVD
+			results = query.executeQuery("SELECT RESOURCE.*, DVD.DIRECTOR, DVD.RUNTIME, DVD.LANGUAGE, DVD.SUBTITLE_LANGUAGES "
+					+ "FROM RESOURCE INNER JOIN DVD ON RESOURCE.RESOURCE_ID = DVD.RESOURCE_ID "
+					+ "WHERE RESOURCE.RESOURCE_ID = '" + resourceID + "'");
+			results.next();
+
+			RequestQueue queue = convertRequestQueue(results.getString(5));	// request queue
+			
+			// Format languages back into arraylist from database string
+			String[] langs = results.getString(10).split(",");
+			ArrayList<String> subLang = new ArrayList<>(Arrays.asList(langs));
+
+			out = new DVD(resourceID,
+					results.getString(2),	// title
+					results.getInt(3),	// year
+					new Thumbnail(results.getString(4)),	// thumbnail
+					queue,	// queue
+					results.getString(6),	// director
+					results.getInt(7),	// runtime
+					results.getString(8),	// language
+					subLang);	// subtitle languages
+
+		} else {
+			// Resource is a laptop
+			results = query.executeQuery("SELECT RESOURCE.*, LAPTOP.MANUFACTURER, LAPTOP.MODEL, LAPTOP.OPERATING_SYSTEM "
+					+ "FROM RESOURCE INNER JOIN LAPTOP ON RESOURCE.RESOURCE_ID = LAPTOP.RESOURCE_ID "
+					+ "WHERE RESOURCE.RESOURCE_ID = '" + resourceID + "'");
+			results.next();
+
+			RequestQueue queue = convertRequestQueue(results.getString(5));	// request queue
+			
+			out = new Laptop(resourceID,
+					results.getString(2),	// title
+					results.getInt(3),	// year
+					new Thumbnail(results.getString(4)),	// thumbnail
+					queue,	// queue
+					results.getString(6),	// manufacturer
+					results.getString(7),	// model
+					results.getString(8));	// OS
+		}
+		
+		return out;
+	}
+	
+	private String getResourceType(String resourceID) throws SQLException {
+		// Check if there's an entry in the BOOK table; it must be a book
+		Statement isBook = conn.createStatement();
+		ResultSet rsBook = isBook.executeQuery("SELECT COUNT(*) FROM LIBRARIAN WHERE username = '" + resourceID + "'");
+		rsBook.next();
+		
+		if (rsBook.getInt(1) == 1) {
+			return "BOOK";
+		}
+		
+		// Check if there's an entry in the DVD table; it must be a DVD
+		Statement isDVD = conn.createStatement();
+		ResultSet rsDVD = isDVD.executeQuery("SELECT COUNT(*) FROM LIBRARIAN WHERE username = '" + resourceID + "'");
+		rsDVD.next();
+		
+		if (rsDVD.getInt(1) == 1) {
+			return "DVD";
+		}
+		
+		// If none of the above, then it must be a laptop
+		return "LAPTOP";
+	}
+	
+	private RequestQueue convertRequestQueue(String queue) throws SQLException {
+		String[] requests = queue.split(",");
+
+		RequestQueue rq = new RequestQueue();
+		for (int i = 0; i < requests.length; i++) {
+			rq.addUser(requests[i]);
+		}
+		
+		return rq;
 	}
 	
 	///not finished don't use!!!!////////////////////////////////////
