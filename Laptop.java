@@ -9,12 +9,18 @@ public class Laptop extends Resource {
 	private String model;
 	private String operatingSys;
 	
-	public Laptop (String title, int year, Thumbnail thumbnail, String manufacturer, String model, String operatingSys) {
-		super (title, year, thumbnail);
+	public Laptop(String title, int year, Thumbnail thumbnail, String manufacturer, String model, String operatingSys) {
+		super(title, year, thumbnail);
 		this.manufacturer = manufacturer;
 		this.model = model;
 		this.operatingSys = operatingSys;
-
+	}
+	
+	public Laptop(String resourceID, String title, int year, Thumbnail thumbnail, RequestQueue queue, String manufacturer, String model, String operatingSys) {
+		super(resourceID, title, year, thumbnail, queue);
+		this.manufacturer = manufacturer;
+		this.model = model;
+		this.operatingSys = operatingSys;
 	}
 	
 	public String toString() {	

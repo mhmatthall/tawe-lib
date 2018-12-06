@@ -11,14 +11,21 @@ public class Book extends Resource {
 	private String language;
 	
 	public Book(String title, int year, Thumbnail thumbnail, String author, String publisher, String genre, int ISBN, String language) {
-
-		super (title, year, thumbnail);
+		super(title, year, thumbnail);
 		this.author = author;
 		this.publisher = publisher;
 		this.genre = genre;
 		this.ISBN = ISBN;
 		this.language = language;
-
+	}
+	
+	public Book(String resourceID, String title, int year, Thumbnail thumbnail, RequestQueue queue, String author, String publisher, String genre, int ISBN, String language) {
+		super(resourceID, title, year, thumbnail, queue);
+		this.author = author;
+		this.publisher = publisher;
+		this.genre = genre;
+		this.ISBN = ISBN;
+		this.language = language;
 	}
 	
 	public String toString() {	
