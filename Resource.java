@@ -23,8 +23,9 @@ public class Resource {
 		}else if (this.getClass() == Resource.class) {
 			resourceID = "R" + nextID;
 		}
-		
 		nextID++;
+		this.queue = new RequestQueue(this.resourceID);
+		
 	}
 
 	public String getResourceID() {
