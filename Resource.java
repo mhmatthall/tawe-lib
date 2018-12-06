@@ -24,14 +24,16 @@ public class Resource {
 			resourceID = "R" + nextID;
 		}
 		nextID++;
-		this.queue = new RequestQueue(this.resourceID);
 		
+		this.queue = new RequestQueue(this.resourceID);
+		this.thumbnail = thumbnail;
 	}
 	
 	public Resource(String resourceID, String title, int year, Thumbnail thumbnail, RequestQueue queue) {
 		this.resourceID = resourceID;
 		this.title = title;
 		this.year = year;
+		this.thumbnail = thumbnail;
 		this.queue = queue;
 	}
 
