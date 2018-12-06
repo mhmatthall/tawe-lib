@@ -3,7 +3,7 @@
  */
 
 public class Image {
-	private String defaultImage;
+	private String defaultImage = "";
 	private String filename;
 	
 	public Image (String filename){
