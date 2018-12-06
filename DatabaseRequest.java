@@ -26,7 +26,7 @@ import java.util.Arrays;
 	+ check if any copy of a resource is available
 	+ loan out as objects
 	+ total fines for given user
-	+ 
+	+ get list of user's resources
  */
 
 public class DatabaseRequest {
@@ -410,16 +410,42 @@ public class DatabaseRequest {
 	}
 	
 	public void addCopy(Copy newCopy) throws SQLException {
-		Statement queries = conn.createStatement();
-		queries.executeUpdate("INSERT INTO COPY VALUES(" +
+		// Format boolean true/false to 1/0 for database insertion
+		int isOnLoan = newCopy.isOnLoan() ? 1 : 0;
+		int isReserved = newCopy.isReserved() ? 1 : 0;
+		
+		Statement query = conn.createStatement();
+		query.executeUpdate("INSERT INTO COPY VALUES(" +
 				"'" + newCopy.getCopyID() + "', " +
 				"'" + newCopy.getResourceID() + "', " +
 				"'" + newCopy.getLoanTime() + "', " +
-				"'" + newCopy.isOnLoan() + "', " +
-				"'" + newCopy.isReserved() + "', " +
+				"'" + isOnLoan + "', " +
+				"'" + isReserved + "', " +
 				"'" + newCopy.getReservingUser() + "')");
 	}
+	
+	public void editCopy(Copy newDetails) throws SQLException {
+		int isOnLoan = newDetails.isOnLoan() ? 1 : 0;
+		int isReserved = newDetails.isReserved() ? 1 : 0;
+		
+		Statement query = conn.createStatement();
+		query.executeUpdate("UPDATE COPY SET " +
+				"resource_id = '" + newDetails.getResourceID() + "', " +
+				"loan_duration = '" + newDetails.getLoanTime() + "', " +
+				"is_on_loan = '" + isOnLoan + "', " +
+				"is_reserved = '" + isReserved + "', " +
+				"reserved_by_user_id = '" + newDetails.getReservingUser() + " " +
+				"WHERE copy_id = '" + newDetails.getCopyID() + "'");
+	}
+	
+	public void deleteCopy(String copyID) throws SQLException {
+		Statement query = conn.createStatement();
+		
+		query.executeUpdate("DELETE FROM COPY WHERE copy_id = '" + copyID + "'");
+	}
+	
 	///not finished don't use!!!!////////////////////////////////////
+	
 	public ArrayList<ArrayList<String>> retrieve(String name) throws SQLException {
 		return retrieve(name, null);
 	}
