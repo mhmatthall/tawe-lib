@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 /*
  * TODO Complete setter methods
- * TODO fix constructor to inherit
  */
 public class DVD extends Resource {
 	protected static double fineDay = 2.00;
@@ -10,7 +9,7 @@ public class DVD extends Resource {
 	private String director;
 	private int runtime;
 	private String language;
-	ArrayList<String> subLang = new ArrayList<String>();
+	private ArrayList<String> subLang = new ArrayList<String>();
 	
 	public DVD(String title, int year, Thumbnail thumbnail, RequestQueue queue, String director, int runtime, String language) {
 		super(title, year, thumbnail);
@@ -19,11 +18,12 @@ public class DVD extends Resource {
 		this.runtime = runtime;
 	}
 	
-	public DVD(String resourceID, String title, int year, Thumbnail thumbnail, RequestQueue queue, String director, int runtime, String language) {
+	public DVD(String resourceID, String title, int year, Thumbnail thumbnail, RequestQueue queue, String director, int runtime, String language, ArrayList<String> subLang) {
 		super(resourceID, title, year, thumbnail, queue);
 		this.director = director;
 		this.language = language;
 		this.runtime = runtime;
+		this.subLang = subLang;
 	}
 	
 	public String toString() {	
@@ -31,8 +31,7 @@ public class DVD extends Resource {
 		x = ("Title: " + title + " \nYear: " + year + " \nDirector: " + director + " \nRuntime: " + runtime + " \nLanguage: " + language);
 		return x;
 	}
-		
-
+	
 	public String getDirector() {
 		return director;
 	}
@@ -64,9 +63,4 @@ public class DVD extends Resource {
 	public void setSubLang(ArrayList<String> SubLang) {
 		
 	}
-	
-	
-		
-	
-	
 }
