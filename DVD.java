@@ -12,13 +12,18 @@ public class DVD extends Resource {
 	private String language;
 	ArrayList<String> subLang = new ArrayList<String>();
 	
-	public DVD(String title, int year, Thumbnail thumbnail,String director, int runtime, String language) {
-		super (title, year, thumbnail);
+	public DVD(String title, int year, Thumbnail thumbnail, RequestQueue queue, String director, int runtime, String language) {
+		super(title, year, thumbnail);
 		this.director = director;
 		this.language = language;
 		this.runtime = runtime;
-		
-		
+	}
+	
+	public DVD(String resourceID, String title, int year, Thumbnail thumbnail, RequestQueue queue, String director, int runtime, String language) {
+		super(resourceID, title, year, thumbnail, queue);
+		this.director = director;
+		this.language = language;
+		this.runtime = runtime;
 	}
 	
 	public String toString() {	

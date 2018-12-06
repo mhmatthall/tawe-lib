@@ -10,7 +10,7 @@ public class Resource {
 	protected Thumbnail thumbnail;
 	protected RequestQueue queue;
 	
-	public Resource (String title, int year, Thumbnail thumbnail) {
+	public Resource(String title, int year, Thumbnail thumbnail) {
 		this.title = title;
 		this.year = year;
 		
@@ -20,11 +20,18 @@ public class Resource {
 			resourceID = "L" + nextID;
 		} else if (this.getClass() == DVD.class) {
 			resourceID = "D" + nextID;
-		}else if (this.getClass() == Resource.class) {
+		} else if (this.getClass() == Resource.class) {
 			resourceID = "R" + nextID;
 		}
 		
 		nextID++;
+	}
+	
+	public Resource(String resourceID, String title, int year, Thumbnail thumbnail, RequestQueue queue) {
+		this.resourceID = resourceID;
+		this.title = title;
+		this.year = year;
+		this.queue = queue;
 	}
 
 	public String getResourceID() {
