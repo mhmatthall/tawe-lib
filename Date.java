@@ -40,7 +40,7 @@ public class Date {
 	 */
 	public String getMonth() {
 		if (date.get((Calendar.MONTH) + 1) < 10) {
-			return "0" + (date.get(Calendar.MONTH + 1));
+			return "0" + (date.get(Calendar.MONTH) + 1);
 		}else {
 			return "" + (date.get(Calendar.MONTH) + 1);
 		}
@@ -51,7 +51,11 @@ public class Date {
 	 * @return day
 	 */
 	public String getDay() {
-		return "" + (date.get(Calendar.DATE)+1);
+		if (date.get((Calendar.MONTH) + 1) < 10) {
+			return "0" + (date.get(Calendar.DATE) + 1);
+		}else {
+			return "" + (date.get(Calendar.DATE) + 1);
+		}
 		
 	}
 	
