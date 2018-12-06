@@ -34,7 +34,10 @@ public class ControlPanelController {
 	Button btnLogout;
 	@FXML
 	Button btnCreateResource;
-
+	@FXML
+	Button btnSearchUser;
+	
+	
 	// THE PROBLEM IS IN THESE 2
 	/*
 	 * @FXML Label lblUsername;
@@ -131,6 +134,18 @@ public class ControlPanelController {
 		window3.setScene(scene);
 		controller.passStageReference(window3);
 		window3.show();
+	}
+	
+	@FXML
+	private void newUser() throws IOException {
+		Stage window = new Stage();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("NewUser.fxml"));
+		Pane pane = loader.load();
+		NewUserController controller = loader.getController();
+		Scene scene = new Scene(pane);
+		window.setScene(scene);
+		controller.passStageReference(window);
+		window.show();
 	}
 	
 	// Set user object

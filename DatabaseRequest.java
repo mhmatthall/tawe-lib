@@ -26,7 +26,7 @@ import java.util.Arrays;
 	+ check if any copy of a resource is available
 	+ loan out as objects
 	+ total fines for given user
-	+ 
+	+ get list of user's resources
  */
 
 public class DatabaseRequest {
@@ -88,7 +88,7 @@ public class DatabaseRequest {
 		if (newUser instanceof Librarian) {
 			// Reformatting date for database insertion
 			Date ed = ((Librarian)newUser).getEmploymentDate();
-			String employmentDate = String.valueOf(ed.getDay() + ed.getMonth() + ed.getYear());
+			String employmentDate = ed.getDay() + ed.getMonth() + ed.getYear();
 			
 			queries.addBatch(
 					"INSERT INTO LIBRARIAN VALUES('" + newUser.getUsername() + "', " +
@@ -115,9 +115,13 @@ public class DatabaseRequest {
 						"WHERE username = '" + newDetails.getUsername() + "'");
 		
 		if (newDetails instanceof Librarian) {
+			// Reformatting date for database insertion
+			Date ed = ((Librarian)newDetails).getEmploymentDate();
+			String employmentDate = ed.getDay() + ed.getMonth() + ed.getYear();
+			
 			query.addBatch("UPDATE LIBRARIAN SET " +
 							"staff_number = " + ((Librarian) newDetails).getStaffNumber() + ", " +
-							"employment_date = " + ((Librarian) newDetails).getEmploymentDate() + " " +
+							"employment_date = " + employmentDate + " " +
 							"WHERE username = '" + newDetails.getUsername() + "'");
 		} else {
 			query.addBatch("UPDATE BORROWER SET " +
@@ -158,7 +162,7 @@ public class DatabaseRequest {
 			String ed = results.getString(8);	// employment date
 			Date empDate = new Date(Integer.parseInt(ed.substring(0, 2)),
 									Integer.parseInt(ed.substring(2, 4)),
-									Integer.parseInt(ed.substring(4, 6)));
+									Integer.parseInt(ed.substring(4, 8)));
 			
 			out = new Librarian(username,
 					results.getString(2),	// forename
@@ -410,16 +414,42 @@ public class DatabaseRequest {
 	}
 	
 	public void addCopy(Copy newCopy) throws SQLException {
-		Statement queries = conn.createStatement();
-		queries.executeUpdate("INSERT INTO COPY VALUES(" +
+		// Format boolean true/false to 1/0 for database insertion
+		int isOnLoan = newCopy.isOnLoan() ? 1 : 0;
+		int isReserved = newCopy.isReserved() ? 1 : 0;
+		
+		Statement query = conn.createStatement();
+		query.executeUpdate("INSERT INTO COPY VALUES(" +
 				"'" + newCopy.getCopyID() + "', " +
 				"'" + newCopy.getResourceID() + "', " +
 				"'" + newCopy.getLoanTime() + "', " +
-				"'" + newCopy.isOnLoan() + "', " +
-				"'" + newCopy.isReserved() + "', " +
+				"'" + isOnLoan + "', " +
+				"'" + isReserved + "', " +
 				"'" + newCopy.getReservingUser() + "')");
 	}
+	
+	public void editCopy(Copy newDetails) throws SQLException {
+		int isOnLoan = newDetails.isOnLoan() ? 1 : 0;
+		int isReserved = newDetails.isReserved() ? 1 : 0;
+		
+		Statement query = conn.createStatement();
+		query.executeUpdate("UPDATE COPY SET " +
+				"resource_id = '" + newDetails.getResourceID() + "', " +
+				"loan_duration = '" + newDetails.getLoanTime() + "', " +
+				"is_on_loan = '" + isOnLoan + "', " +
+				"is_reserved = '" + isReserved + "', " +
+				"reserved_by_user_id = '" + newDetails.getReservingUser() + " " +
+				"WHERE copy_id = '" + newDetails.getCopyID() + "'");
+	}
+	
+	public void deleteCopy(String copyID) throws SQLException {
+		Statement query = conn.createStatement();
+		
+		query.executeUpdate("DELETE FROM COPY WHERE copy_id = '" + copyID + "'");
+	}
+	
 	///not finished don't use!!!!////////////////////////////////////
+	
 	public ArrayList<ArrayList<String>> retrieve(String name) throws SQLException {
 		return retrieve(name, null);
 	}
