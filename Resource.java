@@ -2,19 +2,29 @@
  * TODO add missing methods defined in UML diagram
  * TODO fix missing setters
  */
-public class Resource {
-	private static int counter = 0; 
-	private final int nextID;
+public class Resource { 
+	private static int nextID = 1;
 	private String resourceID;
-	private String title;
-	private int year;
-	private Thumbnail thumbnail;
-	private RequestQueue queue;
+	protected String title;
+	protected int year;
+	protected Thumbnail thumbnail;
+	protected RequestQueue queue;
 	
 	public Resource (String title, int year, Thumbnail thumbnail) {
 		this.title = title;
 		this.year = year;
-		this.nextID = counter++;
+		
+		if (this.getClass() == Book.class) {
+			resourceID = "B" + nextID;
+		} else if (this.getClass() == Laptop.class) {
+			resourceID = "L" + nextID;
+		} else if (this.getClass() == DVD.class) {
+			resourceID = "D" + nextID;
+		}else if (this.getClass() == Resource.class) {
+			resourceID = "R" + nextID;
+		}
+		
+		nextID++;
 	}
 
 	public String getResourceID() {

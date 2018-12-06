@@ -15,9 +15,10 @@ public class Date {
 	 * @param month between 0-11 (e.g. May is 4)
 	 * @param day between 0-30 (e.g. 25th is 24)
 	 */
-	public Date(int year, int month, int day){
+	public Date(int day, int month, int year){
 		date = Calendar.getInstance();
-		setDate(year, month, day);
+		year = Integer.parseInt("20" + year);
+		setDate(year, month-1, day-1);
 	}
 	
 	/**

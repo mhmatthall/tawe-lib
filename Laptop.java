@@ -10,14 +10,19 @@ public class Laptop extends Resource {
 	private String operatingSys;
 	
 	public Laptop (String title, int year, Thumbnail thumbnail, String manufacturer, String model, String operatingSys) {
-		super(title, year, thumbnail);
+		super (title, year, thumbnail);
 		this.manufacturer = manufacturer;
 		this.model = model;
 		this.operatingSys = operatingSys;
 
 	}
-
 	
+	public String toString() {	
+		String x;
+		x = ("Title: " + title + " \nYear: " + year + " \nManufacturer: " + manufacturer + " \nModel: " + model + " \nOperating System: " + operatingSys);
+		return x;
+	}
+		
 	public String getManufacturer() {
 		return manufacturer;
 	}

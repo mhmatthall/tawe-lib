@@ -7,10 +7,13 @@ import javax.imageio.ImageIO;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -19,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.RectangleBuilder;
 
@@ -31,7 +35,16 @@ public class ImageController {
 	
 	@FXML
 	public Button btnSave;
+	
+	@FXML
+	public ColorPicker pickColour;
+	
+	@FXML
+	public CheckBox fill;
 
+	//@FXML
+	//public 
+	
 	@FXML
 	private VBox editorScene;
 	
@@ -41,8 +54,12 @@ public class ImageController {
 	
 	@FXML
 	public void buttonCreatePressed() throws IOException{
-				
-
+		    //Circle circleR = new Circle(70.0f, Color.RED);
+	        //circleR.setCursor(Cursor.HAND);
+	        //circleR.setCenterX(150);
+	        //circleR.setCenterY(150);
+	        //circleR.setOnMousePressed(circleOnMousePressedEventHandler);
+	        //circleR.setOnMouseDragged(circleOnMouseDraggedEventHandler);
 				int x = 100;
 				int y = 100;
 				
@@ -50,7 +67,7 @@ public class ImageController {
 				GraphicsContext gc = canvas1.getGraphicsContext2D();
 				
 				// Set the fill color to Red
-				gc.setFill(Color.BLUE);
+				gc.setFill(pickColour.getValue());
 				
 				// Draw a circle at the coordinates
 				gc.fillRect(x, y, 40, 40);
@@ -68,5 +85,7 @@ public class ImageController {
 	        // TODO: handle exception here
 	    }
 	}
+	
+	
 
 }
