@@ -69,18 +69,22 @@ public class Date {
 					if(i == Math.abs(year)) {
 						days += remainingDays + anotherDate.getDaysInYear();
 					}else {
-						tempDate.set(tempDate.get(Calendar.YEAR) + 1, tempDate.get(Calendar.MONTH), tempDate.get(Calendar.DATE));
+						tempDate.set(tempDate.get(Calendar.YEAR) + 1, 
+								tempDate.get(Calendar.MONTH), 
+								tempDate.get(Calendar.DATE));
 						days += tempDate.getMaximum(Calendar.DAY_OF_YEAR);
 					}
 				}
 			}else {
-				int remainingDays = anotherDate.getMaxDaysInYear() - anotherDate.getDaysInYear();
+				int remainingDays = anotherDate.getMaxDaysInYear() - 
+						anotherDate.getDaysInYear();
 				Date tempDate = anotherDate;
 				for(int i = 1; i <= Math.abs(year); i++) {
 					if(i == Math.abs(year)) {
 						days += remainingDays + getDaysInYear();
 					}else {
-						tempDate.setDate(tempDate.getYear() + 1, tempDate.getMonth(), tempDate.getDay());
+						tempDate.setDate(tempDate.getYear() + 1, 
+								tempDate.getMonth(), tempDate.getDay());
 						days += tempDate.getMaxDaysInYear();
 					}
 				}
@@ -102,7 +106,8 @@ public class Date {
 	}
 	
 	public String toString() {
-		return "Year: " + getYear() + ", Month: " + getMonth() + ", Day: " + getDay();
+		return "Year: " + getYear() + ", Month: " + getMonth() + ", Day: " + 
+	getDay();
 	}
 	
 	/**

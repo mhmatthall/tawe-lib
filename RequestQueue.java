@@ -20,7 +20,7 @@ public class RequestQueue {
 	/**
 	 * Constructs an empty Queue.
 	 */
-	public RequestQueue (String resourceID) {
+	public RequestQueue(String resourceID) {
 		this.resourceID = resourceID;
 	    first = new QueueElement(null, new QueueElement(null,null));
 	}
@@ -41,7 +41,7 @@ public class RequestQueue {
 	/**
 	 * @return boolean indicating whatever queue is empty
 	 */
-	public boolean isEmpty () {
+	public boolean isEmpty() {
 	    return first.getElement()== null;
 	}
 	
@@ -62,7 +62,7 @@ public class RequestQueue {
 	/**
 	 * @throws NoSuchElementException why tho
 	 */
-	public void dequeue () throws NoSuchElementException {
+	public void dequeue() throws NoSuchElementException {
 		if (first.getElement() == null){
 			throw new NoSuchElementException("No such element exists to dequeue");
 		}else{
@@ -74,7 +74,7 @@ public class RequestQueue {
 	/**
 	 * @param element puts object into Q
 	 */
-	public void addUser (Object element) {
+	public void addUser(Object element) {
 		QueueElement newElement = new QueueElement(element, new QueueElement(null,null));
 		QueueElement temp;
 		
