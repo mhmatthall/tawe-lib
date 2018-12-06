@@ -5,9 +5,10 @@ public class Borrower extends User {
 	private DatabaseRequest db = new DatabaseRequest();
 	
 	public Borrower(String username, String forename, String surname, 
-			String phoneNumber, String address, UserImage profileImage) {
+			String phoneNumber, String address, UserImage profileImage,
+			int balance) {
 		super(username, forename, surname, phoneNumber, address, profileImage);
-		this.balance = 0;
+		this.balance = balance;
 		this.isLibrarian = false;
 	}
 	
