@@ -11,7 +11,6 @@ import java.util.Arrays;
    @author Matt Hall
    @version 1.0
    
-   TODO Need to remove static attributes (and main method) when testing complete
 	+ addCopy(newCopy : Copy)
    	+ editCopy
 	+ deleteCopy(copyID : string)
@@ -35,34 +34,34 @@ public class DatabaseRequest {
 	private static Connection conn;
 
 	// FOR TESTING ONLY
-	public static void main(String[] args) {
-		establishConnection();
-		try {
-			Statement uhoh = conn.createStatement();
-			//uhoh.addBatch("DELETE FROM LIBRARIAN WHERE USERNAME = 'l.oreilly'");
-			//uhoh.addBatch("DELETE FROM LIBRARY_USER WHERE USERNAME = 'l.oreilly'");
-			//uhoh.executeBatch();
-			//System.out.println(check + " rows changed by " + uhoh.getUpdateCount() + " statements");
-			
-			//ResultSet uhohRes = uhoh.executeQuery("SELECT * FROM LIBRARIAN WHERE USERNAME = 'l.oreilly'");
-			//uhohRes.next();
-			//System.out.println(uhohRes.getString(2) + " " + uhohRes.getString(3));
-			
-			//uhoh.executeUpdate("UPDATE LIBRARIAN SET EMPLOYMENT_DATE = 131211 WHERE USERNAME = 'l.oreilly'");
-			//Librarian u1 = new Librarian("l.oreilly", "Liam", "OReilly", "07706545232", "Trafalgar Place, Brynmill, SA2 0DC", null, 18, new Date(14, 12, 12));
-			//addUser(u1);
-			//Librarian meme = (Librarian)getUser("l.oreilly");
-			//System.out.println("Hi, " + meme.getForename() + meme.getSurname() + meme.getPhoneNumber() + meme.getAddress() + meme.getUsername() + meme.getProfileImage() + meme.getStaffNumber() + " empdate: " + meme.getEmploymentDate().getDay() + meme.getEmploymentDate().getMonth() + meme.getEmploymentDate().getYear());
-		} catch (Exception e) {
-			System.out.println("ERROR: " + e.getMessage());
-		}
-	}
+//	public static void main(String[] args) {
+//		establishConnection();
+//		try {
+//			Statement uhoh = conn.createStatement();
+//			//uhoh.addBatch("DELETE FROM LIBRARIAN WHERE USERNAME = 'l.oreilly'");
+//			//uhoh.addBatch("DELETE FROM LIBRARY_USER WHERE USERNAME = 'l.oreilly'");
+//			//uhoh.executeBatch();
+//			//System.out.println(check + " rows changed by " + uhoh.getUpdateCount() + " statements");
+//			
+//			//ResultSet uhohRes = uhoh.executeQuery("SELECT * FROM LIBRARIAN WHERE USERNAME = 'l.oreilly'");
+//			//uhohRes.next();
+//			//System.out.println(uhohRes.getString(2) + " " + uhohRes.getString(3));
+//			
+//			//uhoh.executeUpdate("UPDATE LIBRARIAN SET EMPLOYMENT_DATE = 131211 WHERE USERNAME = 'l.oreilly'");
+//			//Librarian u1 = new Librarian("l.oreilly", "Liam", "OReilly", "07706545232", "Trafalgar Place, Brynmill, SA2 0DC", null, 18, new Date(14, 12, 12));
+//			//addUser(u1);
+//			//Librarian meme = (Librarian)getUser("l.oreilly");
+//			//System.out.println("Hi, " + meme.getForename() + meme.getSurname() + meme.getPhoneNumber() + meme.getAddress() + meme.getUsername() + meme.getProfileImage() + meme.getStaffNumber() + " empdate: " + meme.getEmploymentDate().getDay() + meme.getEmploymentDate().getMonth() + meme.getEmploymentDate().getYear());
+//		} catch (Exception e) {
+//			System.out.println("ERROR: " + e.getMessage());
+//		}
+//	}
 	
 	public DatabaseRequest() {
 		establishConnection();
 	}
 	
-	private static void establishConnection() {
+	private void establishConnection() {
 		try {
 			conn = DriverManager.getConnection("jdbc:derby:" + DATABASE_NAME);
 		} catch (SQLException e) {
@@ -203,13 +202,20 @@ public class DatabaseRequest {
 		//		- one inserts the resource into the RESOURCE table,
 		//		- the other inserts the resource into either the BOOK, DVD, or LAPTOP table
 	
+		String queuedUsers = "";
+		while (!newResource.getQueue().isEmpty()) {
+			queuedUsers = queuedUsers + "," + newResource.getQueue().peek();
+			newResource.getQueue().dequeue();
+		}
+		
 		// resource table insertion
 		Statement queries = conn.createStatement();
 		queries.addBatch("INSERT INTO RESOURCE VALUES(" +
 				"'" + newResource.getResourceID() + "', " +
 				"'" + newResource.getTitle() + "', " +
 				"'" + newResource.getYear() + "', " +
-				"'" + newResource.getThumbnail().getImage() + "')");
+				"'" + newResource.getThumbnail().getImage() + "', " +
+				"'" + queuedUsers + "')");
 
 		// librarian/borrower table insertion
 		if (newResource instanceof Book) {
@@ -403,12 +409,22 @@ public class DatabaseRequest {
 		return rq;
 	}
 	
+	public void addCopy(Copy newCopy) throws SQLException {
+		Statement queries = conn.createStatement();
+		queries.executeUpdate("INSERT INTO COPY VALUES(" +
+				"'" + newCopy.getCopyID() + "', " +
+				"'" + newCopy.getResourceID() + "', " +
+				"'" + newCopy.getLoanTime() + "', " +
+				"'" + newCopy.isOnLoan() + "', " +
+				"'" + newCopy.isReserved() + "', " +
+				"'" + newCopy.getReservingUser() + "')");
+	}
 	///not finished don't use!!!!////////////////////////////////////
-	public static ArrayList<ArrayList<String>> retrieve(String name) throws SQLException {
+	public ArrayList<ArrayList<String>> retrieve(String name) throws SQLException {
 		return retrieve(name, null);
 	}
 	
-	public static ArrayList<ArrayList<String>> retrieve(String name, String condition) throws SQLException {
+	public ArrayList<ArrayList<String>> retrieve(String name, String condition) throws SQLException {
 		name = name.toUpperCase();
 		
 		// Alters request for USER table to LIBRARY_USER table in order to match actual database table name
