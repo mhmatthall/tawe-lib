@@ -17,7 +17,7 @@ public class Date {
 	 */
 	public Date(int day, int month, int year){
 		date = Calendar.getInstance();
-		setDate(year, month-1, day-1);
+		setDate(year, month-1, day);
 	}
 	
 	/**
