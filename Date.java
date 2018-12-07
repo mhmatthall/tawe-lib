@@ -39,7 +39,7 @@ public class Date {
 	 * @return month
 	 */
 	public String getMonth() {
-		if (date.get((Calendar.MONTH) + 1) < 10) {
+		if ((date.get((Calendar.MONTH))) + 1 < 10) {
 			return "0" + (date.get(Calendar.MONTH) + 1);
 		}else {
 			return "" + (date.get(Calendar.MONTH) + 1);
