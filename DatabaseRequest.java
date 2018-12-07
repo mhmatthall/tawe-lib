@@ -56,7 +56,7 @@ public class DatabaseRequest {
 	
 	private void establishConnection() throws SQLException {
 		conn = DriverManager.getConnection("jdbc:derby:" + DATABASE_NAME);
-		//conn.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
+		conn.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 	}
 	
 	public void addUser(User newUser) throws SQLException {
