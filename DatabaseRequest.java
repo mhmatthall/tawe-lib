@@ -78,7 +78,7 @@ public class DatabaseRequest {
 		if (newUser instanceof Librarian) {
 			queries.addBatch(
 					"INSERT INTO LIBRARIAN VALUES('" + newUser.getUsername() + "', " +
-							((Librarian)newUser).getEmploymentDate().toString() + ", " +
+							"'" + ((Librarian)newUser).getEmploymentDate().toString() + "', " +
 							((Librarian)newUser).getStaffNumber() + ")");
 		} else {
 			queries.addBatch(
