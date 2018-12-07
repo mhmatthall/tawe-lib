@@ -56,7 +56,7 @@ public class DatabaseRequest {
 	
 	private void establishConnection() throws SQLException {
 		conn = DriverManager.getConnection("jdbc:derby:" + DATABASE_NAME);
-		conn.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
+		//conn.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 	}
 	
 	public void addUser(User newUser) throws SQLException {
@@ -103,11 +103,11 @@ public class DatabaseRequest {
 		if (newDetails instanceof Librarian) {			
 			query.addBatch("UPDATE LIBRARIAN SET " +
 							"staff_number = " + ((Librarian) newDetails).getStaffNumber() + ", " +
-							"employment_date = " + ((Librarian)newDetails).getEmploymentDate().toString() + " " +
+							"employment_date = '" + ((Librarian)newDetails).getEmploymentDate().toString() + "' " +
 							"WHERE username = '" + newDetails.getUsername() + "'");
 		} else {
 			query.addBatch("UPDATE BORROWER SET " +
-					"balance = " + ((Borrower) newDetails).getBalance() + ", " +
+					"balance = " + ((Borrower) newDetails).getBalance() + " " +
 					"WHERE username = '" + newDetails.getUsername() + "'");
 		}
 		
