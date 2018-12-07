@@ -1,5 +1,6 @@
 import java.sql.SQLException;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -52,6 +53,11 @@ public class SearchUserController {
 		window.close();
 	}
 
+	@FXML
+	public void onEnter(ActionEvent ae) throws SQLException {
+		searchUser();
+	}
+	
 	public void passStageReference(Stage window) {
 		this.window = window;
 	}
