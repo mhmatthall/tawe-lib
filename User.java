@@ -13,8 +13,6 @@ public class User {
 	private String phoneNumber;
 	private String address;
 	private UserImage profileImage;
-	
-
 	protected boolean isLibrarian;
 
 	public User(String username, String forename, String surname, String phoneNumber, String address,
@@ -50,10 +48,7 @@ public class User {
 	public UserImage getProfileImage() {
 		return profileImage;
 	}
-	
-	public void setProfileImage(UserImage profileImage) {
-		this.profileImage = profileImage;
-	}
+
 //	public ArrayList[] browseResources(){
 //		ArrayList[] DVDs = new ArrayList[DatabaseRequest.viewTable("DVD")];
 //		ArrayList[] books = new ArrayList[DatabaseRequest.viewTable("Book")];
