@@ -80,14 +80,9 @@ public class DatabaseRequest {
 		
 		// librarian/borrower table insertion	
 		if (newUser instanceof Librarian) {
-			// Reformatting date for database insertion
-			Date ed = ((Librarian)newUser).getEmploymentDate();
-			System.out.println("Employment date hopefully with leading 0s: " + ed.toString());
-			String employmentDate = ed.getDay() + ed.getMonth() + ed.getYear();
-			System.out.println("Employment date "  + employmentDate);
 			queries.addBatch(
 					"INSERT INTO LIBRARIAN VALUES('" + newUser.getUsername() + "', " +
-							 employmentDate + ", " +
+							((Librarian)newUser).getEmploymentDate().toString() + ", " +
 							((Librarian)newUser).getStaffNumber() + ")");
 		} else {
 			queries.addBatch(
@@ -109,14 +104,10 @@ public class DatabaseRequest {
 						"profile_image = '" + newDetails.getProfileImage().getImage() + "' " +
 						"WHERE username = '" + newDetails.getUsername() + "'");
 		
-		if (newDetails instanceof Librarian) {
-			// Reformatting date for database insertion
-			Date ed = ((Librarian)newDetails).getEmploymentDate();
-			String employmentDate = ed.getDay() + ed.getMonth() + ed.getYear();
-			
+		if (newDetails instanceof Librarian) {			
 			query.addBatch("UPDATE LIBRARIAN SET " +
 							"staff_number = " + ((Librarian) newDetails).getStaffNumber() + ", " +
-							"employment_date = " + employmentDate + " " +
+							"employment_date = " + ((Librarian)newDetails).getEmploymentDate().toString() + " " +
 							"WHERE username = '" + newDetails.getUsername() + "'");
 		} else {
 			query.addBatch("UPDATE BORROWER SET " +
@@ -154,12 +145,6 @@ public class DatabaseRequest {
 					+ "WHERE LIBRARY_USER.USERNAME = '" + username + "'");
 			results.next();
 			
-			String ed = results.getString(8);	// employment date
-			System.out.println("Employment date hopefully with leading 0s: " + ed);
-			Date empDate = new Date(Integer.parseInt(ed.substring(0, 1)),
-									Integer.parseInt(ed.substring(1, 2)),
-									Integer.parseInt(ed.substring(2, 4)));
-			
 			out = new Librarian(username,
 					results.getString(2),	// forename
 					results.getString(3),	// surname
@@ -167,7 +152,7 @@ public class DatabaseRequest {
 					results.getString(5),	// address
 					new UserImage(results.getString(6)),	// profile image
 					results.getInt(7),	// staff number
-					empDate);
+					new Date(results.getString(8)));	// employment date
 			
 		} else {
 			// User is a borrower
