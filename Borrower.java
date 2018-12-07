@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Borrower extends User {
 	private double balance;
-	private DatabaseRequest db = new DatabaseRequest();
+	
 	
 	public Borrower(String username, String forename, String surname, 
 			String phoneNumber, String address, UserImage profileImage,

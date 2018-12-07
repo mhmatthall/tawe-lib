@@ -1,3 +1,5 @@
+import java.sql.SQLException;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -78,5 +80,24 @@ public class EditUserController {
 	public void initialize() {
 		System.out.println("I have been initialized and i'm so proud of it");
 	}
-
+	
+	@FXML
+	public void update() throws SQLException {
+		String firstName = txtFname.getText();
+		String lastName = txtLname.getText();
+		String phone = txtPhone.getText();
+		String address = txtAddress.getText();
+		if (user.isLibrarian()) {
+			Librarian updatedUser = new Librarian (user.getUsername(), firstName, lastName, phone, address,
+					user.getProfileImage(), ((Librarian)user).getStaffNumber(), ((Librarian)user).getEmploymentDate());
+			new DatabaseRequest().editUser(updatedUser);
+		} else {
+			Borrower updatedUser = new Borrower(user.getUsername(), firstName, lastName, phone, address,
+					user.getProfileImage(), ((Borrower)user).getBalance());
+			new DatabaseRequest().editUser(updatedUser);
+		}
+		System.out.println("User successfully updated");
+		window.close();
+	}
+	
 }
