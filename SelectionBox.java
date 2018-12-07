@@ -9,9 +9,9 @@ import javafx.geometry.*;
 
 public class SelectionBox {
 	
-	private static String answer;
+	private static int answer;
 	
-	public static String display(String title, String msg, String opt1, String opt2, String opt3) {
+	public static int display(String title, String msg, String opt1, String opt2, String opt3) {
 		
 		Stage window = new Stage();
 		
@@ -25,19 +25,19 @@ public class SelectionBox {
 		
 		Button btn1 = new Button(opt1);
 		btn1.setOnAction(e -> {
-			answer = "Book";
+			answer = 1;
 			window.close();
 		});
 		
 		Button btn2 = new Button(opt2);
 		btn2.setOnAction(e -> {
-			answer = "DVD";
+			answer = 2;
 			window.close();
 		});
 		
 		Button btn3 = new Button(opt3);
 		btn3.setOnAction(e -> {
-			answer = "Laptop";
+			answer = 3;
 			window.close();
 		});
 		

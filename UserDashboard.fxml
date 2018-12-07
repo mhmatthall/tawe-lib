@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="326.0" prefWidth="390.0" xmlns="http://javafx.com/javafx/8.0.191" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DashboardController">
+<BorderPane prefHeight="326.0" prefWidth="390.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DashboardController">
    <top>
       <Label fx:id="lblDashboardTitle" text="MY DASHBOARD" BorderPane.alignment="CENTER">
          <font>
@@ -72,8 +72,9 @@
                   <Region HBox.hgrow="ALWAYS" />
                   <VBox alignment="CENTER_RIGHT" spacing="5.0">
                      <children>
-                        <Button mnemonicParsing="false" prefWidth="145.0" text="Search the Library" />
                         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="My Transactions" />
+                        <Button mnemonicParsing="false" prefWidth="145.0" text="Search the Library" />
+                        <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#editProfile" prefWidth="145.0" text="Edit Profile" />
                      </children>
                   </VBox>
                </children></HBox>

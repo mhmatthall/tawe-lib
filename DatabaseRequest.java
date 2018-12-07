@@ -88,8 +88,9 @@ public class DatabaseRequest {
 		if (newUser instanceof Librarian) {
 			// Reformatting date for database insertion
 			Date ed = ((Librarian)newUser).getEmploymentDate();
+			System.out.println("Employment date hopefully with leading 0s: " + ed.toString());
 			String employmentDate = ed.getDay() + ed.getMonth() + ed.getYear();
-			
+			System.out.println("Employment date "  + employmentDate);
 			queries.addBatch(
 					"INSERT INTO LIBRARIAN VALUES('" + newUser.getUsername() + "', " +
 							 employmentDate + ", " +
@@ -160,9 +161,10 @@ public class DatabaseRequest {
 			results.next();
 			
 			String ed = results.getString(8);	// employment date
-			Date empDate = new Date(Integer.parseInt(ed.substring(0, 2)),
-									Integer.parseInt(ed.substring(2, 4)),
-									Integer.parseInt(ed.substring(4, 8)));
+			System.out.println("Employment date hopefully with leading 0s: " + ed);
+			Date empDate = new Date(Integer.parseInt(ed.substring(0, 1)),
+									Integer.parseInt(ed.substring(1, 2)),
+									Integer.parseInt(ed.substring(2, 4)));
 			
 			out = new Librarian(username,
 					results.getString(2),	// forename

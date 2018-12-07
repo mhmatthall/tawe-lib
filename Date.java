@@ -17,7 +17,7 @@ public class Date {
 	 */
 	public Date(int day, int month, int year){
 		date = Calendar.getInstance();
-		setDate(year, month-1, day-1);
+		setDate(year, month-1, day);
 	}
 	
 	/**
@@ -39,7 +39,7 @@ public class Date {
 	 * @return month
 	 */
 	public String getMonth() {
-		if (date.get((Calendar.MONTH) + 1) < 10) {
+		if ((date.get((Calendar.MONTH))) + 1 < 10) {
 			return "0" + (date.get(Calendar.MONTH) + 1);
 		}else {
 			return "" + (date.get(Calendar.MONTH) + 1);
@@ -51,10 +51,10 @@ public class Date {
 	 * @return day
 	 */
 	public String getDay() {
-		if (date.get((Calendar.MONTH) + 1) < 10) {
-			return "0" + (date.get(Calendar.DATE) + 1);
+		if (date.get((Calendar.DATE)) < 10) {
+			return "0" + (date.get(Calendar.DATE));
 		}else {
-			return "" + (date.get(Calendar.DATE) + 1);
+			return "" + (date.get(Calendar.DATE));
 		}
 		
 	}

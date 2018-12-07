@@ -23,7 +23,7 @@
       <HBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Label prefHeight="17.0" prefWidth="79.0" text="User ID:" />
-            <TextField fx:id="txtUserID" prefHeight="25.0" prefWidth="176.0" />
+            <TextField fx:id="txtUserID" onAction="#searchUser" prefHeight="25.0" prefWidth="176.0" />
          </children>
       </HBox>
    </center>

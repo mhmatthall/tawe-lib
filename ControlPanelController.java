@@ -66,16 +66,16 @@ public class ControlPanelController {
 	 * that type
 	 */
 	public void createResource() {
-		String type = SelectionBox.display("Select", "Please select resource type", "Book", "DVD", "Laptop");
+		int type = SelectionBox.display("Select", "Please select resource type", "Book", "DVD", "Laptop");
 		try {
 			switch (type) {
-			case "Book":
+			case 1:
 				createBook();
 				break;
-			case "DVD":
+			case 2:
 				createDVD();
 				break;
-			case "Laptop":
+			case 3:
 				createLaptop();
 				break;
 			// TODO: Throw an exception if the window has closed an no value returned.
