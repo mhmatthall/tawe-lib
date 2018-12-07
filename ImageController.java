@@ -32,13 +32,15 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 
 public class ImageController {
-	
+	Polygon triangleR;
 	Rectangle rectangleR;
+	Circle circleR;
     double orgSceneX, orgSceneY;
     double orgTranslateX, orgTranslateY;
     
@@ -77,37 +79,83 @@ public class ImageController {
 		
 	@FXML
 	public void initialize() {
-	//    ObservableList<String> value = FXCollections.observableArrayList("apples", "oranges");
-	//	shapeType.setItems(value);
+	ObservableList<String> value = FXCollections.observableArrayList("rectangle", "circle","triangle");
+	shapeType.setItems(value);
 	}
 	
 	
 	@FXML
 	public void buttonCreatePressed() throws IOException{
-		
-				rectangleR = new Rectangle(100,100,100,100);
-    			rectangleR.setFill(pickColour.getValue());
-    			rectangleR.setCursor(Cursor.MOVE);
-    			rectangleR.setOnMousePressed(rectangleOnMousePressedEventHandler);
-    			rectangleR.setOnMouseDragged(rectangleOnMouseDraggedEventHandler);
-				int x = 100;
-				int y = 100;
+				if (shapeType.getSelectionModel().getSelectedItem() == "rectangle") {
+					rectangleR = new Rectangle(100,100,100,100);
+    				rectangleR.setFill(pickColour.getValue());
+    				rectangleR.setCursor(Cursor.MOVE);
+    				rectangleR.setOnMousePressed(rectangleOnMousePressedEventHandler);
+    				rectangleR.setOnMouseDragged(rectangleOnMouseDraggedEventHandler);
+					int x = 100;
+					int y = 100;
 				
-				canvas1.getChildren().addAll(rectangleR);
+					canvas1.getChildren().addAll(rectangleR);
+				} else if (shapeType.getSelectionModel().getSelectedItem() == "circle") {
+					circleR = new Circle(70.0f);
+					circleR.setFill(pickColour.getValue());
+			        circleR.setCursor(Cursor.MOVE);
+			        circleR.setCenterX(150);
+			        circleR.setCenterY(150);
+			        circleR.setOnMousePressed(circleOnMousePressedEventHandler);
+			        circleR.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+			        canvas1.getChildren().addAll(circleR);
+				}else if (shapeType.getSelectionModel().getSelectedItem() == "triangle") {
+					triangleR = new Polygon(300,250,200);
+			    	triangleR.setCursor(Cursor.MOVE);
+			    	triangleR.setOnMousePressed(triangleOnMousePressedEventHandler);
+			    	triangleR.setOnMouseDragged(triangleOnMouseDraggedEventHandler);
+					canvas1.getChildren().addAll(triangleR);
+					triangleR.getPoints().addAll(new Double[] {
+			    			300.0, 200.0,
+			    			450.0,
+			    	});
+				}
 	}
+	
+	 			EventHandler<MouseEvent> triangleOnMousePressedEventHandler = 
+	            new EventHandler<MouseEvent>() {
+	     
+	            @Override
+	            public void handle(MouseEvent t) {
+	                orgSceneX = t.getSceneX();
+	                orgSceneY = t.getSceneY();
+	                orgTranslateX = ((Polygon)(t.getSource())).getTranslateX();
+	                orgTranslateY = ((Polygon)(t.getSource())).getTranslateY();
+	            }
+	            };
+	         EventHandler<MouseEvent> triangleOnMouseDraggedEventHandler = 
+	            new EventHandler<MouseEvent>() {
+	     
+	            @Override
+	            public void handle(MouseEvent t) {
+	                double offsetX = t.getSceneX() - orgSceneX;
+	                double offsetY = t.getSceneY() - orgSceneY;
+	                double newTranslateX = orgTranslateX + offsetX;
+	                double newTranslateY = orgTranslateY + offsetY;
+	                 
+	                ((Polygon)(t.getSource())).setTranslateX(newTranslateX);
+	                ((Polygon)(t.getSource())).setTranslateY(newTranslateY);
+	            }
+	        };
+	
 	@FXML
 	public void buttonSavePressed() throws SQLException {
 		WritableImage image = canvas1.snapshot(new SnapshotParameters(), null);
 	    
 	    // TODO: probably use a file chooser here
-	    File file = new File("image_files\\custom.png");
+	    File file = new File(user.getUsername() + ".png");
 	    
 	    try {
 	        ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
-	        UserImage custom = new UserImage("image_files\\custom.png");
+	        UserImage custom = new UserImage("custom.png");
 	        user.setProfileImage(custom);
-	        DatabaseRequest db1 = new DatabaseRequest();
-	        db1.editUser(user);
+	        new DatabaseRequest().editUser(user);
 	        
 	    } catch (IOException e) {
 	        // TODO: handle exception here
@@ -150,6 +198,31 @@ public class ImageController {
                 ((Rectangle)(t.getSource())).setTranslateY(newTranslateY);
             }
         };
+        EventHandler<MouseEvent> circleOnMousePressedEventHandler = 
+                new EventHandler<MouseEvent>() {
+         
+                @Override
+                public void handle(MouseEvent t) {
+                    orgSceneX = t.getSceneX();
+                    orgSceneY = t.getSceneY();
+                    orgTranslateX = ((Circle)(t.getSource())).getTranslateX();
+                    orgTranslateY = ((Circle)(t.getSource())).getTranslateY();
+                }
+                };
+             EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = 
+                new EventHandler<MouseEvent>() {
+         
+                @Override
+                public void handle(MouseEvent t) {
+                    double offsetX = t.getSceneX() - orgSceneX;
+                    double offsetY = t.getSceneY() - orgSceneY;
+                    double newTranslateX = orgTranslateX + offsetX;
+                    double newTranslateY = orgTranslateY + offsetY;
+                     
+                    ((Circle)(t.getSource())).setTranslateX(newTranslateX);
+                    ((Circle)(t.getSource())).setTranslateY(newTranslateY);
+                }
+            };
 	public void setUser(User user) {
 		this.user = user;
 	}

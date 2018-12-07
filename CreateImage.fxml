@@ -52,15 +52,15 @@
         </Menu>
       </menus>
     </MenuBar>
-    <AnchorPane fx:id="anch" maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
             <ColorPicker fx:id="pickColour" layoutX="261.0" layoutY="328.0" />
-            <ChoiceBox layoutX="59.0" layoutY="328.0" prefWidth="150.0" />
+            <ChoiceBox fx:id="shapeType" layoutX="59.0" layoutY="328.0" prefWidth="150.0" />
             <Button id="btnCreate" fx:id="btnCreate" layoutX="590.0" layoutY="328.0" mnemonicParsing="false" onAction="#buttonCreatePressed" text="Add" />
             <CheckBox layoutX="454.0" layoutY="332.0" mnemonicParsing="false" text="Fill" />
             <Button fx:id="btnExit" layoutX="14.0" layoutY="396.0" mnemonicParsing="false" onAction="#exit" prefHeight="38.0" prefWidth="89.0" text="Exit" />
             <Button fx:id="btnSave" layoutX="628.0" layoutY="396.0" mnemonicParsing="false" onAction="#buttonSavePressed" prefHeight="38.0" prefWidth="89.0" text="Save" />
-            <AnchorPane fx:id="canvas1" layoutX="207.0" layoutY="14.0" maxHeight="400.0" maxWidth="400.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="246.0" prefWidth="317.0" scaleShape="false" snapToPixel="false" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="14.0" />
+            <AnchorPane fx:id="canvas1" layoutX="254.0" layoutY="55.0" prefHeight="200.0" prefWidth="200.0" />
          </children>
     </AnchorPane>
   </children>
