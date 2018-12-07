@@ -22,13 +22,45 @@ import javafx.stage.Stage;
 public class DashboardController {
 
 	private User user;
-	
-	@FXML Label lblWelcome;	
-	@FXML Label lblUsername;	
-	@FXML Button btnExit;
-	@FXML Button btnLogout;
 
+	@FXML
+	Label lblWelcome;
+	@FXML
+	Label lblUsername;
+	@FXML
+	Button btnExit;
+	@FXML
+	Button btnLogout;
+	@FXML
+	Button btnEdit;
 
+	@FXML
+	private void editProfile() {
+		int selection = SelectionBox.display("Select", "What do you want to edit", "Edit Personal Details",
+				"Select new Profile Picture from Library", "Draw your own profile picture");
+		try {
+			switch (selection) {
+			case 1:
+				// Edit profile details
+				break;
+			case 2:
+				// Edit personal details
+				break;
+			case 3:
+				// Draw custom image
+				loadImageDrawer();
+				break;
+			// TODO: Throw an exception if the window has closed an no value returned.
+			}
+		} catch (IOException e) {
+			System.out.println("Caught IO Exception coming from " + e.getCause() + e.getClass() + " from class "
+					+ this.getClass().toString());
+			System.out.println(e.getMessage());
+			System.out.println("\n");
+			e.printStackTrace();
+			Platform.exit();
+		}
+	}
 
 	@FXML
 	public void exit() {
@@ -37,7 +69,7 @@ public class DashboardController {
 			Platform.exit();
 		}
 	}
-	
+
 	@FXML
 	public void logout() throws IOException {
 		Stage window = (Stage) btnExit.getScene().getWindow();
@@ -45,6 +77,16 @@ public class DashboardController {
 		window.setScene(new Scene(previous));
 	}
 
+	private void loadImageDrawer() throws IOException {
+		Stage window = new Stage();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateImage.fxml"));
+		Pane pane = loader.load();
+		ImageController controller = loader.getController();
+		Scene scene = new Scene(pane);
+		window.setScene(scene);
+		controller.passStageReference(window);
+		window.show();
+	}
 
 	public void setUser(User user) {
 		this.user = user;
@@ -52,9 +94,12 @@ public class DashboardController {
 		lblWelcome.setText("Welcome " + user.getForename());
 	}
 
+	public User getUser() {
+		return user;
+	}
+
 	public void initialize() {
 
-		
 	}
 
 }
