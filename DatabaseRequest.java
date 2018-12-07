@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -65,28 +66,29 @@ public class DatabaseRequest {
 		//		- the other inserts the user into either the LIBRARIAN or BORROWER table
 				
 		// user table insertion
-		Statement queries = conn.createStatement();
-		queries.addBatch("INSERT INTO LIBRARY_USER VALUES(" +
-								"'" + newUser.getUsername() + "', " +
-								"'" + newUser.getForename() + "', " +
-								"'" + newUser.getSurname() + "'," +
-								"'" + newUser.getPhoneNumber() + "', " +
-								"'" + newUser.getAddress() + "', " +
-								"'" + newUser.getProfileImage().getImage() + "')");
+		PreparedStatement userQuery = conn.prepareStatement("INSERT INTO LIBRARY_USER VALUES(?, ?, ?, ?, ?, ?)");
+		userQuery.setString(1, newUser.getUsername());
+		userQuery.setString(2, newUser.getForename());
+		userQuery.setString(3, newUser.getSurname());
+		userQuery.setString(4, newUser.getPhoneNumber());
+		userQuery.setString(5, newUser.getAddress());
+		userQuery.setString(6, newUser.getProfileImage().getImage());
+		
+		userQuery.executeQuery();
 		
 		// librarian/borrower table insertion	
+		Statement custQuery = conn.createStatement();
+		
 		if (newUser instanceof Librarian) {
-			queries.addBatch(
+			custQuery.executeQuery(
 					"INSERT INTO LIBRARIAN VALUES('" + newUser.getUsername() + "', " +
 							"'" + ((Librarian)newUser).getEmploymentDate().toString() + "', " +
 							((Librarian)newUser).getStaffNumber() + ")");
 		} else {
-			queries.addBatch(
+			custQuery.executeQuery(
 					"INSERT INTO BORROWER VALUES('" + newUser.getUsername() + "', " +
 							((Borrower)newUser).getBalance() + ")");
 		}
-		
-		queries.executeBatch();	// Execute both statements in sequence
 	}
 	
 	public void editUser(User newDetails) throws SQLException {
