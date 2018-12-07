@@ -82,6 +82,7 @@ public class DashboardController {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateImage.fxml"));
 		Pane pane = loader.load();
 		ImageController controller = loader.getController();
+		controller.setUser(user);
 		Scene scene = new Scene(pane);
 		window.setScene(scene);
 		controller.passStageReference(window);

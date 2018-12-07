@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -8,6 +9,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -20,6 +22,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -34,6 +37,12 @@ import javafx.stage.Stage;
 
 
 public class ImageController {
+	
+	Rectangle rectangleR;
+    double orgSceneX, orgSceneY;
+    double orgTranslateX, orgTranslateY;
+    
+    private User user;
 	
 	private Stage window;
 	
@@ -59,7 +68,10 @@ public class ImageController {
 	private VBox editorScene;
 	
 	@FXML
-	private Canvas canvas1;
+	private AnchorPane anch;
+	
+	@FXML
+	private AnchorPane canvas1;
 
 
 		
@@ -72,26 +84,19 @@ public class ImageController {
 	
 	@FXML
 	public void buttonCreatePressed() throws IOException{
-		    //Circle circleR = new Circle(70.0f, Color.RED);
-	        //circleR.setCursor(Cursor.HAND);
-	        //circleR.setCenterX(150);
-	        //circleR.setCenterY(150);
-	        //circleR.setOnMousePressed(circleOnMousePressedEventHandler);
-	        //circleR.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+		
+				rectangleR = new Rectangle(100,100,100,100);
+    			rectangleR.setFill(pickColour.getValue());
+    			rectangleR.setCursor(Cursor.MOVE);
+    			rectangleR.setOnMousePressed(rectangleOnMousePressedEventHandler);
+    			rectangleR.setOnMouseDragged(rectangleOnMouseDraggedEventHandler);
 				int x = 100;
 				int y = 100;
 				
-				// Access the graphic context of the canvas
-				GraphicsContext gc = canvas1.getGraphicsContext2D();
-				
-				// Set the fill color to Red
-				gc.setFill(pickColour.getValue());
-				
-				// Draw a circle at the coordinates
-				gc.fillRect(x, y, 40, 40);
+				canvas1.getChildren().addAll(rectangleR);
 	}
 	@FXML
-	public void buttonSavePressed() {
+	public void buttonSavePressed() throws SQLException {
 		WritableImage image = canvas1.snapshot(new SnapshotParameters(), null);
 	    
 	    // TODO: probably use a file chooser here
@@ -99,6 +104,11 @@ public class ImageController {
 	    
 	    try {
 	        ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+	        UserImage custom = new UserImage("image_files\\custom.png");
+	        user.setProfileImage(custom);
+	        DatabaseRequest db1 = new DatabaseRequest();
+	        db1.editUser(user);
+	        
 	    } catch (IOException e) {
 	        // TODO: handle exception here
 	    }
@@ -115,4 +125,32 @@ public class ImageController {
 		window.close();
 	}
 
+	EventHandler<MouseEvent> rectangleOnMousePressedEventHandler = 
+            new EventHandler<MouseEvent>() {
+     
+            @Override
+            public void handle(MouseEvent t) {
+                orgSceneX = t.getSceneX();
+                orgSceneY = t.getSceneY();
+                orgTranslateX = ((Rectangle)(t.getSource())).getTranslateX();
+                orgTranslateY = ((Rectangle)(t.getSource())).getTranslateY();
+            }
+            };
+         EventHandler<MouseEvent> rectangleOnMouseDraggedEventHandler = 
+            new EventHandler<MouseEvent>() {
+     
+            @Override
+            public void handle(MouseEvent t) {
+                double offsetX = t.getSceneX() - orgSceneX;
+                double offsetY = t.getSceneY() - orgSceneY;
+                double newTranslateX = orgTranslateX + offsetX;
+                double newTranslateY = orgTranslateY + offsetY;
+                 
+                ((Rectangle)(t.getSource())).setTranslateX(newTranslateX);
+                ((Rectangle)(t.getSource())).setTranslateY(newTranslateY);
+            }
+        };
+	public void setUser(User user) {
+		this.user = user;
+	}
 }
