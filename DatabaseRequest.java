@@ -12,7 +12,6 @@ import java.util.Arrays;
    
 	+ search(tables : string, fieldName : string, query : string, numberOfResults : int) : ArrayList<Object>
 
-	+ getLoanHistory(copyID : string) : ArrayList<Loan>
 	+ getOldestLoan(resourceID : string
 	+ getOverdueLoans() : ArrayList<Copy>
 	+ count copies
@@ -51,16 +50,13 @@ public class DatabaseRequest {
 //		}
 //	}
 	
-	public DatabaseRequest() {
+	public DatabaseRequest() throws SQLException {
 		establishConnection();
 	}
 	
-	private void establishConnection() {
-		try {
-			conn = DriverManager.getConnection("jdbc:derby:" + DATABASE_NAME);
-		} catch (SQLException e) {
-			System.out.println("ERROR: " + e.getMessage());
-		}
+	private void establishConnection() throws SQLException {
+		conn = DriverManager.getConnection("jdbc:derby:" + DATABASE_NAME);
+		conn.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 	}
 	
 	public void addUser(User newUser) throws SQLException {
@@ -476,24 +472,44 @@ public class DatabaseRequest {
 		return out;
 	}
 	
-//	public ArrayList<Loan> getLoanHistory(String copyID) throws SQLException {
+	public ArrayList<Loan> getLoanHistory(String copyID) throws SQLException {
+		Statement query = conn.createStatement();
+		
+		ResultSet results = query.executeQuery("SELECT * FROM LOAN WHERE COPY_ID = " + copyID);
+		
+		ArrayList<Loan> out = new ArrayList<Loan>();
+		Loan temp;
+		
+		while (results.next()) {
+			temp = new Loan(results.getString(1),	// loanID
+					new Date(results.getString(2)),	// issue date
+					results.getString(3),	// username
+					results.getString(4),	// copyID
+					new Date(results.getString(5)));	// return date
+			
+			out.add(temp);
+		}
+		
+		return out;
+	}
+
+//	public Loan getOldestLoan(String resourceID) throws SQLException {
 //		Statement query = conn.createStatement();
 //		
 //		ResultSet results = query.executeQuery("SELECT * FROM LOAN WHERE COPY_ID = " + copyID);
 //		
 //		ArrayList<Loan> out = new ArrayList<Loan>();
-//		Resource temp;
+//		Loan temp;
 //		
 //		while (results.next()) {
 //			temp = new Loan(results.getString(1),	// loanID
-//					results.getString(2),	// issue date
-//					results.getInt(3),	// year
-//					new Thumbnail(results.getString(4)),	// thumbnail
-//					convertRequestQueue(results.getString(5)));	// request queue
+//					new Date(results.getString(2)),	// issue date
+//					results.getString(3),	// username
+//					results.getString(4),	// copyID
+//					new Date(results.getString(5)));	// return date
 //			
 //			out.add(temp);
 //		}
-//		
-//		return out;
+//		return null;
 //	}
 }
