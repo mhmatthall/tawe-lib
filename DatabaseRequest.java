@@ -1,7 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -11,13 +10,8 @@ import java.util.Arrays;
    @author Matt Hall
    @version 1.0
    
-	+ addCopy(newCopy : Copy)
-   	+ editCopy
-	+ deleteCopy(copyID : string)
-	+ editCopy(copyID : string, newDetails : Copy)
-	+ getCopy
 	+ search(tables : string, fieldName : string, query : string, numberOfResults : int) : ArrayList<Object>
-	+ browse(table : string) : ArrayList<Object>
+
 	+ getLoanHistory(copyID : string) : ArrayList<Loan>
 	+ getOldestLoan(resourceID : string
 	+ getOverdueLoans() : ArrayList<Copy>
@@ -86,14 +80,9 @@ public class DatabaseRequest {
 		
 		// librarian/borrower table insertion	
 		if (newUser instanceof Librarian) {
-			// Reformatting date for database insertion
-			Date ed = ((Librarian)newUser).getEmploymentDate();
-			System.out.println("Employment date hopefully with leading 0s: " + ed.toString());
-			String employmentDate = ed.getDay() + ed.getMonth() + ed.getYear();
-			System.out.println("Employment date "  + employmentDate);
 			queries.addBatch(
 					"INSERT INTO LIBRARIAN VALUES('" + newUser.getUsername() + "', " +
-							 employmentDate + ", " +
+							((Librarian)newUser).getEmploymentDate().toString() + ", " +
 							((Librarian)newUser).getStaffNumber() + ")");
 		} else {
 			queries.addBatch(
@@ -115,14 +104,10 @@ public class DatabaseRequest {
 						"profile_image = '" + newDetails.getProfileImage().getImage() + "' " +
 						"WHERE username = '" + newDetails.getUsername() + "'");
 		
-		if (newDetails instanceof Librarian) {
-			// Reformatting date for database insertion
-			Date ed = ((Librarian)newDetails).getEmploymentDate();
-			String employmentDate = ed.getDay() + ed.getMonth() + ed.getYear();
-			
+		if (newDetails instanceof Librarian) {			
 			query.addBatch("UPDATE LIBRARIAN SET " +
 							"staff_number = " + ((Librarian) newDetails).getStaffNumber() + ", " +
-							"employment_date = " + employmentDate + " " +
+							"employment_date = " + ((Librarian)newDetails).getEmploymentDate().toString() + " " +
 							"WHERE username = '" + newDetails.getUsername() + "'");
 		} else {
 			query.addBatch("UPDATE BORROWER SET " +
@@ -160,12 +145,6 @@ public class DatabaseRequest {
 					+ "WHERE LIBRARY_USER.USERNAME = '" + username + "'");
 			results.next();
 			
-			String ed = results.getString(8);	// employment date
-			System.out.println("Employment date hopefully with leading 0s: " + ed);
-			Date empDate = new Date(Integer.parseInt(ed.substring(0, 1)),
-									Integer.parseInt(ed.substring(1, 2)),
-									Integer.parseInt(ed.substring(2, 4)));
-			
 			out = new Librarian(username,
 					results.getString(2),	// forename
 					results.getString(3),	// surname
@@ -173,7 +152,7 @@ public class DatabaseRequest {
 					results.getString(5),	// address
 					new UserImage(results.getString(6)),	// profile image
 					results.getInt(7),	// staff number
-					empDate);
+					new Date(results.getString(8)));	// employment date
 			
 		} else {
 			// User is a borrower
@@ -333,7 +312,7 @@ public class DatabaseRequest {
 					results.getString(6),	// author
 					results.getString(7),	// publisher
 					results.getString(8),	// genre
-					results.getInt(9),	// isbn
+					results.getString(9),	// isbn
 					results.getString(10));	// language
 			
 		} else if (getResourceType(resourceID).equals("DVD")) {
@@ -450,46 +429,71 @@ public class DatabaseRequest {
 		query.executeUpdate("DELETE FROM COPY WHERE copy_id = '" + copyID + "'");
 	}
 	
-	///not finished don't use!!!!////////////////////////////////////
-	
-	public ArrayList<ArrayList<String>> retrieve(String name) throws SQLException {
-		return retrieve(name, null);
-	}
-	
-	public ArrayList<ArrayList<String>> retrieve(String name, String condition) throws SQLException {
-		name = name.toUpperCase();
-		
-		// Alters request for USER table to LIBRARY_USER table in order to match actual database table name
-		if (name == "USER") {
-			name = "LIBRARY_USER";
-		}
-		
+	public ArrayList<Borrower> browseBorrowers() throws SQLException {
 		Statement query = conn.createStatement();
-		ResultSet results;
 		
-		if (condition == null) {
-			// If we haven't been given a condition, then just select all from table
-			results = query.executeQuery("SELECT * FROM " + name);
-		} else {
-			// If we have been given a condition, then refine the query
-			results = query.executeQuery("SELECT * FROM " + name + " WHERE " + condition);	// Run the SELECT query with the filter criteriaResultSet results = executeBrowse(name, condition);			
-		}
+		ResultSet results = query.executeQuery("SELECT LIBRARY_USER.*, BORROWER.BALANCE"
+				+ " FROM LIBRARY_USER INNER JOIN BORROWER"
+				+ " ON USER.USERNAME = BORROWER.USERNAME");
+		results.next();
 		
-		// Get the number of columns in the table from its metadata
-		ResultSetMetaData resmd = results.getMetaData();
-		int columnCount = resmd.getColumnCount();
+		ArrayList<Borrower> out = new ArrayList<Borrower>();
+		Borrower temp;
 		
-		ArrayList<String> attributes = new ArrayList<>(columnCount);	// Stores the data for each row in the table
-		ArrayList<ArrayList<String>> rows = new ArrayList<>();	// Stores the rows of the table
-
 		while (results.next()) {
-			int i = 1;
-			while (i <= columnCount) {
-				attributes.add(results.getString(i++));	// Get value at column i, then immediately increment i
-			}
-			rows.add(new ArrayList<>(attributes));	// Adds the current row to the output list
-			attributes.clear();	// Clears the data for the current row, ready for the next
+			temp = new Borrower(results.getString(1),	// username
+					results.getString(2),	// forename
+					results.getString(3),	// surname
+					results.getString(4),	// phone number
+					results.getString(5),	// address
+					new UserImage(results.getString(6)), // profile image
+					results.getDouble(7));	// balance
+			
+			out.add(temp);
 		}
-		return rows;
+		
+		return out;
 	}
+	
+	public ArrayList<Resource> browseResources() throws SQLException {
+		Statement query = conn.createStatement();
+		
+		ResultSet results = query.executeQuery("SELECT * FROM RESOURCE");
+		
+		ArrayList<Resource> out = new ArrayList<Resource>();
+		Resource temp;
+		
+		while (results.next()) {
+			temp = new Resource(results.getString(1),	// resourceID
+					results.getString(2),	// title
+					results.getInt(3),	// year
+					new Thumbnail(results.getString(4)),	// thumbnail
+					convertRequestQueue(results.getString(5)));	// request queue
+			
+			out.add(temp);
+		}
+		
+		return out;
+	}
+	
+//	public ArrayList<Loan> getLoanHistory(String copyID) throws SQLException {
+//		Statement query = conn.createStatement();
+//		
+//		ResultSet results = query.executeQuery("SELECT * FROM LOAN WHERE COPY_ID = " + copyID);
+//		
+//		ArrayList<Loan> out = new ArrayList<Loan>();
+//		Resource temp;
+//		
+//		while (results.next()) {
+//			temp = new Loan(results.getString(1),	// loanID
+//					results.getString(2),	// issue date
+//					results.getInt(3),	// year
+//					new Thumbnail(results.getString(4)),	// thumbnail
+//					convertRequestQueue(results.getString(5)));	// request queue
+//			
+//			out.add(temp);
+//		}
+//		
+//		return out;
+//	}
 }
