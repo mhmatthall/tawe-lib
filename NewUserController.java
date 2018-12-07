@@ -83,17 +83,23 @@ public class NewUserController {
 		String phone = txtPhone.getText();
 		String address = txtAddress.getText();
 		String username = txtUsername.getText();
-		UserImage profPic = new UserImage("C:/Users/lkonn/Google Drive/University/Year 2/CS230/Assignment 2/tawe-lib/image_files/jeremy.jpeg");
+//		if (new DatabaseRequest().getUser(username) != null) {
+//			AlertBox.display("Username Already Exists!");
+//			return;
+//		}
+		UserImage profPic = new UserImage(null);
 
 		if (isLibrarian) {
 			int staffNum = Integer.parseInt(txtStaffNum.getText());
+			System.out.println("staffNum is: " + staffNum);
 			String emp = txtEmpDate.getText();
 			Scanner read = new Scanner(emp);
 					int empDay = read.nextInt();
 					int empMonth = read.nextInt();
 					int empYear = read.nextInt();
-					Date empDate = new Date(empDay, empMonth, empYear);
-			read.close();
+					read.close();
+			Date empDate = new Date(empDay, empMonth, empYear);
+			
 
 			Librarian lib1 = new Librarian(username, forename, surname, phone, address, profPic, staffNum, empDate);
 			DatabaseRequest db = new DatabaseRequest();

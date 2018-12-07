@@ -2,8 +2,8 @@
  * Created by Matt
  */
 public class Librarian extends User {
-	private int staffNumber;
-	private Date employmentDate;
+	protected int staffNumber;
+	protected Date employmentDate;
 	
 	public Librarian(String username, String forename, String surname, String phoneNumber, String address,
 			UserImage profileImage, int staffNumber, Date employmentDate) {
