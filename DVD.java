@@ -8,7 +8,7 @@ public class DVD extends Resource {
 	private String language;
 	private ArrayList<String> subLang = new ArrayList<String>();
 	
-	public DVD(String title, int year, Thumbnail thumbnail, RequestQueue queue, String director, int runtime, String language) {
+	public DVD(String title, int year, Thumbnail thumbnail, String director, int runtime, String language) {
 		super(title, year, thumbnail);
 		this.director = director;
 		this.language = language;

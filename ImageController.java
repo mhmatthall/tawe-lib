@@ -5,18 +5,24 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -24,9 +30,13 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.RectangleBuilder;
+import javafx.stage.Stage;
+
 
 public class ImageController {
+	
+	private Stage window;
+	
 	@FXML
 	public Button btnCreate;
 	
@@ -42,15 +52,23 @@ public class ImageController {
 	@FXML
 	public CheckBox fill;
 
-	//@FXML
-	//public 
+	@FXML
+	public ChoiceBox<String> shapeType; 
 	
 	@FXML
 	private VBox editorScene;
 	
 	@FXML
 	private Canvas canvas1;
+
+
 		
+	@FXML
+	public void initialize() {
+	//    ObservableList<String> value = FXCollections.observableArrayList("apples", "oranges");
+	//	shapeType.setItems(value);
+	}
+	
 	
 	@FXML
 	public void buttonCreatePressed() throws IOException{
@@ -85,7 +103,16 @@ public class ImageController {
 	        // TODO: handle exception here
 	    }
 	}
-	
-	
+
+
+	public void passStageReference(Stage window) {
+		this.window = window;
+		
+	}
+
+	@FXML
+	private void exit() {
+		window.close();
+	}
 
 }

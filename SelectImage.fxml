@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="475.0" prefWidth="731.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ImageController">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <children>
-    <MenuBar prefHeight="27.0" prefWidth="624.0" VBox.vgrow="NEVER">
+    <MenuBar VBox.vgrow="NEVER">
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
@@ -54,15 +52,45 @@
       </menus>
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-         <children>
-            <ColorPicker fx:id="pickColour" layoutX="261.0" layoutY="328.0" />
-            <ChoiceBox layoutX="59.0" layoutY="328.0" prefWidth="150.0" />
-            <Button id="btnCreate" fx:id="btnCreate" layoutX="590.0" layoutY="328.0" mnemonicParsing="false" onAction="#buttonCreatePressed" text="Add" />
-            <CheckBox layoutX="454.0" layoutY="332.0" mnemonicParsing="false" text="Fill" />
-            <Button fx:id = "btnExit" layoutX="14.0" layoutY="396.0" mnemonicParsing="false" onAction="#exit" prefHeight="38.0" prefWidth="89.0" text="Exit" />
-            <Button fx:id="btnSave" layoutX="628.0" layoutY="396.0" mnemonicParsing="false" onAction="#buttonSavePressed" prefHeight="38.0" prefWidth="89.0" text="Save" />
-            <Canvas id="canvas1" fx:id="canvas1" height="239.0" layoutX="196.0" layoutY="42.0" width="334.0" />
-         </children>
+      <children>
+            <Button layoutX="20.0" layoutY="324.0" mnemonicParsing="false" text="Exit" />
+            <Button layoutX="64.0" layoutY="33.0" mnemonicParsing="false" prefHeight="106.0" prefWidth="213.0" text="Book">
+               <graphic>
+                  <ImageView fitHeight="72.0" fitWidth="151.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image_files/Book.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button layoutX="362.0" layoutY="33.0" mnemonicParsing="false" text="Laptop">
+               <graphic>
+                  <ImageView fitHeight="113.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image_files/laptop.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button layoutX="98.0" layoutY="177.0" mnemonicParsing="false" text="Default">
+               <graphic>
+                  <ImageView fitHeight="124.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image_files/DefaultResource.jpg" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button layoutX="362.0" layoutY="195.0" mnemonicParsing="false" text="DVD">
+               <graphic>
+                  <ImageView fitHeight="132.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image_files/DVD.jpg" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+      </children>
     </AnchorPane>
   </children>
 </VBox>

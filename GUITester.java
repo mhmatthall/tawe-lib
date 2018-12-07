@@ -10,8 +10,8 @@ import javafx.stage.Stage;
 
 public class GUITester extends Application {
 
-	private static final int WINDOW_HEIGHT = 250;
-	private static final int WINDOW_WIDTH = 400;
+	private static final int WINDOW_HEIGHT = 500;
+	private static final int WINDOW_WIDTH = 600;
 	Stage window;
 
 	public static void main(String[] args) {
@@ -23,7 +23,7 @@ public class GUITester extends Application {
 		window = primaryStage;
 
 		// Specify the FXML controller
-		Parent root = FXMLLoader.load(getClass().getResource("CreateImage.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("SelectImage.fxml"));
 
 		window.setTitle("Tawe-Lib by SwanGroup42 Studios PLC.");
 		window.setOnCloseRequest(e -> {
@@ -36,7 +36,7 @@ public class GUITester extends Application {
 	
 	public static void showDashboard() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(GUIMain.class.getResource("CreateImage.fxml"));
+		loader.setLocation(GUIMain.class.getResource("SelectImage.fxml"));
 		//window.
 	}
 	
