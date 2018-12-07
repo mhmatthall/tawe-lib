@@ -21,7 +21,7 @@
    <bottom>
       <HBox spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnUpdate" minWidth="75.0" mnemonicParsing="false" onAction="#updateUser" text="Update Account" />
+            <Button fx:id="btnUpdate" minWidth="75.0" mnemonicParsing="false" onAction="#update" text="Update Account" />
             <Region HBox.hgrow="ALWAYS" />
             <Button fx:id="btnClose" minWidth="75.0" mnemonicParsing="false" onAction="#close" text="Cancel" />
          </children>
