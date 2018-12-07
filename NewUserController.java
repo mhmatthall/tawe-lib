@@ -89,15 +89,18 @@ public class NewUserController {
 			int staffNum = Integer.parseInt(txtStaffNum.getText());
 			String emp = txtEmpDate.getText();
 			Scanner read = new Scanner(emp);
-			int empDay = read.nextInt();
-			int empMonth = read.nextInt();
-			int empYear = read.nextInt();
-			Date empDate = new Date(empDay, empMonth, empYear);
+					int empDay = read.nextInt();
+					int empMonth = read.nextInt();
+					int empYear = read.nextInt();
+					Date empDate = new Date(empDay, empMonth, empYear);
 			read.close();
 
 			Librarian lib1 = new Librarian(username, forename, surname, phone, address, profPic, staffNum, empDate);
 			DatabaseRequest db = new DatabaseRequest();
 			db.addUser(lib1);
+			
+			System.out.println("Successfully Created new Librarian with ");
+			System.out.print("username: " + lib1.getUsername());
 
 		} else {
 			int balance = 0;
