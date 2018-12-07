@@ -20,6 +20,15 @@ public class Date {
 		setDate(year, month-1, day);
 	}
 	
+	public Date (String date) {
+		this.date = Calendar.getInstance();
+		int day = Integer.parseInt(date.substring(0, 2));
+		int month = Integer.parseInt(date.substring(2, 4));
+		int year = Integer.parseInt(date.substring(4, 8));
+		
+		setDate(year, month-1, day);
+	}
+	
 	/**
 	 * Initialises current date
 	 */
