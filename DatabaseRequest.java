@@ -107,7 +107,7 @@ public class DatabaseRequest {
 							"WHERE username = '" + newDetails.getUsername() + "'");
 		} else {
 			query.addBatch("UPDATE BORROWER SET " +
-					"balance = " + ((Borrower) newDetails).getBalance() + ", " +
+					"balance = " + ((Borrower) newDetails).getBalance() + " " +
 					"WHERE username = '" + newDetails.getUsername() + "'");
 		}
 		
