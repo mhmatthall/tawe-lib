@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class Drawrectangle extends Application{
@@ -15,6 +16,7 @@ public class Drawrectangle extends Application{
     
     public void start(Stage primaryStage) {
     	rectangleR = new Rectangle(200,200,400,140);
+    	rectangleR.setFill(value);
     	rectangleR.setCursor(Cursor.MOVE);
     	rectangleR.setOnMousePressed(rectangleOnMousePressedEventHandler);
     	rectangleR.setOnMouseDragged(rectangleOnMouseDraggedEventHandler);

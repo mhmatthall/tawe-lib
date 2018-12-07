@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,7 +13,6 @@ import java.util.Arrays;
    
 	+ search(tables : string, fieldName : string, query : string, numberOfResults : int) : ArrayList<Object>
 
-	+ getLoanHistory(copyID : string) : ArrayList<Loan>
 	+ getOldestLoan(resourceID : string
 	+ getOverdueLoans() : ArrayList<Copy>
 	+ count copies
@@ -51,16 +51,13 @@ public class DatabaseRequest {
 //		}
 //	}
 	
-	public DatabaseRequest() {
+	public DatabaseRequest() throws SQLException {
 		establishConnection();
 	}
 	
-	private void establishConnection() {
-		try {
-			conn = DriverManager.getConnection("jdbc:derby:" + DATABASE_NAME);
-		} catch (SQLException e) {
-			System.out.println("ERROR: " + e.getMessage());
-		}
+	private void establishConnection() throws SQLException {
+		conn = DriverManager.getConnection("jdbc:derby:" + DATABASE_NAME);
+		conn.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 	}
 	
 	public void addUser(User newUser) throws SQLException {
@@ -69,33 +66,29 @@ public class DatabaseRequest {
 		//		- the other inserts the user into either the LIBRARIAN or BORROWER table
 				
 		// user table insertion
-		Statement queries = conn.createStatement();
-		queries.addBatch("INSERT INTO LIBRARY_USER VALUES(" +
-								"'" + newUser.getUsername() + "', " +
-								"'" + newUser.getForename() + "', " +
-								"'" + newUser.getSurname() + "'," +
-								"'" + newUser.getPhoneNumber() + "', " +
-								"'" + newUser.getAddress() + "', " +
-								"'" + newUser.getProfileImage().getImage() + "')");
+		PreparedStatement userQuery = conn.prepareStatement("INSERT INTO LIBRARY_USER VALUES(?, ?, ?, ?, ?, ?)");
+		userQuery.setString(1, newUser.getUsername());
+		userQuery.setString(2, newUser.getForename());
+		userQuery.setString(3, newUser.getSurname());
+		userQuery.setString(4, newUser.getPhoneNumber());
+		userQuery.setString(5, newUser.getAddress());
+		userQuery.setString(6, newUser.getProfileImage().getImage());
+		
+		userQuery.executeQuery();
 		
 		// librarian/borrower table insertion	
+		Statement custQuery = conn.createStatement();
+		
 		if (newUser instanceof Librarian) {
-			// Reformatting date for database insertion
-			Date ed = ((Librarian)newUser).getEmploymentDate();
-			System.out.println("Employment date hopefully with leading 0s: " + ed.toString());
-			String employmentDate = ed.getDay() + ed.getMonth() + ed.getYear();
-			System.out.println("Employment date "  + employmentDate);
-			queries.addBatch(
+			custQuery.executeQuery(
 					"INSERT INTO LIBRARIAN VALUES('" + newUser.getUsername() + "', " +
-							 employmentDate + ", " +
+							"'" + ((Librarian)newUser).getEmploymentDate().toString() + "', " +
 							((Librarian)newUser).getStaffNumber() + ")");
 		} else {
-			queries.addBatch(
+			custQuery.executeQuery(
 					"INSERT INTO BORROWER VALUES('" + newUser.getUsername() + "', " +
 							((Borrower)newUser).getBalance() + ")");
 		}
-		
-		queries.executeBatch();	// Execute both statements in sequence
 	}
 	
 	public void editUser(User newDetails) throws SQLException {
@@ -109,18 +102,14 @@ public class DatabaseRequest {
 						"profile_image = '" + newDetails.getProfileImage().getImage() + "' " +
 						"WHERE username = '" + newDetails.getUsername() + "'");
 		
-		if (newDetails instanceof Librarian) {
-			// Reformatting date for database insertion
-			Date ed = ((Librarian)newDetails).getEmploymentDate();
-			String employmentDate = ed.getDay() + ed.getMonth() + ed.getYear();
-			
+		if (newDetails instanceof Librarian) {			
 			query.addBatch("UPDATE LIBRARIAN SET " +
 							"staff_number = " + ((Librarian) newDetails).getStaffNumber() + ", " +
-							"employment_date = " + employmentDate + " " +
+							"employment_date = '" + ((Librarian)newDetails).getEmploymentDate().toString() + "' " +
 							"WHERE username = '" + newDetails.getUsername() + "'");
 		} else {
 			query.addBatch("UPDATE BORROWER SET " +
-					"balance = " + ((Borrower) newDetails).getBalance() + ", " +
+					"balance = " + ((Borrower) newDetails).getBalance() + " " +
 					"WHERE username = '" + newDetails.getUsername() + "'");
 		}
 		
@@ -154,12 +143,6 @@ public class DatabaseRequest {
 					+ "WHERE LIBRARY_USER.USERNAME = '" + username + "'");
 			results.next();
 			
-			String ed = results.getString(8);	// employment date
-			System.out.println("Employment date hopefully with leading 0s: " + ed);
-			Date empDate = new Date(Integer.parseInt(ed.substring(0, 1)),
-									Integer.parseInt(ed.substring(1, 2)),
-									Integer.parseInt(ed.substring(2, 4)));
-			
 			out = new Librarian(username,
 					results.getString(2),	// forename
 					results.getString(3),	// surname
@@ -167,7 +150,7 @@ public class DatabaseRequest {
 					results.getString(5),	// address
 					new UserImage(results.getString(6)),	// profile image
 					results.getInt(7),	// staff number
-					empDate);
+					new Date(results.getString(8)));	// employment date
 			
 		} else {
 			// User is a borrower
@@ -491,24 +474,44 @@ public class DatabaseRequest {
 		return out;
 	}
 	
-//	public ArrayList<Loan> getLoanHistory(String copyID) throws SQLException {
+	public ArrayList<Loan> getLoanHistory(String copyID) throws SQLException {
+		Statement query = conn.createStatement();
+		
+		ResultSet results = query.executeQuery("SELECT * FROM LOAN WHERE COPY_ID = " + copyID);
+		
+		ArrayList<Loan> out = new ArrayList<Loan>();
+		Loan temp;
+		
+		while (results.next()) {
+			temp = new Loan(results.getString(1),	// loanID
+					new Date(results.getString(2)),	// issue date
+					results.getString(3),	// username
+					results.getString(4),	// copyID
+					new Date(results.getString(5)));	// return date
+			
+			out.add(temp);
+		}
+		
+		return out;
+	}
+
+//	public Loan getOldestLoan(String resourceID) throws SQLException {
 //		Statement query = conn.createStatement();
 //		
 //		ResultSet results = query.executeQuery("SELECT * FROM LOAN WHERE COPY_ID = " + copyID);
 //		
 //		ArrayList<Loan> out = new ArrayList<Loan>();
-//		Resource temp;
+//		Loan temp;
 //		
 //		while (results.next()) {
 //			temp = new Loan(results.getString(1),	// loanID
-//					results.getString(2),	// issue date
-//					results.getInt(3),	// year
-//					new Thumbnail(results.getString(4)),	// thumbnail
-//					convertRequestQueue(results.getString(5)));	// request queue
+//					new Date(results.getString(2)),	// issue date
+//					results.getString(3),	// username
+//					results.getString(4),	// copyID
+//					new Date(results.getString(5)));	// return date
 //			
 //			out.add(temp);
 //		}
-//		
-//		return out;
+//		return null;
 //	}
 }

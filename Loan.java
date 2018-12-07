@@ -5,7 +5,7 @@
 
 public class Loan {
 	private static int nextLoanID;
-	private String LoanID = ("L" + nextLoanID);
+	private String loanID = ("L" + nextLoanID);
 	private String copyID;
 	private Date issueDate;
 	private String username;
@@ -23,12 +23,20 @@ public class Loan {
 		nextLoanID++;
 	}
 
+	public Loan(String loanID, Date issueDate, String username, String copyID, Date returnDate) {
+		this.loanID = loanID;
+		this.issueDate = issueDate;
+		this.username = username;
+		this.copyID = copyID;
+		this.returnDate = returnDate;
+	}
+	
 	public String getLoanID() {
-		return LoanID;
+		return loanID;
 	}
 
 	public void setLoanID(String loanID) {
-		LoanID = loanID;
+		this.loanID = loanID;
 	}
 
 	public String getCopyID() {

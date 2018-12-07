@@ -49,6 +49,12 @@ public class User {
 		return profileImage;
 	}
 
+	public String toString() {
+		String x;
+		x = ("UserName: " + username + "\nForename: " + forename + "\nSurname: " + surname + "\nPhone Number: " + phoneNumber + "\nAddress: " + address);
+		return x;
+	}
+	
 //	public ArrayList[] browseResources(){
 //		ArrayList[] DVDs = new ArrayList[DatabaseRequest.viewTable("DVD")];
 //		ArrayList[] books = new ArrayList[DatabaseRequest.viewTable("Book")];
