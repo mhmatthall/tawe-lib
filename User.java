@@ -78,6 +78,24 @@ public class User {
 	public boolean isLibrarian() {
 		return isLibrarian;
 	}
+	
+	public String toString() {
+		String result;
+		result = "User ID: " + this.username;
+		result += "\nFirst Name; " + this.forename;
+		result += "\nLast Name; " + this.surname;
+		result += "\nPhone Number; " + this.phoneNumber;
+		result += "\nAddress; " + this.address;
+		result += "\nForename; " + this.forename;
+		if (this.isLibrarian) {
+			result += "\nAccount Type: LIBRARIAN";
+		} else {
+			result += "\nAccount Type: BORROWER";
+		}
+		
+		return result;
+	}
+	
 //	
 //	public loadUserData(){
 //	

@@ -41,6 +41,6 @@ public class Borrower extends User {
 	}
 	
 	public String toString() {
-		return "filler";
+		return "BORROWER toString NEEDS IMPLEMENTATION" ; //TODO REMOVE URGENTLY
 	}
 }

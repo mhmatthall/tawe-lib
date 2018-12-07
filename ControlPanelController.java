@@ -36,8 +36,9 @@ public class ControlPanelController {
 	Button btnCreateResource;
 	@FXML
 	Button btnSearchUser;
-	
-	
+	@FXML
+	Button btnNewUser;
+
 	// THE PROBLEM IS IN THESE 2
 	/*
 	 * @FXML Label lblUsername;
@@ -52,8 +53,7 @@ public class ControlPanelController {
 			Platform.exit();
 		}
 	}
-	
-	
+
 	@FXML
 	public void logout() throws IOException {
 		Stage window = (Stage) btnExit.getScene().getWindow();
@@ -86,9 +86,9 @@ public class ControlPanelController {
 			Platform.exit();
 		}
 	}
-	
-	//TODO: Throw exception or alerbox if one of the fields has been left empty
-	
+
+	// TODO: Throw exception or alerbox if one of the fields has been left empty
+
 	private void createLaptop() throws IOException {
 		Stage window = new Stage();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("NewLaptop.fxml"));
@@ -123,7 +123,7 @@ public class ControlPanelController {
 		window2.show();
 
 	}
-	
+
 	@FXML
 	private void searchUser() throws IOException {
 		Stage window3 = new Stage();
@@ -135,7 +135,7 @@ public class ControlPanelController {
 		controller.passStageReference(window3);
 		window3.show();
 	}
-	
+
 	@FXML
 	private void newUser() throws IOException {
 		Stage window = new Stage();
@@ -147,7 +147,7 @@ public class ControlPanelController {
 		controller.passStageReference(window);
 		window.show();
 	}
-	
+
 	// Set user object
 	public void setUser(User user) {
 		this.user = user;
