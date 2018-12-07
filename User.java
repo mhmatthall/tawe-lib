@@ -49,11 +49,11 @@ public class User {
 		return profileImage;
 	}
 
-	public String toString() {
-		String x;
-		x = ("UserName: " + username + "\nForename: " + forename + "\nSurname: " + surname + "\nPhone Number: " + phoneNumber + "\nAddress: " + address);
-		return x;
-	}
+	//public String toString() {
+		//String x;
+		//x = ("UserName: " + username + "\nForename: " + forename + "\nSurname: " + surname + "\nPhone Number: " + phoneNumber + "\nAddress: " + address);
+		//return x;
+	//}
 	
 //	public ArrayList[] browseResources(){
 //		ArrayList[] DVDs = new ArrayList[DatabaseRequest.viewTable("DVD")];
@@ -94,6 +94,10 @@ public class User {
 		}
 		
 		return result;
+	}
+
+	public void setProfileImage(UserImage profileImage) {
+		this.profileImage = profileImage;
 	}
 	
 //	

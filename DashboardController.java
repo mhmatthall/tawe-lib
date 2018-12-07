@@ -15,9 +15,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.image.*;
 
 public class DashboardController {
 
@@ -33,6 +35,8 @@ public class DashboardController {
 	Button btnLogout;
 	@FXML
 	Button btnEdit;
+	@FXML
+	public ImageView userimage;
 
 	@FXML
 	private void editProfile() {
@@ -91,6 +95,7 @@ public class DashboardController {
 
 	public void setUser(User user) {
 		this.user = user;
+		//userimage.setImage(new Image(user.getProfileImage().getImage()));
 		lblUsername.setText("Username: " + user.getUsername());
 		lblWelcome.setText("Welcome " + user.getForename());
 	}
@@ -100,7 +105,7 @@ public class DashboardController {
 	}
 
 	public void initialize() {
-
+		
 	}
 
 }

@@ -9,8 +9,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class UserImage extends Image {
-	private String defaultFilename;
+public class UserImage extends MyImage {
+	private String defaultFilename = "image_files//Jeremy.jpg";
     private String[] premadeImages = {"ProfilePic1.jpg","ProfilePic2.jpg","ProfilePic3.jpg","ProfilePic4.jpg"};
 	
 	public UserImage(String fileName) {
