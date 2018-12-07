@@ -1,8 +1,5 @@
 import java.util.ArrayList;
 
-/*
- * TODO Complete setter methods
- */
 public class DVD extends Resource {
 	protected static double fineDay = 2.00;
 	protected static double fineMax = 25.00;
@@ -11,7 +8,7 @@ public class DVD extends Resource {
 	private String language;
 	private ArrayList<String> subLang = new ArrayList<String>();
 	
-	public DVD(String title, int year, Thumbnail thumbnail, RequestQueue queue, String director, int runtime, String language) {
+	public DVD(String title, int year, Thumbnail thumbnail, String director, int runtime, String language) {
 		super(title, year, thumbnail);
 		this.director = director;
 		this.language = language;
@@ -31,36 +28,36 @@ public class DVD extends Resource {
 		x = ("Title: " + title + " \nYear: " + year + " \nDirector: " + director + " \nRuntime: " + runtime + " \nLanguage: " + language);
 		return x;
 	}
-	
+
 	public String getDirector() {
 		return director;
 	}
-	
+
+	public void setDirector(String director) {
+		this.director = director;
+	}
+
 	public int getRuntime() {
 		return runtime;
 	}
-	
+
+	public void setRuntime(int runtime) {
+		this.runtime = runtime;
+	}
+
 	public String getLanguage() {
 		return language;
 	}
-	
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
 	public ArrayList<String> getSubLang() {
 		return subLang;
 	}
-	
-	public void setDirector(String director) {
-		
-	}
-	
-	public void setRuntime(int runtime) {
-		
-	}
-	
-	public void setLanguage(String language) {
-		
-	}
-	
-	public void setSubLang(ArrayList<String> SubLang) {
-		
+
+	public void setSubLang(ArrayList<String> subLang) {
+		this.subLang = subLang;
 	}
 }
