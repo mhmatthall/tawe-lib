@@ -51,10 +51,10 @@ public class Date {
 	 * @return day
 	 */
 	public String getDay() {
-		if (date.get((Calendar.MONTH) + 1) < 10) {
-			return "0" + (date.get(Calendar.DATE) + 1);
+		if (date.get((Calendar.DATE)) < 10) {
+			return "0" + (date.get(Calendar.DATE));
 		}else {
-			return "" + (date.get(Calendar.DATE) + 1);
+			return "" + (date.get(Calendar.DATE));
 		}
 		
 	}
