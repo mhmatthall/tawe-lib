@@ -97,6 +97,12 @@ public class Fine {
 	public void setPaid(boolean paid) {
 		this.paid = paid;
 	}
+	
+	public double getMinimumPayment() {
+		return MINIMUM_PAYMENT;
+	}
+	
+	
 
 
 	/*
@@ -134,19 +140,8 @@ public class Fine {
 	 * @param amount
 	 * 		The amount paid. Fine may have only been partially paid
 	 */
-	public void payFine(double amount) throws IllegalArgumentException {
-		if (amount < MINIMUM_PAYMENT) {
-			throw new IllegalArgumentException("Can't pay less than £" + MINIMUM_PAYMENT);
-		} else if (amount > (this.amountLeft - amountPaid)) {
-			throw new IllegalArgumentException("Can't pay more than total fine amount");
-		}
-		amountPaid += amount;
-		amountLeft -= amount;
-		
-		if (amountLeft <= amountPaid) {
-			setPaid();
-		}
-	}
+	
+	
 
 	//TODO : IMPLEMENT TOSTRING()
 	

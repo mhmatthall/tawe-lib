@@ -44,6 +44,7 @@ public class Loan {
 	public boolean isReturned() {
 		return isReturned;
 	}
+	
 	public void returnResource() {
 		isReturned = true;
 	}
@@ -84,16 +85,21 @@ public class Loan {
 		this.returnDate = returnDate;
 	}
 
-	public void setLoanStatus(Boolean isOnLoan) throws SQLException {
+	public void setLoanStatus(boolean isOnLoan) throws SQLException {
 		Copy c = new DatabaseRequest().getCopy(copyID);
 		c.setOnLoan(isOnLoan);
 		new DatabaseRequest().editCopy(c);
 	}
 	
-	public void setReservationStatus(Boolean isReserved) throws SQLException{
+	public void setReservationStatus(boolean isReserved, String newUsername) throws SQLException{
 		Copy c = new DatabaseRequest().getCopy(copyID);
 		c.setReserved(isReserved);
+		c.setReservingUser(newUsername);
 		new DatabaseRequest().editCopy(c);
 		
 	}
+	
+	
+		
+	
 }

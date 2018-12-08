@@ -75,6 +75,9 @@ public class Copy {
 	}
 
 	public void setLoanTime(int loanTime) {
-		this.loanTime = loanTime;
-	}	
+		this.loanTime = loanTime;	
+		}
+	
+
+	
 }
