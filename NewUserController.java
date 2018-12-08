@@ -83,10 +83,14 @@ public class NewUserController {
 		String phone = txtPhone.getText();
 		String address = txtAddress.getText();
 		String username = txtUsername.getText();
-//		if (new DatabaseRequest().getUser(username) != null) {
-//			AlertBox.display("Username Already Exists!");
-//			return;
-//		}
+		
+		//Check if username is taken
+		if (new DatabaseRequest().getUser(username) != null) {
+			AlertBox.display("Username Not Available!");
+			txtUsername.setText("");
+			return;
+		}
+
 		UserImage profPic = new UserImage(null);
 
 		if (isLibrarian) {
@@ -94,17 +98,16 @@ public class NewUserController {
 			System.out.println("staffNum is: " + staffNum);
 			String emp = txtEmpDate.getText();
 			Scanner read = new Scanner(emp);
-					int empDay = read.nextInt();
-					int empMonth = read.nextInt();
-					int empYear = read.nextInt();
-					read.close();
+			int empDay = read.nextInt();
+			int empMonth = read.nextInt();
+			int empYear = read.nextInt();
+			read.close();
 			Date empDate = new Date(empDay, empMonth, empYear);
-			
 
 			Librarian lib1 = new Librarian(username, forename, surname, phone, address, profPic, staffNum, empDate);
 			DatabaseRequest db = new DatabaseRequest();
 			db.addUser(lib1);
-			
+
 			System.out.println("Successfully Created new Librarian with ");
 			System.out.print("username: " + lib1.getUsername());
 

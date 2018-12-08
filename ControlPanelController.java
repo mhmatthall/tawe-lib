@@ -152,7 +152,7 @@ public class ControlPanelController {
 	public void setUser(User user) {
 		this.user = user;
 		lblUsername.setText("Username: " + user.getUsername());
-		lblWelcome.setText("Welcome " + user.getForename());
+		lblWelcome.setText("Welcome " + user.getForename() + " " + user.getSurname());
 	}
 
 }

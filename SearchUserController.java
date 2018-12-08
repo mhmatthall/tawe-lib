@@ -34,10 +34,9 @@ public class SearchUserController {
 
 		userID = txtUserID.getText();
 
-		System.out.println("Searching for user with userID" + userID);
 		try {
 			user = new DatabaseRequest().getUser(userID);
-			System.out.println("Successfully found user " + user.toString());
+			// System.out.println("Successfully found user " + user.toString());
 			window.close();
 			editUser(user);
 		} catch (SQLException e1) {
@@ -45,8 +44,7 @@ public class SearchUserController {
 			txtUserID.setText("");
 			return;
 		} catch (IOException e2) {
-			System.out.println("Caught IO Exception coming from " + e2.getCause() + e2.getClass() + " from class "
-					+ this.getClass().toString());
+			System.out.println("Caught IO Exception coming from class " + this.getClass().toString());
 			System.out.println(e2.getMessage());
 			System.out.println("\n");
 			e2.printStackTrace();
@@ -63,10 +61,8 @@ public class SearchUserController {
 		controller.passStageReference(window);
 		controller.setUser(user);
 		window.show();
-		
+
 	}
-
-
 
 	/*
 	 * FUNDAMENTAL CHANGE NEEDED. REMOVE LIST VIEW AND HAVE A PLAIN SEARCH TEXTFIELD
@@ -88,6 +84,5 @@ public class SearchUserController {
 	public void passStageReference(Stage window) {
 		this.window = window;
 	}
-
 
 }

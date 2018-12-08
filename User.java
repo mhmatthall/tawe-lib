@@ -49,7 +49,7 @@ public class User {
 		return profileImage;
 	}
 
-	public String toString() {
+	public String toStringOld() {
 		String x;
 		x = ("UserName: " + username + "\nForename: " + forename + "\nSurname: " + surname + "\nPhone Number: " + phoneNumber + "\nAddress: " + address);
 		return x;

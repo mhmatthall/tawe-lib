@@ -31,22 +31,31 @@ public class EditUserController {
 	TextField txtPhone;
 	@FXML
 	TextField txtAddress;
-
 	@FXML
 	Button btnUpdate;
 	@FXML
 	Button btnClose;
+	@FXML
+	Button btnDelete;
 
 	private Stage window;
 
 	@FXML
-	private void updateUser() {
-
+	private void close() {
+		window.close();
 	}
 
 	@FXML
-	private void close() {
-		window.close();
+	private void deleteUser() throws SQLException {
+		boolean choice = ConfirmationBox.display("WARNING", "Are you sure you delete this user?");
+		if (choice) {
+			new DatabaseRequest().deleteUser(lblUsername.getText());
+			AlertBox.display("User deleted");
+			window.close();
+			return;
+		} else {
+			return;
+		}
 	}
 
 	public void passStageReference(Stage window) {
@@ -71,33 +80,35 @@ public class EditUserController {
 			Integer stuffNum = (((Librarian) user).getStaffNumber());
 			lblStaff.setText(stuffNum.toString());
 		} else {
-			lblAccType.setText("User");		
+			lblAccType.setText("User");
 
 		}
 
 	}
 
-	public void initialize() {
-		System.out.println("I have been initialized and i'm so proud of it");
-	}
-	
 	@FXML
 	public void update() throws SQLException {
+		String username = lblUsername.getText();
 		String firstName = txtFname.getText();
 		String lastName = txtLname.getText();
 		String phone = txtPhone.getText();
 		String address = txtAddress.getText();
+
+		
 		if (user.isLibrarian()) {
-			Librarian updatedUser = new Librarian (user.getUsername(), firstName, lastName, phone, address,
-					user.getProfileImage(), ((Librarian)user).getStaffNumber(), ((Librarian)user).getEmploymentDate());
+			Librarian updatedUser = new Librarian(user.getUsername(), firstName, lastName, phone, address,
+					user.getProfileImage(), ((Librarian) user).getStaffNumber(),
+					((Librarian) user).getEmploymentDate());
 			new DatabaseRequest().editUser(updatedUser);
+			AlertBox.display("User Updated");
 		} else {
 			Borrower updatedUser = new Borrower(user.getUsername(), firstName, lastName, phone, address,
-					user.getProfileImage(), ((Borrower)user).getBalance());
+					user.getProfileImage(), ((Borrower) user).getBalance());
 			new DatabaseRequest().editUser(updatedUser);
+			AlertBox.display("User Updated");
 		}
-		System.out.println("User successfully updated");
 		window.close();
 	}
-	
+
+
 }
