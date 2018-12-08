@@ -48,7 +48,7 @@ public class DashboardController {
 				// Edit profile details
 				break;
 			case 2:
-				// Edit personal details
+				loadImageSelecter();
 				break;
 			case 3:
 				// Draw custom image
@@ -92,10 +92,21 @@ public class DashboardController {
 		controller.passStageReference(window);
 		window.show();
 	}
+	private void loadImageSelecter() throws IOException {
+		Stage window = new Stage();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("SelectUserImage.fxml"));
+		Pane pane = loader.load();
+		SelectUserImageController controller = loader.getController();
+		controller.setUser(user);
+		Scene scene = new Scene(pane);
+		window.setScene(scene);
+		controller.passStageReference(window);
+		window.show();
+	}
 
 	public void setUser(User user) {
 		this.user = user;
-		//userimage.setImage(new Image(user.getProfileImage().getImage()));
+		userimage.setImage(new Image(user.getProfileImage().getImage()));
 		lblUsername.setText("Username: " + user.getUsername());
 		lblWelcome.setText("Welcome " + user.getForename());
 	}

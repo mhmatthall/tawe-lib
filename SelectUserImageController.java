@@ -28,8 +28,12 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 public class SelectUserImageController {
-	User user;
+	
+	private User user;
+	
+	private Stage window;
 	
 	@FXML
 	public Button prof1;
@@ -48,6 +52,11 @@ public class SelectUserImageController {
 	
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public void passStageReference(Stage window) {
+		this.window = window;
+		
 	}
 	
 	@FXML
@@ -73,5 +82,9 @@ public class SelectUserImageController {
 		UserImage selectedImage = new UserImage("image_files//prof4.png");
 		user.setProfileImage(selectedImage);
 		new DatabaseRequest().editUser(user);
+	}
+	@FXML
+	private void exit() {
+		window.close();
 	}
 }
