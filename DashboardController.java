@@ -58,10 +58,9 @@ public class DashboardController {
 				loadImageSelecter();
 				break;
 			case 3:
-				// Draw custom image
 				loadImageDrawer();
 				break;
-			// TODO: Throw an exception if the window has closed an no value returned.
+			default: return;
 			}
 		} catch (IOException e) {
 			System.out.println("Caught IO Exception coming from " + e.getCause() + e.getClass() + " from class "
@@ -89,6 +88,7 @@ public class DashboardController {
 	}
 
 	private void loadImageDrawer() throws IOException {
+		window.close();
 		Stage window = new Stage();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateImage.fxml"));
 		Pane pane = loader.load();
@@ -100,6 +100,7 @@ public class DashboardController {
 		window.show();
 	}
 	private void loadImageSelecter() throws IOException {
+		window.close();
 		Stage window = new Stage();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("SelectUserImage.fxml"));
 		Pane pane = loader.load();

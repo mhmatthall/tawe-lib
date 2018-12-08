@@ -1,3 +1,5 @@
+import java.sql.SQLException;
+
 /*
  * TODO fix double constructor
  * TODO add missing UML methods 
@@ -80,4 +82,16 @@ public class Loan {
 		this.returnDate = returnDate;
 	}
 
+	public void setLoanStatus(Boolean isOnLoan) throws SQLException {
+		Copy c = new DatabaseRequest().getCopy(copyID);
+		c.setOnLoan(isOnLoan);
+		new DatabaseRequest().editCopy(c);
+	}
+	
+	public void setReservationStatus(Boolean isReserved) throws SQLException{
+		Copy c = new DatabaseRequest().getCopy(copyID);
+		c.setReserved(isReserved);
+		new DatabaseRequest().editCopy(c);
+		
+	}
 }

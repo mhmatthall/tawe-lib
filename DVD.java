@@ -1,5 +1,11 @@
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author Ben
+ *
+ */
+
 public class DVD extends Resource {
 	protected static double fineDay = 2.00;
 	protected static double fineMax = 25.00;
