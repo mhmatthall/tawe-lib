@@ -197,7 +197,7 @@ public class DatabaseRequest {
 			queries.addBatch(
 					"INSERT INTO DVD VALUES('" + newResource.getResourceID() + "', " +
 							"'" + ((DVD)newResource).getDirector() + "', " +
-							"'" + ((DVD)newResource).getRuntime() + "', " +
+							"" + ((DVD)newResource).getRuntime() + ", " +
 							"'" + ((DVD)newResource).getLanguage() + "', " +
 							"'" + subtitleLanguages + "')");
 
@@ -644,6 +644,27 @@ public class DatabaseRequest {
 	}
 
 	public ArrayList<Resource> getUserLoans(String username) throws SQLException {
-		return null;
+		Statement query = conn.createStatement();
+		ResultSet results = query.executeQuery("SELECT * FROM LOAN WHERE username = '" + username + "'");
+
+		ArrayList<Loan> overdueLoans = new ArrayList<Loan>();
+		Loan currentLoan;
+		Date currentDate = new Date();
+		boolean isReturned = results.getInt(6) != 0;
+
+		while (results.next()) {
+			currentLoan = new Loan(results.getString(1),	// loanID
+					new Date(results.getString(2)),	// issue date
+					results.getString(3),	// username
+					results.getString(4),	// copyID
+					new Date(results.getString(5)),	// return date
+					isReturned);
+
+			if (currentDate.isBefore(currentLoan.getReturnDate())) {
+				overdueLoans.add(currentLoan);
+			}
+		}
+
+		return overdueLoans;
 	}
 }

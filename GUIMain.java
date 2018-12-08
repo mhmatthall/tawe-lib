@@ -42,7 +42,7 @@ public class GUIMain extends Application {
 		window.setOnCloseRequest(e -> {
 			e.consume(); // Discard close request, we'll handle it manually
 			close();
-		}); */
+		});*/
 
 		window.setScene(welcomeScene);
 		window.setMinWidth(WINDOW_WIDTH);
