@@ -12,7 +12,6 @@ import java.util.Arrays;
 
 	+ search(tables : string, fieldName : string, query : string, numberOfResults : int) : ArrayList<Object>
 
-	+ getOldestLoan(resourceID : string
 	+ getOverdueLoans() : ArrayList<Copy>
 	+ count copies
 	+ get list of copies
@@ -406,6 +405,7 @@ public class DatabaseRequest {
 	}
 
 	public void editCopy(Copy newDetails) throws SQLException {
+		// Format boolean true/false to 1/0 for database insertion
 		int isOnLoan = newDetails.isOnLoan() ? 1 : 0;
 		int isReserved = newDetails.isReserved() ? 1 : 0;
 
@@ -425,6 +425,26 @@ public class DatabaseRequest {
 		query.executeUpdate("DELETE FROM COPY WHERE copy_id = '" + copyID + "'");
 	}
 
+	public Copy getCopy(String copyID) throws SQLException {
+		Statement query = conn.createStatement();
+		ResultSet results = query.executeQuery("SELECT * FROM COPY WHERE COPY_ID = " + copyID);
+		
+		results.next();
+		
+		// Format integer 1/0 from database back into boolean true/false
+		boolean isOnLoan = results.getInt(4) != 0;
+		boolean isReserved = results.getInt(5) != 0;
+		
+		Copy out = new Copy(copyID,
+				results.getString(2),
+				results.getInt(3),
+				isOnLoan,
+				isReserved,
+				results.getString(6));
+		
+		return out;
+	}
+	
 	public ArrayList<Borrower> browseBorrowers() throws SQLException {
 		Statement query = conn.createStatement();
 
@@ -520,5 +540,28 @@ public class DatabaseRequest {
 		}
 
 		return oldestLoan;
+	}
+	
+	public ArrayList<Loan> getOverdueLoans() throws SQLException {
+		Statement query = conn.createStatement();
+		ResultSet results = query.executeQuery("SELECT * FROM LOAN");
+
+		ArrayList<Loan> overdueLoans = new ArrayList<Loan>();
+		Loan currentLoan;
+		Date currentDate = new Date();
+
+		while (results.next()) {
+			currentLoan = new Loan(results.getString(1),	// loanID
+					new Date(results.getString(2)),	// issue date
+					results.getString(3),	// username
+					results.getString(4),	// copyID
+					new Date(results.getString(5)));	// return date
+			
+			if (currentDate.isBefore(currentLoan.getReturnDate())) {
+				overdueLoans.add(currentLoan);
+			}
+		}
+
+		return overdueLoans;
 	}
 }
