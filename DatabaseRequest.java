@@ -665,4 +665,19 @@ public class DatabaseRequest {
 
 		return userLoans;
 	}
+
+	public void addFine(Fine newFine) throws SQLException {
+		// Format boolean true/false to 1/0 for database insertion
+		int isPaid = newFine.isPaid() ? 1 : 0;
+
+		Statement query = conn.createStatement();
+		query.executeUpdate("INSERT INTO FINE VALUES(" +
+				"'" + newFine.getFineID() + "', " +
+				newFine.getAmount() + ", " +
+				newFine.getAmountPaid() + ", " +
+				"'" + newFine.getLoanID() + "', " +
+				"'" + newFine.getDatePaid().toString() + "', " +
+				"'" + newFine.getDateIssued().toString() + "', " +
+				isPaid + ")");
+	}
 }
