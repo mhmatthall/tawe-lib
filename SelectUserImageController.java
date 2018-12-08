@@ -10,7 +10,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -21,6 +23,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -84,7 +87,15 @@ public class SelectUserImageController {
 		new DatabaseRequest().editUser(user);
 	}
 	@FXML
-	private void exit() {
+	private void exit() throws IOException {
 		window.close();
+		Stage window = (Stage) btnExit.getScene().getWindow();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("UserDashboard.fxml"));
+		Pane dashboard = loader.load();
+		DashboardController controller = loader.getController();
+		controller.setUser(user);
+		Scene scene = new Scene(dashboard);
+		window.setScene(scene);
+		window.show();
 	}
 }
