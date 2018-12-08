@@ -1,9 +1,28 @@
+import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * The Class Borrower.
+ * Modules borrowers for the library system
+ */
 public class Borrower extends User {
+	
+	/** The balance of borrower. */
 	private double balance;
 	
 	
+	/**
+	 * Used for creating new borrower.
+	 * Also used by DatabaseRequest for fetching it from the database
+	 *
+	 * @param username the username
+	 * @param forename the forename
+	 * @param surname the surname
+	 * @param phoneNumber the phone number
+	 * @param address the address
+	 * @param profileImage the profile image
+	 * @param balance the balance
+	 */
 	public Borrower(String username, String forename, String surname, 
 			String phoneNumber, String address, UserImage profileImage,
 			double balance) {
@@ -11,35 +30,51 @@ public class Borrower extends User {
 		this.balance = balance;
 		this.isLibrarian = false;
 	}
-	
-	public void requestResource(String resourceID) {
-		
-		// this method should request a copy of the given resource by either:
-		//			+ adding their name to the request queue
-		//			+ asking resource to get a list of the copies and reserve one copy
-	}
 
-	public ArrayList<Copy> getLoanedResources() {
-		// This will return an arraylist, as there is no fixed amount of loaned items
-		// This should use a DBReq to return a list of the copies that the user currently has on loan
-		return null;
+	/**
+	 * Gets the array list of loaned copies.
+	 * TODO re-add commented out return
+	 * @return the loaned resources
+	 * @throws SQLException 
+	 */
+	public ArrayList<Copy> getLoanedCopies() throws SQLException {
+		DatabaseRequest db = new DatabaseRequest();
+		return null //db.getUserLoans(getUsername());
 	}
 	
-	public ArrayList<Resource> getReservedResources(){
+	/**
+	 * Gets the array list of reserved resources.
+	 *
+	 * @return the reserved resources
+	 */
+	public ArrayList<Copy> getReservedResources(){
 		// get reserved resources by the current user in a similar way to getLoanedResources
 		// however Resources not Copies as we're not sure which copy is reserved yet
 		return null;
 	}
+	
+	/**
+	 * Gets the balance of borrower.
+	 * Represents fines to be paid, should be negative or 0
+	 *
+	 * @return balance
+	 */
 	public double getBalance() {
 		return balance;
 	}
 
+	/**
+	 * Sets the balance.
+	 *
+	 * @param amount the new balance
+	 */
 	public void setBalance(double amount) {
 		balance += amount;
-		// Needed here so librarian dashboard can simply go 'userX.setBalance(5.00)' or whatever
-		// rather than librarian.setBalance(userID, amount) - less elegant
 	}
 	
+	/* 
+	 * Human readable toString
+	 */
 	public String toString() {
 		String result;
 		result = "User ID: " + this.getUsername();
