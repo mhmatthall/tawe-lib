@@ -1,5 +1,7 @@
-/*
- * TODO complete setter methods
+/**
+ * 
+ * @author Ben 
+ *
  */
 
 public class Laptop extends Resource {
