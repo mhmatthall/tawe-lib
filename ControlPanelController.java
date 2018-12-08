@@ -39,6 +39,8 @@ public class ControlPanelController {
 	@FXML
 	Button btnSearchUser;
 	@FXML
+	Button btnSearchLibrary;
+	@FXML
 	Button btnNewUser;
 	
 	@FXML
@@ -65,6 +67,8 @@ public class ControlPanelController {
 		Pane previous = FXMLLoader.load(getClass().getResource("Welcome.fxml"));
 		window.setScene(new Scene(previous));
 	}
+	
+
 
 	/*
 	 * Pops out a new window to select resource type and then creates a resource of
@@ -129,6 +133,18 @@ public class ControlPanelController {
 
 	}
 
+	@FXML
+	void searchLibrary() throws IOException {
+		Stage window4 = new Stage();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("SearchLibrary.fxml"));
+		Pane pane = loader.load();
+		SearchLibraryController controller = loader.getController();
+		Scene scene = new Scene(pane);
+		window4.setScene(scene);
+		controller.passStageReference(window4);
+		window4.show();
+	}
+	
 	@FXML
 	private void searchUser() throws IOException {
 		Stage window3 = new Stage();

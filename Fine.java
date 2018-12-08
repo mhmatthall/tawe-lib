@@ -20,10 +20,12 @@ public class Fine {
 	private String loanID;
 	private Date dateIssued;
 	private Date datePaid;
-	private Loan loanFined;	// unnecessary, already have loanID
+//	private Loan loanFined;	// unnecessary, already have loanID
 
 	private boolean paid;
 
+
+	
 	// Constructor
 	public Fine(String loanID) {
 		this.amountTotal = calculateAmount();
@@ -41,14 +43,28 @@ public class Fine {
 	private double calculateAmount() {
 		int timeOverdue;
 		
+		Date today = new Date();		
+		Loan loan = new DatabaseRequest().getLoan(loanID);
+		
 		//If copy was returned on time fine is 0.
-		if  ( loan.getActualReturnDate().isBefore(loan.getExpectedReturnDay())) {
-			amountTotal = 0;
+		if  ( loan.getReturnDate().isBefore(today) ) {
+			timeOverdue = loan.getReturnDate().compare(today);
+			System.out.println("Days overdue: " + timeOverdue);
 		} else {
-			amountTotal = loan.getActualReturnDate().compare(loan.expectedReturnDate());
+			timeOverdue = 0;
+			System.out.println("This loan is not overdue");
 		}
 		
-		amountTotal = (resource.getFinePerDay() * timeOverdue);
+		String resID = new DatabaseRequest().getCopy(loan.getCopyID()).getResourceID();
+		Resource res = new DatabaseRequest().getResource(resID);
+		
+		if (res instanceof Book) {
+			amountTotal = (Book.getFineDay() * timeOverdue);
+		} else if (res instanceof DVD) {
+			amountTotal = (DVD.getFineDay() * timeOverdue);
+		} else if(res instanceof Laptop) {
+			amountTotal = (Laptop.getFineDay() * timeOverdue);
+		}
 	}
 	
 	/*
