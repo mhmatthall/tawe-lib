@@ -1,4 +1,5 @@
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /*
  * Created by Matt
@@ -31,20 +32,33 @@ public class Librarian extends User {
 		this.employmentDate = employmentDate;
 	}
 	
-	public void issueLoan(String CopyID, String UserID) throws SQLException {
-		Loan l = new Loan(CopyID, UserID);
+	public void issueLoan(String resourceID, String username) throws SQLException {
+		
+		DatabaseRequest db = new DatabaseRequest();
+		ArrayList<Copy> copies = db.getCopies(resourceID);
+		
+		Loan l = null;
+		for (Copy currentCopy : copies) {
+			if (l.equals(null) && !currentCopy.isOnLoan()) {
+				l = new Loan(currentCopy.getCopyID(), username);
+				
+			}
+		}
+		
+		
 		new DatabaseRequest().addLoan(l);
 		
 	}
 	
 	public void returnLoan(Loan loan) throws SQLException{
 		
-		Copy c = new DatabaseRequest().getCopy(loan.getCopyID());
-		Resource r = new DatabaseRequest().getResource(c.getResourceID());
+		DatabaseRequest db = new DatabaseRequest();
+		Copy c = db.getCopy(loan.getCopyID());
+		Resource r = db.getResource(c.getResourceID());
 		
 		if ((new Date()).isBefore(loan.getReturnDate())) {
 			Fine f = new Fine(loan.getLoanID());
-			new DatabaseRequest().addFine(f);
+			db.addFine(f);
 		}
 		
 		loan.setLoanStatus(false);
@@ -57,12 +71,14 @@ public class Librarian extends User {
 			r.getQueue().dequeue();
 		}
 		
-		new DatabaseRequest().editResource(r);
-		new DatabaseRequest().editLoan(loan);
+		db.editResource(r);
+		db.editLoan(loan);
 	}
 	
 	public void PayFine(String fineID, double amount) {
-		Fine f = new DatabaseRequest().getFine();
+		
+		DatabaseRequest db = new DatabaseRequest();
+		Fine f = db.getFine();
 		
 		if (amount < f.getMinimumPayment())
 			throw new IllegalArgumentException("Cannot pay less than £" + f.getMinimumPayment());
@@ -71,7 +87,58 @@ public class Librarian extends User {
 		}
 		
 		f.setAmountPaid(f.getAmountPaid() + amount);
-		new DatabaseRequest().editFine(f);
+		
+		db.editFine(f);
 		
 	}
+	
+	public void reserveResource(String resourceID, String username) throws SQLException {
+		
+		DatabaseRequest db = new DatabaseRequest();
+		
+		Resource r = db.getResource(resourceID);
+		r.getQueue().addUser(username);
+		
+		Loan l = db.getOldestLoan(resourceID);
+		l.setReservationStatus(true, username);
+		
+		Copy c = db.getCopy(l.getCopyID());
+		int loanLength = c.getLoanTime();
+		c.setReservingUser(username);
+		c.setReserved(true);
+		
+		Date d = l.getIssueDate();
+		d.forwardDate(loanLength);
+		
+		if (d.isBefore(new Date())) {
+			Date tomorrow = new Date();
+			tomorrow.forwardDate(1);
+			l.setReturnDate(tomorrow);
+		} else {
+			Date dueDate = l.getIssueDate();
+			dueDate.forwardDate(loanLength);
+			
+		}
+		
+		
+		db.editResource(r);
+		db.editLoan(l);
+		db.editCopy(c);
+		
+	}
+	
+	public void RequestResource(String resourceID, String username) throws SQLException {
+		
+		DatabaseRequest db = new DatabaseRequest();
+		
+		if (db.checkAvailability(resourceID)) {
+			issueLoan(resourceID, username);
+		} else {
+			reserveResource(resourceID, username);
+		}
+		
+		
+	}
+	
+	
 }
