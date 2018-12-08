@@ -16,6 +16,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -38,6 +40,9 @@ public class ControlPanelController {
 	Button btnSearchUser;
 	@FXML
 	Button btnNewUser;
+	
+	@FXML
+	public ImageView libImage;
 
 	// THE PROBLEM IS IN THESE 2
 	/*
@@ -151,6 +156,7 @@ public class ControlPanelController {
 	// Set user object
 	public void setUser(User user) {
 		this.user = user;
+		//libImage.setImage(new Image(user.getProfileImage().getImage()));
 		lblUsername.setText("Username: " + user.getUsername());
 		lblWelcome.setText("Welcome " + user.getForename() + " " + user.getSurname());
 	}
