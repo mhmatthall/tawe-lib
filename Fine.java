@@ -1,3 +1,5 @@
+import java.sql.SQLException;
+
 /*
  * @author Constantinos Loizou
  * @version 1.0
@@ -27,7 +29,7 @@ public class Fine {
 
 	
 	// Constructor
-	public Fine(String loanID) {
+	public Fine(String loanID) throws SQLException {
 		this.amountTotal = calculateAmount();
 		this.amountPaid = 0;
 		this.amountLeft = 0;
@@ -40,7 +42,7 @@ public class Fine {
 	/*
 	 * Calculates the amount of the fine
 	 */
-	private double calculateAmount() {
+	private double calculateAmount() throws SQLException {
 		int timeOverdue;
 		
 		Date today = new Date();		
@@ -65,6 +67,7 @@ public class Fine {
 		} else if(res instanceof Laptop) {
 			amountTotal = (Laptop.getFineDay() * timeOverdue);
 		}
+		return amountTotal;
 	}
 	
 	/*
