@@ -170,8 +170,16 @@ public class ImageController {
 	}
 
 	@FXML
-	private void exit() {
+	private void exit() throws IOException {
 		window.close();
+		Stage window = (Stage) btnExit.getScene().getWindow();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("UserDashboard.fxml"));
+		Pane dashboard = loader.load();
+		DashboardController controller = loader.getController();
+		controller.setUser(user);
+		Scene scene = new Scene(dashboard);
+		window.setScene(scene);
+		window.show();
 	}
 
 	EventHandler<MouseEvent> rectangleOnMousePressedEventHandler = 
