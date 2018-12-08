@@ -53,39 +53,39 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <Button layoutX="20.0" layoutY="324.0" mnemonicParsing="false" text="Exit" />
-            <Button fx:id="prof1" layoutX="64.0" layoutY="33.0" mnemonicParsing="false" onAction="#buttonProf1Pressed" prefHeight="106.0" prefWidth="213.0">
+            <Button fx:id="btnExit" layoutX="20.0" layoutY="324.0" mnemonicParsing="false" onAction="#exit" text="Exit" />
+            <Button fx:id="prof1" layoutX="99.0" layoutY="33.0" mnemonicParsing="false" onAction="#buttonProf1Pressed" prefHeight="72.0" prefWidth="62.0">
                <graphic>
-                  <ImageView fitHeight="72.0" fitWidth="151.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="100.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@image_files/ProfilePic1.jpg" />
+                        <Image url="@image_files/prof1.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
             <Button fx:id="prof2" layoutX="362.0" layoutY="33.0" mnemonicParsing="false" onAction="#buttonProf2Pressed">
                <graphic>
-                  <ImageView fitHeight="113.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="98.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@image_files/ProfilePic2.jpg" />
+                        <Image url="@image_files/prof2.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
             <Button fx:id="prof3" layoutX="98.0" layoutY="177.0" mnemonicParsing="false" onAction="#buttonProf3Pressed">
                <graphic>
-                  <ImageView fitHeight="124.0" fitWidth="81.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@image_files/ProfilePic3.jpg" />
+                        <Image url="@image_files/prof3.png" />
                      </image>
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="prof4" layoutX="362.0" layoutY="195.0" mnemonicParsing="false" onAction="#buttonProf4Pressed">
+            <Button fx:id="prof4" layoutX="361.0" layoutY="177.0" mnemonicParsing="false" onAction="#buttonProf4Pressed">
                <graphic>
-                  <ImageView fitHeight="132.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@image_files/DVD.jpg" />
+                        <Image url="@image_files/prof4.png" />
                      </image>
                   </ImageView>
                </graphic>
