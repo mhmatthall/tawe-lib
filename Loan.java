@@ -41,7 +41,7 @@ public class Loan {
 	public String getLoanID() {
 		return loanID;
 	}
-	public boolean getReturnStatus() {
+	public boolean isReturned() {
 		return isReturned;
 	}
 	public void returnResource() {
