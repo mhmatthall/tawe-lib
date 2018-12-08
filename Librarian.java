@@ -1,3 +1,5 @@
+import java.sql.SQLException;
+
 /*
  * Created by Matt
  */
@@ -29,4 +31,31 @@ public class Librarian extends User {
 		this.employmentDate = employmentDate;
 	}
 	
+	public void issueLoan(String CopyID, String UserID) {
+		Loan l = new Loan(CopyID, UserID);
+		new DatabaseRequest().addLoan(l);
+		
+	}
+	
+	public void returnLoan(Loan loan) throws SQLException{
+		
+		Resource r = new DatabaseRequest().getResource(c.getResourceID());
+		
+		if ((new Date()).isBefore(loan.getReturnDate())) {
+			Fine f = new Fine(loan.getLoanID());
+			new DatabaseRequest().addFine(f);
+		}
+		
+		loan.setLoanStatus(false);
+		
+		if (r.getQueue().isEmpty()) {
+			loan.returnResource();
+		} else {
+			Loan l = new Loan(loan.getCopyID(), r.getQueue().peek());
+			loan.setReservationStatus(true, r.getQueue().peek());
+			
+		}
+		
+		new DatabaseRequest().editLoan(loan);
+	}
 }
