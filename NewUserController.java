@@ -100,7 +100,7 @@ public class NewUserController {
 		}
 		
 
-		UserImage profPic = new UserImage(null);
+		UserImage profPic = new UserImage("image_files//prof1.png");
 
 		if (isLibrarian) {
 			int staffNum = Integer.parseInt(txtStaffNum.getText());

@@ -19,6 +19,11 @@ public class SelectionBox {
 		window.setTitle(title);
 		window.setMinHeight(250);
 		window.setMinWidth(275);
+		window.setOnCloseRequest(e -> {
+			e.consume();
+			System.out.print("test");
+			return;
+		});
 		
 		Label lbl1 = new Label(msg);
 		lbl1.setFont(new Font(16));

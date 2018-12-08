@@ -172,7 +172,7 @@ public class ImageController {
 	@FXML
 	private void exit() throws IOException {
 		window.close();
-		Stage window = (Stage) btnExit.getScene().getWindow();
+		Stage window = new Stage();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("UserDashboard.fxml"));
 		Pane dashboard = loader.load();
 		DashboardController controller = loader.getController();
