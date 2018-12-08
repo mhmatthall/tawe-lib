@@ -54,4 +54,12 @@ public class Laptop extends Resource {
 	public void setOperatingSys(String operatingSys) {
 		
 	}
+	
+	public static double getFineDay() {
+		return fineDay;
+	}
+
+	public static double getFineMax() {
+		return fineMax;
+	}
 }

@@ -12,8 +12,8 @@ public class Date {
 	/**
 	 * Initialises to a set date
 	 * @param year 
-	 * @param month between 0-11 (e.g. May is 4)
-	 * @param day between 0-30 (e.g. 25th is 24)
+	 * @param month between 1-12 (e.g. May is 5)
+	 * @param day between 1-31 (e.g. 25th is 25)
 	 */
 	public Date(int day, int month, int year){
 		date = Calendar.getInstance();

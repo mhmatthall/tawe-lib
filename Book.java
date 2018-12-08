@@ -6,6 +6,8 @@
 
 public class Book extends Resource {
 	protected static double fineDay = 2.00;
+
+
 	protected static double fineMax = 25.00;
 	private String author;
 	private String publisher;
@@ -75,6 +77,14 @@ public class Book extends Resource {
 
 	public void setLanguage(String language) {
 		this.language = language;
+	}
+	
+	public static double getFineDay() {
+		return fineDay;
+	}
+
+	public static double getFineMax() {
+		return fineMax;
 	}
 		
 

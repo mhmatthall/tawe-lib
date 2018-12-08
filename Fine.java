@@ -1,3 +1,5 @@
+import java.sql.SQLException;
+
 /*
  * @author Constantinos Loizou
  * @version 1.0
@@ -13,22 +15,73 @@ public class Fine {
 
 	// FineID = F + fine number. Example F1
 	private String fineID = ("F" + nextID);
-	private double amountTotal;
+	private double amount;
 	private double amountPaid;
-	private double amountLeft;	// unnecessary, can calculate from amtTotal and amtPaid
-
 	private String loanID;
 	private Date dateIssued;
 	private Date datePaid;
-	private Loan loanFined;	// unnecessary, already have loanID
-
 	private boolean paid;
+	
+	public String getFineID() {
+		return fineID;
+	}
+
+	public void setFineID(String fineID) {
+		this.fineID = fineID;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public double getAmountPaid() {
+		return amountPaid;
+	}
+
+	public void setAmountPaid(double amountPaid) {
+		this.amountPaid = amountPaid;
+	}
+
+	public String getLoanID() {
+		return loanID;
+	}
+
+	public void setLoanID(String loanID) {
+		this.loanID = loanID;
+	}
+
+	public Date getDateIssued() {
+		return dateIssued;
+	}
+
+	public void setDateIssued(Date dateIssued) {
+		this.dateIssued = dateIssued;
+	}
+
+	public Date getDatePaid() {
+		return datePaid;
+	}
+
+	public void setDatePaid(Date datePaid) {
+		this.datePaid = datePaid;
+	}
+
+	public boolean isPaid() {
+		return paid;
+	}
+
+	public void setPaid(boolean paid) {
+		this.paid = paid;
+	}
 
 	// Constructor
-	public Fine(String loanID) {
-		this.amountTotal = calculateAmount();
+	public Fine(String loanID) throws SQLException {
+		this.amount = calculateAmount();
 		this.amountPaid = 0;
-		this.amountLeft = 0;
 		this.dateIssued = new Date(); //Current date set
 		this.paid = false;
 		this.loanID = loanID;
@@ -38,76 +91,34 @@ public class Fine {
 	/*
 	 * Calculates the amount of the fine
 	 */
-	private double calculateAmount() {
+	private double calculateAmount() throws SQLException {
 		int timeOverdue;
 		
+		Date today = new Date();		
+		Loan loan = new DatabaseRequest().getLoan(loanID);
+		
 		//If copy was returned on time fine is 0.
-		if  ( loan.getActualReturnDate().isBefore(loan.getExpectedReturnDay())) {
-			amountTotal = 0;
+		if  ( loan.getReturnDate().isBefore(today) ) {
+			timeOverdue = loan.getReturnDate().compare(today);
+			System.out.println("Days overdue: " + timeOverdue);
 		} else {
-			amountTotal = loan.getActualReturnDate().compare(loan.expectedReturnDate());
+			timeOverdue = 0;
+			System.out.println("This loan is not overdue");
 		}
 		
-		amountTotal = (resource.getFinePerDay() * timeOverdue);
-	}
-	
-	/*
-	 * @return The fineID
-	 */
-	public String getFineID() {
-		return fineID;
-	}
-	
-	/*
-	 * @return Fine amount
-	 */
-	public double getAmountTotal() {
+		String resID = new DatabaseRequest().getCopy(loan.getCopyID()).getResourceID();
+		Resource res = new DatabaseRequest().getResource(resID);
+		
+		if (res instanceof Book) {
+			amountTotal = (Book.getFineDay() * timeOverdue);
+		} else if (res instanceof DVD) {
+			amountTotal = (DVD.getFineDay() * timeOverdue);
+		} else if(res instanceof Laptop) {
+			amountTotal = (Laptop.getFineDay() * timeOverdue);
+		}
 		return amountTotal;
 	}
 	
-	/*
-	 * @return Amount Paid
-	 */
-	public double getAmountPaid() {
-		return amountPaid;
-	}
-	
-	/*
-	 * @return Amount left to pay
-	 */
-	public double getAmountLeft() {
-		return amountLeft;
-	}
-	
-	/*
-	 * @return date the fine was issued
-	 */
-	public Date getDateIssued() {
-		return dateIssued;
-	}
-	
-	/*
-	 * @return Date the fine was paid
-	 */
-	public Date getDatePaid() {
-		return datePaid;
-	}
-
-	/*
-	 * @return True if fine has been paid. False otherwise
-	 */
-	public boolean isPaid() {
-		return paid;
-	}
-
-	/*
-	 * Set fine as paid
-	 */
-	public void setPaid() {
-		paid = true;
-		datePaid = new Date();
-	}
-
 	/*
 	 * @param amount
 	 * 		The amount paid. Fine may have only been partially paid

@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -49,10 +48,7 @@
                      </opaqueInsets>
                   </VBox>
                   <Region prefHeight="86.0" prefWidth="46.0" HBox.hgrow="ALWAYS" />
-                  <ImageView fx:id="profImg" fitHeight="111.0" fitWidth="177.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
-                     <image>
-                        <Image url="@image_files/Liam.jpg" />
-                     </image></ImageView>
+                  <ImageView fx:id="libImage" fitHeight="111.0" fitWidth="177.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS" />
                </children>
                <padding>
                   <Insets bottom="10.0" top="10.0" />
@@ -64,8 +60,8 @@
                   <VBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>
                         <Button fx:id="btnSearchUser" mnemonicParsing="false" onAction="#searchUser" prefWidth="145.0" text="Search for User" />
+                        <Button fx:id="btnSearchLibrary" mnemonicParsing="false" onAction="#searchLibrary" prefWidth="145.0" text="Search the Library" />
                         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="Search Overdues" />
-                        <Button mnemonicParsing="false" prefWidth="145.0" text="Search the Library" />
                      </children>
                   </VBox>
                   <Region HBox.hgrow="ALWAYS" />
@@ -73,6 +69,7 @@
                      <children>
                         <Button fx:id="btnNewUser" mnemonicParsing="false" onAction="#newUser" prefWidth="145.0" text="Create new User" />
                         <Button fx:id="btnCreateResource" mnemonicParsing="false" onAction="#createResource" prefHeight="25.0" prefWidth="145.0" text="Create new Resource" />
+                        <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#editProfile" prefWidth="145.0" text="Edit Profile" />
                      </children>
                   </VBox>
                </children></HBox>

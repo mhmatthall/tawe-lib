@@ -12,11 +12,8 @@ import java.util.Arrays;
 
 	+ search(tables : string, fieldName : string, query : string, numberOfResults : int) : ArrayList<Object>
 
-	+ loan maniupulation
-	+ check if any copy of a resource is available
 	+ loan out as objects
 	+ total fines for given user
-	+ get list of user's resources
  */
 
 public class DatabaseRequest {
@@ -152,7 +149,6 @@ public class DatabaseRequest {
 		return out;
 	}
 
-	// Determine the type of user being retrieved
 	private boolean userIsLibrarian(String username) throws SQLException {
 		Statement userTypeCheck = conn.createStatement();
 		ResultSet rs = userTypeCheck.executeQuery("SELECT COUNT(*) FROM LIBRARIAN WHERE username = '" + username + "'");
@@ -201,7 +197,7 @@ public class DatabaseRequest {
 			queries.addBatch(
 					"INSERT INTO DVD VALUES('" + newResource.getResourceID() + "', " +
 							"'" + ((DVD)newResource).getDirector() + "', " +
-							"'" + ((DVD)newResource).getRuntime() + "', " +
+							"" + ((DVD)newResource).getRuntime() + ", " +
 							"'" + ((DVD)newResource).getLanguage() + "', " +
 							"'" + subtitleLanguages + "')");
 
@@ -424,7 +420,7 @@ public class DatabaseRequest {
 
 	public Copy getCopy(String copyID) throws SQLException {
 		Statement query = conn.createStatement();
-		ResultSet results = query.executeQuery("SELECT * FROM COPY WHERE COPY_ID = " + copyID);
+		ResultSet results = query.executeQuery("SELECT * FROM COPY WHERE COPY_ID = '" + copyID + "'");
 
 		results.next();
 
@@ -516,20 +512,75 @@ public class DatabaseRequest {
 		return out;
 	}
 
+	public void addLoan(Loan newLoan) throws SQLException {
+		// Format boolean true/false to 1/0 for database insertion
+		int isReturned = newLoan.isReturned() ? 1 : 0;
+
+		Statement query = conn.createStatement();
+		query.executeUpdate("INSERT INTO LOAN VALUES(" +
+				"'" + newLoan.getLoanID() + "', " +
+				"'" + newLoan.getIssueDate().toString() + "', " +
+				"'" + newLoan.getUsername() + "', " +
+				"'" + newLoan.getCopyID() + "', " +
+				"'" + newLoan.getReturnDate().toString() + "', " +
+				isReturned + ")");
+	}
+	
+	public void editLoan(Loan newDetails) throws SQLException {
+		// Format boolean true/false to 1/0 for database insertion
+		int isReturned = newDetails.isReturned() ? 1 : 0;
+
+		Statement query = conn.createStatement();
+		query.executeUpdate("UPDATE LOAN SET " +
+				"issue_date = '" + newDetails.getIssueDate().toString() + "', " +
+				"username = '" + newDetails.getUsername() + "', " +
+				"copy_id = '" + newDetails.getCopyID() + "', " +
+				"return_date = '" + newDetails.getReturnDate().toString() + "', " +
+				"is_returned = " + isReturned + " " +
+				"WHERE loan_id = '" + newDetails.getCopyID() + "'");
+	}
+	
+	public void deleteLoan(String loanID) throws SQLException {
+		Statement query = conn.createStatement();
+
+		query.executeUpdate("DELETE FROM LOAN WHERE loan_id = '" + loanID + "'");
+	}
+	
+	public Loan getLoan(String loanID) throws SQLException {
+		Statement query = conn.createStatement();
+		ResultSet results = query.executeQuery("SELECT * FROM LOAN WHERE loan_id = '" + loanID + "'");
+
+		results.next();
+
+		// Format integer 1/0 from database back into boolean true/false
+		boolean isReturned = results.getInt(6) != 0;
+
+		Loan out = new Loan(loanID,
+				new Date(results.getString(2)),
+				results.getString(3),
+				results.getString(4),
+				new Date(results.getString(5)),
+				isReturned);
+
+		return out;
+	}
+	
 	public ArrayList<Loan> getLoanHistory(String copyID) throws SQLException {
 		Statement query = conn.createStatement();
 
-		ResultSet results = query.executeQuery("SELECT * FROM LOAN WHERE COPY_ID = '" + copyID + "'");
+		ResultSet results = query.executeQuery("SELECT * FROM LOAN WHERE copy_id = '" + copyID + "'");
 
 		ArrayList<Loan> out = new ArrayList<Loan>();
 		Loan temp;
+		boolean isReturned = results.getInt(6) != 0;
 
 		while (results.next()) {
 			temp = new Loan(results.getString(1),	// loanID
 					new Date(results.getString(2)),	// issue date
 					results.getString(3),	// username
 					results.getString(4),	// copyID
-					new Date(results.getString(5)));	// return date
+					new Date(results.getString(5)),
+					isReturned);	// return date
 
 			out.add(temp);
 		}
@@ -543,19 +594,20 @@ public class DatabaseRequest {
 
 		ArrayList<Loan> loans = new ArrayList<Loan>();
 		Loan temp;
+		boolean isReturned = results.getInt(6) != 0;
 
 		while (results.next()) {
 			temp = new Loan(results.getString(1),	// loanID
 					new Date(results.getString(2)),	// issue date
 					results.getString(3),	// username
 					results.getString(4),	// copyID
-					new Date(results.getString(5)));	// return date
+					new Date(results.getString(5)),	// return date
+					isReturned);
 
 			loans.add(temp);
 		}
 
-
-		Loan oldestLoan = new Loan("", new Date(0, 0, 1970), "", "", new Date());
+		Loan oldestLoan = new Loan("", new Date(1, 1, 1), "", "", new Date(), false);
 
 		for (Loan loanToCompare : loans) {
 			if (oldestLoan.getIssueDate().isBefore(loanToCompare.getIssueDate())) {
@@ -573,13 +625,15 @@ public class DatabaseRequest {
 		ArrayList<Loan> overdueLoans = new ArrayList<Loan>();
 		Loan currentLoan;
 		Date currentDate = new Date();
+		boolean isReturned = results.getInt(6) != 0;
 
 		while (results.next()) {
 			currentLoan = new Loan(results.getString(1),	// loanID
 					new Date(results.getString(2)),	// issue date
 					results.getString(3),	// username
 					results.getString(4),	// copyID
-					new Date(results.getString(5)));	// return date
+					new Date(results.getString(5)),	// return date
+					isReturned);
 
 			if (currentDate.isBefore(currentLoan.getReturnDate())) {
 				overdueLoans.add(currentLoan);
@@ -589,4 +643,41 @@ public class DatabaseRequest {
 		return overdueLoans;
 	}
 
+	public ArrayList<Resource> getUserLoans(String username) throws SQLException {
+		Statement query = conn.createStatement();
+		ResultSet results = query.executeQuery("SELECT * FROM LOAN " +
+				"WHERE username = '" + username + "' " +
+				"AND is_returned = 0");
+
+		ArrayList<Resource> userLoans = new ArrayList<Resource>();
+		Resource currentResource;
+		RequestQueue queue = convertRequestQueue(results.getString(5));	// request queue
+
+		while (results.next()) {
+			currentResource = new Resource(results.getString(1),	// resourceID
+					results.getString(2),	// title
+					results.getInt(3),	// year
+					new Thumbnail(results.getString(4)),	// thumbnail
+					queue);	// request queue
+
+			userLoans.add(currentResource);
+		}
+
+		return userLoans;
+	}
+
+	public void addFine(Fine newFine) throws SQLException {
+		// Format boolean true/false to 1/0 for database insertion
+		int isPaid = newFine.isPaid() ? 1 : 0;
+
+		Statement query = conn.createStatement();
+		query.executeUpdate("INSERT INTO FINE VALUES(" +
+				"'" + newFine.getFineID() + "', " +
+				newFine.getAmount() + ", " +
+				newFine.getAmountPaid() + ", " +
+				"'" + newFine.getLoanID() + "', " +
+				"'" + newFine.getDatePaid().toString() + "', " +
+				"'" + newFine.getDateIssued().toString() + "', " +
+				isPaid + ")");
+	}
 }

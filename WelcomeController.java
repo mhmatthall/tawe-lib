@@ -101,6 +101,7 @@ public class WelcomeController {
 		Pane controlPanel = loader.load();
 		ControlPanelController controller = loader.getController();
 		controller.setUser(user);
+		controller.passStageReference(window);
 		Scene scene = new Scene(controlPanel);
 		window.setScene(scene);
 		window.show();
