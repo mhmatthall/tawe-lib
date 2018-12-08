@@ -17,8 +17,8 @@ public class SelectionBox {
 		
 		window.initModality(Modality.APPLICATION_MODAL);
 		window.setTitle(title);
-		window.setMinHeight(175);
-		window.setMinWidth(250);
+		window.setMinHeight(250);
+		window.setMinWidth(275);
 		
 		Label lbl1 = new Label(msg);
 		lbl1.setFont(new Font(16));
@@ -41,7 +41,7 @@ public class SelectionBox {
 			window.close();
 		});
 		
-		HBox buttons = new HBox(10);
+		VBox buttons = new VBox(10);
 		buttons.getChildren().addAll(btn1,btn2,btn3);
 		buttons.setAlignment(Pos.CENTER);
 		

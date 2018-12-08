@@ -60,7 +60,6 @@ public class WelcomeController {
 
 	@FXML
 	public void buttonLoginPressed() {
-		// Login methods here
 
 		if (txtUsername.getText().trim().isEmpty()) {
 			AlertBox.display("Please enter a valid username");
@@ -115,6 +114,7 @@ public class WelcomeController {
 		Pane dashboard = loader.load();
 		DashboardController controller = loader.getController();
 		controller.setUser(user);
+		controller.passStageReference(window);
 		Scene scene = new Scene(dashboard);
 		window.setScene(scene);
 		window.show();

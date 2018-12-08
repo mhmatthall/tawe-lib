@@ -34,7 +34,7 @@ public class NewBookController {
 		String publisher = (txtPublisher.getText());
 		String language = txtLanguage.getText();
 		Thumbnail thumb = new Thumbnail("C:/Users/lkonn/Google Drive/University/Year 2/CS230/Assignment 2/tawe-lib/image_files/notliam.jpg");
-		int isbn = Integer.parseInt(txtISBN.getText());
+		String isbn =  txtISBN.getText();
 		String genre = txtGenre.getText();
 		
 		Book book1 = new Book(title, year, thumb, author, publisher, genre, isbn, language);
