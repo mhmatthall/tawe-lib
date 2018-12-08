@@ -4,8 +4,19 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import javafx.geometry.*;
 
+
+/**
+ * A pop up for alert box in GUI
+ * 
+ * @author Constantinos Loizou
+ */
 public class AlertBox {
 
+	/**
+	 * Displays alert box
+	 *
+	 * @param msg the message to be displayed on pop up
+	 */
 	public static void display(String msg) {
 		Stage window = new Stage();
 		

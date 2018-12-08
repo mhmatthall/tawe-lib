@@ -35,7 +35,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Label text="Titile" />
+                  <Label text="Title" />
                   <TextField fx:id="txtTitle" />
                </children>
             </HBox>

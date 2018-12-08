@@ -39,7 +39,7 @@ public class NewDVDController {
 		new DatabaseRequest().addResource(dvd1);
 		
 		System.out.println(dvd1.toString());
-		window.close();
+		close();
 	}
 	
 	@FXML
