@@ -82,7 +82,17 @@ public class Loan {
 	public void setReservationStatus(Boolean isReserved) throws SQLException{
 		Copy c = new DatabaseRequest().getCopy(copyID);
 		c.setReserved(isReserved);
+		c.setReservingUser(username);
 		new DatabaseRequest().editCopy(c);
+		
+	}
+	
+	public void setCopyAvailabilty() throws SQLException {
+		Copy c = new DatabaseRequest().getCopy(copyID);
+		Resource r = new DatabaseRequest().getResource(c.getResourceID());
+		if ((new Date()).isBefore(returnDate)) {
+			
+		}
 		
 	}
 }
