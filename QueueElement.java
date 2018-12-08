@@ -11,7 +11,7 @@ public class QueueElement {
 	private String element; //the element contained in this linked list
 	private QueueElement next; //the next element of the linked list
 	
-	public QueueElement(Object e, QueueElement n) {
+	public QueueElement(String e, QueueElement n) {
 		this.element = e;
 		this.next = n;
 	}
@@ -19,7 +19,7 @@ public class QueueElement {
 	/**
 	 * Method to set the element
 	 */
-	public void setElement(Object element) {
+	public void setElement(String element) {
 		this.element = element;
 	}
 	

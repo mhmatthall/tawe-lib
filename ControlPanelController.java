@@ -222,6 +222,9 @@ public class ControlPanelController {
 		controller.passStageReference(window);
 		window.show();
 	}
+	public void passStageReference(Stage window) {
+		this.window = window;
+	}
 
 	// Set user object
 	public void setUser(User user) {
