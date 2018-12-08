@@ -15,9 +15,8 @@ public class Fine {
 
 	// FineID = F + fine number. Example F1
 	private String fineID = ("F" + nextID);
-	private double amountTotal;
+	private double amount;
 	private double amountPaid;
-	private double amountLeft;	// unnecessary, can calculate from amtTotal and amtPaid
 
 	private String loanID;
 	private Date dateIssued;
@@ -30,9 +29,8 @@ public class Fine {
 	
 	// Constructor
 	public Fine(String loanID) throws SQLException {
-		this.amountTotal = calculateAmount();
+		this.amount = calculateAmount();
 		this.amountPaid = 0;
-		this.amountLeft = 0;
 		this.dateIssued = new Date(); //Current date set
 		this.paid = false;
 		this.loanID = loanID;
@@ -80,8 +78,8 @@ public class Fine {
 	/*
 	 * @return Fine amount
 	 */
-	public double getAmountTotal() {
-		return amountTotal;
+	public double getAmount() {
+		return amount;
 	}
 	
 	/*
@@ -89,13 +87,6 @@ public class Fine {
 	 */
 	public double getAmountPaid() {
 		return amountPaid;
-	}
-	
-	/*
-	 * @return Amount left to pay
-	 */
-	public double getAmountLeft() {
-		return amountLeft;
 	}
 	
 	/*
