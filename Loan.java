@@ -13,16 +13,18 @@ public class Loan {
 	private String username;
 	private Date returnDate;
 	private boolean isReturned;
-	private DatabaseRequest db = new DatabaseRequest();
+
+
  
 	//creating new loan
-	public Loan(String copyID, String username) {
-		
+	public Loan(String copyID, String username) throws SQLException {
+		DatabaseRequest db = new DatabaseRequest();
 		this.copyID = copyID;
 		this.issueDate = new Date();
 		this.username = username;
 		this.isReturned = false;
-		this.returnDate = issueDate.forwardDate(db.getCopy(copyID).getLoanTime());
+		this.returnDate = issueDate;
+		this.returnDate.forwardDate(db.getCopy(copyID).getLoanTime());
 		nextLoanID++;
 	}
 	//db constructor
