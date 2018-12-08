@@ -116,6 +116,9 @@ public class Date {
 	private int getMaxDaysInYear() {
 		return date.getMaximum(Calendar.DAY_OF_YEAR);
 	}
+	public void forwardDate(int days) {
+		date.add(Calendar.DAY_OF_MONTH, days);
+	}
 	
 	private void setDate(int year, int month, int day) {
 		date.set(year, month, day);
