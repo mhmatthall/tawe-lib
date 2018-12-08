@@ -41,6 +41,13 @@ public class Borrower extends User {
 	}
 	
 	public String toString() {
-		return "BORROWER toString NEEDS IMPLEMENTATION" ; //TODO REMOVE URGENTLY
+		String result;
+		result = "User ID: " + this.getUsername();
+		result += "\nFirst Name: " + this.getForename();
+		result += "\nLast Name: " + this.getSurname();
+		result += "\nPhone Number: " + this.getPhoneNumber();
+		result += "\nAddress: " + this.getAddress();
+		result += "\nBalance: " + this.balance;			
+		return result;
 	}
 }
