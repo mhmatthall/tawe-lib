@@ -2,11 +2,12 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
@@ -38,14 +39,18 @@
             <TextField fx:id="txtSearchBox" onAction="#search" promptText="Enter search keywords..." />
             <HBox alignment="CENTER_LEFT" prefHeight="31.0" prefWidth="356.0" spacing="10.0">
                <children>
-                  <CheckBox fx:id="cbBooks" mnemonicParsing="false" text="Books" />
-                  <CheckBox fx:id="cbDVDs" mnemonicParsing="false" text="DVDs" />
-                  <CheckBox fx:id="cbLaptops" mnemonicParsing="false" text="Laptops" />
+                  <Label text="Search for" />
+                  <RadioButton fx:id="rbBooks" mnemonicParsing="false" text="Books">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="radioGroup" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="rbDVDs" mnemonicParsing="false" text="DVDs" toggleGroup="$radioGroup" />
+                  <RadioButton fx:id="rbLaptops" mnemonicParsing="false" text="Laptops" toggleGroup="$radioGroup" />
                </children>
             </HBox>
             <TableView fx:id="resultsTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
               <columns>
-                  <TableColumn fx:id="resultsType" prefWidth="77.0" text="Type" />
                 <TableColumn fx:id="resultsTitle" prefWidth="159.0" text="Title" />
                 <TableColumn fx:id="resultsYear" prefWidth="75.0" text="Year" />
                   <TableColumn fx:id="resultsID" prefWidth="75.0" text="Unique ID" />

@@ -10,10 +10,10 @@ public class Resource {
 	protected Thumbnail thumbnail;
 	protected RequestQueue queue;
 	
+	
 	public Resource(String title, int year, Thumbnail thumbnail) {
 		this.title = title;
 		this.year = year;
-		
 		if (this.getClass() == Book.class) {
 			resourceID = "B" + nextID;
 		} else if (this.getClass() == Laptop.class) {
@@ -23,6 +23,7 @@ public class Resource {
 		} else if (this.getClass() == Resource.class) {
 			resourceID = "R" + nextID;
 		}
+
 		nextID++;
 		
 		this.queue = new RequestQueue(this.resourceID);
@@ -73,4 +74,5 @@ public class Resource {
 	public void setQueue(RequestQueue queue) {
 		this.queue = queue;
 	}
+
 }
