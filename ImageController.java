@@ -189,14 +189,25 @@ public class ImageController {
 	private void exit() throws IOException {
 		window.close();
 		Stage window = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("UserDashboard.fxml"));
-		Pane dashboard = loader.load();
-		DashboardController controller = loader.getController();
-		controller.setUser(user);
-		controller.passStageReference(window);
-		Scene scene = new Scene(dashboard);
-		window.setScene(scene);
-		window.show();
+		if (user.isLibrarian()) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("ControlPanel.fxml"));
+			Pane dashboard = loader.load();
+			ControlPanelController controller = loader.getController();
+			controller.setUser(user);
+			controller.passStageReference(window);
+			Scene scene = new Scene(dashboard);
+			window.setScene(scene);
+			window.show();
+		} else {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("UserDashboard.fxml"));
+			Pane dashboard = loader.load();
+			DashboardController controller = loader.getController();
+			controller.setUser(user);
+			controller.passStageReference(window);
+			Scene scene = new Scene(dashboard);
+			window.setScene(scene);
+			window.show();
+		}
 	}
 
 	EventHandler<MouseEvent> rectangleOnMousePressedEventHandler = 

@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 public class ControlPanelController {
 
 	private User user;
+	private Stage window;
 
 	@FXML
 	Label lblWelcome;
@@ -42,6 +43,8 @@ public class ControlPanelController {
 	Button btnSearchLibrary;
 	@FXML
 	Button btnNewUser;
+	@FXML
+	Button btnEdit;
 	
 	@FXML
 	public ImageView libImage;
@@ -61,6 +64,33 @@ public class ControlPanelController {
 		}
 	}
 
+	@FXML
+	private void editProfile() {
+		int selection = SelectionBox.display("Select", "What do you want to edit?", "Edit Personal Details",
+				"Select new Profile Picture from Library", "Draw your own profile picture");
+		try {
+			switch (selection) {
+			case 1:
+				// Edit profile details
+				break;
+			case 2:
+				loadImageSelecter();
+				break;
+			case 3:
+				loadImageDrawer();
+				break;
+			default: return;
+			}
+		} catch (IOException e) {
+			System.out.println("Caught IO Exception coming from " + e.getCause() + e.getClass() + " from class "
+					+ this.getClass().toString());
+			System.out.println(e.getMessage());
+			System.out.println("\n");
+			e.printStackTrace();
+			Platform.exit();
+		}
+	}
+	
 	@FXML
 	public void logout() throws IOException {
 		Stage window = (Stage) btnExit.getScene().getWindow();
@@ -163,6 +193,30 @@ public class ControlPanelController {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("NewUser.fxml"));
 		Pane pane = loader.load();
 		NewUserController controller = loader.getController();
+		Scene scene = new Scene(pane);
+		window.setScene(scene);
+		controller.passStageReference(window);
+		window.show();
+	}
+	private void loadImageDrawer() throws IOException {
+		window.close();
+		Stage window = new Stage();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateImage.fxml"));
+		Pane pane = loader.load();
+		ImageController controller = loader.getController();
+		controller.setUser(user);
+		Scene scene = new Scene(pane);
+		window.setScene(scene);
+		controller.passStageReference(window);
+		window.show();
+	}
+	private void loadImageSelecter() throws IOException {
+		window.close();
+		Stage window = new Stage();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("SelectUserImage.fxml"));
+		Pane pane = loader.load();
+		SelectUserImageController controller = loader.getController();
+		controller.setUser(user);
 		Scene scene = new Scene(pane);
 		window.setScene(scene);
 		controller.passStageReference(window);

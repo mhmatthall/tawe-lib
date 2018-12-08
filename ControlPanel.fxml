@@ -69,6 +69,7 @@
                      <children>
                         <Button fx:id="btnNewUser" mnemonicParsing="false" onAction="#newUser" prefWidth="145.0" text="Create new User" />
                         <Button fx:id="btnCreateResource" mnemonicParsing="false" onAction="#createResource" prefHeight="25.0" prefWidth="145.0" text="Create new Resource" />
+                        <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#editProfile" prefWidth="145.0" text="Edit Profile" />
                      </children>
                   </VBox>
                </children></HBox>
