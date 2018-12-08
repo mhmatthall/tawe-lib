@@ -29,13 +29,19 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 public class SelectImageController {
 	@FXML
-	public Button btnCreate;
+	public Button def;
 	
 	@FXML
 	public Button btnExit;
 	
 	@FXML
-	public Button btnSave;
+	public Button Laptop;
+	
+	@FXML
+	public Button DVD;
+	
+	@FXML
+	public Button Book;
 	
 	public SelectImageController() {
 		
