@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javafx.fxml.FXML;
@@ -23,7 +24,7 @@ public class NewLaptopController {
 	@FXML TextField txtOS;
 	
 	@FXML
-	private void constructLaptop(){
+	private void constructLaptop() throws SQLException{
 		String title = txtTitle.getText();
 		int year = Integer.parseInt(txtYear.getText());
 		String make = txtManufacturer.getText(); 
@@ -32,6 +33,7 @@ public class NewLaptopController {
 		Thumbnail thumb = new Thumbnail(null);
 		
 		Laptop laptop1 = new Laptop(title, year, thumb, make, model, os);
+		new DatabaseRequest().addResource(laptop1);
 		
 		System.out.println(laptop1.toString());
 		
