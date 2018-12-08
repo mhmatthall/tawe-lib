@@ -4,6 +4,7 @@ import java.util.ArrayList;
 /**
  * The Class Borrower.
  * Modules borrowers for the library system
+ * @author Rimantas Kazlauskas
  */
 public class Borrower extends User {
 	
