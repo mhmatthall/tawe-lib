@@ -88,7 +88,6 @@ public class User {
 		result += "\nLast Name; " + this.surname;
 		result += "\nPhone Number; " + this.phoneNumber;
 		result += "\nAddress; " + this.address;
-		result += "\nForename; " + this.forename;
 		if (this.isLibrarian) {
 			result += "\nAccount Type: LIBRARIAN";
 		} else {
