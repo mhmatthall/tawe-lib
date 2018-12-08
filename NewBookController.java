@@ -43,6 +43,7 @@ public class NewBookController {
 		db.addResource(book1);
 		
 		System.out.println(book1.toString());
+		close();
 	}
 	
 	@FXML

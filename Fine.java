@@ -13,9 +13,8 @@ public class Fine {
 	private static final double MINIMUM_PAYMENT = 0.01;
 	private static int nextID = 0;
 	
-	private final double amount;
-	
 	private String fineID = ("F" + nextID);	// FineID = F + fine number; ...F9, F10, F11,...
+	private double amount;
 	private double amountPaid;
 	private String loanID;
 	private Date dateIssued;

@@ -37,7 +37,7 @@ public class NewLaptopController {
 		
 		System.out.println(laptop1.toString());
 		
-		window.close();
+		close();
 	}
 
 	@FXML
