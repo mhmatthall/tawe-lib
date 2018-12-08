@@ -89,7 +89,12 @@ public class ImageController {
 	public void buttonCreatePressed() throws IOException{
 				if (shapeType.getSelectionModel().getSelectedItem() == "rectangle") {
 					rectangleR = new Rectangle(100,100,100,100);
-    				rectangleR.setFill(pickColour.getValue());
+					if (fill.isSelected()) {
+						rectangleR.setFill(pickColour.getValue());
+					} else {
+						rectangleR.setFill(Color.TRANSPARENT);
+						rectangleR.setStroke(pickColour.getValue());
+					}
     				rectangleR.setCursor(Cursor.MOVE);
     				rectangleR.setOnMousePressed(rectangleOnMousePressedEventHandler);
     				rectangleR.setOnMouseDragged(rectangleOnMouseDraggedEventHandler);
@@ -99,7 +104,12 @@ public class ImageController {
 					canvas1.getChildren().addAll(rectangleR);
 				} else if (shapeType.getSelectionModel().getSelectedItem() == "circle") {
 					circleR = new Circle(70.0f);
-					circleR.setFill(pickColour.getValue());
+					if (fill.isSelected()) {
+						circleR.setFill(pickColour.getValue());
+					} else {
+						circleR.setFill(Color.TRANSPARENT);
+						circleR.setStroke(pickColour.getValue());
+					}
 			        circleR.setCursor(Cursor.MOVE);
 			        circleR.setCenterX(150);
 			        circleR.setCenterY(150);
@@ -109,6 +119,12 @@ public class ImageController {
 				}else if (shapeType.getSelectionModel().getSelectedItem() == "triangle") {
 					triangleR = new Polygon(300,250,200);
 			    	triangleR.setCursor(Cursor.MOVE);
+			    	if (fill.isSelected()) {
+						triangleR.setFill(pickColour.getValue());
+					} else {
+						triangleR.setFill(Color.TRANSPARENT);
+						triangleR.setStroke(pickColour.getValue());
+					}
 			    	triangleR.setOnMousePressed(triangleOnMousePressedEventHandler);
 			    	triangleR.setOnMouseDragged(triangleOnMouseDraggedEventHandler);
 					canvas1.getChildren().addAll(triangleR);
@@ -177,6 +193,7 @@ public class ImageController {
 		Pane dashboard = loader.load();
 		DashboardController controller = loader.getController();
 		controller.setUser(user);
+		controller.passStageReference(window);
 		Scene scene = new Scene(dashboard);
 		window.setScene(scene);
 		window.show();

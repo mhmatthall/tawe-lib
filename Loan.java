@@ -12,29 +12,40 @@ public class Loan {
 	private Date issueDate;
 	private String username;
 	private Date returnDate;
-	
-	public Loan() {
+	private boolean isReturned;
 
-	}
 
-	public Loan(String copyID, Date issueDate, String username, Date returnDate) {
+ 
+	//creating new loan
+	public Loan(String copyID, String username) throws SQLException {
+		DatabaseRequest db = new DatabaseRequest();
 		this.copyID = copyID;
-		this.issueDate = issueDate;
+		this.issueDate = new Date();
 		this.username = username;
-		this.returnDate = returnDate;
+		this.isReturned = false;
+		this.returnDate = issueDate;
+		this.returnDate.forwardDate(db.getCopy(copyID).getLoanTime());
 		nextLoanID++;
 	}
-
-	public Loan(String loanID, Date issueDate, String username, String copyID, Date returnDate) {
+	//db constructor
+	public Loan(String loanID, Date issueDate, String username, String copyID, 
+			Date returnDate, boolean isReturned) {
 		this.loanID = loanID;
 		this.issueDate = issueDate;
 		this.username = username;
 		this.copyID = copyID;
 		this.returnDate = returnDate;
+		this.isReturned = isReturned;
 	}
 	
 	public String getLoanID() {
 		return loanID;
+	}
+	public boolean isReturned() {
+		return isReturned;
+	}
+	public void returnResource() {
+		isReturned = true;
 	}
 
 	public void setLoanID(String loanID) {
