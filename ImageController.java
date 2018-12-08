@@ -81,6 +81,7 @@ public class ImageController {
 	public void initialize() {
 	ObservableList<String> value = FXCollections.observableArrayList("rectangle", "circle","triangle");
 	shapeType.setItems(value);
+	shapeType.getSelectionModel().selectFirst();
 	}
 	
 	
@@ -153,7 +154,7 @@ public class ImageController {
 	    
 	    try {
 	        ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
-	        UserImage custom = new UserImage("custom.png");
+	        UserImage custom = new UserImage(user.getUsername() + ".png");
 	        user.setProfileImage(custom);
 	        new DatabaseRequest().editUser(user);
 	        

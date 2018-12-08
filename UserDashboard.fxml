@@ -32,11 +32,11 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="106.0" prefWidth="370.0" spacing="10.0">
+            <HBox fx:id="upperElements" prefHeight="106.0" prefWidth="370.0" spacing="10.0">
                <children>
-                  <VBox alignment="CENTER_LEFT" prefHeight="112.0" prefWidth="178.0" spacing="5.0">
+                  <VBox alignment="CENTER_LEFT" prefHeight="111.0" prefWidth="263.0" spacing="5.0">
                      <children>
-                        <Label fx:id="lblWelcome" text="Welcome, USER_NAME">
+                        <Label fx:id="lblWelcome" prefHeight="25.0" prefWidth="291.0" text="Welcome, USER_NAME">
                            <font>
                               <Font size="16.0" />
                            </font></Label>

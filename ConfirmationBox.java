@@ -16,8 +16,8 @@ public class ConfirmationBox {
 		
 		window.initModality(Modality.APPLICATION_MODAL);
 		window.setTitle(title);
-		window.setMinHeight(100);
-		window.setMinWidth(225);
+		window.setMinHeight(150);
+		window.setMinWidth(250);
 		
 		Label lbl1 = new Label(msg);
 	//	lbl1.setFont(new Font(16));

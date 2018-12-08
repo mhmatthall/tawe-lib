@@ -3,6 +3,7 @@
  * @author Constantinos Loizou
  */
 
+import java.awt.Window;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -35,12 +37,17 @@ public class DashboardController {
 	Button btnLogout;
 	@FXML
 	Button btnEdit;
+	@FXML ImageView profImg;
+	@FXML HBox upperElements;
+
+	private Stage window;
+
 	@FXML
 	public ImageView userimage;
 
 	@FXML
 	private void editProfile() {
-		int selection = SelectionBox.display("Select", "What do you want to edit", "Edit Personal Details",
+		int selection = SelectionBox.display("Select", "What do you want to edit?", "Edit Personal Details",
 				"Select new Profile Picture from Library", "Draw your own profile picture");
 		try {
 			switch (selection) {
@@ -108,13 +115,16 @@ public class DashboardController {
 		this.user = user;
 		userimage.setImage(new Image(user.getProfileImage().getImage()));
 		lblUsername.setText("Username: " + user.getUsername());
-		lblWelcome.setText("Welcome " + user.getForename());
+		lblWelcome.setText("Welcome " + user.getForename() + " " + user.getSurname());
 	}
 
 	public User getUser() {
 		return user;
 	}
 
+	public void passStageReference(Stage window) {
+		this.window = window;
+	}
 	public void initialize() {
 		
 	}
