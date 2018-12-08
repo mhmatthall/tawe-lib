@@ -13,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
@@ -23,6 +24,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -98,8 +100,7 @@ public class ImageController {
     				rectangleR.setCursor(Cursor.MOVE);
     				rectangleR.setOnMousePressed(rectangleOnMousePressedEventHandler);
     				rectangleR.setOnMouseDragged(rectangleOnMouseDraggedEventHandler);
-					int x = 100;
-					int y = 100;
+    				addMouseScrolling(rectangleR);
 				
 					canvas1.getChildren().addAll(rectangleR);
 				} else if (shapeType.getSelectionModel().getSelectedItem() == "circle") {
@@ -115,6 +116,7 @@ public class ImageController {
 			        circleR.setCenterY(150);
 			        circleR.setOnMousePressed(circleOnMousePressedEventHandler);
 			        circleR.setOnMouseDragged(circleOnMouseDraggedEventHandler);
+			        addMouseScrolling(circleR);
 			        canvas1.getChildren().addAll(circleR);
 				}else if (shapeType.getSelectionModel().getSelectedItem() == "triangle") {
 					triangleR = new Polygon(300,250,200);
@@ -127,6 +129,7 @@ public class ImageController {
 					}
 			    	triangleR.setOnMousePressed(triangleOnMousePressedEventHandler);
 			    	triangleR.setOnMouseDragged(triangleOnMouseDraggedEventHandler);
+			    	addMouseScrolling(triangleR);
 					canvas1.getChildren().addAll(triangleR);
 					triangleR.getPoints().addAll(new Double[] {
 			    			300.0, 200.0,
@@ -260,6 +263,19 @@ public class ImageController {
                     ((Circle)(t.getSource())).setTranslateY(newTranslateY);
                 }
             };
+            
+            public void addMouseScrolling(Node node) {
+                node.setOnScroll((ScrollEvent t) -> {
+
+                    double zoom = 1.05;
+                    double deltaY = t.getDeltaY();
+                    if (deltaY < 0){
+                        zoom = 2.0 - zoom;
+                    }
+                    node.setScaleX(node.getScaleX() * zoom);
+                    node.setScaleY(node.getScaleY() * zoom);
+                });
+            }
 	public void setUser(User user) {
 		this.user = user;
 	}
