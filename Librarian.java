@@ -75,10 +75,10 @@ public class Librarian extends User {
 		db.editLoan(loan);
 	}
 	
-	public void PayFine(String fineID, double amount) {
+	public void payFine(String fineID, double amount) throws SQLException {
 		
 		DatabaseRequest db = new DatabaseRequest();
-		Fine f = db.getFine();
+		Fine f = db.getFine(fineID);
 		
 		if (amount < f.getMinimumPayment())
 			throw new IllegalArgumentException("Cannot pay less than £" + f.getMinimumPayment());
@@ -127,7 +127,7 @@ public class Librarian extends User {
 		
 	}
 	
-	public void RequestResource(String resourceID, String username) throws SQLException {
+	public void requestResource(String resourceID, String username) throws SQLException {
 		
 		DatabaseRequest db = new DatabaseRequest();
 		
