@@ -6,6 +6,8 @@ import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Line;
+import javafx.scene.Node;
+import javafx.scene.input.ScrollEvent;
 
 public class Drawline extends Application{
 	Line lineR = new Line();
@@ -13,21 +15,23 @@ public class Drawline extends Application{
     double orgTranslateX, orgTranslateY;
     @Override
     
-    public void start(Stage primaryStage) {
+    public void start(Stage stage) {
     	lineR = new Line();
     	lineR.setCursor(Cursor.MOVE);
     	lineR.setOnMousePressed(lineOnMousePressedEventHandler);
     	lineR.setOnMouseDragged(lineOnMouseDraggedEventHandler);
+    	addMouseScrolling(lineR);
     	
     	Group root = new Group(lineR);
     	lineR.setStartX(100.0);
     	lineR.setStartY(150.0);
     	lineR.setEndX(500.0);
     	lineR.setEndY(150.0);
-    	primaryStage.setResizable(false);
-    	primaryStage.setScene(new Scene(root, 600,450));
-    	primaryStage.setTitle("Line");
-    	primaryStage.show();  	
+    	Scene scene = new Scene(root, 600, 450);
+    	stage.setResizable(false);
+    	stage.setScene(scene);
+    	stage.setTitle("Line");
+    	stage.show();  	
     }
     
     public static void main(String[] args) {
@@ -59,4 +63,16 @@ public class Drawline extends Application{
                 ((Line)(t.getSource())).setTranslateY(newTranslateY);
             }
         };
+        public void addMouseScrolling(Node node) 
+        {node.setOnScroll((ScrollEvent t) -> {
+        	double zoom = 1.05;
+        	double deltaY = t.getDeltaY();
+        	if (deltaY < 0){
+        		zoom = 2.0 - zoom;
+                }
+        	node.setScaleX(node.getScaleX() * zoom);
+        	node.setScaleY(node.getScaleY() * zoom);
+            });
+
+    }
     }

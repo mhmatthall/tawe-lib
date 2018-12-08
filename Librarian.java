@@ -60,4 +60,18 @@ public class Librarian extends User {
 		new DatabaseRequest().editResource(r);
 		new DatabaseRequest().editLoan(loan);
 	}
+	
+	public void PayFine(String fineID, double amount) {
+		Fine f = new DatabaseRequest().getFine();
+		
+		if (amount < f.getMinimumPayment())
+			throw new IllegalArgumentException("Cannot pay less than £" + f.getMinimumPayment());
+		else if (f.getAmountPaid() + amount > f.getAmount()) {
+			throw new IllegalArgumentException("Cant pay more than the total fine amount ");
+		}
+		
+		f.setAmountPaid(f.getAmountPaid() + amount);
+		new DatabaseRequest().editFine(f);
+		
+	}
 }
