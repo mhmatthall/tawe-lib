@@ -49,14 +49,7 @@
                      </opaqueInsets>
                   </VBox>
                   <Region prefHeight="86.0" prefWidth="46.0" HBox.hgrow="ALWAYS" />
-<<<<<<< HEAD
-                  <ImageView fx:id="profImg" fitHeight="111.0" fitWidth="177.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
-                     <image>
-                        <Image url="@image_files/jeremy.jpg" />
-                     </image></ImageView>
-=======
                   <ImageView fx:id="userimage" fitHeight="111.0" fitWidth="177.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS" />
->>>>>>> a1ca0bca8bb65896d1aa30c7759cda677089acdf
                </children>
                <padding>
                   <Insets bottom="10.0" top="10.0" />
