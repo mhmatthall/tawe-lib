@@ -30,7 +30,7 @@ public class NewLaptopController {
 		String make = txtManufacturer.getText(); 
 		String model = txtModel.getText();
 		String os = txtOS.getText();
-		Thumbnail thumb = new Thumbnail(null);
+		Thumbnail thumb = new Thumbnail("laptop.png");
 		
 		Laptop laptop1 = new Laptop(title, year, thumb, make, model, os);
 		new DatabaseRequest().addResource(laptop1);
