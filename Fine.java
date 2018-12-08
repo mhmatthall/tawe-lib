@@ -15,24 +15,73 @@ public class Fine {
 
 	// FineID = F + fine number. Example F1
 	private String fineID = ("F" + nextID);
-	private double amountTotal;
+	private double amount;
 	private double amountPaid;
-	private double amountLeft;	// unnecessary, can calculate from amtTotal and amtPaid
-
 	private String loanID;
 	private Date dateIssued;
 	private Date datePaid;
-//	private Loan loanFined;	// unnecessary, already have loanID
-
 	private boolean paid;
-
-
 	
+	public String getFineID() {
+		return fineID;
+	}
+
+	public void setFineID(String fineID) {
+		this.fineID = fineID;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public double getAmountPaid() {
+		return amountPaid;
+	}
+
+	public void setAmountPaid(double amountPaid) {
+		this.amountPaid = amountPaid;
+	}
+
+	public String getLoanID() {
+		return loanID;
+	}
+
+	public void setLoanID(String loanID) {
+		this.loanID = loanID;
+	}
+
+	public Date getDateIssued() {
+		return dateIssued;
+	}
+
+	public void setDateIssued(Date dateIssued) {
+		this.dateIssued = dateIssued;
+	}
+
+	public Date getDatePaid() {
+		return datePaid;
+	}
+
+	public void setDatePaid(Date datePaid) {
+		this.datePaid = datePaid;
+	}
+
+	public boolean isPaid() {
+		return paid;
+	}
+
+	public void setPaid(boolean paid) {
+		this.paid = paid;
+	}
+
 	// Constructor
 	public Fine(String loanID) throws SQLException {
-		this.amountTotal = calculateAmount();
+		this.amount = calculateAmount();
 		this.amountPaid = 0;
-		this.amountLeft = 0;
 		this.dateIssued = new Date(); //Current date set
 		this.paid = false;
 		this.loanID = loanID;
@@ -70,63 +119,6 @@ public class Fine {
 		return amountTotal;
 	}
 	
-	/*
-	 * @return The fineID
-	 */
-	public String getFineID() {
-		return fineID;
-	}
-	
-	/*
-	 * @return Fine amount
-	 */
-	public double getAmountTotal() {
-		return amountTotal;
-	}
-	
-	/*
-	 * @return Amount Paid
-	 */
-	public double getAmountPaid() {
-		return amountPaid;
-	}
-	
-	/*
-	 * @return Amount left to pay
-	 */
-	public double getAmountLeft() {
-		return amountLeft;
-	}
-	
-	/*
-	 * @return date the fine was issued
-	 */
-	public Date getDateIssued() {
-		return dateIssued;
-	}
-	
-	/*
-	 * @return Date the fine was paid
-	 */
-	public Date getDatePaid() {
-		return datePaid;
-	}
-
-	/*
-	 * @return True if fine has been paid. False otherwise
-	 */
-	public boolean isPaid() {
-		return paid;
-	}
-
-	/*
-	 * Set fine as paid
-	 */
-	public void setPaid() {
-		paid = true;
-		datePaid = new Date();
-	}
-
 	/*
 	 * @param amount
 	 * 		The amount paid. Fine may have only been partially paid
