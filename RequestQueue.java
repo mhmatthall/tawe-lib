@@ -78,7 +78,7 @@ public class RequestQueue {
 	/**
 	 * @param element puts object into Q
 	 */
-	public void addUser(Object element) {
+	public void addUser(String element) {
 		QueueElement newElement = new QueueElement(element, new QueueElement(null,null));
 		QueueElement temp;
 		
