@@ -64,8 +64,8 @@
                   <VBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>
                         <Button fx:id="btnSearchUser" mnemonicParsing="false" onAction="#searchUser" prefWidth="145.0" text="Search for User" />
+                        <Button fx:id="btnSearchLibrary" mnemonicParsing="false" onAction="#searchLibrary" prefWidth="145.0" text="Search the Library" />
                         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="Search Overdues" />
-                        <Button mnemonicParsing="false" prefWidth="145.0" text="Search the Library" />
                      </children>
                   </VBox>
                   <Region HBox.hgrow="ALWAYS" />
