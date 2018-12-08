@@ -1,7 +1,7 @@
 /**
  * The Class Book.
  * Models books in the library
- * @author Ben
+ * @author Ben Rochford
  */
 
 public class Book extends Resource {
