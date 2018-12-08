@@ -12,9 +12,7 @@ import java.util.Arrays;
 
 	+ search(tables : string, fieldName : string, query : string, numberOfResults : int) : ArrayList<Object>
 
-	+ getOverdueLoans() : ArrayList<Copy>
-	+ count copies
-	+ get list of copies
+	+ loan maniupulation
 	+ check if any copy of a resource is available
 	+ loan out as objects
 	+ total fines for given user
@@ -30,20 +28,6 @@ public class DatabaseRequest {
 	//		establishConnection();
 	//		try {
 	//			Statement uhoh = conn.createStatement();
-	//			//uhoh.addBatch("DELETE FROM LIBRARIAN WHERE USERNAME = 'l.oreilly'");
-	//			//uhoh.addBatch("DELETE FROM LIBRARY_USER WHERE USERNAME = 'l.oreilly'");
-	//			//uhoh.executeBatch();
-	//			//System.out.println(check + " rows changed by " + uhoh.getUpdateCount() + " statements");
-	//			
-	//			//ResultSet uhohRes = uhoh.executeQuery("SELECT * FROM LIBRARIAN WHERE USERNAME = 'l.oreilly'");
-	//			//uhohRes.next();
-	//			//System.out.println(uhohRes.getString(2) + " " + uhohRes.getString(3));
-	//			
-	//			//uhoh.executeUpdate("UPDATE LIBRARIAN SET EMPLOYMENT_DATE = 131211 WHERE USERNAME = 'l.oreilly'");
-	//			//Librarian u1 = new Librarian("l.oreilly", "Liam", "OReilly", "07706545232", "Trafalgar Place, Brynmill, SA2 0DC", null, 18, new Date(14, 12, 12));
-	//			//addUser(u1);
-	//			//Librarian meme = (Librarian)getUser("l.oreilly");
-	//			//System.out.println("Hi, " + meme.getForename() + meme.getSurname() + meme.getPhoneNumber() + meme.getAddress() + meme.getUsername() + meme.getProfileImage() + meme.getStaffNumber() + " empdate: " + meme.getEmploymentDate().getDay() + meme.getEmploymentDate().getMonth() + meme.getEmploymentDate().getYear());
 	//		} catch (Exception e) {
 	//			System.out.println("ERROR: " + e.getMessage());
 	//		}
@@ -389,6 +373,19 @@ public class DatabaseRequest {
 		return rq;
 	}
 
+	public boolean checkAvailability(String resourceID) throws SQLException {
+		Statement query = conn.createStatement();
+		ResultSet results = query.executeQuery("SELECT COUNT(*) FROM COPY WHERE RESOURCE_ID = '" + resourceID + "'");
+
+		results.next();
+		
+		if (results.getInt(1) == 0) {
+			return false;
+		}
+
+		return true;
+	}
+	
 	public void addCopy(Copy newCopy) throws SQLException {
 		// Format boolean true/false to 1/0 for database insertion
 		int isOnLoan = newCopy.isOnLoan() ? 1 : 0;
@@ -428,19 +425,46 @@ public class DatabaseRequest {
 	public Copy getCopy(String copyID) throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT * FROM COPY WHERE COPY_ID = " + copyID);
-		
+
 		results.next();
-		
+
 		// Format integer 1/0 from database back into boolean true/false
 		boolean isOnLoan = results.getInt(4) != 0;
 		boolean isReserved = results.getInt(5) != 0;
-		
+
 		Copy out = new Copy(copyID,
 				results.getString(2),
 				results.getInt(3),
 				isOnLoan,
 				isReserved,
 				results.getString(6));
+
+		return out;
+	}
+
+	public ArrayList<Copy> getCopies(String resourceID) throws SQLException {
+		Statement query = conn.createStatement();
+		ResultSet results = query.executeQuery("SELECT * FROM COPY WHERE RESOURCE_ID = '" + resourceID + "'");
+		
+		boolean isOnLoan;
+		boolean isReserved;
+		Copy currentCopy;
+		ArrayList<Copy> out = new ArrayList<Copy>();
+		
+		while (results.next()) {
+			// Format integer 1/0 from database back into boolean true/false
+			isOnLoan = results.getInt(4) != 0;
+			isReserved = results.getInt(5) != 0;
+			
+			currentCopy = new Copy(results.getString(1),
+					results.getString(2),
+					results.getInt(3),
+					isOnLoan,
+					isReserved,
+					results.getString(6));
+			
+			out.add(currentCopy);
+		}
 		
 		return out;
 	}
@@ -495,7 +519,7 @@ public class DatabaseRequest {
 	public ArrayList<Loan> getLoanHistory(String copyID) throws SQLException {
 		Statement query = conn.createStatement();
 
-		ResultSet results = query.executeQuery("SELECT * FROM LOAN WHERE COPY_ID = " + copyID);
+		ResultSet results = query.executeQuery("SELECT * FROM LOAN WHERE COPY_ID = '" + copyID + "'");
 
 		ArrayList<Loan> out = new ArrayList<Loan>();
 		Loan temp;
@@ -515,7 +539,7 @@ public class DatabaseRequest {
 
 	public Loan getOldestLoan(String resourceID) throws SQLException {
 		Statement query = conn.createStatement();
-		ResultSet results = query.executeQuery("SELECT LOAN.* FROM LOAN INNER JOIN COPY ON LOAN.COPY_ID = COPY.COPY_ID WHERE COPY.RESOURCE_ID = " + resourceID);
+		ResultSet results = query.executeQuery("SELECT LOAN.* FROM LOAN INNER JOIN COPY ON LOAN.COPY_ID = COPY.COPY_ID WHERE COPY.RESOURCE_ID = '" + resourceID + "'");
 
 		ArrayList<Loan> loans = new ArrayList<Loan>();
 		Loan temp;
@@ -541,7 +565,7 @@ public class DatabaseRequest {
 
 		return oldestLoan;
 	}
-	
+
 	public ArrayList<Loan> getOverdueLoans() throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT * FROM LOAN");
@@ -556,7 +580,7 @@ public class DatabaseRequest {
 					results.getString(3),	// username
 					results.getString(4),	// copyID
 					new Date(results.getString(5)));	// return date
-			
+
 			if (currentDate.isBefore(currentLoan.getReturnDate())) {
 				overdueLoans.add(currentLoan);
 			}
@@ -564,4 +588,5 @@ public class DatabaseRequest {
 
 		return overdueLoans;
 	}
+
 }
