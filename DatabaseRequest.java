@@ -542,7 +542,6 @@ public class DatabaseRequest {
 	
 	public void deleteLoan(String loanID) throws SQLException {
 		Statement query = conn.createStatement();
-
 		query.executeUpdate("DELETE FROM LOAN WHERE loan_id = '" + loanID + "'");
 	}
 	
@@ -679,5 +678,45 @@ public class DatabaseRequest {
 				"'" + newFine.getDatePaid().toString() + "', " +
 				"'" + newFine.getDateIssued().toString() + "', " +
 				isPaid + ")");
+	}
+	
+	public void editFine(Fine newDetails) throws SQLException {
+		// Format boolean true/false to 1/0 for database insertion
+		int isPaid = newDetails.isPaid() ? 1 : 0;
+
+		Statement query = conn.createStatement();
+		query.executeUpdate("UPDATE LOAN SET " +
+				"amount = " + newDetails.getAmount() + ", " +
+				"amount_paid = " + newDetails.getAmountPaid() + ", " +
+				"loan_id = '" + newDetails.getLoanID() + "', " +
+				"date_paid = '" + newDetails.getDatePaid().toString() + "', " +
+				"date_issued = " + newDetails.getDateIssued().toString() + ", " +
+				"is_paid = " + isPaid + " " +
+				"WHERE fine_id = '" + newDetails.getFineID() + "'");
+	}
+	
+	public void deleteFine(String fineID) throws SQLException {
+		Statement query = conn.createStatement();
+		query.executeUpdate("DELETE FROM FINE WHERE fine_id = '" + fineID + "'");
+	}
+	
+	public Fine getFine(String fineID) throws SQLException {
+		Statement query = conn.createStatement();
+		ResultSet results = query.executeQuery("SELECT * FROM FINE WHERE fine_id = '" + fineID + "'");
+
+		results.next();
+
+		// Format integer 1/0 from database back into boolean true/false
+		boolean isPaid = results.getInt(7) != 0;
+
+		Fine out = new Fine(fineID,
+				results.getDouble(2),
+				results.getDouble(3),
+				results.getString(4),
+				new Date(results.getString(5)),
+				new Date(results.getString(6)),
+				isPaid);
+
+		return out;
 	}
 }

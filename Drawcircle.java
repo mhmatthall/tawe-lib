@@ -7,31 +7,38 @@ import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.Node;
 /**
  *
  * @author kevin
  */
 public class Drawcircle extends Application {
+	//varibles
     Circle circleR;
     double orgSceneX, orgSceneY;
     double orgTranslateX, orgTranslateY;
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage stage) {
+    	//Create circle
         circleR = new Circle(70.0f, Color.RED);
         circleR.setCursor(Cursor.MOVE);
         circleR.setCenterX(150);
         circleR.setCenterY(150);
         circleR.setOnMousePressed(circleOnMousePressedEventHandler);
         circleR.setOnMouseDragged(circleOnMouseDraggedEventHandler);
-        
+        addMouseScrolling(circleR);
         
         Group root = new Group();
-        root.getChildren().addAll(circleR);
+        root.getChildren().add(circleR);
+
+        //set scene
+        Scene scene = new Scene(root, 600,450);
+        stage.setResizable(false);       
+        stage.setTitle("Circle");
+        stage.show();
+        stage.setScene(scene);
         
-        primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(root, 400,350));       
-        primaryStage.setTitle("Circle");
-        primaryStage.show();
     }
 
     /**
@@ -40,8 +47,8 @@ public class Drawcircle extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    EventHandler<MouseEvent> circleOnMousePressedEventHandler = 
-        new EventHandler<MouseEvent>() {
+//Mouse is pressed
+    EventHandler<MouseEvent> circleOnMousePressedEventHandler = new EventHandler<MouseEvent>() {
  
         @Override
         public void handle(MouseEvent t) {
@@ -50,9 +57,9 @@ public class Drawcircle extends Application {
             orgTranslateX = ((Circle)(t.getSource())).getTranslateX();
             orgTranslateY = ((Circle)(t.getSource())).getTranslateY();
         }
-        };
-     EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = 
-        new EventHandler<MouseEvent>() {
+    };
+//Mouse is dragged
+     EventHandler<MouseEvent> circleOnMouseDraggedEventHandler = new EventHandler<MouseEvent>() {
  
         @Override
         public void handle(MouseEvent t) {
@@ -65,4 +72,18 @@ public class Drawcircle extends Application {
             ((Circle)(t.getSource())).setTranslateY(newTranslateY);
         }
     };
+//Scrolling
+    public void addMouseScrolling(Node node) {
+        node.setOnScroll((ScrollEvent t) -> {
+
+            double zoom = 1.05;
+            double deltaY = t.getDeltaY();
+            if (deltaY < 0){
+                zoom = 2.0 - zoom;
+            }
+            node.setScaleX(node.getScaleX() * zoom);
+            node.setScaleY(node.getScaleY() * zoom);
+        });
+
+}
 }

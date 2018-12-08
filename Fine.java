@@ -12,15 +12,35 @@ public class Fine {
 
 	private static final double MINIMUM_PAYMENT = 0.01;
 	private static int nextID = 0;
-
-	// FineID = F + fine number. Example F1
-	private String fineID = ("F" + nextID);
-	private double amount;
+	
+	private final double amount;
+	
+	private String fineID = ("F" + nextID);	// FineID = F + fine number; ...F9, F10, F11,...
 	private double amountPaid;
 	private String loanID;
 	private Date dateIssued;
 	private Date datePaid;
 	private boolean paid;
+
+	public Fine(String loanID) throws SQLException {
+		this.amount = calculateAmount();
+		this.amountPaid = 0.0;
+		this.dateIssued = new Date(); // Today's date
+		this.paid = false;
+		this.loanID = loanID;
+		nextID++;
+	}
+
+	public Fine(String fineID, double amount, double amountPaid, String loanID, Date datePaid, Date dateIssued, boolean isPaid) {
+		// Required to load Fines from the database
+		this.fineID = fineID;
+		this.amount = amount;
+		this.amountPaid = amountPaid;
+		this.loanID = loanID;
+		this.datePaid = datePaid;
+		this.dateIssued = dateIssued;
+		this.paid = isPaid;
+	}
 	
 	public String getFineID() {
 		return fineID;
@@ -77,16 +97,13 @@ public class Fine {
 	public void setPaid(boolean paid) {
 		this.paid = paid;
 	}
-
-	// Constructor
-	public Fine(String loanID) throws SQLException {
-		this.amount = calculateAmount();
-		this.amountPaid = 0;
-		this.dateIssued = new Date(); //Current date set
-		this.paid = false;
-		this.loanID = loanID;
-		nextID++;
+	
+	public double getMinimumPayment() {
+		return MINIMUM_PAYMENT;
 	}
+	
+	
+
 
 	/*
 	 * Calculates the amount of the fine
@@ -123,19 +140,8 @@ public class Fine {
 	 * @param amount
 	 * 		The amount paid. Fine may have only been partially paid
 	 */
-	public void payFine(double amount) throws IllegalArgumentException {
-		if (amount < MINIMUM_PAYMENT) {
-			throw new IllegalArgumentException("Can't pay less than £" + MINIMUM_PAYMENT);
-		} else if (amount > (this.amountLeft - amountPaid)) {
-			throw new IllegalArgumentException("Can't pay more than total fine amount");
-		}
-		amountPaid += amount;
-		amountLeft -= amount;
-		
-		if (amountLeft <= amountPaid) {
-			setPaid();
-		}
-	}
+	
+	
 
 	//TODO : IMPLEMENT TOSTRING()
 	
