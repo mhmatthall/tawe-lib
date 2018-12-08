@@ -29,6 +29,9 @@ public class GUIMain extends Application {
 	@Override
 	public void start(Stage window) throws Exception {
 
+		
+	//	System.out.println("USER: " + new DatabaseRequest().getUser("qqqq").toString());
+		
 
 		// Specify the FXML controller
 		Parent root = FXMLLoader.load(getClass().getResource("Welcome.fxml"));

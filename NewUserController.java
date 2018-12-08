@@ -85,11 +85,20 @@ public class NewUserController {
 		String username = txtUsername.getText();
 		
 		//Check if username is taken
-		if (new DatabaseRequest().getUser(username) != null) {
-			AlertBox.display("Username Not Available!");
-			txtUsername.setText("");
+//		if (new DatabaseRequest().getUser(username) != null) {
+//			AlertBox.display("Username Not Available!");
+//			txtUsername.setText("");
+//			return;
+//		} 
+		
+		try {
+			User user = new DatabaseRequest().getUser(username);
+			AlertBox.display("Username unavailable");
 			return;
+		} catch (SQLException e1) {
+			//No need to do anything
 		}
+		
 
 		UserImage profPic = new UserImage(null);
 

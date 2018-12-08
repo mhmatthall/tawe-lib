@@ -49,19 +49,13 @@ public class User {
 		return profileImage;
 	}
 
-<<<<<<< HEAD
+
 	public String toStringOld() {
 		String x;
 		x = ("UserName: " + username + "\nForename: " + forename + "\nSurname: " + surname + "\nPhone Number: " + phoneNumber + "\nAddress: " + address);
 		return x;
 	}
-=======
-	//public String toString() {
-		//String x;
-		//x = ("UserName: " + username + "\nForename: " + forename + "\nSurname: " + surname + "\nPhone Number: " + phoneNumber + "\nAddress: " + address);
-		//return x;
-	//}
->>>>>>> 415fefa4a316030ef16f74d65d41c3dd1e5250e3
+
 	
 //	public ArrayList[] browseResources(){
 //		ArrayList[] DVDs = new ArrayList[DatabaseRequest.viewTable("DVD")];
