@@ -31,7 +31,7 @@ public class Librarian extends User {
 		this.employmentDate = employmentDate;
 	}
 	
-	public void issueLoan(String CopyID, String UserID) {
+	public void issueLoan(String CopyID, String UserID) throws SQLException {
 		Loan l = new Loan(CopyID, UserID);
 		new DatabaseRequest().addLoan(l);
 		
@@ -39,6 +39,7 @@ public class Librarian extends User {
 	
 	public void returnLoan(Loan loan) throws SQLException{
 		
+		Copy c = new DatabaseRequest().getCopy(loan.getCopyID());
 		Resource r = new DatabaseRequest().getResource(c.getResourceID());
 		
 		if ((new Date()).isBefore(loan.getReturnDate())) {
@@ -53,9 +54,10 @@ public class Librarian extends User {
 		} else {
 			Loan l = new Loan(loan.getCopyID(), r.getQueue().peek());
 			loan.setReservationStatus(true, r.getQueue().peek());
-			
+			r.getQueue().dequeue();
 		}
 		
+		new DatabaseRequest().editResource(r);
 		new DatabaseRequest().editLoan(loan);
 	}
 }
