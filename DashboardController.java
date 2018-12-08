@@ -17,10 +17,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+<<<<<<< HEAD
 import javafx.scene.layout.HBox;
+=======
+>>>>>>> 415fefa4a316030ef16f74d65d41c3dd1e5250e3
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.image.*;
 
 public class DashboardController {
 
@@ -36,10 +40,15 @@ public class DashboardController {
 	Button btnLogout;
 	@FXML
 	Button btnEdit;
+<<<<<<< HEAD
 	@FXML ImageView profImg;
 	@FXML HBox upperElements;
 
 	private Stage window;
+=======
+	@FXML
+	public ImageView userimage;
+>>>>>>> 415fefa4a316030ef16f74d65d41c3dd1e5250e3
 
 	@FXML
 	private void editProfile() {
@@ -98,6 +107,7 @@ public class DashboardController {
 
 	public void setUser(User user) {
 		this.user = user;
+		//userimage.setImage(new Image(user.getProfileImage().getImage()));
 		lblUsername.setText("Username: " + user.getUsername());
 		lblWelcome.setText("Welcome " + user.getForename() + " " + user.getSurname());
 	}
@@ -106,8 +116,12 @@ public class DashboardController {
 		return user;
 	}
 
+<<<<<<< HEAD
 	public void passStageReference(Stage window) {
 		this.window = window;
+=======
+	public void initialize() {
+>>>>>>> 415fefa4a316030ef16f74d65d41c3dd1e5250e3
 		
 	}
 

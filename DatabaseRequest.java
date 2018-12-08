@@ -493,23 +493,15 @@ public class DatabaseRequest {
 		return out;
 	}
 
-//	public Loan getOldestLoan(String resourceID) throws SQLException {
-//		Statement query = conn.createStatement();
-//		
-//		ResultSet results = query.executeQuery("SELECT * FROM LOAN WHERE COPY_ID = " + copyID);
-//		
-//		ArrayList<Loan> out = new ArrayList<Loan>();
-//		Loan temp;
-//		
-//		while (results.next()) {
-//			temp = new Loan(results.getString(1),	// loanID
-//					new Date(results.getString(2)),	// issue date
-//					results.getString(3),	// username
-//					results.getString(4),	// copyID
-//					new Date(results.getString(5)));	// return date
-//			
-//			out.add(temp);
-//		}
-//		return null;
-//	}
+	public Loan getOldestLoan(String resourceID) throws SQLException {
+		Statement query = conn.createStatement();
+		ResultSet results = query.executeQuery("SELECT * FROM LOAN INNER JOIN COPY ON LOAN.COPY_ID = COPY.COPY_ID WHERE COPY.RESOURCE_ID = " + resourceID);
+
+		Loan out = new Loan(results.getString(1),	// loanID
+				new Date(results.getString(2)),	// issue date
+				results.getString(3),	// username
+				results.getString(4),	// copyID
+				new Date(results.getString(5)));	// return date
+		return out;
+	}
 }
