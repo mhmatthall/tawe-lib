@@ -35,18 +35,12 @@ public class Librarian extends User {
 	public void issueLoan(String resourceID, String username) throws SQLException {
 		
 		DatabaseRequest db = new DatabaseRequest();
-		ArrayList<Copy> copies = db.getCopies(resourceID);
+		Copy c = db.getAvailableCopies(resourceID);
+
+		Loan l = new Loan(c.getCopyID(), username);
 		
-		Loan l = null;
-		for (Copy currentCopy : copies) {
-			if (l.equals(null) && !currentCopy.isOnLoan()) {
-				l = new Loan(currentCopy.getCopyID(), username);
-				
-			}
-		}
-		
-		
-		new DatabaseRequest().addLoan(l);
+
+		db.addLoan(l);
 		
 	}
 	
@@ -66,8 +60,7 @@ public class Librarian extends User {
 		if (r.getQueue().isEmpty()) {
 			loan.returnResource();
 		} else {
-			Loan l = new Loan(loan.getCopyID(), r.getQueue().peek());
-			loan.setReservationStatus(true, r.getQueue().peek());
+			reserveResource(r.getResourceID(), r.getQueue().peek());
 			r.getQueue().dequeue();
 		}
 		
@@ -83,7 +76,7 @@ public class Librarian extends User {
 		if (amount < f.getMinimumPayment())
 			throw new IllegalArgumentException("Cannot pay less than £" + f.getMinimumPayment());
 		else if (f.getAmountPaid() + amount > f.getAmount()) {
-			throw new IllegalArgumentException("Cant pay more than the total fine amount ");
+			throw new IllegalArgumentException("Cant pay more than the total fine amount");
 		}
 		
 		f.setAmountPaid(f.getAmountPaid() + amount);
@@ -92,50 +85,60 @@ public class Librarian extends User {
 		
 	}
 	
-	public void reserveResource(String resourceID, String username) throws SQLException {
-		
-		DatabaseRequest db = new DatabaseRequest();
-		
-		Resource r = db.getResource(resourceID);
-		r.getQueue().addUser(username);
-		
-		Loan l = db.getOldestLoan(resourceID);
-		l.setReservationStatus(true, username);
-		
-		Copy c = db.getCopy(l.getCopyID());
-		int loanLength = c.getLoanTime();
-		c.setReservingUser(username);
-		c.setReserved(true);
-		
-		Date d = l.getIssueDate();
-		d.forwardDate(loanLength);
-		
-		if (d.isBefore(new Date())) {
-			Date tomorrow = new Date();
-			tomorrow.forwardDate(1);
-			l.setReturnDate(tomorrow);
-		} else {
-			Date dueDate = l.getIssueDate();
-			dueDate.forwardDate(loanLength);
-			
-		}
-		
-		
-		db.editResource(r);
-		db.editLoan(l);
-		db.editCopy(c);
-		
-	}
-	
 	public void requestResource(String resourceID, String username) throws SQLException {
 		
 		DatabaseRequest db = new DatabaseRequest();
 		
+		
 		if (db.checkAvailability(resourceID)) {
-			issueLoan(resourceID, username);
-		} else {
 			reserveResource(resourceID, username);
+
+		} else {
+			
+			Resource r = db.getResource(resourceID);
+			r.getQueue().addUser(username);
+			
+			db.editResource(r);
+			
 		}
+	}
+	
+	public void reserveResource(String resourceID, String username) throws SQLException {
+		
+		DatabaseRequest db = new DatabaseRequest();
+		Copy c = null;
+		ArrayList<Copy> copies = db.getAvailableCopies(resourceID);
+		if (copies.isEmpty()) {
+
+			Loan l = db.getOldestLoan(resourceID);
+			l.setReservationStatus(true, username);
+
+			c = db.getCopy(l.getCopyID());
+			int loanLength = c.getLoanTime();
+			c.setReservingUser(username);
+			c.setReserved(true);
+
+			Date d = l.getIssueDate();
+			d.forwardDate(loanLength);
+
+			if (d.isBefore(new Date())) {
+				Date tomorrow = new Date();
+				tomorrow.forwardDate(1);
+				l.setReturnDate(tomorrow);
+			} else {
+				Date dueDate = l.getIssueDate();
+				dueDate.forwardDate(loanLength);
+
+			}
+		} else {
+			c = copies.get(0);
+			c.setReserved(true);
+			c.setReservingUser(username);
+		}
+		
+		
+		db.editCopy(c);
+		
 		
 		
 	}
