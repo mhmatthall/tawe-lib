@@ -645,26 +645,24 @@ public class DatabaseRequest {
 
 	public ArrayList<Resource> getUserLoans(String username) throws SQLException {
 		Statement query = conn.createStatement();
-		ResultSet results = query.executeQuery("SELECT * FROM LOAN WHERE username = '" + username + "'");
+		ResultSet results = query.executeQuery("SELECT * FROM LOAN " +
+				"WHERE username = '" + username + "' " +
+				"AND is_returned = 0");
 
-		ArrayList<Loan> overdueLoans = new ArrayList<Loan>();
-		Loan currentLoan;
-		Date currentDate = new Date();
-		boolean isReturned = results.getInt(6) != 0;
+		ArrayList<Resource> userLoans = new ArrayList<Resource>();
+		Resource currentResource;
+		RequestQueue queue = convertRequestQueue(results.getString(5));	// request queue
 
 		while (results.next()) {
-			currentLoan = new Loan(results.getString(1),	// loanID
-					new Date(results.getString(2)),	// issue date
-					results.getString(3),	// username
-					results.getString(4),	// copyID
-					new Date(results.getString(5)),	// return date
-					isReturned);
+			currentResource = new Resource(results.getString(1),	// resourceID
+					results.getString(2),	// title
+					results.getInt(3),	// year
+					new Thumbnail(results.getString(4)),	// thumbnail
+					queue);	// request queue
 
-			if (currentDate.isBefore(currentLoan.getReturnDate())) {
-				overdueLoans.add(currentLoan);
-			}
+			userLoans.add(currentResource);
 		}
 
-		return overdueLoans;
+		return userLoans;
 	}
 }
