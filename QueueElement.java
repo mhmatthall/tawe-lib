@@ -8,7 +8,7 @@
  * Why does this class exist? We should only be keeping usernames in the RequestQueue
  */
 public class QueueElement {
-	private Object element; //the element contained in this linked list
+	private String element; //the element contained in this linked list
 	private QueueElement next; //the next element of the linked list
 	
 	public QueueElement(Object e, QueueElement n) {
@@ -34,7 +34,7 @@ public class QueueElement {
 	/**
 	 * @return element
 	 */
-	public Object getElement() {
+	public String getElement() {
 		return element;
 	}
 	

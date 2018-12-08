@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 import java.util.NoSuchElementException;
 
 /*
@@ -33,9 +34,12 @@ public class RequestQueue {
 		return resourceID;
 	}
 	
-	public void reserveCopy() {
-		//wuh?
-		//how do i check if there is a copy available?
+	public void reserveCopy() throws SQLException {
+		DatabaseRequest db = new DatabaseRequest();
+		boolean available = db.checkAvailability(resourceID);
+		if (available) {
+			//how do i get available copy?
+		}
 	}
 	
 	/**
@@ -50,7 +54,7 @@ public class RequestQueue {
 	 * @return 1st element in queue
 	 * @throws NoSuchElementException why tho
 	 */
-	public Object peek() throws NoSuchElementException {
+	public String peek() throws NoSuchElementException {
 		if (first.getElement() == null){
 			throw new NoSuchElementException("Queue is empty");
 		}else{
