@@ -33,7 +33,7 @@ public class NewDVDController {
 		String director = txtDirector.getText(); 
 		int runtime = Integer.parseInt(txtRuntime.getText());
 		String language = txtLanguage.getText();
-		Thumbnail thumb = new Thumbnail(null);
+		Thumbnail thumb = new Thumbnail("dvd.png");
 		
 		DVD dvd1 = new DVD(title, year, thumb, director, runtime, language);
 		new DatabaseRequest().addResource(dvd1);

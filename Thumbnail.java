@@ -3,7 +3,7 @@
  */
 
 public class Thumbnail extends MyImage {
-	String defaulImage = "defaultResource.png";
+	String defaulImage = "book.png";
 	
 	public Thumbnail (String fileName){
 		super(fileName);
