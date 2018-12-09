@@ -84,7 +84,7 @@ public class ImageController {
 		
 	@FXML
 	public void initialize() {
-	ObservableList<String> value = FXCollections.observableArrayList("Rectangle", "Circle","Triangle","Vertical line", "Horizontal line");
+	ObservableList<String> value = FXCollections.observableArrayList("Rectangle", "Circle","Triangle","Vertical Line", "Horizontal Line");
 	shapeType.setItems(value);
 	shapeType.getSelectionModel().selectFirst();
 	}
@@ -101,8 +101,8 @@ public class ImageController {
 						rectangleR.setStroke(pickColour.getValue());
 					}
     				rectangleR.setCursor(Cursor.MOVE);
-    				rectangleR.setOnMousePressed(OnMousePressedEventHandler);
-    				rectangleR.setOnMouseDragged(OnMouseDraggedEventHandler);
+    				rectangleR.setOnMousePressed(RectangleOnMousePressedEventHandler);
+    				rectangleR.setOnMouseDragged(RectangleOnMouseDraggedEventHandler);
     				addMouseScrolling(rectangleR);
 				
 					canvas1.getChildren().addAll(rectangleR);
@@ -117,11 +117,11 @@ public class ImageController {
 			        circleR.setCursor(Cursor.MOVE);
 			        circleR.setCenterX(150);
 			        circleR.setCenterY(150);
-			        circleR.setOnMousePressed(OnMousePressedEventHandler);
-			        circleR.setOnMouseDragged(OnMouseDraggedEventHandler);
+			        circleR.setOnMousePressed(CircleOnMousePressedEventHandler);
+			        circleR.setOnMouseDragged(CircleOnMouseDraggedEventHandler);
 			        addMouseScrolling(circleR);
 			        canvas1.getChildren().addAll(circleR);
-				}else if (shapeType.getSelectionModel().getSelectedItem() == "Triangle") {
+				} else if (shapeType.getSelectionModel().getSelectedItem() == "Triangle") {
 					triangleR = new Polygon(300,250,200);
 			    	triangleR.setCursor(Cursor.MOVE);
 			    	if (fill.isSelected()) {
@@ -130,15 +130,15 @@ public class ImageController {
 						triangleR.setFill(Color.TRANSPARENT);
 						triangleR.setStroke(pickColour.getValue());
 					}
-			    	triangleR.setOnMousePressed(OnMousePressedEventHandler);
-			    	triangleR.setOnMouseDragged(OnMouseDraggedEventHandler);
+			    	triangleR.setOnMousePressed(TriangleOnMousePressedEventHandler);
+			    	triangleR.setOnMouseDragged(TriangleOnMouseDraggedEventHandler);
 			    	addMouseScrolling(triangleR);
 					canvas1.getChildren().addAll(triangleR);
 					triangleR.getPoints().addAll(new Double[] {
 			    			300.0, 200.0,
 			    			450.0,
 			    	});
-				}else if (shapeType.getSelectionModel().getSelectedItem() == "Vertical Line") {
+				} else if (shapeType.getSelectionModel().getSelectedItem() == "Vertical Line") {
 					lineV = new Line();
 					lineV.setCursor(Cursor.MOVE);
 					if (fill.isSelected()) {
@@ -147,8 +147,8 @@ public class ImageController {
 						lineV.setFill(Color.TRANSPARENT);
 						lineV.setStroke(pickColour.getValue());
 					}
-					lineV.setOnMousePressed(OnMousePressedEventHandler);
-					lineV.setOnMouseDragged(OnMouseDraggedEventHandler);
+					lineV.setOnMousePressed(LineOnMousePressedEventHandler);
+					lineV.setOnMouseDragged(LineOnMouseDraggedEventHandler);
 					addMouseScrolling(lineV);
 					canvas1.getChildren().addAll(lineV);
 			    	lineV.setStartX(150.0);
@@ -165,8 +165,8 @@ public class ImageController {
 						lineH.setFill(Color.TRANSPARENT);
 						lineH.setStroke(pickColour.getValue());
 					}
-					lineH.setOnMousePressed(OnMousePressedEventHandler);
-					lineH.setOnMouseDragged(OnMouseDraggedEventHandler);
+					lineH.setOnMousePressed(LineOnMousePressedEventHandler);
+					lineH.setOnMouseDragged(LineOnMouseDraggedEventHandler);
 					addMouseScrolling(lineH);
 					canvas1.getChildren().addAll(lineH);
 			    	lineH.setStartX(100.0);
@@ -227,7 +227,7 @@ public class ImageController {
 		}
 	}
 
-        EventHandler<MouseEvent> OnMousePressedEventHandler = 
+        EventHandler<MouseEvent> CircleOnMousePressedEventHandler = 
                 new EventHandler<MouseEvent>() {
          
                 @Override
@@ -238,7 +238,7 @@ public class ImageController {
                     orgTranslateY = ((Circle)(t.getSource())).getTranslateY();
                 }
                 };
-             EventHandler<MouseEvent> OnMouseDraggedEventHandler = 
+             EventHandler<MouseEvent> CircleOnMouseDraggedEventHandler = 
                 new EventHandler<MouseEvent>() {
          
                 @Override
@@ -252,6 +252,81 @@ public class ImageController {
                     ((Circle)(t.getSource())).setTranslateY(newTranslateY);
                 }
             };
+            EventHandler<MouseEvent> RectangleOnMousePressedEventHandler = 
+                    new EventHandler<MouseEvent>() {
+             
+                    @Override
+                    public void handle(MouseEvent t) {
+                        orgSceneX = t.getSceneX();
+                        orgSceneY = t.getSceneY();
+                        orgTranslateX = ((Rectangle)(t.getSource())).getTranslateX();
+                        orgTranslateY = ((Rectangle)(t.getSource())).getTranslateY();
+                    }
+                    };
+                 EventHandler<MouseEvent> RectangleOnMouseDraggedEventHandler = 
+                    new EventHandler<MouseEvent>() {
+             
+                    @Override
+                    public void handle(MouseEvent t) {
+                        double offsetX = t.getSceneX() - orgSceneX;
+                        double offsetY = t.getSceneY() - orgSceneY;
+                        double newTranslateX = orgTranslateX + offsetX;
+                        double newTranslateY = orgTranslateY + offsetY;
+                         
+                        ((Rectangle)(t.getSource())).setTranslateX(newTranslateX);
+                        ((Rectangle)(t.getSource())).setTranslateY(newTranslateY);
+                    }
+                };
+                EventHandler<MouseEvent> TriangleOnMousePressedEventHandler = 
+                        new EventHandler<MouseEvent>() {
+                 
+                        @Override
+                        public void handle(MouseEvent t) {
+                            orgSceneX = t.getSceneX();
+                            orgSceneY = t.getSceneY();
+                            orgTranslateX = ((Polygon)(t.getSource())).getTranslateX();
+                            orgTranslateY = ((Polygon)(t.getSource())).getTranslateY();
+                        }
+                        };
+                     EventHandler<MouseEvent> TriangleOnMouseDraggedEventHandler = 
+                        new EventHandler<MouseEvent>() {
+                 
+                        @Override
+                        public void handle(MouseEvent t) {
+                            double offsetX = t.getSceneX() - orgSceneX;
+                            double offsetY = t.getSceneY() - orgSceneY;
+                            double newTranslateX = orgTranslateX + offsetX;
+                            double newTranslateY = orgTranslateY + offsetY;
+                             
+                            ((Polygon)(t.getSource())).setTranslateX(newTranslateX);
+                            ((Polygon)(t.getSource())).setTranslateY(newTranslateY);
+                        }
+                    };
+                    EventHandler<MouseEvent> LineOnMousePressedEventHandler = 
+                            new EventHandler<MouseEvent>() {
+                     
+                            @Override
+                            public void handle(MouseEvent t) {
+                                orgSceneX = t.getSceneX();
+                                orgSceneY = t.getSceneY();
+                                orgTranslateX = ((Line)(t.getSource())).getTranslateX();
+                                orgTranslateY = ((Line)(t.getSource())).getTranslateY();
+                            }
+                            };
+                         EventHandler<MouseEvent> LineOnMouseDraggedEventHandler = 
+                            new EventHandler<MouseEvent>() {
+                     
+                            @Override
+                            public void handle(MouseEvent t) {
+                                double offsetX = t.getSceneX() - orgSceneX;
+                                double offsetY = t.getSceneY() - orgSceneY;
+                                double newTranslateX = orgTranslateX + offsetX;
+                                double newTranslateY = orgTranslateY + offsetY;
+                                 
+                                ((Line)(t.getSource())).setTranslateX(newTranslateX);
+                                ((Line)(t.getSource())).setTranslateY(newTranslateY);
+                            }
+                        };
             
             public void addMouseScrolling(Node node) {
                 node.setOnScroll((ScrollEvent t) -> {
