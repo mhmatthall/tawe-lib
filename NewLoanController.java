@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 public class NewLoanController {
 	private Stage window;
 	private Resource resource;
-    int i = 0;
+	int i = 0;
 	private ObservableList<String> usersWaiting;
 	public ObservableList<String> copies = FXCollections.observableArrayList("");
 
@@ -31,7 +31,7 @@ public class NewLoanController {
 
 	@FXML
 	private void loan() throws SQLException {
-		//int i = userList.getSelectionModel().getSelectedIndex();
+		// int i = userList.getSelectionModel().getSelectedIndex();
 		String username = userList.getSelectionModel().getSelectedItem();
 		Loan loan1 = new Loan(copies.get(i), username);
 		try {
@@ -50,13 +50,13 @@ public class NewLoanController {
 
 	public void setResource(Resource resource) throws SQLException {
 		this.resource = resource;
-		//Add users that have reserved the resource to a list
+		// Add users that have reserved the resource to a list
 		for (Copy copy : resource.viewCopies()) {
 			if (copy.getReservingUser() != null) {
 				usersWaiting.add(copy.getReservingUser());
 				copies.add(copy.getCopyID());
 
-		}
+			}
 		}
 		userList.setItems(copies);
 		userList.getSelectionModel().selectFirst();

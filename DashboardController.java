@@ -153,7 +153,7 @@ public class DashboardController {
 	}
 	
 	/**
-	 * Load image selecter.
+	 * Load image selector.
 	 *
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */

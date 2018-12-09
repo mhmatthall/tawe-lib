@@ -20,7 +20,7 @@
    <bottom>
       <HBox spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnExit" minWidth="75.0" mnemonicParsing="false" text="Exit" />
+            <Button fx:id="btnExit" minWidth="75.0" mnemonicParsing="false" onAction="#close" text="Exit" />
          </children>
       </HBox>
    </bottom>

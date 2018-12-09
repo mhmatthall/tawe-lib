@@ -98,9 +98,6 @@ public class ResourcePageController {
 //			lbl6.disableProperty();
 		//}
 	}
-	@FXML
-	public void initialize() {
-	}
 
 	@FXML
 	private void btnLoans() throws IOException, SQLException {
@@ -114,6 +111,25 @@ public class ResourcePageController {
 		window.setScene(scene);
 		window.show();
 	}
+	
+	@FXML
+	private void close() {
+		window.close();
+	}
+	
+	@FXML
+	private void editResource() throws IOException {
+		Stage window = new Stage();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/EditResource.fxml"));
+		Pane editor = loader.load();
+		EditResourceController controller = loader.getController();
+		controller.passStageReference(window);
+		controller.passResourceReference(resource);
+		Scene scene = new Scene(editor);
+		window.setScene(scene);
+		window.show();
+	}
+	
 	public void passStageReference(Stage window) {
 		this.window = window;
 		

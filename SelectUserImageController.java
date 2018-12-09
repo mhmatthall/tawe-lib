@@ -67,24 +67,28 @@ public class SelectUserImageController {
 		UserImage selectedImage = new UserImage("image_files//prof1.png");
 		user.setProfileImage(selectedImage);
 		new DatabaseRequest().editUser(user);
+		AlertBox.display("Profile picture updated");
 	}
 	@FXML
 	public void buttonProf2Pressed() throws SQLException {
 		UserImage selectedImage = new UserImage("image_files//prof2.png");
 		user.setProfileImage(selectedImage);
 		new DatabaseRequest().editUser(user);
+		AlertBox.display("Profile picture updated");
 	}
 	@FXML
 	public void buttonProf3Pressed() throws SQLException {
 		UserImage selectedImage = new UserImage("image_files//prof3.png");
 		user.setProfileImage(selectedImage);
 		new DatabaseRequest().editUser(user);
+		AlertBox.display("Profile picture updated");
 	}
 	@FXML
 	public void buttonProf4Pressed() throws SQLException {
 		UserImage selectedImage = new UserImage("image_files//prof4.png");
 		user.setProfileImage(selectedImage);
 		new DatabaseRequest().editUser(user);
+		AlertBox.display("Profile picture updated");
 	}
 	@FXML
 	private void exit() throws IOException {
