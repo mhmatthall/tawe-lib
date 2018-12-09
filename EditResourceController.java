@@ -164,7 +164,7 @@ public class EditResourceController {
 	 */
 	private void loadResourceData(String resID) throws SQLException {
 		this.resource = new DatabaseRequest().getResource(resID);
-
+		System.out.println("inside edir ");
 		lblResID.setText(resource.getResourceID());
 		txtTitle.setText(resource.getTitle());
 		txtYear.setText(Integer.toString(resource.getYear()));
@@ -198,7 +198,8 @@ public class EditResourceController {
 	 */
 	public void passResourceReference(Resource resource) {
 		this.resource = resource;
-
+	}
+	
 	private void disableBookIrrelevantkFeatures() {
 		lblDVD.setDisable(true);
 		lblLaptop.setDisable(true);

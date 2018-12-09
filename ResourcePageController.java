@@ -131,13 +131,13 @@ public class ResourcePageController {
 	}
 
 	@FXML
-	private void editResource() throws IOException {
+	private void editResource() throws IOException, SQLException {
 		Stage window = new Stage();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/EditResource.fxml"));
 		Pane editor = loader.load();
 		EditResourceController controller = loader.getController();
 		controller.passStageReference(window);
-		controller.passResourceReference(resource);
+		controller.passResourceID(resource.getResourceID());
 		Scene scene = new Scene(editor);
 		window.setScene(scene);
 		window.show();
