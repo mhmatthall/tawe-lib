@@ -552,7 +552,6 @@ public class DatabaseRequest {
 
 	/**
 	 * Gets all the copies of a given resource
-	 *
 	 * @param resourceID of which copies we want to look up
 	 * @return ArrayList of copies
 	 * @throws SQLException if connection to the database has failed
@@ -1025,7 +1024,7 @@ public class DatabaseRequest {
 		
 		return results.getDouble(1);
 	}
-
+	
 	public ArrayList<Resource> searchResources(String searchTerm) throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT resource_id FROM "
