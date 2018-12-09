@@ -1025,6 +1025,13 @@ public class DatabaseRequest {
 		return results.getDouble(1);
 	}
 	
+	/**
+	 * Searches the database for a resource containing a given key
+	 *
+	 * @param searchTerm a keyword to be searched by e.g. ID, Title, and year
+	 * @return ArrayList of resources
+	 * @throws SQLException if connection to the database fails
+	 */
 	public ArrayList<Resource> searchResources(String searchTerm) throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT resource_id FROM "
