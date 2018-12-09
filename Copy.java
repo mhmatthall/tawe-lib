@@ -11,7 +11,7 @@ public class Copy {
 	private static int nextCopyID;
 	
 	/** The copy ID. */
-	private String copyID = ("C" + nextCopyID);
+	private String copyID;
 	
 	/** The resource ID. */
 	private String resourceID;
@@ -40,6 +40,7 @@ public class Copy {
 		isOnLoan = false;
 		isReserved = false;
 		reservingUser = "";
+		copyID = ("C" + nextCopyID);
 		nextCopyID++;
 	}
 	
@@ -73,27 +74,27 @@ public class Copy {
 	}
 
 	/**
-	 * Sets the on loan.
+	 * Sets loan status
 	 *
-	 * @param isOnLoan the new on loan
+	 * @param isOnLoan True if its loaned, false otherwise.
 	 */
 	public void setOnLoan(boolean isOnLoan) {
 		this.isOnLoan = isOnLoan;
 	}
 
 	/**
-	 * Checks if is reserved.
+	 * Checks if copy is reserved.
 	 *
-	 * @return true, if is reserved
+	 * @return true if reserved
 	 */
 	public boolean isReserved() {
 		return isReserved;
 	}
 
 	/**
-	 * Sets the reserved.
+	 * Sets reservation status
 	 *
-	 * @param isReserved the new reserved
+	 * @param isReserved True if its reserved, false otherwise
 	 */
 	public void setReserved(boolean isReserved) {
 		this.isReserved = isReserved;
@@ -127,15 +128,6 @@ public class Copy {
 	}
 
 	/**
-	 * Sets the copy ID.
-	 *
-	 * @param copyID the new copy ID
-	 */
-	public void setCopyID(String copyID) {
-		this.copyID = copyID;
-	}
-
-	/**
 	 * Gets the resource ID.
 	 *
 	 * @return the resource ID
@@ -145,27 +137,18 @@ public class Copy {
 	}
 
 	/**
-	 * Sets the resource ID.
+	 * Gets the loan
 	 *
-	 * @param resourceID the new resource ID
-	 */
-	public void setResourceID(String resourceID) {
-		this.resourceID = resourceID;
-	}
-
-	/**
-	 * Gets the loan time.
-	 *
-	 * @return the loan time
+	 * @return the loan time in days
 	 */
 	public int getLoanTime() {
 		return loanTime;
 	}
 
 	/**
-	 * Sets the loan time.
+	 * Sets the loan time in days.
 	 *
-	 * @param loanTime the new loan time
+	 * @param loanTime the loan time in days
 	 */
 	public void setLoanTime(int loanTime) {
 		this.loanTime = loanTime;	
