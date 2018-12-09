@@ -5,24 +5,18 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.queryparser.classic.*;
 
 /** DatabaseRequest
  *  @author Matt Hall
  *  @version 1.0
  */
-/*
-	+ search(tables : string, fieldName : string, query : string, numberOfResults : int) : ArrayList<Object>
-	+ total fines for given user
- */
-
 public class DatabaseRequest {
+	// Name (and subsequently directory) of the database
 	private static final String DATABASE_NAME = "tawe-lib";
 	private static Connection conn;
 
 	/**
-	 * Instantiates a new database request, tries to establish a connectio.
+	 * Instantiates a new database request, tries to establish a connection.
 	 *
 	 * @throws SQLException if it fails to establish a connection
 	 */
@@ -36,7 +30,17 @@ public class DatabaseRequest {
 	 * @throws SQLException if connection fails to be established
 	 */
 	private void establishConnection() throws SQLException {
+		// Prompts the driver file (derby.jar) to load the database
 		conn = DriverManager.getConnection("jdbc:derby:" + DATABASE_NAME);
+		
+		/*
+		 * This sets the transaction data isolation settings for the database.
+		 * This setting, READ_UNCOMMITTED, allows a row to be accessed whilst it
+		 * is being edited.
+		 * 
+		 * Others run queries concurrently, which creates a deadlock and times out
+		 * the connection.
+		 */
 		conn.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 	}
 
@@ -548,7 +552,6 @@ public class DatabaseRequest {
 
 	/**
 	 * Gets all the copies of a given resource
-	 *
 	 * @param resourceID of which copies we want to look up
 	 * @return ArrayList of copies
 	 * @throws SQLException if connection to the database has failed
@@ -890,13 +893,12 @@ public class DatabaseRequest {
 
 	/**
 	 * Gets all copies a given user has on loan.
-	 * TODO mby change the name? :D
 	 *
 	 * @param username of a user
 	 * @return arrayList of copies
 	 * @throws SQLException if connection to database has failed
 	 */
-	public ArrayList<Copy> getUserLoans(String username) throws SQLException {
+	public ArrayList<Copy> getUserCopiesOnLoan(String username) throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT * FROM "
 				+ "COPY INNER JOIN LOAN ON COPY.copy_id = LOAN.copy_id " +
@@ -1022,19 +1024,28 @@ public class DatabaseRequest {
 		
 		return results.getDouble(1);
 	}
-
+	
 	/**
-	 * TODO finish also wut is dis? xD.
+	 * Searches the database for a resource containing a given key
 	 *
-	 * @param tables the tables
-	 * @param fields the fields
-	 * @param searchTerm the search term
-	 * @param numberOfResults the number of results
-	 * @return the array list
-	 * @throws SQLException the SQL exception
+	 * @param searchTerm a keyword to be searched by e.g. ID, Title, and year
+	 * @return ArrayList of resources
+	 * @throws SQLException if connection to the database fails
 	 */
-	public ArrayList<Object> search(ArrayList<String> tables, ArrayList<String> fields, String searchTerm, int numberOfResults) throws SQLException {
-		Analyzer anal;
-		return null;
+	public ArrayList<Resource> searchResources(String searchTerm) throws SQLException {
+		Statement query = conn.createStatement();
+		ResultSet results = query.executeQuery("SELECT resource_id FROM "
+				+ "RESOURCE "
+				+ "WHERE resource_id LIKE '" + searchTerm + "%', "
+				+ "OR title LIKE '" + searchTerm + "%', "
+				+ "OR year LIKE '" + searchTerm + "%'");
+
+		ArrayList<Resource> resultsList = new ArrayList<Resource>();
+		
+		while (results.next()) {
+			resultsList.add(getResource(results.getString(1)));
+		}
+		
+		return resultsList;
 	}
 }

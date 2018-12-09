@@ -1,7 +1,7 @@
 /*
  * Don't think we need setters, as this should only be created as a read-only 'receipt'
  */
-
+ //TODO implament this
 public class Transaction {
 
 	private Date tdate; // consider better name?
