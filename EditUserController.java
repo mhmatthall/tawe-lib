@@ -36,7 +36,7 @@ public class EditUserController {
 	@FXML
 	Button btnClose;
 	@FXML
-	public Button btnDelete;
+	Button btnDelete;
 
 	private Stage window;
 
