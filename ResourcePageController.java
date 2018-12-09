@@ -13,7 +13,9 @@ import javafx.stage.Stage;
 
 public class ResourcePageController {
 	private User user;
-	private Resource resource;
+	private DVD dvd;
+	private Book book;
+	private Laptop laptop;
 	private Stage window;
 	@FXML
 	Label lblTitle;
@@ -64,40 +66,39 @@ public class ResourcePageController {
 			btnLoans.setDisable(true);
 		}
 	}
-
-	public void setResource(Resource resource) {
-		this.resource = resource;
+	public void setBook(Book resource) {
+		this.book = resource;
 		System.out.println(resource.toString());
-		//if (resource.getResourceID().charAt(0) == 'B') {
-			//Book book = (Book) resource ;
-			System.out.println(resource.toString());
-			lblTitle.setText(resource.getTitle());
-			lbl1.setText("Year: " + Integer.toString(resource.getYear()));
-			//lbl2.setText("Author: " + book.getAuthor());
-			//lbl3.setText("Publisher: " + book.getPublisher());
-			//lbl4.setText("Genre: " + book.getGenre());
-			//lbl5.setText("ISBN: " + book.getISBN());
-			//lbl6.setText("Language: " + book.getLanguage());
-		//} else if (resource.getResourceID().charAt(0) == 'D') {
-			//DVD dvd = (DVD) resource ;
-			//lblTitle.setText(dvd.getTitle());
-			//lbl1.setText("Year: " + Integer.toString(dvd.getYear()));
-			//lbl2.setText(dvd.getDirector());
-			//lbl3.setText(Integer.toString(dvd.getRuntime()));
-			//lbl4.setText("Language: " + dvd.getLanguage());
-			//lbl5.disableProperty();
-			//lbl6.disableProperty();
-		//} else if (resource.getResourceID().charAt(0) == 'L') {
-			//Laptop laptop = (Laptop) resource;
-			//lblTitle.setText(laptop.getTitle());
-			//lbl1.setText(Integer.toString(laptop.getYear()));
-			//lbl2.setText(laptop.getManufacturer());
-			//lbl3.setText(laptop.getModel());
-			//lbl4.setText(laptop.getOperatingSys());
-//			lbl5.disableProperty();
-//			lbl6.disableProperty();
-		//}
+		lblTitle.setText(resource.getTitle());
+		lbl1.setText("Year: " + Integer.toString(resource.getYear()));
+		lbl2.setText("Author: " + ((Book)resource).getAuthor());
+		lbl3.setText("Publisher: " + ((Book)resource).getPublisher());
+		lbl4.setText("Genre: " + ((Book)resource).getGenre());
+		lbl5.setText("ISBN: " + ((Book)resource).getISBN());
+		lbl6.setText("Language: " + ((Book)resource).getLanguage());
 	}
+	public void setDVD(DVD resource) {
+		this.dvd = resource;
+		lblTitle.setText(resource.getTitle());
+		lbl1.setText("Year: " + Integer.toString(resource.getYear()));
+		lbl2.setText(((DVD)resource).getDirector());
+		lbl3.setText(Integer.toString(((DVD)resource).getRuntime()));
+		lbl4.setText("Language: " + ((DVD)resource).getLanguage());
+		lbl5.disableProperty();
+		lbl6.disableProperty();
+	}
+
+	public void setLaptop(Laptop resource) {
+		this.laptop = resource;
+		lblTitle.setText(resource.getTitle());
+		lbl1.setText(Integer.toString(resource.getYear()));
+		lbl2.setText(((Laptop)resource).getManufacturer());
+		lbl3.setText(((Laptop)resource).getModel());
+		lbl4.setText(((Laptop)resource).getOperatingSys());
+		lbl5.disableProperty();
+		lbl6.disableProperty();
+	}
+
 
 	@FXML
 	private void btnLoans() throws IOException, SQLException {
