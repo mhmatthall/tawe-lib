@@ -12,7 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
- * 
+ *
  * @author Constantinos Loizou
  *
  */
@@ -21,6 +21,7 @@ public class SearchUserController {
 	private Stage window;
 	private String userID;
 	private User user;
+	private User sessionUser;
 
 	@FXML
 	Button btnSearch;
@@ -53,13 +54,14 @@ public class SearchUserController {
 
 	private void editUser(User user) throws IOException {
 		Stage window = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("EditUser.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/EditUser.fxml"));
 		Pane pane = loader.load();
 		EditUserController controller = loader.getController();
 		Scene scene = new Scene(pane);
 		window.setScene(scene);
 		controller.passStageReference(window);
 		controller.setUser(user);
+		controller.setEditor(sessionUser);
 		window.show();
 
 	}
@@ -83,6 +85,10 @@ public class SearchUserController {
 
 	public void passStageReference(Stage window) {
 		this.window = window;
+	}
+	
+	public void setSessionUser(User sessionUser) {
+		this.sessionUser = sessionUser;
 	}
 
 }

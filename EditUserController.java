@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 public class EditUserController {
 
 	private User user;
+	private User editor;
 
 	@FXML
 	Label lblUsername;
@@ -35,7 +36,7 @@ public class EditUserController {
 	@FXML
 	Button btnClose;
 	@FXML
-	public Button btnDelete;
+	Button btnDelete;
 
 	private Stage window;
 
@@ -84,7 +85,6 @@ public class EditUserController {
 			lblStaff.setText(stuffNum.toString());
 		} else {
 			lblAccType.setText("User");
-		//	btnDelete.setDisable(true);
 
 		}
 
@@ -115,6 +115,12 @@ public class EditUserController {
 	}
 	public void disableDeleteButton() {
 		btnDelete.setDisable(true);
+	}
+	public void setEditor(User editor){
+		this.editor = editor;
+		if (!editor.isLibrarian()) {
+			btnDelete.setDisable(true);
+		} 
 	}
 	
 

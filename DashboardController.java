@@ -87,13 +87,14 @@ public class DashboardController {
 	 */
 	private void editDetails() throws IOException {
 		Stage window = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("EditUser.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/EditUser.fxml"));
 		Pane pane = loader.load();
 		EditUserController controller = loader.getController();
 		Scene scene = new Scene(pane);
 		window.setScene(scene);
 		controller.passStageReference(window);
 		controller.setUser(user);
+		controller.setEditor(user);
 		window.show();
 
 	}
@@ -117,7 +118,7 @@ public class DashboardController {
 	@FXML
 	void searchLibrary() throws IOException {
 		Stage window4 = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("SearchLibrary.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/SearchLibrary.fxml"));
 		Pane pane = loader.load();
 		SearchLibraryController controller = loader.getController();
 		Scene scene = new Scene(pane);
@@ -129,7 +130,7 @@ public class DashboardController {
 	@FXML
 	public void logout() throws IOException {
 		Stage window = (Stage) btnExit.getScene().getWindow();
-		Pane previous = FXMLLoader.load(getClass().getResource("Welcome.fxml"));
+		Pane previous = FXMLLoader.load(getClass().getResource("/fxml_files/Welcome.fxml"));
 		window.setScene(new Scene(previous));
 	}
 
@@ -141,7 +142,7 @@ public class DashboardController {
 	private void loadImageDrawer() throws IOException {
 		window.close();
 		Stage window = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateImage.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/CreateImage.fxml"));
 		Pane pane = loader.load();
 		ImageController controller = loader.getController();
 		controller.setUser(user);
@@ -159,7 +160,7 @@ public class DashboardController {
 	private void loadImageSelecter() throws IOException {
 		window.close();
 		Stage window = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("SelectUserImage.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/SelectUserImage.fxml"));
 		Pane pane = loader.load();
 		SelectUserImageController controller = loader.getController();
 		controller.setUser(user);

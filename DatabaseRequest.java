@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.queryparser.classic.*;
 
 /** DatabaseRequest
  *  @author Matt Hall
@@ -448,7 +450,11 @@ public class DatabaseRequest {
 	 */
 	public boolean checkAvailability(String resourceID) throws SQLException {
 		Statement query = conn.createStatement();
-		ResultSet results = query.executeQuery("SELECT COUNT(*) FROM COPY WHERE RESOURCE_ID = '" + resourceID + "'");
+		ResultSet results = query.executeQuery("SELECT COUNT(*) "
+				+ "FROM COPY "
+				+ "WHERE resource_id = '" + resourceID + "' "
+				+ "AND is_reserved = 0 "
+				+ "AND is_on_loan = 0");
 
 		results.next();
 		
@@ -1015,5 +1021,10 @@ public class DatabaseRequest {
 		results.next();
 		
 		return results.getDouble(1);
+	}
+
+	public ArrayList<Object> search(ArrayList<String> tables, ArrayList<String> fields, String searchTerm, int numberOfResults) throws SQLException {
+		Analyzer anal;
+		return null;
 	}
 }
