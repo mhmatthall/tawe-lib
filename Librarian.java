@@ -35,7 +35,7 @@ public class Librarian extends User {
 	public void issueLoan(String resourceID, String username) throws SQLException {
 		
 		DatabaseRequest db = new DatabaseRequest();
-		Copy c = db.getAvailableCopies(resourceID);
+		Copy c = db.getAvailableCopies(resourceID).get(0);
 
 		Loan l = new Loan(c.getCopyID(), username);
 		

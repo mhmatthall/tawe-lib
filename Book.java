@@ -80,7 +80,9 @@ public class Book extends Resource {
 	 */
 	public String toString() {	
 		String x;
-		x = ("Title: " + title + " \nYear: " + year + " \nAuthor: " + author + " \nPublisher: " + publisher + " \nGenre: " + genre + " \nISBN: " + ISBN + "\nLanguage " + language);
+		x = ("Title: " + title + " \nYear: " + year + " \nAuthor: " + author + 
+				" \nPublisher: " + publisher + " \nGenre: " + genre + 
+				" \nISBN: " + ISBN + "\nLanguage " + language);
 		return x;
 	}
 
