@@ -1038,8 +1038,7 @@ public class DatabaseRequest {
 		ResultSet results = query.executeQuery("SELECT resource_id "
 				+ "FROM RESOURCE "
 				+ "WHERE resource_id LIKE '" + searchTerm + "%' "
-				+ "OR title LIKE '" + searchTerm + "%' "
-				+ "OR year LIKE '" + searchTerm + "%'");
+				+ "OR title LIKE '" + searchTerm + "%'");
 
 		ArrayList<Resource> resultsList = new ArrayList<Resource>();
 
