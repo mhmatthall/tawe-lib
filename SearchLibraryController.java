@@ -61,18 +61,17 @@ public class SearchLibraryController {
 			AlertBox.display("Please select resource type");
 			return;
 		}
-
-		if (radioGroup.getSelectedToggle().equals(rbBooks)) {
-		} else if (radioGroup.getSelectedToggle().equals(rbDVDs)) {
-		} else if (radioGroup.getSelectedToggle().equals(rbLaptops)) {
+		
+		String searchTerm = txtSearchBox.getText();
+		
+		ArrayList<Resource> results = new DatabaseRequest().searchResources(searchTerm);
+		if (results.isEmpty()) {
+			AlertBox.display("No results matching search term");
+			return;
 		}
-
-		//Get all resources from the database and add them into an array
-		ArrayList<Resource> resourceArList = new DatabaseRequest().browseResources();
-		ObservableList<Resource> resourceObList = FXCollections.observableArrayList(resourceArList);
-	/*	for (Resource resource : resourceArList) {
-			resourceObList.add(resource);
-		}*/
+		ObservableList<Resource> resourceObList = FXCollections.observableArrayList(results);
+		
+		
 		// String has to match EXACTLY the attribute of resource constructor
 		resultsTitle.setCellValueFactory(new PropertyValueFactory<Resource, String>("title")); // ONLY THESE TWO
 		resultsYear.setCellValueFactory(new PropertyValueFactory<Resource, String>("year")); // ROWS WORK, WTF?
@@ -80,14 +79,20 @@ public class SearchLibraryController {
 		resultsTable.setItems(resourceObList);
 	}
 	@FXML
-	private void selectItem() throws IOException {
+	private void selectItem() throws IOException, SQLException {
 		System.out.println(resultsTable.getSelectionModel().getSelectedItem().getTitle() + 
 				" " + resultsTable.getSelectionModel().getSelectedItem().getResourceID());
 		Stage window = new Stage();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/ResourcePage.fxml"));
 		Pane details = loader.load();
 		ResourcePageController controller = loader.getController();
-		controller.setResource(resultsTable.getSelectionModel().getSelectedItem());
+		if (resultsTable.getSelectionModel().getSelectedItem() instanceof Book) {
+			controller.setBook(resultsTable.getSelectionModel().getSelectedItem());
+		} else if(resultsTable.getSelectionModel().getSelectedItem() instanceof DVD) {
+			controller.setDVD(resultsTable.getSelectionModel().getSelectedItem());
+		} else {
+			controller.setLaptop(resultsTable.getSelectionModel().getSelectedItem());
+		}
 		controller.passStageReference(window);
 		Scene scene = new Scene(details);
 		window.setScene(scene);

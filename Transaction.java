@@ -1,13 +1,13 @@
 /*
  * Don't think we need setters, as this should only be created as a read-only 'receipt'
  */
- //TODO implament this
+//TODO implament this
 public class Transaction {
 
 	private Date tdate; // consider better name?
 	private String fineId;
 	private double amount;
-	
+
 	public Transaction(Date tdate, String fineID, double amount) {
 		this.tdate = tdate;
 		this.fineId = fineID;

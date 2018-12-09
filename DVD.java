@@ -15,6 +15,7 @@ public class DVD extends Resource {
 	private int runtime;  //in minutes
 	private String language;
 	private ArrayList<String> subLang = new ArrayList<String>();
+
 	
 	/**
 	 * Creates a new DVD resource in a library
@@ -32,6 +33,7 @@ public class DVD extends Resource {
 		this.language = language;
 		this.runtime = runtime;
 	}
+
 	
 	/**
 	 * initialises a DVD. Used by DatabaseRequest.
@@ -46,21 +48,24 @@ public class DVD extends Resource {
 	 * @param language of DVD
 	 * @param subLang of DVD
 	 */
-	public DVD(String resourceID, String title, int year, Thumbnail thumbnail, RequestQueue queue, String director, int runtime, String language, ArrayList<String> subLang) {
+	public DVD(String resourceID, String title, int year, Thumbnail thumbnail, 
+			RequestQueue queue, String director, int runtime, String language, 
+			ArrayList<String> subLang) {
 		super(resourceID, title, year, thumbnail, queue);
 		this.director = director;
 		this.language = language;
 		this.runtime = runtime;
 		this.subLang = subLang;
 	}
-	
+
 	/**
 	 * human readable
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString() {	
+	public String toString() {
 		String x;
-		x = ("Title: " + title + " \nYear: " + year + " \nDirector: " + director + " \nRuntime: " + runtime + " \nLanguage: " + language);
+		x = ("Title: " + title + " \nYear: " + year + " \nDirector: " + director + " \nRuntime: " + runtime
+				+ " \nLanguage: " + language);
 		return x;
 	}
 
@@ -135,6 +140,7 @@ public class DVD extends Resource {
 	public void setSubLang(ArrayList<String> subLang) {
 		this.subLang = subLang;
 	}
+
 	
 	/**
 	 * Gets the fine per day when overdue
@@ -153,5 +159,5 @@ public class DVD extends Resource {
 	public static double getFineMax() {
 		return fineMax;
 	}
-	
+
 }

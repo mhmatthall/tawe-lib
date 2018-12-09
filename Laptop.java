@@ -1,6 +1,6 @@
 /**
  * 
- * @author Ben 
+ * @author Ben
  *
  */
 
@@ -10,51 +10,53 @@ public class Laptop extends Resource {
 	private String manufacturer;
 	private String model;
 	private String operatingSys;
-	
+
 	public Laptop(String title, int year, Thumbnail thumbnail, String manufacturer, String model, String operatingSys) {
 		super(title, year, thumbnail);
 		this.manufacturer = manufacturer;
 		this.model = model;
 		this.operatingSys = operatingSys;
 	}
-	
-	public Laptop(String resourceID, String title, int year, Thumbnail thumbnail, RequestQueue queue, String manufacturer, String model, String operatingSys) {
+
+	public Laptop(String resourceID, String title, int year, Thumbnail thumbnail, RequestQueue queue,
+			String manufacturer, String model, String operatingSys) {
 		super(resourceID, title, year, thumbnail, queue);
 		this.manufacturer = manufacturer;
 		this.model = model;
 		this.operatingSys = operatingSys;
 	}
-	
-	public String toString() {	
+
+	public String toString() {
 		String x;
-		x = ("Title: " + title + " \nYear: " + year + " \nManufacturer: " + manufacturer + " \nModel: " + model + " \nOperating System: " + operatingSys);
+		x = ("Title: " + title + " \nYear: " + year + " \nManufacturer: " + manufacturer + " \nModel: " + model
+				+ " \nOperating System: " + operatingSys);
 		return x;
 	}
-		
+
 	public String getManufacturer() {
 		return manufacturer;
 	}
-	
+
 	public String getModel() {
 		return model;
 	}
-	
+
 	public String getOperatingSys() {
 		return operatingSys;
 	}
 
 	public void setManufacturer(String manufacturer) {
-		
+
 	}
-	
+
 	public void setModel(String model) {
-		
+
 	}
-	
+
 	public void setOperatingSys(String operatingSys) {
-		
+
 	}
-	
+
 	public static double getFineDay() {
 		return fineDay;
 	}

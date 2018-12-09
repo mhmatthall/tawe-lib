@@ -29,10 +29,14 @@ public class WelcomeController {
 
 	private String username;
 
-	@FXML Button btnAbout;
-	@FXML Button btnExit;
-	@FXML Button btnLogin;
-	@FXML TextField txtUsername;
+	@FXML
+	Button btnAbout;
+	@FXML
+	Button btnExit;
+	@FXML
+	Button btnLogin;
+	@FXML
+	TextField txtUsername;
 
 	/**
 	 * Method for "about" button.
@@ -50,8 +54,6 @@ public class WelcomeController {
 		primaryStage.setScene(scene);
 		primaryStage.initModality(Modality.APPLICATION_MODAL); // Set window on top
 		primaryStage.show();
-		
-
 
 	}
 
@@ -111,8 +113,11 @@ public class WelcomeController {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	private void showControlPanel() throws IOException {
-/* C:\Users\lkonn\Google Drive\University\Year 2\CS230\Assignment 2\tawe-lib\fxml_files\ControlPanel 
- * FXMLLoader loader = new FXMLLoader(getClass().getResource("ControlPanel.fxml"));*/
+		/*
+		 * C:\Users\lkonn\Google Drive\University\Year 2\CS230\Assignment
+		 * 2\tawe-lib\fxml_files\ControlPanel FXMLLoader loader = new
+		 * FXMLLoader(getClass().getResource("ControlPanel.fxml"));
+		 */
 		Stage window = (Stage) btnExit.getScene().getWindow();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/ControlPanel.fxml"));
 		Pane controlPanel = loader.load();
@@ -131,7 +136,7 @@ public class WelcomeController {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	private void showDashboard() throws IOException {
-		
+
 		Stage window = (Stage) btnExit.getScene().getWindow();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("UserDashboard.fxml"));
 		Pane dashboard = loader.load();
@@ -158,8 +163,8 @@ public class WelcomeController {
 	 * starts up on launch. Probably used for debug
 	 */
 	public void initialize() {
-	//	txtUsername.requestFocus();
-	//	txtUsername.setText("Foo");
+		// txtUsername.requestFocus();
+		// txtUsername.setText("Foo");
 		System.out.println(this);
-	}	
+	}
 }

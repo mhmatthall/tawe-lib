@@ -27,25 +27,25 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+
 public class SelectImageController {
 	@FXML
 	public Button def;
-	
+
 	@FXML
 	public Button btnExit;
-	
+
 	@FXML
 	public Button Laptop;
-	
+
 	@FXML
 	public Button DVD;
-	
+
 	@FXML
 	public Button Book;
-	
+
 	public SelectImageController() {
-		
-		
+
 		// TODO Auto-generated constructor stub
 	}
 

@@ -6,9 +6,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/** DatabaseRequest
- *  @author Matt Hall
- *  @version 1.0
+/**
+ * DatabaseRequest
+ * 
+ * @author Matt Hall
+ * @version 1.0
  */
 public class DatabaseRequest {
 	// Name (and subsequently directory) of the database
@@ -16,7 +18,7 @@ public class DatabaseRequest {
 	private static Connection conn;
 
 	/**
-	 * Instantiates a new database request, tries to establish a connection.
+	 * Instantiates a new database request by trying to establish a connection.
 	 *
 	 * @throws SQLException if it fails to establish a connection
 	 */
@@ -25,21 +27,21 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Establish connection to the database.
+	 * Establishes a connection to the database.
 	 *
-	 * @throws SQLException if connection fails to be established
+	 * @throws SQLException if it fails to establish a connection
 	 */
 	private void establishConnection() throws SQLException {
 		// Prompts the driver file (derby.jar) to load the database
 		conn = DriverManager.getConnection("jdbc:derby:" + DATABASE_NAME);
-		
+
 		/*
-		 * This sets the transaction data isolation settings for the database.
-		 * This setting, READ_UNCOMMITTED, allows a row to be accessed whilst it
-		 * is being edited.
+		 * This sets the transaction data isolation settings for the database. This
+		 * setting, READ_UNCOMMITTED, allows a row to be accessed whilst it is being
+		 * edited.
 		 * 
-		 * Others run queries concurrently, which creates a deadlock and times out
-		 * the connection.
+		 * Others run queries concurrently, which creates a deadlock and times out the
+		 * connection.
 		 */
 		conn.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 	}
@@ -48,36 +50,31 @@ public class DatabaseRequest {
 	 * Adds a new user into the database.
 	 *
 	 * @param newUser the user to be added
-	 * @throws SQLException if the connection fails to access the Database
+	 * @throws SQLException if there was an syntax or other SQL error returned upon
+	 *                      adding the user
 	 */
 	public void addUser(User newUser) throws SQLException {
 		// Two queries are added to a batch, then run sequentially:
-		//		- one inserts the user into the LIBRARY_USER table,
-		//		- the other inserts the user into either the LIBRARIAN or BORROWER table
+		// - one inserts the user into the LIBRARY_USER table,
+		// - the other inserts the user into either the LIBRARIAN or BORROWER table
 
 		// user table insertion
 		Statement queries = conn.createStatement();
-		queries.addBatch("INSERT INTO LIBRARY_USER VALUES(" +
-				"'" + newUser.getUsername() + "', " +
-				"'" + newUser.getForename() + "', " +
-				"'" + newUser.getSurname() + "'," +
-				"'" + newUser.getPhoneNumber() + "', " +
-				"'" + newUser.getAddress() + "', " +
-				"'" + newUser.getProfileImage().getImage() + "')");
+		queries.addBatch("INSERT INTO LIBRARY_USER VALUES(" + "'" + newUser.getUsername() + "', " + "'"
+				+ newUser.getForename() + "', " + "'" + newUser.getSurname() + "'," + "'" + newUser.getPhoneNumber()
+				+ "', " + "'" + newUser.getAddress() + "', " + "'" + newUser.getProfileImage().getImage() + "')");
 
-		// librarian/borrower table insertion	
+		// librarian/borrower table insertion
 		if (newUser instanceof Librarian) {
-			queries.addBatch(
-					"INSERT INTO LIBRARIAN VALUES('" + newUser.getUsername() + "', " +
-							"'" + ((Librarian)newUser).getEmploymentDate().toString() + "', " +
-							((Librarian)newUser).getStaffNumber() + ")");
+			queries.addBatch("INSERT INTO LIBRARIAN VALUES('" + newUser.getUsername() + "', " + "'"
+					+ ((Librarian) newUser).getEmploymentDate().toString() + "', "
+					+ ((Librarian) newUser).getStaffNumber() + ")");
 		} else {
-			queries.addBatch(
-					"INSERT INTO BORROWER VALUES('" + newUser.getUsername() + "', " +
-							((Borrower)newUser).getBalance() + ")");
+			queries.addBatch("INSERT INTO BORROWER VALUES('" + newUser.getUsername() + "', "
+					+ ((Borrower) newUser).getBalance() + ")");
 		}
 
-		queries.executeBatch();	// Execute both statements in sequence
+		queries.executeBatch(); // Execute both statements in sequence
 	}
 
 	/**
@@ -89,26 +86,22 @@ public class DatabaseRequest {
 	public void editUser(User newDetails) throws SQLException {
 		Statement query = conn.createStatement();
 
-		query.addBatch("UPDATE LIBRARY_USER SET " +
-				"forename = '" + newDetails.getForename() + "', " +
-				"surname = '" + newDetails.getSurname() + "', " +
-				"phone_number = '" + newDetails.getPhoneNumber() + "', " +
-				"address = '" + newDetails.getAddress() + "', " +
-				"profile_image = '" + newDetails.getProfileImage().getImage() + "' " +
-				"WHERE username = '" + newDetails.getUsername() + "'");
+		query.addBatch("UPDATE LIBRARY_USER SET " + "forename = '" + newDetails.getForename() + "', " + "surname = '"
+				+ newDetails.getSurname() + "', " + "phone_number = '" + newDetails.getPhoneNumber() + "', "
+				+ "address = '" + newDetails.getAddress() + "', " + "profile_image = '"
+				+ newDetails.getProfileImage().getImage() + "' " + "WHERE username = '" + newDetails.getUsername()
+				+ "'");
 
-		if (newDetails instanceof Librarian) {			
-			query.addBatch("UPDATE LIBRARIAN SET " +
-					"staff_number = " + ((Librarian) newDetails).getStaffNumber() + ", " +
-					"employment_date = '" + ((Librarian)newDetails).getEmploymentDate().toString() + "' " +
-					"WHERE username = '" + newDetails.getUsername() + "'");
+		if (newDetails instanceof Librarian) {
+			query.addBatch("UPDATE LIBRARIAN SET " + "staff_number = " + ((Librarian) newDetails).getStaffNumber()
+					+ ", " + "employment_date = '" + ((Librarian) newDetails).getEmploymentDate().toString() + "' "
+					+ "WHERE username = '" + newDetails.getUsername() + "'");
 		} else {
-			query.addBatch("UPDATE BORROWER SET " +
-					"balance = " + ((Borrower) newDetails).getBalance() + " " +
-					"WHERE username = '" + newDetails.getUsername() + "'");
+			query.addBatch("UPDATE BORROWER SET " + "balance = " + ((Borrower) newDetails).getBalance() + " "
+					+ "WHERE username = '" + newDetails.getUsername() + "'");
 		}
 
-		query.executeBatch();	// Runs the queued queries sequentially
+		query.executeBatch(); // Runs the queued queries sequentially
 	}
 
 	/**
@@ -151,14 +144,13 @@ public class DatabaseRequest {
 					+ "WHERE LIBRARY_USER.USERNAME = '" + username + "'");
 			results.next();
 
-			out = new Librarian(username,
-					results.getString(2),	// forename
-					results.getString(3),	// surname
-					results.getString(4),	// phone number
-					results.getString(5),	// address
-					new UserImage(results.getString(6)),	// profile image
-					results.getInt(7),	// staff number
-					new Date(results.getString(8)));	// employment date
+			out = new Librarian(username, results.getString(2), // forename
+					results.getString(3), // surname
+					results.getString(4), // phone number
+					results.getString(5), // address
+					new UserImage(results.getString(6)), // profile image
+					results.getInt(7), // staff number
+					new Date(results.getString(8))); // employment date
 
 		} else {
 			// User is a borrower
@@ -167,13 +159,12 @@ public class DatabaseRequest {
 					+ "WHERE LIBRARY_USER.USERNAME = '" + username + "'");
 			results.next();
 
-			out = new Borrower(username,
-					results.getString(2),	// forename
-					results.getString(3),	// surname
-					results.getString(4),	// phone number
-					results.getString(5),	// address
+			out = new Borrower(username, results.getString(2), // forename
+					results.getString(3), // surname
+					results.getString(4), // phone number
+					results.getString(5), // address
 					new UserImage(results.getString(6)), // profile image
-					results.getDouble(7));	// balance
+					results.getDouble(7)); // balance
 		}
 
 		return out;
@@ -190,7 +181,7 @@ public class DatabaseRequest {
 		Statement userTypeCheck = conn.createStatement();
 		ResultSet rs = userTypeCheck.executeQuery("SELECT COUNT(*) FROM LIBRARIAN WHERE username = '" + username + "'");
 		rs.next();
-		int userType = rs.getInt(1);	// userType = 0 if borrower, 1 if librarian
+		int userType = rs.getInt(1); // userType = 0 if borrower, 1 if librarian
 		return (userType == 1);
 	}
 
@@ -202,8 +193,8 @@ public class DatabaseRequest {
 	 */
 	public void addResource(Resource newResource) throws SQLException {
 		// Two queries are added to a batch, then run sequentially:
-		//		- one inserts the resource into the RESOURCE table,
-		//		- the other inserts the resource into either the BOOK, DVD, or LAPTOP table
+		// - one inserts the resource into the RESOURCE table,
+		// - the other inserts the resource into either the BOOK, DVD, or LAPTOP table
 
 		String queuedUsers = "";
 		while (!newResource.getQueue().isEmpty()) {
@@ -213,46 +204,35 @@ public class DatabaseRequest {
 
 		// resource table insertion
 		Statement queries = conn.createStatement();
-		queries.addBatch("INSERT INTO RESOURCE VALUES(" +
-				"'" + newResource.getResourceID() + "', " +
-				"'" + newResource.getTitle() + "', " +
-				newResource.getYear() + ", " +
-				"'" + newResource.getThumbnail().getImage() + "', " +
-				"'" + queuedUsers + "')");
+		queries.addBatch("INSERT INTO RESOURCE VALUES(" + "'" + newResource.getResourceID() + "', " + "'"
+				+ newResource.getTitle() + "', " + newResource.getYear() + ", " + "'"
+				+ newResource.getThumbnail().getImage() + "', " + "'" + queuedUsers + "')");
 
 		// librarian/borrower table insertion
 		if (newResource instanceof Book) {
-			queries.addBatch(
-					"INSERT INTO BOOK VALUES('" + newResource.getResourceID() + "', " +
-							"'" + ((Book)newResource).getAuthor() + "', " +
-							"'" + ((Book)newResource).getPublisher() + "', " +
-							"'" + ((Book)newResource).getGenre() + "', " +
-							"'" + ((Book)newResource).getISBN() + "', " +
-							"'" + ((Book)newResource).getLanguage() + "')");
+			queries.addBatch("INSERT INTO BOOK VALUES('" + newResource.getResourceID() + "', " + "'"
+					+ ((Book) newResource).getAuthor() + "', " + "'" + ((Book) newResource).getPublisher() + "', " + "'"
+					+ ((Book) newResource).getGenre() + "', " + "'" + ((Book) newResource).getISBN() + "', " + "'"
+					+ ((Book) newResource).getLanguage() + "')");
 
 		} else if (newResource instanceof DVD) {
-			// Reformat list of languages for database insertion 
+			// Reformat list of languages for database insertion
 			String subtitleLanguages = "";
-			for (String language : ((DVD)newResource).getSubLang()) {
+			for (String language : ((DVD) newResource).getSubLang()) {
 				subtitleLanguages = subtitleLanguages + language + ",";
 			}
 
-			queries.addBatch(
-					"INSERT INTO DVD VALUES('" + newResource.getResourceID() + "', " +
-							"'" + ((DVD)newResource).getDirector() + "', " +
-							"" + ((DVD)newResource).getRuntime() + ", " +
-							"'" + ((DVD)newResource).getLanguage() + "', " +
-							"'" + subtitleLanguages + "')");
+			queries.addBatch("INSERT INTO DVD VALUES('" + newResource.getResourceID() + "', " + "'"
+					+ ((DVD) newResource).getDirector() + "', " + "" + ((DVD) newResource).getRuntime() + ", " + "'"
+					+ ((DVD) newResource).getLanguage() + "', " + "'" + subtitleLanguages + "')");
 
 		} else {
-			queries.addBatch(
-					"INSERT INTO LAPTOP VALUES('" + newResource.getResourceID() + "', " +
-							"'" + ((Laptop)newResource).getManufacturer() + "', " +
-							"'" + ((Laptop)newResource).getModel() + "', " +
-							"'" + ((Laptop)newResource).getOperatingSys() + "')");
+			queries.addBatch("INSERT INTO LAPTOP VALUES('" + newResource.getResourceID() + "', " + "'"
+					+ ((Laptop) newResource).getManufacturer() + "', " + "'" + ((Laptop) newResource).getModel() + "', "
+					+ "'" + ((Laptop) newResource).getOperatingSys() + "')");
 		}
 
-		queries.executeBatch();	// Execute both statements in sequence
+		queries.executeBatch(); // Execute both statements in sequence
 	}
 
 	/**
@@ -264,43 +244,36 @@ public class DatabaseRequest {
 	public void editResource(Resource newDetails) throws SQLException {
 		Statement query = conn.createStatement();
 
-		query.addBatch("UPDATE RESOURCE SET " +
-				"title = '" + newDetails.getTitle() + "', " +
-				"year_released = '" + newDetails.getYear() + "', " +
-				"thumbnail = '" + newDetails.getThumbnail().getImage() + "', " +
-				"queue = '" + newDetails.getQueue().toString() + "', " +
-				"WHERE resource_id = '" + newDetails.getResourceID() + "'");
+		query.addBatch("UPDATE RESOURCE SET " + "title = '" + newDetails.getTitle() + "', " + "year_released = '"
+				+ newDetails.getYear() + "', " + "thumbnail = '" + newDetails.getThumbnail().getImage() + "', "
+				+ "queue = '" + newDetails.getQueue().toString() + "', " + "WHERE resource_id = '"
+				+ newDetails.getResourceID() + "'");
 
 		if (newDetails instanceof Book) {
-			query.addBatch("UPDATE BOOK SET " +
-					"author = '" + ((Book) newDetails).getAuthor() + "', " +
-					"publisher = '" + ((Book) newDetails).getPublisher() + "', " +
-					"genre = '" + ((Book) newDetails).getGenre() + "', " +
-					"isbn = '" + ((Book) newDetails).getISBN() + "', " +
-					"language = '" + ((Book) newDetails).getLanguage() + "', " +
-					"WHERE resource_id = '" + newDetails.getResourceID() + "'");
+			query.addBatch("UPDATE BOOK SET " + "author = '" + ((Book) newDetails).getAuthor() + "', " + "publisher = '"
+					+ ((Book) newDetails).getPublisher() + "', " + "genre = '" + ((Book) newDetails).getGenre() + "', "
+					+ "isbn = '" + ((Book) newDetails).getISBN() + "', " + "language = '"
+					+ ((Book) newDetails).getLanguage() + "', " + "WHERE resource_id = '" + newDetails.getResourceID()
+					+ "'");
 
 		} else if (newDetails instanceof DVD) {
 			String subtitleLanguages = "";
-			for (String language : ((DVD)newDetails).getSubLang()) {
+			for (String language : ((DVD) newDetails).getSubLang()) {
 				subtitleLanguages = subtitleLanguages + language + ",";
 			}
 
-			query.addBatch("UPDATE DVD SET " +
-					"director = '" + ((DVD) newDetails).getDirector() + "', " +
-					"runtime = '" + ((DVD) newDetails).getRuntime() + "', " +
-					"language = '" + ((DVD) newDetails).getLanguage() + "', " +
-					"subtitle_languages = '" + subtitleLanguages + "', " +
-					"WHERE resource_id = '" + newDetails.getResourceID() + "'");
+			query.addBatch("UPDATE DVD SET " + "director = '" + ((DVD) newDetails).getDirector() + "', " + "runtime = '"
+					+ ((DVD) newDetails).getRuntime() + "', " + "language = '" + ((DVD) newDetails).getLanguage()
+					+ "', " + "subtitle_languages = '" + subtitleLanguages + "', " + "WHERE resource_id = '"
+					+ newDetails.getResourceID() + "'");
 		} else {
-			query.addBatch("UPDATE LAPTOP SET " +
-					"manufacturer = '" + ((Laptop) newDetails).getManufacturer() + "', " +
-					"model = '" + ((Laptop) newDetails).getModel() + "', " +
-					"operating_system = '" + ((Laptop) newDetails).getOperatingSys() + "', " +
-					"WHERE resource_id = '" + newDetails.getResourceID() + "'");
+			query.addBatch("UPDATE LAPTOP SET " + "manufacturer = '" + ((Laptop) newDetails).getManufacturer() + "', "
+					+ "model = '" + ((Laptop) newDetails).getModel() + "', " + "operating_system = '"
+					+ ((Laptop) newDetails).getOperatingSys() + "', " + "WHERE resource_id = '"
+					+ newDetails.getResourceID() + "'");
 		}
 
-		query.executeBatch();	// Runs the queued queries sequentially
+		query.executeBatch(); // Runs the queued queries sequentially
 	}
 
 	/**
@@ -334,64 +307,64 @@ public class DatabaseRequest {
 
 		if (getResourceType(resourceID).equals("BOOK")) {
 			// Resource is a book
-			results = query.executeQuery("SELECT RESOURCE.*, BOOK.AUTHOR, BOOK.PUBLISHER, BOOK.GENRE, BOOK.ISBN, BOOK.LANGUAGE "
-					+ "FROM RESOURCE INNER JOIN BOOK ON RESOURCE.RESOURCE_ID = BOOK.RESOURCE_ID "
-					+ "WHERE RESOURCE.RESOURCE_ID = '" + resourceID + "'");
+			results = query.executeQuery(
+					"SELECT RESOURCE.*, BOOK.AUTHOR, BOOK.PUBLISHER, BOOK.GENRE, BOOK.ISBN, BOOK.LANGUAGE "
+							+ "FROM RESOURCE INNER JOIN BOOK ON RESOURCE.RESOURCE_ID = BOOK.RESOURCE_ID "
+							+ "WHERE RESOURCE.RESOURCE_ID = '" + resourceID + "'");
 			results.next();
 
-			RequestQueue queue = convertRequestQueue(results.getString(5));	// request queue
+			RequestQueue queue = convertRequestQueue(results.getString(5)); // request queue
 
-			out = new Book(resourceID,
-					results.getString(2),	// title
-					results.getInt(3),	// year
-					new Thumbnail(results.getString(4)),	// thumbnail
-					queue,	// queue
-					results.getString(6),	// author
-					results.getString(7),	// publisher
-					results.getString(8),	// genre
-					results.getString(9),	// isbn
-					results.getString(10));	// language
+			out = new Book(resourceID, results.getString(2), // title
+					results.getInt(3), // year
+					new Thumbnail(results.getString(4)), // thumbnail
+					queue, // queue
+					results.getString(6), // author
+					results.getString(7), // publisher
+					results.getString(8), // genre
+					results.getString(9), // isbn
+					results.getString(10)); // language
 
 		} else if (getResourceType(resourceID).equals("DVD")) {
 			// Resource is a DVD
-			results = query.executeQuery("SELECT RESOURCE.*, DVD.DIRECTOR, DVD.RUNTIME, DVD.LANGUAGE, DVD.SUBTITLE_LANGUAGES "
-					+ "FROM RESOURCE INNER JOIN DVD ON RESOURCE.RESOURCE_ID = DVD.RESOURCE_ID "
-					+ "WHERE RESOURCE.RESOURCE_ID = '" + resourceID + "'");
+			results = query
+					.executeQuery("SELECT RESOURCE.*, DVD.DIRECTOR, DVD.RUNTIME, DVD.LANGUAGE, DVD.SUBTITLE_LANGUAGES "
+							+ "FROM RESOURCE INNER JOIN DVD ON RESOURCE.RESOURCE_ID = DVD.RESOURCE_ID "
+							+ "WHERE RESOURCE.RESOURCE_ID = '" + resourceID + "'");
 			results.next();
 
-			RequestQueue queue = convertRequestQueue(results.getString(5));	// request queue
+			RequestQueue queue = convertRequestQueue(results.getString(5)); // request queue
 
 			// Format languages back into arraylist from database string
-			String[] langs = results.getString(10).split(",");
+			String[] langs = results.getString(9).split(",");
 			ArrayList<String> subLang = new ArrayList<>(Arrays.asList(langs));
 
-			out = new DVD(resourceID,
-					results.getString(2),	// title
-					results.getInt(3),	// year
-					new Thumbnail(results.getString(4)),	// thumbnail
-					queue,	// queue
-					results.getString(6),	// director
-					results.getInt(7),	// runtime
-					results.getString(8),	// language
-					subLang);	// subtitle languages
+			out = new DVD(resourceID, results.getString(2), // title
+					results.getInt(3), // year
+					new Thumbnail(results.getString(4)), // thumbnail
+					queue, // queue
+					results.getString(6), // director
+					results.getInt(7), // runtime
+					results.getString(8), // language
+					subLang); // subtitle languages
 
 		} else {
 			// Resource is a laptop
-			results = query.executeQuery("SELECT RESOURCE.*, LAPTOP.MANUFACTURER, LAPTOP.MODEL, LAPTOP.OPERATING_SYSTEM "
-					+ "FROM RESOURCE INNER JOIN LAPTOP ON RESOURCE.RESOURCE_ID = LAPTOP.RESOURCE_ID "
-					+ "WHERE RESOURCE.RESOURCE_ID = '" + resourceID + "'");
+			results = query
+					.executeQuery("SELECT RESOURCE.*, LAPTOP.MANUFACTURER, LAPTOP.MODEL, LAPTOP.OPERATING_SYSTEM "
+							+ "FROM RESOURCE INNER JOIN LAPTOP ON RESOURCE.RESOURCE_ID = LAPTOP.RESOURCE_ID "
+							+ "WHERE RESOURCE.RESOURCE_ID = '" + resourceID + "'");
 			results.next();
 
-			RequestQueue queue = convertRequestQueue(results.getString(5));	// request queue
+			RequestQueue queue = convertRequestQueue(results.getString(5)); // request queue
 
-			out = new Laptop(resourceID,
-					results.getString(2),	// title
-					results.getInt(3),	// year
-					new Thumbnail(results.getString(4)),	// thumbnail
-					queue,	// queue
-					results.getString(6),	// manufacturer
-					results.getString(7),	// model
-					results.getString(8));	// OS
+			out = new Laptop(resourceID, results.getString(2), // title
+					results.getInt(3), // year
+					new Thumbnail(results.getString(4)), // thumbnail
+					queue, // queue
+					results.getString(6), // manufacturer
+					results.getString(7), // model
+					results.getString(8)); // OS
 		}
 
 		return out;
@@ -407,7 +380,7 @@ public class DatabaseRequest {
 	private String getResourceType(String resourceID) throws SQLException {
 		// Check if there's an entry in the BOOK table; it must be a book
 		Statement isBook = conn.createStatement();
-		ResultSet rsBook = isBook.executeQuery("SELECT COUNT(*) FROM LIBRARIAN WHERE username = '" + resourceID + "'");
+		ResultSet rsBook = isBook.executeQuery("SELECT COUNT(*) FROM BOOK WHERE resource_id = '" + resourceID + "'");
 		rsBook.next();
 
 		if (rsBook.getInt(1) == 1) {
@@ -416,7 +389,7 @@ public class DatabaseRequest {
 
 		// Check if there's an entry in the DVD table; it must be a DVD
 		Statement isDVD = conn.createStatement();
-		ResultSet rsDVD = isDVD.executeQuery("SELECT COUNT(*) FROM LIBRARIAN WHERE username = '" + resourceID + "'");
+		ResultSet rsDVD = isDVD.executeQuery("SELECT COUNT(*) FROM DVD WHERE resource_id = '" + resourceID + "'");
 		rsDVD.next();
 
 		if (rsDVD.getInt(1) == 1) {
@@ -454,21 +427,18 @@ public class DatabaseRequest {
 	 */
 	public boolean checkAvailability(String resourceID) throws SQLException {
 		Statement query = conn.createStatement();
-		ResultSet results = query.executeQuery("SELECT COUNT(*) "
-				+ "FROM COPY "
-				+ "WHERE resource_id = '" + resourceID + "' "
-				+ "AND is_reserved = 0 "
-				+ "AND is_on_loan = 0");
+		ResultSet results = query.executeQuery("SELECT COUNT(*) " + "FROM COPY " + "WHERE resource_id = '" + resourceID
+				+ "' " + "AND is_reserved = 0 " + "AND is_on_loan = 0");
 
 		results.next();
-		
+
 		if (results.getInt(1) == 0) {
 			return false;
 		}
 
 		return true;
 	}
-	
+
 	/**
 	 * Adds a copy to the database.
 	 *
@@ -481,13 +451,9 @@ public class DatabaseRequest {
 		int isReserved = newCopy.isReserved() ? 1 : 0;
 
 		Statement query = conn.createStatement();
-		query.executeUpdate("INSERT INTO COPY VALUES(" +
-				"'" + newCopy.getCopyID() + "', " +
-				"'" + newCopy.getResourceID() + "', " +
-				"'" + newCopy.getLoanTime() + "', " +
-				"'" + isOnLoan + "', " +
-				"'" + isReserved + "', " +
-				"'" + newCopy.getReservingUser() + "')");
+		query.executeUpdate("INSERT INTO COPY VALUES(" + "'" + newCopy.getCopyID() + "', " + "'"
+				+ newCopy.getResourceID() + "', " + "'" + newCopy.getLoanTime() + "', " + "'" + isOnLoan + "', " + "'"
+				+ isReserved + "', " + "'" + newCopy.getReservingUser() + "')");
 	}
 
 	/**
@@ -502,13 +468,10 @@ public class DatabaseRequest {
 		int isReserved = newDetails.isReserved() ? 1 : 0;
 
 		Statement query = conn.createStatement();
-		query.executeUpdate("UPDATE COPY SET " +
-				"resource_id = '" + newDetails.getResourceID() + "', " +
-				"loan_duration = '" + newDetails.getLoanTime() + "', " +
-				"is_on_loan = '" + isOnLoan + "', " +
-				"is_reserved = '" + isReserved + "', " +
-				"reserved_by_user_id = '" + newDetails.getReservingUser() + " " +
-				"WHERE copy_id = '" + newDetails.getCopyID() + "'");
+		query.executeUpdate("UPDATE COPY SET " + "resource_id = '" + newDetails.getResourceID() + "', "
+				+ "loan_duration = '" + newDetails.getLoanTime() + "', " + "is_on_loan = '" + isOnLoan + "', "
+				+ "is_reserved = '" + isReserved + "', " + "reserved_by_user_id = '" + newDetails.getReservingUser()
+				+ " " + "WHERE copy_id = '" + newDetails.getCopyID() + "'");
 	}
 
 	/**
@@ -540,11 +503,7 @@ public class DatabaseRequest {
 		boolean isOnLoan = results.getInt(4) != 0;
 		boolean isReserved = results.getInt(5) != 0;
 
-		Copy out = new Copy(copyID,
-				results.getString(2),
-				results.getInt(3),
-				isOnLoan,
-				isReserved,
+		Copy out = new Copy(copyID, results.getString(2), results.getInt(3), isOnLoan, isReserved,
 				results.getString(6));
 
 		return out;
@@ -552,6 +511,7 @@ public class DatabaseRequest {
 
 	/**
 	 * Gets all the copies of a given resource
+	 * 
 	 * @param resourceID of which copies we want to look up
 	 * @return ArrayList of copies
 	 * @throws SQLException if connection to the database has failed
@@ -559,30 +519,26 @@ public class DatabaseRequest {
 	public ArrayList<Copy> getCopies(String resourceID) throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT * FROM COPY WHERE resource_id = '" + resourceID + "'");
-		
+
 		boolean isOnLoan;
 		boolean isReserved;
 		Copy currentCopy;
 		ArrayList<Copy> out = new ArrayList<Copy>();
-		
+
 		while (results.next()) {
 			// Format integer 1/0 from database back into boolean true/false
 			isOnLoan = results.getInt(4) != 0;
 			isReserved = results.getInt(5) != 0;
-			
-			currentCopy = new Copy(results.getString(1),
-					results.getString(2),
-					results.getInt(3),
-					isOnLoan,
-					isReserved,
+
+			currentCopy = new Copy(results.getString(1), results.getString(2), results.getInt(3), isOnLoan, isReserved,
 					results.getString(6));
-			
+
 			out.add(currentCopy);
 		}
-		
+
 		return out;
 	}
-	
+
 	/**
 	 * Gets all the copies that are reserved for a user.
 	 *
@@ -593,30 +549,26 @@ public class DatabaseRequest {
 	public ArrayList<Copy> getUserReservedCopies(String username) throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT * FROM COPY WHERE reserved_by_user_id = '" + username + "'");
-		
+
 		boolean isOnLoan;
 		boolean isReserved;
 		Copy currentCopy;
 		ArrayList<Copy> out = new ArrayList<Copy>();
-		
+
 		while (results.next()) {
 			// Format integer 1/0 from database back into boolean true/false
 			isOnLoan = results.getInt(4) != 0;
 			isReserved = results.getInt(5) != 0;
-			
-			currentCopy = new Copy(results.getString(1),
-					results.getString(2),
-					results.getInt(3),
-					isOnLoan,
-					isReserved,
+
+			currentCopy = new Copy(results.getString(1), results.getString(2), results.getInt(3), isOnLoan, isReserved,
 					results.getString(6));
-			
+
 			out.add(currentCopy);
 		}
-		
+
 		return out;
 	}
-	
+
 	/**
 	 * Gets all available copies of a given resource from the database.
 	 *
@@ -626,34 +578,28 @@ public class DatabaseRequest {
 	 */
 	public ArrayList<Copy> getAvailableCopies(String resourceID) throws SQLException {
 		Statement query = conn.createStatement();
-		ResultSet results = query.executeQuery("SELECT * FROM COPY "
-				+ "WHERE resource_id = '" + resourceID + "' "
-				+ "AND is_on_loan = 0 "
-				+ "AND is_reserved = 0");
-		
+		ResultSet results = query.executeQuery("SELECT * FROM COPY " + "WHERE resource_id = '" + resourceID + "' "
+				+ "AND is_on_loan = 0 " + "AND is_reserved = 0");
+
 		boolean isOnLoan;
 		boolean isReserved;
 		Copy currentCopy;
 		ArrayList<Copy> out = new ArrayList<Copy>();
-		
+
 		while (results.next()) {
 			// Format integer 1/0 from database back into boolean true/false
 			isOnLoan = results.getInt(4) != 0;
 			isReserved = results.getInt(5) != 0;
-			
-			currentCopy = new Copy(results.getString(1),
-					results.getString(2),
-					results.getInt(3),
-					isOnLoan,
-					isReserved,
+
+			currentCopy = new Copy(results.getString(1), results.getString(2), results.getInt(3), isOnLoan, isReserved,
 					results.getString(6));
-			
+
 			out.add(currentCopy);
 		}
-		
+
 		return out;
 	}
-	
+
 	/**
 	 * gets all the borrowers that are registered in the database.
 	 *
@@ -664,21 +610,20 @@ public class DatabaseRequest {
 		Statement query = conn.createStatement();
 
 		ResultSet results = query.executeQuery("SELECT LIBRARY_USER.*, BORROWER.BALANCE"
-				+ " FROM LIBRARY_USER INNER JOIN BORROWER"
-				+ " ON USER.USERNAME = BORROWER.USERNAME");
+				+ " FROM LIBRARY_USER INNER JOIN BORROWER" + " ON USER.USERNAME = BORROWER.USERNAME");
 		results.next();
 
 		ArrayList<Borrower> out = new ArrayList<Borrower>();
 		Borrower temp;
 
 		while (results.next()) {
-			temp = new Borrower(results.getString(1),	// username
-					results.getString(2),	// forename
-					results.getString(3),	// surname
-					results.getString(4),	// phone number
-					results.getString(5),	// address
+			temp = new Borrower(results.getString(1), // username
+					results.getString(2), // forename
+					results.getString(3), // surname
+					results.getString(4), // phone number
+					results.getString(5), // address
 					new UserImage(results.getString(6)), // profile image
-					results.getDouble(7));	// balance
+					results.getDouble(7)); // balance
 
 			out.add(temp);
 		}
@@ -701,11 +646,11 @@ public class DatabaseRequest {
 		Resource temp;
 
 		while (results.next()) {
-			temp = new Resource(results.getString(1),	// resourceID
-					results.getString(2),	// title
-					results.getInt(3),	// year
-					new Thumbnail(results.getString(4)),	// thumbnail
-					convertRequestQueue(results.getString(5)));	// request queue
+			temp = new Resource(results.getString(1), // resourceID
+					results.getString(2), // title
+					results.getInt(3), // year
+					new Thumbnail(results.getString(4)), // thumbnail
+					convertRequestQueue(results.getString(5))); // request queue
 
 			out.add(temp);
 		}
@@ -724,15 +669,11 @@ public class DatabaseRequest {
 		int isReturned = newLoan.isReturned() ? 1 : 0;
 
 		Statement query = conn.createStatement();
-		query.executeUpdate("INSERT INTO LOAN VALUES(" +
-				"'" + newLoan.getLoanID() + "', " +
-				"'" + newLoan.getIssueDate().toString() + "', " +
-				"'" + newLoan.getUsername() + "', " +
-				"'" + newLoan.getCopyID() + "', " +
-				"'" + newLoan.getReturnDate().toString() + "', " +
-				isReturned + ")");
+		query.executeUpdate("INSERT INTO LOAN VALUES(" + "'" + newLoan.getLoanID() + "', " + "'"
+				+ newLoan.getIssueDate().toString() + "', " + "'" + newLoan.getUsername() + "', " + "'"
+				+ newLoan.getCopyID() + "', " + "'" + newLoan.getReturnDate().toString() + "', " + isReturned + ")");
 	}
-	
+
 	/**
 	 * Edits loan in the database.
 	 *
@@ -744,15 +685,12 @@ public class DatabaseRequest {
 		int isReturned = newDetails.isReturned() ? 1 : 0;
 
 		Statement query = conn.createStatement();
-		query.executeUpdate("UPDATE LOAN SET " +
-				"issue_date = '" + newDetails.getIssueDate().toString() + "', " +
-				"username = '" + newDetails.getUsername() + "', " +
-				"copy_id = '" + newDetails.getCopyID() + "', " +
-				"return_date = '" + newDetails.getReturnDate().toString() + "', " +
-				"is_returned = " + isReturned + " " +
-				"WHERE loan_id = '" + newDetails.getCopyID() + "'");
+		query.executeUpdate("UPDATE LOAN SET " + "issue_date = '" + newDetails.getIssueDate().toString() + "', "
+				+ "username = '" + newDetails.getUsername() + "', " + "copy_id = '" + newDetails.getCopyID() + "', "
+				+ "return_date = '" + newDetails.getReturnDate().toString() + "', " + "is_returned = " + isReturned
+				+ " " + "WHERE loan_id = '" + newDetails.getCopyID() + "'");
 	}
-	
+
 	/**
 	 * Deletes the loan from the database.
 	 *
@@ -763,7 +701,7 @@ public class DatabaseRequest {
 		Statement query = conn.createStatement();
 		query.executeUpdate("DELETE FROM LOAN WHERE loan_id = '" + loanID + "'");
 	}
-	
+
 	/**
 	 * Gets a loan from the database.
 	 *
@@ -780,16 +718,12 @@ public class DatabaseRequest {
 		// Format integer 1/0 from database back into boolean true/false
 		boolean isReturned = results.getInt(6) != 0;
 
-		Loan out = new Loan(loanID,
-				new Date(results.getString(2)),
-				results.getString(3),
-				results.getString(4),
-				new Date(results.getString(5)),
-				isReturned);
+		Loan out = new Loan(loanID, new Date(results.getString(2)), results.getString(3), results.getString(4),
+				new Date(results.getString(5)), isReturned);
 
 		return out;
 	}
-	
+
 	/**
 	 * Gets the loan history of a given copy?.
 	 *
@@ -807,12 +741,11 @@ public class DatabaseRequest {
 		boolean isReturned = results.getInt(6) != 0;
 
 		while (results.next()) {
-			temp = new Loan(results.getString(1),	// loanID
-					new Date(results.getString(2)),	// issue date
-					results.getString(3),	// username
-					results.getString(4),	// copyID
-					new Date(results.getString(5)),
-					isReturned);	// return date
+			temp = new Loan(results.getString(1), // loanID
+					new Date(results.getString(2)), // issue date
+					results.getString(3), // username
+					results.getString(4), // copyID
+					new Date(results.getString(5)), isReturned); // return date
 
 			out.add(temp);
 		}
@@ -823,27 +756,26 @@ public class DatabaseRequest {
 	/**
 	 * Gets the oldest loan.
 	 *
-	 * @param resourceID 
+	 * @param resourceID
 	 * @return the oldest loan
 	 * @throws SQLException if connection to the database has failed
 	 */
 	public Loan getOldestLoan(String resourceID) throws SQLException {
 		Statement query = conn.createStatement();
-		ResultSet results = query.executeQuery("SELECT LOAN.* "
-				+ "FROM LOAN INNER JOIN COPY ON LOAN.COPY_ID = COPY.COPY_ID "
-				+ "WHERE COPY.RESOURCE_ID = '" + resourceID + "' "
-				+ "AND COPY.IS_ON_LOAN = 1");
+		ResultSet results = query
+				.executeQuery("SELECT LOAN.* " + "FROM LOAN INNER JOIN COPY ON LOAN.COPY_ID = COPY.COPY_ID "
+						+ "WHERE COPY.RESOURCE_ID = '" + resourceID + "' " + "AND COPY.IS_ON_LOAN = 1");
 
 		ArrayList<Loan> loans = new ArrayList<Loan>();
 		Loan temp;
 		boolean isReturned = results.getInt(6) != 0;
 
 		while (results.next()) {
-			temp = new Loan(results.getString(1),	// loanID
-					new Date(results.getString(2)),	// issue date
-					results.getString(3),	// username
-					results.getString(4),	// copyID
-					new Date(results.getString(5)),	// return date
+			temp = new Loan(results.getString(1), // loanID
+					new Date(results.getString(2)), // issue date
+					results.getString(3), // username
+					results.getString(4), // copyID
+					new Date(results.getString(5)), // return date
 					isReturned);
 
 			loans.add(temp);
@@ -861,7 +793,7 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Gets overdue loans from the database 
+	 * Gets overdue loans from the database
 	 *
 	 * @return ArrayList of loans
 	 * @throws SQLException if connection to database has failed
@@ -876,11 +808,11 @@ public class DatabaseRequest {
 		boolean isReturned = results.getInt(6) != 0;
 
 		while (results.next()) {
-			currentLoan = new Loan(results.getString(1),	// loanID
-					new Date(results.getString(2)),	// issue date
-					results.getString(3),	// username
-					results.getString(4),	// copyID
-					new Date(results.getString(5)),	// return date
+			currentLoan = new Loan(results.getString(1), // loanID
+					new Date(results.getString(2)), // issue date
+					results.getString(3), // username
+					results.getString(4), // copyID
+					new Date(results.getString(5)), // return date
 					isReturned);
 
 			if (currentDate.isBefore(currentLoan.getReturnDate())) {
@@ -900,10 +832,8 @@ public class DatabaseRequest {
 	 */
 	public ArrayList<Copy> getUserCopiesOnLoan(String username) throws SQLException {
 		Statement query = conn.createStatement();
-		ResultSet results = query.executeQuery("SELECT * FROM "
-				+ "COPY INNER JOIN LOAN ON COPY.copy_id = LOAN.copy_id " +
-				"WHERE username = '" + username + "' " +
-				"AND is_returned = 0");
+		ResultSet results = query.executeQuery("SELECT * FROM " + "COPY INNER JOIN LOAN ON COPY.copy_id = LOAN.copy_id "
+				+ "WHERE username = '" + username + "' " + "AND is_returned = 0");
 
 		ArrayList<Copy> userLoans = new ArrayList<Copy>();
 		Copy currentCopy;
@@ -913,11 +843,7 @@ public class DatabaseRequest {
 			boolean isOnLoan = results.getInt(4) != 0;
 			boolean isReserved = results.getInt(5) != 0;
 
-			currentCopy = new Copy(results.getString(1),
-					results.getString(2),
-					results.getInt(3),
-					isOnLoan,
-					isReserved,
+			currentCopy = new Copy(results.getString(1), results.getString(2), results.getInt(3), isOnLoan, isReserved,
 					results.getString(6));
 
 			userLoans.add(currentCopy);
@@ -937,16 +863,12 @@ public class DatabaseRequest {
 		int isPaid = newFine.isPaid() ? 1 : 0;
 
 		Statement query = conn.createStatement();
-		query.executeUpdate("INSERT INTO FINE VALUES(" +
-				"'" + newFine.getFineID() + "', " +
-				newFine.getAmount() + ", " +
-				newFine.getAmountPaid() + ", " +
-				"'" + newFine.getLoanID() + "', " +
-				"'" + newFine.getDatePaid().toString() + "', " +
-				"'" + newFine.getDateIssued().toString() + "', " +
-				isPaid + ")");
+		query.executeUpdate("INSERT INTO FINE VALUES(" + "'" + newFine.getFineID() + "', " + newFine.getAmount() + ", "
+				+ newFine.getAmountPaid() + ", " + "'" + newFine.getLoanID() + "', " + "'"
+				+ newFine.getDatePaid().toString() + "', " + "'" + newFine.getDateIssued().toString() + "', " + isPaid
+				+ ")");
 	}
-	
+
 	/**
 	 * Edits fine in the database.
 	 *
@@ -958,16 +880,12 @@ public class DatabaseRequest {
 		int isPaid = newDetails.isPaid() ? 1 : 0;
 
 		Statement query = conn.createStatement();
-		query.executeUpdate("UPDATE LOAN SET " +
-				"amount = " + newDetails.getAmount() + ", " +
-				"amount_paid = " + newDetails.getAmountPaid() + ", " +
-				"loan_id = '" + newDetails.getLoanID() + "', " +
-				"date_paid = '" + newDetails.getDatePaid().toString() + "', " +
-				"date_issued = " + newDetails.getDateIssued().toString() + ", " +
-				"is_paid = " + isPaid + " " +
-				"WHERE fine_id = '" + newDetails.getFineID() + "'");
+		query.executeUpdate("UPDATE LOAN SET " + "amount = " + newDetails.getAmount() + ", " + "amount_paid = "
+				+ newDetails.getAmountPaid() + ", " + "loan_id = '" + newDetails.getLoanID() + "', " + "date_paid = '"
+				+ newDetails.getDatePaid().toString() + "', " + "date_issued = " + newDetails.getDateIssued().toString()
+				+ ", " + "is_paid = " + isPaid + " " + "WHERE fine_id = '" + newDetails.getFineID() + "'");
 	}
-	
+
 	/**
 	 * Delete fine from the database.
 	 *
@@ -978,10 +896,12 @@ public class DatabaseRequest {
 		Statement query = conn.createStatement();
 		query.executeUpdate("DELETE FROM FINE WHERE fine_id = '" + fineID + "'");
 	}
-	
+
 	/**
 	 * Gets fine from the database.
-	 * <p>this so monotonous </p>
+	 * <p>
+	 * this so monotonous
+	 * </p>
 	 *
 	 * @param fineID the fine ID
 	 * @return the fine
@@ -996,13 +916,8 @@ public class DatabaseRequest {
 		// Format integer 1/0 from database back into boolean true/false
 		boolean isPaid = results.getInt(7) != 0;
 
-		Fine out = new Fine(fineID,
-				results.getDouble(2),
-				results.getDouble(3),
-				results.getString(4),
-				new Date(results.getString(5)),
-				new Date(results.getString(6)),
-				isPaid);
+		Fine out = new Fine(fineID, results.getDouble(2), results.getDouble(3), results.getString(4),
+				new Date(results.getString(5)), new Date(results.getString(6)), isPaid);
 
 		return out;
 	}
@@ -1016,36 +931,33 @@ public class DatabaseRequest {
 	 */
 	public double totalUserFines(String username) throws SQLException {
 		Statement query = conn.createStatement();
-		ResultSet results = query.executeQuery("SELECT SUM(amount) - SUM(amount_paid) "
-				+ "FROM FINE WHERE username = '" + username + "' "
-				+ "AND is_paid = 0");
-		
+		ResultSet results = query.executeQuery("SELECT SUM(amount) - SUM(amount_paid) " + "FROM FINE WHERE username = '"
+				+ username + "' " + "AND is_paid = 0");
+
 		results.next();
-		
+
 		return results.getDouble(1);
 	}
-	
+
 	/**
 	 * Searches the database for a resource containing a given key
 	 *
 	 * @param searchTerm a keyword to be searched by e.g. ID, Title, and year
-	 * @return ArrayList of resources
+	 * @return ArrayList of Resources (which can be cast into their actual types)
+	 *         e.g.
 	 * @throws SQLException if connection to the database fails
 	 */
 	public ArrayList<Resource> searchResources(String searchTerm) throws SQLException {
 		Statement query = conn.createStatement();
-		ResultSet results = query.executeQuery("SELECT resource_id FROM "
-				+ "RESOURCE "
-				+ "WHERE resource_id LIKE '" + searchTerm + "%', "
-				+ "OR title LIKE '" + searchTerm + "%', "
-				+ "OR year LIKE '" + searchTerm + "%'");
+		ResultSet results = query.executeQuery("SELECT resource_id " + "FROM RESOURCE " + "WHERE resource_id LIKE '%"
+				+ searchTerm + "%' " + "OR title LIKE '%" + searchTerm + "%'");
 
 		ArrayList<Resource> resultsList = new ArrayList<Resource>();
-		
+
 		while (results.next()) {
 			resultsList.add(getResource(results.getString(1)));
 		}
-		
+
 		return resultsList;
 	}
 }

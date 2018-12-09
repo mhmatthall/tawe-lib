@@ -53,35 +53,35 @@
                         </Label>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
-                              <Label text="Author" />
+                              <Label fx:id="lblAuthor" text="Author" />
                               <Region HBox.hgrow="ALWAYS" />
                               <TextField fx:id="txtAuthor" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
-                              <Label text="Publisher" />
+                              <Label fx:id="lblPublisher" text="Publisher" />
                               <Region HBox.hgrow="ALWAYS" />
                               <TextField fx:id="txtPublisher" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
-                              <Label text="Language" />
+                              <Label fx:id="lblBookLanguage" text="Language" />
                               <Region HBox.hgrow="ALWAYS" />
                               <TextField fx:id="txtLanguage" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
-                              <Label text="Genre" />
+                              <Label fx:id="lblGenre" text="Genre" />
                               <Region HBox.hgrow="ALWAYS" />
                               <TextField fx:id="txtGenre" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
-                              <Label text="ISBN" />
+                              <Label fx:id="lblISBN" text="ISBN" />
                               <Region HBox.hgrow="ALWAYS" />
                               <TextField fx:id="txtISBN" />
                            </children>
@@ -96,21 +96,21 @@
                            </font></Label>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
-                              <Label text="Director" />
+                              <Label fx:id="lblDirector" text="Director" />
                               <Region HBox.hgrow="ALWAYS" />
                               <TextField fx:id="txtDirector" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
-                              <Label text="Language" />
+                              <Label fx:id="lblDVDLanguage" text="Language" />
                               <Region HBox.hgrow="ALWAYS" />
                               <TextField fx:id="txtLanguage" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
-                              <Label text="Runtime" />
+                              <Label fx:id="lblRuntime" text="Runtime" />
                               <Region HBox.hgrow="ALWAYS" />
                               <TextField fx:id="txtRuntime" />
                            </children>
@@ -125,21 +125,21 @@
                            </font></Label>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
-                              <Label text="Manufacturer" />
+                              <Label fx:id="lblMake" text="Manufacturer" />
                               <Region HBox.hgrow="ALWAYS" />
                               <TextField fx:id="txtMake" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
-                              <Label text="Model" />
+                              <Label fx:id="lblModel" text="Model" />
                               <Region HBox.hgrow="ALWAYS" />
                               <TextField fx:id="txtModel" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                            <children>
-                              <Label text="Operating System" />
+                              <Label fx:id="lblOS" text="Operating System" />
                               <Region HBox.hgrow="ALWAYS" />
                               <TextField fx:id="txtOS" />
                            </children>
