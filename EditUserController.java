@@ -47,7 +47,7 @@ public class EditUserController {
 
 	@FXML
 	private void deleteUser() throws SQLException {
-		if (!user.isLibrarian()) {			
+		if (!user.isLibrarian()) {
 			AlertBox.display("If you want to delete your account,\nplease talk to a Librarian");
 			return;
 		}
@@ -98,7 +98,6 @@ public class EditUserController {
 		String phone = txtPhone.getText();
 		String address = txtAddress.getText();
 
-		
 		if (user.isLibrarian()) {
 			Librarian updatedUser = new Librarian(user.getUsername(), firstName, lastName, phone, address,
 					user.getProfileImage(), ((Librarian) user).getStaffNumber(),
@@ -113,15 +112,16 @@ public class EditUserController {
 		}
 		window.close();
 	}
+
 	public void disableDeleteButton() {
 		btnDelete.setDisable(true);
 	}
-	public void setEditor(User editor){
+
+	public void setEditor(User editor) {
 		this.editor = editor;
 		if (!editor.isLibrarian()) {
 			btnDelete.setDisable(true);
-		} 
+		}
 	}
-	
 
 }

@@ -12,12 +12,12 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class ResourcePageController {
-	private Resource resource;
 	private User user;
 	private DVD dvd;
 	private Book book;
 	private Laptop laptop;
 	private Stage window;
+	private Resource resource;
 
 	@FXML
 	Label lblTitle;
@@ -82,6 +82,7 @@ public class ResourcePageController {
 		lbl5.setText("ISBN: " + ((Book) resource).getISBN());
 		lbl6.setText("Language: " + ((Book) resource).getLanguage());
 	}
+
 
 	public void setDVD(Resource resource) throws SQLException {
 		this.dvd = (DVD) new DatabaseRequest().getResource(resource.getResourceID());

@@ -12,31 +12,38 @@ import javafx.stage.Stage;
  *
  */
 public class NewLaptopController {
-	
+
 	private Stage window;
-	
-	@FXML Button btnCreate;
-	@FXML Button btnCancel;
-	@FXML TextField txtTitle;
-	@FXML TextField txtManufacturer;
-	@FXML TextField txtYear;
-	@FXML TextField txtModel;
-	@FXML TextField txtOS;
-	
+
 	@FXML
-	private void constructLaptop() throws SQLException{
+	Button btnCreate;
+	@FXML
+	Button btnCancel;
+	@FXML
+	TextField txtTitle;
+	@FXML
+	TextField txtManufacturer;
+	@FXML
+	TextField txtYear;
+	@FXML
+	TextField txtModel;
+	@FXML
+	TextField txtOS;
+
+	@FXML
+	private void constructLaptop() throws SQLException {
 		String title = txtTitle.getText();
 		int year = Integer.parseInt(txtYear.getText());
-		String make = txtManufacturer.getText(); 
+		String make = txtManufacturer.getText();
 		String model = txtModel.getText();
 		String os = txtOS.getText();
 		Thumbnail thumb = new Thumbnail("laptop.png");
-		
+
 		Laptop laptop1 = new Laptop(title, year, thumb, make, model, os);
 		new DatabaseRequest().addResource(laptop1);
-		
+
 		System.out.println(laptop1.toString());
-		
+
 		close();
 	}
 
@@ -44,12 +51,10 @@ public class NewLaptopController {
 	private void close() {
 		window.close();
 	}
-	
+
 	public void passStageReference(Stage window) {
 		this.window = window;
-		
+
 	}
-	
-	
-	
+
 }

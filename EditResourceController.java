@@ -9,7 +9,7 @@ import javafx.stage.Stage;
  * @author Constantinos Loizou
  *
  */
-public class EditResourceController{
+public class EditResourceController {
 
 	private Stage window;
 	private Resource resource;
@@ -51,8 +51,6 @@ public class EditResourceController{
 	@FXML
 	TextField txtOS;
 
-
-
 	@FXML
 	private void update() {
 
@@ -68,15 +66,14 @@ public class EditResourceController{
 		window.close();
 	}
 
-	
 	public void passStageReference(Stage window) {
 		this.window = window;
-		
+
 	}
 
 	public void passResourceReference(Resource resource) {
 		this.resource = resource;
-		
+
 	}
 
 }

@@ -13,46 +13,50 @@ import javafx.stage.Stage;
  *
  */
 public class NewDVDController {
-	
+
 	private Stage window;
-	
-	@FXML Button btnCreate;
-	@FXML Button btnCancel;
-	@FXML TextField txtTitle;
-	@FXML TextField txtDirector;
-	@FXML TextField txtYear;
-	@FXML TextField txtRuntime;
-	@FXML TextField txtLanguage;
-	
-	
 
 	@FXML
-	private void constructDVD() throws SQLException{
+	Button btnCreate;
+	@FXML
+	Button btnCancel;
+	@FXML
+	TextField txtTitle;
+	@FXML
+	TextField txtDirector;
+	@FXML
+	TextField txtYear;
+	@FXML
+	TextField txtRuntime;
+	@FXML
+	TextField txtLanguage;
+
+	@FXML
+	private void constructDVD() throws SQLException {
 		String title = txtTitle.getText();
 		int year = Integer.parseInt(txtYear.getText());
-		String director = txtDirector.getText(); 
+		String director = txtDirector.getText();
 		int runtime = Integer.parseInt(txtRuntime.getText());
 		String language = txtLanguage.getText();
 		Thumbnail thumb = new Thumbnail("dvd.png");
-		
+
 		DVD dvd1 = new DVD(title, year, thumb, director, runtime, language);
 		new DatabaseRequest().addResource(dvd1);
-		
+
 		System.out.println(dvd1.toString());
 		close();
 	}
-	
+
 	@FXML
 	private void close() {
 		window.close();
 	}
-	
-	
+
 //	DatabaseRequest
-	
+
 	public void passStageReference(Stage window) {
 		this.window = window;
-		
+
 	}
-	
+
 }
