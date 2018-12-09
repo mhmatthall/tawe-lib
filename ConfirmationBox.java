@@ -7,10 +7,25 @@ import javafx.scene.image.ImageView;
 import javafx.geometry.*;
 
 
+
+/**
+ * The Class ConfirmationBox.
+ * A pop up in GUI for confirmation (e.g. exit)
+ * @author Constantinos Loizou
+ *  
+ */
 public class ConfirmationBox {
 	
+	/** The answer. */
 	private static boolean answer;
 	
+	/**
+	 * Displays Confirmation box
+	 *
+	 * @param title title
+	 * @param msg the message to be displayed
+	 * @return true, if "yes" is pressed
+	 */
 	public static boolean display(String title, String msg) {
 		
 		Stage window = new Stage();

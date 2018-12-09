@@ -1,4 +1,5 @@
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /*
  * Created by Matt
@@ -31,20 +32,27 @@ public class Librarian extends User {
 		this.employmentDate = employmentDate;
 	}
 	
-	public void issueLoan(String CopyID, String UserID) throws SQLException {
-		Loan l = new Loan(CopyID, UserID);
-		new DatabaseRequest().addLoan(l);
+	public void issueLoan(String resourceID, String username) throws SQLException {
+		
+		DatabaseRequest db = new DatabaseRequest();
+		Copy c = db.getAvailableCopies(resourceID);
+
+		Loan l = new Loan(c.getCopyID(), username);
+		
+
+		db.addLoan(l);
 		
 	}
 	
 	public void returnLoan(Loan loan) throws SQLException{
 		
-		Copy c = new DatabaseRequest().getCopy(loan.getCopyID());
-		Resource r = new DatabaseRequest().getResource(c.getResourceID());
+		DatabaseRequest db = new DatabaseRequest();
+		Copy c = db.getCopy(loan.getCopyID());
+		Resource r = db.getResource(c.getResourceID());
 		
 		if ((new Date()).isBefore(loan.getReturnDate())) {
 			Fine f = new Fine(loan.getLoanID());
-			new DatabaseRequest().addFine(f);
+			db.addFine(f);
 		}
 		
 		loan.setLoanStatus(false);
@@ -52,26 +60,88 @@ public class Librarian extends User {
 		if (r.getQueue().isEmpty()) {
 			loan.returnResource();
 		} else {
-			Loan l = new Loan(loan.getCopyID(), r.getQueue().peek());
-			loan.setReservationStatus(true, r.getQueue().peek());
+			reserveResource(r.getResourceID(), r.getQueue().peek());
 			r.getQueue().dequeue();
 		}
 		
-		new DatabaseRequest().editResource(r);
-		new DatabaseRequest().editLoan(loan);
+		db.editResource(r);
+		db.editLoan(loan);
 	}
 	
-	public void PayFine(String fineID, double amount) {
-		Fine f = new DatabaseRequest().getFine();
+	public void payFine(String fineID, double amount) throws SQLException {
+		
+		DatabaseRequest db = new DatabaseRequest();
+		Fine f = db.getFine(fineID);
 		
 		if (amount < f.getMinimumPayment())
 			throw new IllegalArgumentException("Cannot pay less than £" + f.getMinimumPayment());
 		else if (f.getAmountPaid() + amount > f.getAmount()) {
-			throw new IllegalArgumentException("Cant pay more than the total fine amount ");
+			throw new IllegalArgumentException("Cant pay more than the total fine amount");
 		}
 		
 		f.setAmountPaid(f.getAmountPaid() + amount);
-		new DatabaseRequest().editFine(f);
+		
+		db.editFine(f);
 		
 	}
+	
+	public void requestResource(String resourceID, String username) throws SQLException {
+		
+		DatabaseRequest db = new DatabaseRequest();
+		
+		
+		if (db.checkAvailability(resourceID)) {
+			reserveResource(resourceID, username);
+
+		} else {
+			
+			Resource r = db.getResource(resourceID);
+			r.getQueue().addUser(username);
+			
+			db.editResource(r);
+			
+		}
+	}
+	
+	public void reserveResource(String resourceID, String username) throws SQLException {
+		
+		DatabaseRequest db = new DatabaseRequest();
+		Copy c = null;
+		ArrayList<Copy> copies = db.getAvailableCopies(resourceID);
+		if (copies.isEmpty()) {
+
+			Loan l = db.getOldestLoan(resourceID);
+			l.setReservationStatus(true, username);
+
+			c = db.getCopy(l.getCopyID());
+			int loanLength = c.getLoanTime();
+			c.setReservingUser(username);
+			c.setReserved(true);
+
+			Date d = l.getIssueDate();
+			d.forwardDate(loanLength);
+
+			if (d.isBefore(new Date())) {
+				Date tomorrow = new Date();
+				tomorrow.forwardDate(1);
+				l.setReturnDate(tomorrow);
+			} else {
+				Date dueDate = l.getIssueDate();
+				dueDate.forwardDate(loanLength);
+
+			}
+		} else {
+			c = copies.get(0);
+			c.setReserved(true);
+			c.setReservingUser(username);
+		}
+		
+		
+		db.editCopy(c);
+		
+		
+		
+	}
+	
+	
 }

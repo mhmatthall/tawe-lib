@@ -34,13 +34,9 @@ public class RequestQueue {
 		return resourceID;
 	}
 	
-	public void reserveCopy() throws SQLException {
-		DatabaseRequest db = new DatabaseRequest();
-		boolean available = db.checkAvailability(resourceID);
-		if (available) {
-			//how do i get available copy?
-		}
-	}
+	
+		
+	
 	
 	/**
 	 * @return boolean indicating whatever queue is empty
