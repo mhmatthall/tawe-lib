@@ -6,10 +6,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/* DatabaseRequest
-   @author Matt Hall
-   @version 1.0
-
+/** DatabaseRequest
+ *  @author Matt Hall
+ *  @version 1.0
+ */
+/*
 	+ search(tables : string, fieldName : string, query : string, numberOfResults : int) : ArrayList<Object>
 	+ total fines for given user
  */
@@ -18,15 +19,31 @@ public class DatabaseRequest {
 	private static final String DATABASE_NAME = "tawe-lib";
 	private static Connection conn;
 
+	/**
+	 * Instantiates a new database request, tries to establish a connectio.
+	 *
+	 * @throws SQLException if it fails to establish a connection
+	 */
 	public DatabaseRequest() throws SQLException {
 		establishConnection();
 	}
 
+	/**
+	 * Establish connection to the database.
+	 *
+	 * @throws SQLException if connection fails to be established
+	 */
 	private void establishConnection() throws SQLException {
 		conn = DriverManager.getConnection("jdbc:derby:" + DATABASE_NAME);
 		conn.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 	}
 
+	/**
+	 * Adds a new user into the database.
+	 *
+	 * @param newUser the user to be added
+	 * @throws SQLException if the connection fails to access the Database
+	 */
 	public void addUser(User newUser) throws SQLException {
 		// Two queries are added to a batch, then run sequentially:
 		//		- one inserts the user into the LIBRARY_USER table,
@@ -57,6 +74,12 @@ public class DatabaseRequest {
 		queries.executeBatch();	// Execute both statements in sequence
 	}
 
+	/**
+	 * Edits user already inside the database.
+	 *
+	 * @param newDetails user with new details
+	 * @throws SQLException if accessing database failed
+	 */
 	public void editUser(User newDetails) throws SQLException {
 		Statement query = conn.createStatement();
 
@@ -82,6 +105,12 @@ public class DatabaseRequest {
 		query.executeBatch();	// Runs the queued queries sequentially
 	}
 
+	/**
+	 * Deletes the user from the database.
+	 *
+	 * @param username of user to be deleted
+	 * @throws SQLException if access to database fails
+	 */
 	public void deleteUser(String username) throws SQLException {
 		Statement query = conn.createStatement();
 
@@ -97,6 +126,13 @@ public class DatabaseRequest {
 		query.executeBatch();
 	}
 
+	/**
+	 * Gets the user from the database.
+	 *
+	 * @param username of the user
+	 * @return the user if successful, null if user doesn't exist
+	 * @throws SQLException if accessing the database fails
+	 */
 	public User getUser(String username) throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results;
@@ -137,6 +173,13 @@ public class DatabaseRequest {
 		return out;
 	}
 
+	/**
+	 * Checks whatever the user is a lib.
+	 *
+	 * @param username of the user
+	 * @return true if user is librarian
+	 * @throws SQLException if accessing database has failed
+	 */
 	private boolean userIsLibrarian(String username) throws SQLException {
 		Statement userTypeCheck = conn.createStatement();
 		ResultSet rs = userTypeCheck.executeQuery("SELECT COUNT(*) FROM LIBRARIAN WHERE username = '" + username + "'");
@@ -145,6 +188,12 @@ public class DatabaseRequest {
 		return (userType == 1);
 	}
 
+	/**
+	 * Adds resource to the database.
+	 *
+	 * @param newResource resource to be added
+	 * @throws SQLException if connection to the database has failed
+	 */
 	public void addResource(Resource newResource) throws SQLException {
 		// Two queries are added to a batch, then run sequentially:
 		//		- one inserts the resource into the RESOURCE table,
@@ -200,6 +249,12 @@ public class DatabaseRequest {
 		queries.executeBatch();	// Execute both statements in sequence
 	}
 
+	/**
+	 * Edits the resource in a database.
+	 *
+	 * @param newDetails the new details of the resource
+	 * @throws SQLException if connection to the database has failed
+	 */
 	public void editResource(Resource newDetails) throws SQLException {
 		Statement query = conn.createStatement();
 
@@ -242,6 +297,12 @@ public class DatabaseRequest {
 		query.executeBatch();	// Runs the queued queries sequentially
 	}
 
+	/**
+	 * Deletes the resource from the database.
+	 *
+	 * @param resourceID of the resource to be deleted
+	 * @throws SQLException if connection to database has failed
+	 */
 	public void deleteResource(String resourceID) throws SQLException {
 		Statement query = conn.createStatement();
 
@@ -253,6 +314,13 @@ public class DatabaseRequest {
 		query.executeBatch();
 	}
 
+	/**
+	 * Gets the resource from the database.
+	 *
+	 * @param resourceID ID of a resource to be retrieved from the database
+	 * @return the resource
+	 * @throws SQLException if connection to the database fails
+	 */
 	public Resource getResource(String resourceID) throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results;
@@ -323,6 +391,13 @@ public class DatabaseRequest {
 		return out;
 	}
 
+	/**
+	 * Gets the resource type, <strong>assuming resource already exists!</strong>
+	 *
+	 * @param resourceID ID of a resource
+	 * @return the resource type
+	 * @throws SQLException if connection to the database has failed
+	 */
 	private String getResourceType(String resourceID) throws SQLException {
 		// Check if there's an entry in the BOOK table; it must be a book
 		Statement isBook = conn.createStatement();
@@ -346,6 +421,13 @@ public class DatabaseRequest {
 		return "LAPTOP";
 	}
 
+	/**
+	 * Convert string of queue from database into RequestQueue
+	 *
+	 * @param queue as a string
+	 * @return the request queue
+	 * @throws SQLException if connection to database has failed
+	 */
 	private RequestQueue convertRequestQueue(String queue) throws SQLException {
 		String[] requests = queue.split(",");
 
@@ -357,6 +439,13 @@ public class DatabaseRequest {
 		return rq;
 	}
 
+	/**
+	 * Checks if there are any available copies of a given resource
+	 *
+	 * @param resourceID of a resource we are checking available copies for
+	 * @return true if there are available copies
+	 * @throws SQLException if the connection to the database has failed
+	 */
 	public boolean checkAvailability(String resourceID) throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT COUNT(*) FROM COPY WHERE RESOURCE_ID = '" + resourceID + "'");
@@ -370,6 +459,12 @@ public class DatabaseRequest {
 		return true;
 	}
 	
+	/**
+	 * Adds a copy to the database.
+	 *
+	 * @param newCopy a copy to be added
+	 * @throws SQLException if connection to the database has failed
+	 */
 	public void addCopy(Copy newCopy) throws SQLException {
 		// Format boolean true/false to 1/0 for database insertion
 		int isOnLoan = newCopy.isOnLoan() ? 1 : 0;
@@ -385,6 +480,12 @@ public class DatabaseRequest {
 				"'" + newCopy.getReservingUser() + "')");
 	}
 
+	/**
+	 * Edits details of a copy.
+	 *
+	 * @param newDetails a copy with new details
+	 * @throws SQLException if connection to the database has failed
+	 */
 	public void editCopy(Copy newDetails) throws SQLException {
 		// Format boolean true/false to 1/0 for database insertion
 		int isOnLoan = newDetails.isOnLoan() ? 1 : 0;
@@ -400,12 +501,25 @@ public class DatabaseRequest {
 				"WHERE copy_id = '" + newDetails.getCopyID() + "'");
 	}
 
+	/**
+	 * Delete copy.
+	 *
+	 * @param copyID the copyID fo a copy to be deleted
+	 * @throws SQLException if connection to the database has failed
+	 */
 	public void deleteCopy(String copyID) throws SQLException {
 		Statement query = conn.createStatement();
 
 		query.executeUpdate("DELETE FROM COPY WHERE copy_id = '" + copyID + "'");
 	}
 
+	/**
+	 * Gets copy from the database.
+	 *
+	 * @param copyID of a copy to be fetched
+	 * @return the copy
+	 * @throws SQLException if connection to the database has failed
+	 */
 	public Copy getCopy(String copyID) throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT * FROM COPY WHERE COPY_ID = '" + copyID + "'");
@@ -426,6 +540,13 @@ public class DatabaseRequest {
 		return out;
 	}
 
+	/**
+	 * Gets all the copies of a given resource
+	 *
+	 * @param resourceID of which copies we want to look up
+	 * @return ArrayList of copies
+	 * @throws SQLException if connection to the database has failed
+	 */
 	public ArrayList<Copy> getCopies(String resourceID) throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT * FROM COPY WHERE resource_id = '" + resourceID + "'");
@@ -453,6 +574,13 @@ public class DatabaseRequest {
 		return out;
 	}
 	
+	/**
+	 * Gets all the copies that are reserved for a user.
+	 *
+	 * @param username username
+	 * @return ArrayList of reserved copies
+	 * @throws SQLException if connection to the database has failed
+	 */
 	public ArrayList<Copy> getUserReservedCopies(String username) throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT * FROM COPY WHERE reserved_by_user_id = '" + username + "'");
@@ -480,6 +608,13 @@ public class DatabaseRequest {
 		return out;
 	}
 	
+	/**
+	 * Gets all available copies of a given resource from the database.
+	 *
+	 * @param resourceID
+	 * @return ArrayList of the available copies
+	 * @throws SQLException if connection to the database has failed
+	 */
 	public ArrayList<Copy> getAvailableCopies(String resourceID) throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT * FROM COPY "
@@ -510,6 +645,12 @@ public class DatabaseRequest {
 		return out;
 	}
 	
+	/**
+	 * gets all the borrowers that are registered in the database.
+	 *
+	 * @return ArrayList of borrowers
+	 * @throws SQLException tif connection to the database has failed
+	 */
 	public ArrayList<Borrower> browseBorrowers() throws SQLException {
 		Statement query = conn.createStatement();
 
@@ -536,6 +677,12 @@ public class DatabaseRequest {
 		return out;
 	}
 
+	/**
+	 * gets all the resources from the database
+	 *
+	 * @return ArrayList of all resources
+	 * @throws SQLException if connection to the database has failed
+	 */
 	public ArrayList<Resource> browseResources() throws SQLException {
 		Statement query = conn.createStatement();
 
@@ -557,6 +704,12 @@ public class DatabaseRequest {
 		return out;
 	}
 
+	/**
+	 * Adds loan to the database.
+	 *
+	 * @param newLoan the loan to be added to the database
+	 * @throws SQLException if connection to the database fails
+	 */
 	public void addLoan(Loan newLoan) throws SQLException {
 		// Format boolean true/false to 1/0 for database insertion
 		int isReturned = newLoan.isReturned() ? 1 : 0;
@@ -571,6 +724,12 @@ public class DatabaseRequest {
 				isReturned + ")");
 	}
 	
+	/**
+	 * Edits loan in the database.
+	 *
+	 * @param newDetails Loan with new details
+	 * @throws SQLException if connection to the database has failed
+	 */
 	public void editLoan(Loan newDetails) throws SQLException {
 		// Format boolean true/false to 1/0 for database insertion
 		int isReturned = newDetails.isReturned() ? 1 : 0;
@@ -585,11 +744,24 @@ public class DatabaseRequest {
 				"WHERE loan_id = '" + newDetails.getCopyID() + "'");
 	}
 	
+	/**
+	 * Deletes the loan from the database.
+	 *
+	 * @param loanID for the loan to be deleted
+	 * @throws SQLException if connection to database has failed
+	 */
 	public void deleteLoan(String loanID) throws SQLException {
 		Statement query = conn.createStatement();
 		query.executeUpdate("DELETE FROM LOAN WHERE loan_id = '" + loanID + "'");
 	}
 	
+	/**
+	 * Gets a loan from the database.
+	 *
+	 * @param loanID for specifying which loan to be fetched
+	 * @return Loan
+	 * @throws SQLException if connection to the database has failed
+	 */
 	public Loan getLoan(String loanID) throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT * FROM LOAN WHERE loan_id = '" + loanID + "'");
@@ -609,6 +781,13 @@ public class DatabaseRequest {
 		return out;
 	}
 	
+	/**
+	 * Gets the loan history of a given copy?.
+	 *
+	 * @param copyID of the copies history to fetch
+	 * @return ArrayList of loans
+	 * @throws SQLException if connection to the database has failed
+	 */
 	public ArrayList<Loan> getLoanHistory(String copyID) throws SQLException {
 		Statement query = conn.createStatement();
 
@@ -632,6 +811,13 @@ public class DatabaseRequest {
 		return out;
 	}
 
+	/**
+	 * Gets the oldest loan.
+	 *
+	 * @param resourceID 
+	 * @return the oldest loan
+	 * @throws SQLException if connection to the database has failed
+	 */
 	public Loan getOldestLoan(String resourceID) throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT LOAN.* "
@@ -665,6 +851,12 @@ public class DatabaseRequest {
 		return oldestLoan;
 	}
 
+	/**
+	 * Gets overdue loans from the database 
+	 *
+	 * @return ArrayList of loans
+	 * @throws SQLException if connection to database has failed
+	 */
 	public ArrayList<Loan> getOverdueLoans() throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT * FROM LOAN");
@@ -690,6 +882,14 @@ public class DatabaseRequest {
 		return overdueLoans;
 	}
 
+	/**
+	 * Gets all copies a given user has on loan.
+	 * TODO mby change the name? :D
+	 *
+	 * @param username of a user
+	 * @return arrayList of copies
+	 * @throws SQLException if connection to database has failed
+	 */
 	public ArrayList<Copy> getUserLoans(String username) throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT * FROM "
@@ -718,6 +918,12 @@ public class DatabaseRequest {
 		return userLoans;
 	}
 
+	/**
+	 * Adds a fine to the database.
+	 *
+	 * @param newFine to be added to a database
+	 * @throws SQLException if connection to the database has failed
+	 */
 	public void addFine(Fine newFine) throws SQLException {
 		// Format boolean true/false to 1/0 for database insertion
 		int isPaid = newFine.isPaid() ? 1 : 0;
@@ -733,6 +939,12 @@ public class DatabaseRequest {
 				isPaid + ")");
 	}
 	
+	/**
+	 * Edits fine in the database.
+	 *
+	 * @param newDetails fine with new details
+	 * @throws SQLException if connection to the database fails
+	 */
 	public void editFine(Fine newDetails) throws SQLException {
 		// Format boolean true/false to 1/0 for database insertion
 		int isPaid = newDetails.isPaid() ? 1 : 0;
@@ -748,11 +960,25 @@ public class DatabaseRequest {
 				"WHERE fine_id = '" + newDetails.getFineID() + "'");
 	}
 	
+	/**
+	 * Delete fine from the database.
+	 *
+	 * @param fineID to be deleted
+	 * @throws SQLException if connection to the database has failed
+	 */
 	public void deleteFine(String fineID) throws SQLException {
 		Statement query = conn.createStatement();
 		query.executeUpdate("DELETE FROM FINE WHERE fine_id = '" + fineID + "'");
 	}
 	
+	/**
+	 * Gets fine from the database.
+	 * <p>this so monotonous </p>
+	 *
+	 * @param fineID the fine ID
+	 * @return the fine
+	 * @throws SQLException the SQL exception
+	 */
 	public Fine getFine(String fineID) throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT * FROM FINE WHERE fine_id = '" + fineID + "'");
@@ -773,6 +999,13 @@ public class DatabaseRequest {
 		return out;
 	}
 
+	/**
+	 * Total user fines.
+	 *
+	 * @param username of the user to be checked
+	 * @return total amount of a fine
+	 * @throws SQLException if connection to database has failed
+	 */
 	public double totalUserFines(String username) throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT SUM(amount) - SUM(amount_paid) "
