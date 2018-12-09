@@ -1,6 +1,7 @@
 import java.awt.Window;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
@@ -81,7 +82,7 @@ public class DashboardController {
 	}
 
 	/**
-	 * Switches to a window for edditing user's details
+	 * Switches to a window for editing user's details
 	 *
 	 * @throws IOException if file "EditUser.fxml" does not exist
 	 */
@@ -95,6 +96,19 @@ public class DashboardController {
 		controller.passStageReference(window);
 		controller.setUser(user);
 		controller.setEditor(user);
+		window.show();
+
+	}
+	
+	private void openReservations() throws IOException, SQLException {
+		Stage window = new Stage();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/ReservedResources.fxml"));
+		Pane pane = loader.load();
+		ReservedItemsController controller = loader.getController();
+		Scene scene = new Scene(pane);
+		window.setScene(scene);
+		controller.passStageReference(window);
+		controller.setUser(user);
 		window.show();
 
 	}

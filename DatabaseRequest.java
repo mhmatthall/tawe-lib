@@ -728,7 +728,7 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Gets the loan history of a given copy?.
+	 * Gets the loan history of a given copy.
 	 *
 	 * @param copyID of the copies history to fetch
 	 * @return ArrayList of loans
