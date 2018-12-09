@@ -309,7 +309,7 @@ public class ControlPanelController {
 	// Set user object
 	public void setUser(User user) {
 		this.user = user;
-		//libImage.setImage(new Image(user.getProfileImage().getImage()));
+		libImage.setImage(new Image(user.getProfileImage().getImage()));
 		lblUsername.setText("Username: " + user.getUsername());
 		lblWelcome.setText("Welcome " + user.getForename() + " " + user.getSurname());
 	}
