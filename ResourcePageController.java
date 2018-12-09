@@ -17,6 +17,8 @@ public class ResourcePageController {
 	private Book book;
 	private Laptop laptop;
 	private Stage window;
+	private Resource resource;
+	
 	@FXML
 	Label lblTitle;
 	@FXML
@@ -43,6 +45,7 @@ public class ResourcePageController {
 	ImageView profImg;
 	@FXML
 	HBox upperElements;
+
 	
 	@FXML private void loan() throws IOException, SQLException {
 		Stage window = new Stage();
@@ -133,6 +136,11 @@ public class ResourcePageController {
 	
 	public void passStageReference(Stage window) {
 		this.window = window;
+		
+	}
+
+	public void setResource(Resource resource) {
+		this.resource = resource;
 		
 	}
 }
