@@ -29,8 +29,10 @@ public class EditResourceController {
 	TextField txtTitle;
 	@FXML
 	TextField txtYear;
-	// For Books
 
+	// For Books
+	@FXML
+	Label lblBook;
 	@FXML
 	Label lblAuthor;
 	@FXML
@@ -41,7 +43,20 @@ public class EditResourceController {
 	Label lblGenre;
 	@FXML
 	Label lblISBN;
+	@FXML
+	TextField txtISBN;
+	@FXML
+	TextField txtAuthor;
+	@FXML
+	TextField txtPublisher;
+	@FXML
+	TextField txtBookLanguage;
+	@FXML
+	TextField txtGenre;
 
+	// For DVDs
+	@FXML
+	Label lblDVD;
 	@FXML
 	Label lblDirector;
 	@FXML
@@ -49,28 +64,21 @@ public class EditResourceController {
 	@FXML
 	Label lblRuntime;
 	@FXML
-	TextField txtAuthor;
+	TextField txtDirector;
 	@FXML
-	TextField txtPublisher;
+	TextField txtDVDLanguage;
 	@FXML
-	TextField txtBookLanguage;
+	TextField txtRuntime;
 
-	// For DVDs
+	// For Laptops
+	@FXML
+	Label lblLaptop;
 	@FXML
 	Label lblMake;
 	@FXML
 	Label lblModel;
 	@FXML
 	Label lblOS;
-	@FXML
-	TextField txtISBN;
-	@FXML
-	TextField txtDirector;
-	@FXML
-	TextField txtDVDLanguage;
-	@FXML
-	TextField txtRuntime;
-	// For Laptops
 	@FXML
 	TextField txtMake;
 	@FXML
@@ -79,13 +87,45 @@ public class EditResourceController {
 	TextField txtOS;
 
 	@FXML
-	private void update() {
-
+	private void update() throws SQLException {
+		String title = txtTitle.getText();
+		int year = Integer.parseInt(txtYear.getText());
+		if (resource instanceof Book) {
+			String author = txtAuthor.getText();
+			String publisher = txtPublisher.getText();
+			String language = txtBookLanguage.getText();
+			String genre = txtGenre.getText();
+			String isbn = txtISBN.getText();
+			Book newBook = new Book(title, year, resource.getThumbnail(), author, publisher, genre, isbn, language);
+			new DatabaseRequest().editResource(newBook);
+			AlertBox.display("Resource Updated");
+		} else if (resource instanceof DVD) {
+			String director = txtDirector.getText();
+			String language = txtDVDLanguage.getText();
+			int runtime = Integer.parseInt(txtRuntime.getText());
+			DVD newDVD = new DVD(title, year, resource.getThumbnail(), director, runtime, language);
+			new DatabaseRequest().editResource(newDVD);
+			AlertBox.display("Resource Updated");
+		} else {
+			String make = txtMake.getText();
+			String model = txtModel.getText();
+			String os = txtOS.getText();
+			Laptop newLaptop = new Laptop(title, year, resource.getThumbnail(), make, model, os);
+			new DatabaseRequest().editResource(newLaptop);
+			AlertBox.display("Resource Updated");
+		}
 	}
 
 	@FXML
-	private void delete() {
-
+	private void delete() throws SQLException {
+		boolean flag = ConfirmationBox.display("WARNING", "Are you sure you want to delete this resource?");
+		if (flag) {
+			new DatabaseRequest().deleteResource(resource.getResourceID());
+			AlertBox.display("Resource Deleted");
+			close();
+		} else {
+			return;
+		}
 	}
 
 	@FXML
@@ -95,12 +135,10 @@ public class EditResourceController {
 
 	public void passStageReference(Stage window) {
 		this.window = window;
-
 	}
 
 	public void passResourceID(String resID) throws SQLException {
 		loadResourceData(resID);
-
 	}
 
 	private void loadResourceData(String resID) throws SQLException {
@@ -111,23 +149,85 @@ public class EditResourceController {
 		txtYear.setText(Integer.toString(resource.getYear()));
 
 		if (resource instanceof Book) {
-			lblDirector.setDisable(true);
-			lblDVDLanguage.setDisable(true);
-			lblRuntime.setDisable(true);
-			txtDirector.setDisable(true);
-			txtDVDLanguage.setDisable(true);
-			txtRuntime.setDisable(true);
-			lblMake.setDisable(true);
-			lblModel.setDisable(true);
-			lblOS.setDisable(true);
-			txtMake.setDisable(true);
-			txtModel.setDisable(true);
-			txtOS.setDisable(true);
+			disableBookIrrelevantkFeatures();
+			txtAuthor.setText(((Book) resource).getAuthor());
+			txtPublisher.setText(((Book) resource).getPublisher());
+			txtBookLanguage.setText(((Book) resource).getLanguage());
+			txtGenre.setText(((Book) resource).getGenre());
+			txtISBN.setText(((Book) resource).getISBN());
+		} else if (resource instanceof DVD) {
+			disableDVDIrrelevantFeatures();
+			txtDirector.setText(((DVD) resource).getDirector());
+			txtDVDLanguage.setText(((DVD) resource).getLanguage());
+			txtRuntime.setText(Integer.toString(((DVD) resource).getRuntime()));
+		} else {
+			disableLaptopIrrelevantFeatures();
+			txtMake.setText(((Laptop) resource).getManufacturer());
+			txtModel.setText(((Laptop) resource).getModel());
+			txtOS.setText(((Laptop) resource).getOperatingSys());
+
 		}
-	}
-	public void passResourceReference(Resource resource) {
-		this.resource = resource;
 
 	}
+
+	private void disableBookIrrelevantkFeatures() {
+		lblDVD.setDisable(true);
+		lblLaptop.setDisable(true);
+		lblDirector.setDisable(true);
+		lblDVDLanguage.setDisable(true);
+		lblRuntime.setDisable(true);
+		txtDirector.setDisable(true);
+		txtDVDLanguage.setDisable(true);
+		txtRuntime.setDisable(true);
+		lblMake.setDisable(true);
+		lblModel.setDisable(true);
+		lblOS.setDisable(true);
+		txtMake.setDisable(true);
+		txtModel.setDisable(true);
+		txtOS.setDisable(true);
+	}
+	
+	private void disableDVDIrrelevantFeatures() {
+		lblBook.setDisable(true);
+		lblLaptop.setDisable(true);
+		lblAuthor.setDisable(true);
+		lblPublisher.setDisable(true);
+		lblBookLanguage.setDisable(true);
+		lblGenre.setDisable(true);
+		lblISBN.setDisable(true);
+		txtAuthor.setDisable(true);
+		txtPublisher.setDisable(true);
+		txtBookLanguage.setDisable(true);
+		txtISBN.setDisable(true);
+		txtGenre.setDisable(true);
+		lblISBN.setDisable(true);
+		lblMake.setDisable(true);
+		lblModel.setDisable(true);
+		lblOS.setDisable(true);
+		txtMake.setDisable(true);
+		txtModel.setDisable(true);
+		txtOS.setDisable(true);
+	}
+	
+	private void disableLaptopIrrelevantFeatures() {
+		lblBook.setDisable(true);
+		lblDVD.setDisable(true);
+		lblAuthor.setDisable(true);
+		lblPublisher.setDisable(true);
+		lblBookLanguage.setDisable(true);
+		lblGenre.setDisable(true);
+		lblISBN.setDisable(true);
+		txtGenre.setDisable(true);
+		txtAuthor.setDisable(true);
+		txtPublisher.setDisable(true);
+		txtBookLanguage.setDisable(true);
+		txtISBN.setDisable(true);
+		lblDirector.setDisable(true);
+		lblDVDLanguage.setDisable(true);
+		lblRuntime.setDisable(true);
+		txtDirector.setDisable(true);
+		txtDVDLanguage.setDisable(true);
+		txtRuntime.setDisable(true);
+	}
+
 }
-

@@ -138,7 +138,7 @@ public class WelcomeController {
 	private void showDashboard() throws IOException {
 
 		Stage window = (Stage) btnExit.getScene().getWindow();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("UserDashboard.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/UserDashboard.fxml"));
 		Pane dashboard = loader.load();
 		DashboardController controller = loader.getController();
 		controller.setUser(user);
@@ -159,12 +159,4 @@ public class WelcomeController {
 		buttonLoginPressed();
 	}
 
-	/**
-	 * starts up on launch. Probably used for debug
-	 */
-	public void initialize() {
-		// txtUsername.requestFocus();
-		// txtUsername.setText("Foo");
-		System.out.println(this);
-	}
 }
