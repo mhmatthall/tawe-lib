@@ -12,7 +12,7 @@
 
 <BorderPane prefHeight="326.0" prefWidth="390.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ResourcePageController">
    <top>
-      <Label fx:id="lblDashboardTitle" text="Title" BorderPane.alignment="CENTER">
+      <Label fx:id="lblTitle" text="Title" BorderPane.alignment="CENTER">
          <font>
             <Font size="23.0" />
          </font></Label>
@@ -20,7 +20,7 @@
    <bottom>
       <HBox spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnExit" minWidth="75.0" mnemonicParsing="false" onAction="#exit" text="Exit" />
+            <Button fx:id="btnExit" minWidth="75.0" mnemonicParsing="false" text="Exit" />
          </children>
       </HBox>
    </bottom>
@@ -34,8 +34,8 @@
                <children>
                   <VBox alignment="CENTER_LEFT" prefHeight="112.0" prefWidth="178.0" spacing="5.0">
                      <children>
-                        <Label fx:id="lblUsername" text="Year: " />
-                        <Label fx:id="lblAccountType" text="Author/Director/Manafactuarer" />
+                        <Label fx:id="lbl1" text="Year: " />
+                        <Label fx:id="lbl2" text="Author/Director/Manafactuarer" />
                         <Label fx:id="lblBalance" prefHeight="17.0" prefWidth="146.0" text="Publlisher/runttime/model" />
                         <Label fx:id="lblBalance1" prefHeight="17.0" prefWidth="154.0" text="Genre/language/Operating system" />
                         <Label fx:id="lblBalance2" prefHeight="17.0" prefWidth="70.0" text="ISBN" />
@@ -63,8 +63,8 @@
                   <Region HBox.hgrow="ALWAYS" />
                   <VBox alignment="CENTER_RIGHT" spacing="5.0">
                      <children>
-                        <Button fx:id="btnLoans" mnemonicParsing="false" onAction="#loan" prefWidth="145.0" text="Loan this Resource" />
-                        <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#editProfile" prefWidth="145.0" text="Edit Item" />
+                        <Button fx:id="btnLoans" mnemonicParsing="false" onAction="#btnLoans" prefWidth="145.0" text="Loan this Resource" />
+                        <Button fx:id="btnEdit" mnemonicParsing="false" prefWidth="145.0" text="Edit Item" />
                      </children>
                   </VBox>
                </children></HBox>

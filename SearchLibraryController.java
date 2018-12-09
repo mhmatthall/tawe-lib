@@ -1,9 +1,12 @@
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
@@ -12,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -79,9 +83,18 @@ public class SearchLibraryController {
 		resultsTable.setItems(resourceObList);
 	}
 	@FXML
-	private void selectItem() {
+	private void selectItem() throws IOException {
 		System.out.println(resultsTable.getSelectionModel().getSelectedItem().getTitle() + 
 				" " + resultsTable.getSelectionModel().getSelectedItem().getResourceID());
+		Stage window = new Stage();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/ResourcePage.fxml"));
+		Pane details = loader.load();
+		ResourcePageController controller = loader.getController();
+		controller.setResource(resultsTable.getSelectionModel().getSelectedItem());
+		controller.passStageReference(window);
+		Scene scene = new Scene(details);
+		window.setScene(scene);
+		window.show();
 	}
 	
 	public void passStageReference(Stage window) {

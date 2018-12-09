@@ -68,36 +68,35 @@ public class ResourcePageController {
 	public void setResource(Resource resource) {
 		this.resource = resource;
 		System.out.println(resource.toString());
-		if (resource.getResourceID().charAt(0) == 'B') {
-			System.out.println("");
-			Book book = (Book) resource ;
+		//if (resource.getResourceID().charAt(0) == 'B') {
+			//Book book = (Book) resource ;
 			System.out.println(resource.toString());
-			lblTitle.setText(book.getTitle());
-			lbl1.setText("Year: " + Integer.toString(book.getYear()));
-			lbl2.setText("Author: " + book.getAuthor());
-			lbl3.setText("Publisher: " + book.getPublisher());
-			lbl4.setText("Genre: " + book.getGenre());
-			lbl5.setText("ISBN: " + book.getISBN());
-			lbl6.setText("Language: " + book.getLanguage());
-		} else if (resource.getResourceID().charAt(0) == 'D') {
-			DVD dvd = (DVD) resource ;
-			lblTitle.setText(dvd.getTitle());
-			lbl1.setText("Year: " + Integer.toString(dvd.getYear()));
-			lbl2.setText(dvd.getDirector());
-			lbl3.setText(Integer.toString(dvd.getRuntime()));
-			lbl4.setText("Language: " + dvd.getLanguage());
-			lbl5.disableProperty();
-			lbl6.disableProperty();
-		} else if (resource.getResourceID().charAt(0) == 'L') {
-			Laptop laptop = (Laptop) resource;
-			lblTitle.setText(laptop.getTitle());
-			lbl1.setText(Integer.toString(laptop.getYear()));
-			lbl2.setText(laptop.getManufacturer());
-			lbl3.setText(laptop.getModel());
-			lbl4.setText(laptop.getOperatingSys());
-			lbl5.disableProperty();
-			lbl6.disableProperty();
-		}
+			lblTitle.setText(resource.getTitle());
+			lbl1.setText("Year: " + Integer.toString(resource.getYear()));
+			//lbl2.setText("Author: " + book.getAuthor());
+			//lbl3.setText("Publisher: " + book.getPublisher());
+			//lbl4.setText("Genre: " + book.getGenre());
+			//lbl5.setText("ISBN: " + book.getISBN());
+			//lbl6.setText("Language: " + book.getLanguage());
+		//} else if (resource.getResourceID().charAt(0) == 'D') {
+			//DVD dvd = (DVD) resource ;
+			//lblTitle.setText(dvd.getTitle());
+			//lbl1.setText("Year: " + Integer.toString(dvd.getYear()));
+			//lbl2.setText(dvd.getDirector());
+			//lbl3.setText(Integer.toString(dvd.getRuntime()));
+			//lbl4.setText("Language: " + dvd.getLanguage());
+			//lbl5.disableProperty();
+			//lbl6.disableProperty();
+		//} else if (resource.getResourceID().charAt(0) == 'L') {
+			//Laptop laptop = (Laptop) resource;
+			//lblTitle.setText(laptop.getTitle());
+			//lbl1.setText(Integer.toString(laptop.getYear()));
+			//lbl2.setText(laptop.getManufacturer());
+			//lbl3.setText(laptop.getModel());
+			//lbl4.setText(laptop.getOperatingSys());
+//			lbl5.disableProperty();
+//			lbl6.disableProperty();
+		//}
 	}
 	@FXML
 	public void initialize() {
@@ -105,7 +104,6 @@ public class ResourcePageController {
 
 	@FXML
 	private void btnLoans() throws IOException, SQLException {
-		window.close();
 		Stage window = new Stage();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/NewLoan.fxml"));
 		Pane dashboard = loader.load();
