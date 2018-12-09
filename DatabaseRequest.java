@@ -570,16 +570,19 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Gets all available copies of a given resource from the database.
+	 * Gets all available copies of a given resource from the database, sorted loan length descending
 	 *
-	 * @param resourceID
+	 * @param resourceID The unique ID of a resource
 	 * @return ArrayList of the available copies
 	 * @throws SQLException if connection to the database has failed
 	 */
 	public ArrayList<Copy> getAvailableCopies(String resourceID) throws SQLException {
 		Statement query = conn.createStatement();
-		ResultSet results = query.executeQuery("SELECT * FROM COPY " + "WHERE resource_id = '" + resourceID + "' "
-				+ "AND is_on_loan = 0 " + "AND is_reserved = 0");
+		ResultSet results = query.executeQuery("SELECT * FROM COPY "
+				+ "WHERE resource_id = '" + resourceID + "' "
+				+ "AND is_on_loan = 0 "
+				+ "AND is_reserved = 0 "
+				+ "ORDER BY loan_duration DESC");
 
 		boolean isOnLoan;
 		boolean isReserved;
