@@ -556,7 +556,6 @@ public class DatabaseRequest {
 
 	/**
 	 * Gets all the copies of a given resource
-	 *
 	 * @param resourceID of which copies we want to look up
 	 * @return ArrayList of copies
 	 * @throws SQLException if connection to the database has failed
@@ -1029,7 +1028,8 @@ public class DatabaseRequest {
 		
 		return results.getDouble(1);
 	}
-
+	
+	//TODO JavaDoc?
 	public ArrayList<Object> search(ArrayList<String> tables, ArrayList<String> columns, String searchTerm, int numberOfResults) throws SQLException {
 		return null;
 	}
