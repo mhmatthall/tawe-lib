@@ -1,4 +1,4 @@
- /*
+ /**
   * Class for displaying avatars of a user
   * 
   * @author Caleb Warburton
