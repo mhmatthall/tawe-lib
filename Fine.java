@@ -1,12 +1,10 @@
 import java.sql.SQLException;
 
-// TODO: Auto-generated Javadoc
 /**
  * 
  * @author Constantinos Loizou
  * @version 1.0
  * 
- * TODO fix broken methods 
  */
 
 public class Fine {
