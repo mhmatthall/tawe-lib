@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane minHeight="322.0" minWidth="250.0" prefHeight="415.0" prefWidth="315.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EditUserController">
+   <top>
+      <Label fx:id="lblTitle" text="User Account Details" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="23.0" />
+         </font></Label>
+   </top>
+   <bottom>
+      <HBox spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnUpdate" minWidth="75.0" mnemonicParsing="false" onAction="#update" text="Update Account" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button mnemonicParsing="false" onAction="#deleteUser" text="Delete User" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnClose" minWidth="75.0" mnemonicParsing="false" onAction="#close" text="Cancel" />
+         </children>
+      </HBox>
+   </bottom>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+   <center>
+      <VBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Label text="Username" />
+                  <Label fx:id="lblUsername" prefHeight="17.0" prefWidth="148.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Label text="Forename" />
+                  <TextField fx:id="txtFname" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Label text="Surname" />
+                  <TextField fx:id="txtLname" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Label text="Phone" />
+                  <TextField fx:id="txtPhone" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Label text="Address" />
+                  <TextField fx:id="txtAddress" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Label text="Account Type" />
+                  <Label fx:id="lblAccType" prefHeight="17.0" prefWidth="145.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Label fx:id="lblEmp" disable="true" text="Employment Date" />
+                  <Label fx:id="lblEmpDate" prefHeight="17.0" prefWidth="148.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Label fx:id="lblStaffNum" disable="true" text="Staff number" />
+                  <Label fx:id="lblStaff" prefHeight="17.0" prefWidth="148.0" />
+               </children>
+            </HBox>
+            <Text fill="#f80303" strokeType="OUTSIDE" strokeWidth="0.0" text="Have to be able to select thumbnail too" />
+         </children>
+         <opaqueInsets>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </center>
+</BorderPane>
