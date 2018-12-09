@@ -61,6 +61,12 @@ public class SearchLibraryController {
 			AlertBox.display("Please select resource type");
 			return;
 		}
+		
+		String searchTerm = txtSearchBox.getText();
+		
+		ArrayList<Resource> results = new DatabaseRequest().searchResources(searchTerm);
+		ObservableList<Resource> resourceObList = FXCollections.observableArrayList(results);
+		
 
 		if (radioGroup.getSelectedToggle().equals(rbBooks)) {
 		} else if (radioGroup.getSelectedToggle().equals(rbDVDs)) {
@@ -68,11 +74,10 @@ public class SearchLibraryController {
 		}
 
 		//Get all resources from the database and add them into an array
-		ArrayList<Resource> resourceArList = new DatabaseRequest().browseResources();
-		ObservableList<Resource> resourceObList = FXCollections.observableArrayList(resourceArList);
-	/*	for (Resource resource : resourceArList) {
-			resourceObList.add(resource);
-		}*/
+	//	ArrayList<Resource> resourceArList = new DatabaseRequest().browseResources();
+		
+		
+		
 		// String has to match EXACTLY the attribute of resource constructor
 		resultsTitle.setCellValueFactory(new PropertyValueFactory<Resource, String>("title")); // ONLY THESE TWO
 		resultsYear.setCellValueFactory(new PropertyValueFactory<Resource, String>("year")); // ROWS WORK, WTF?
