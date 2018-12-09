@@ -18,49 +18,34 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.image.*;
 
-// TODO: Auto-generated Javadoc
 /**
  * Borrower's dashboard
  * @author Constantinos Loizou
  */
 public class DashboardController {
 
-	/** The user. */
 	private User user;
-
-	/** The welcome label */
+	
 	@FXML
 	Label lblWelcome;
-	
-	/** The username label. */
 	@FXML
 	Label lblUsername;
-	
-	/** The exit button. */
 	@FXML
 	Button btnExit;
-	
-	/** The logout button. */
 	@FXML
 	Button btnLogout;
-	
-	/** The edit button. */
 	@FXML
 	Button btnEdit;
-
 	@FXML
 	Button btnSearch;
 	@FXML
 	ImageView profImg;
 	@FXML
 	HBox upperElements;
-
-	/** The window stage. */
-	private Stage window;
-
-	/** The user image. */
 	@FXML
 	public ImageView userimage;
+	
+	private Stage window;
 
 	/**
 	 * Method for edit profile button, calls a pop up window

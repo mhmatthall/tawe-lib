@@ -6,13 +6,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class GUITester extends Application {
 
 	private static final int WINDOW_HEIGHT = 500;
 	private static final int WINDOW_WIDTH = 600;
-	Stage window;
+	static Stage window;
+	static Book resource = new Book("B-09", "title", 2017, null, 
+			null, "author", "publisher", "genre", 
+			"ISBN", "language");
+	static User user = new Borrower("hey","", "", "", "", null, 0);
 
 	public static void main(String[] args) {
 		launch(args);
@@ -23,20 +28,32 @@ public class GUITester extends Application {
 		window = primaryStage;
 
 		// Specify the FXML controller
-		Parent root = FXMLLoader.load(getClass().getResource("SelectImage.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("ResourcePage.fxml"));
 
-		window.setTitle("Tawe-Lib by SwanGroup42 Studios PLC.");
-		window.setOnCloseRequest(e -> {
-			e.consume(); // Discard close request, we'll handle it manually
-			close();
-		});
-		window.setScene(new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT));
-		window.show();		
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(GUIMain.class.getResource("ResourcePage.fxml"));
+		Pane dashboard = loader.load();
+		ResourcePageController controller = loader.getController();
+		controller.setResource(resource);
+		controller.setUser(user);
+		controller.passStageReference(window);
+		Scene scene = new Scene(dashboard);
+		window.setScene(scene);
+		window.show();
+		
 	}
 	
 	public static void showDashboard() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(GUIMain.class.getResource("SelectImage.fxml"));
+		loader.setLocation(GUIMain.class.getResource("ResourcePage.fxml"));
+		Pane dashboard = loader.load();
+		ResourcePageController controller = loader.getController();
+		controller.setResource(resource);
+		controller.setUser(user);
+		controller.passStageReference(window);
+		Scene scene = new Scene(dashboard);
+		window.setScene(scene);
+		window.show();
 		//window.
 	}
 	
