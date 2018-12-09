@@ -78,7 +78,12 @@ public class SearchLibraryController {
 		resultsID.setCellValueFactory(new PropertyValueFactory<Resource, String>("resourceID"));
 		resultsTable.setItems(resourceObList);
 	}
-
+	@FXML
+	private void selectItem() {
+		System.out.println(resultsTable.getSelectionModel().getSelectedItem().getTitle() + 
+				" " + resultsTable.getSelectionModel().getSelectedItem().getResourceID());
+	}
+	
 	public void passStageReference(Stage window) {
 		this.window = window;
 	}
