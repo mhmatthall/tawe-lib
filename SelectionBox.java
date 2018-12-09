@@ -5,12 +5,26 @@ import javafx.scene.text.Font;
 import javafx.scene.control.*;
 import javafx.application.Platform;
 import javafx.geometry.*;
-
+/**
+ * 
+ * @author Constantinos Loizou
+ *
+ */
 
 public class SelectionBox {
 	
 	private static int answer;
 	
+	/**
+	 * Display.
+	 *
+	 * @param title the title
+	 * @param msg the msg
+	 * @param opt1 the opt 1
+	 * @param opt2 the opt 2
+	 * @param opt3 the opt 3
+	 * @return the int
+	 */
 	public static int display(String title, String msg, String opt1, String opt2, String opt3) {
 		
 		Stage window = new Stage();

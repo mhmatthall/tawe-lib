@@ -38,8 +38,13 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
+/**
+ * Class for user to draw shapes for the user image
+ * @author Yiu Fung Tsang, Caleb Warburton
+ *
+ */
 
-
+// TODO: Auto-generated Javadoc
 public class ImageController {
 	Polygon triangleR;
 	Rectangle rectangleR;
@@ -82,6 +87,9 @@ public class ImageController {
 
 
 		
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	public void initialize() {
 	ObservableList<String> value = FXCollections.observableArrayList("Rectangle", "Circle","Triangle","Vertical Line", "Horizontal Line");
@@ -90,6 +98,11 @@ public class ImageController {
 	}
 	
 	
+	/**
+	 * A selected shape is created when the button is pressed.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@FXML
 	public void buttonCreatePressed() throws IOException{
 				if (shapeType.getSelectionModel().getSelectedItem() == "Rectangle") {
@@ -121,6 +134,7 @@ public class ImageController {
 			        circleR.setOnMouseDragged(CircleOnMouseDraggedEventHandler);
 			        addMouseScrolling(circleR);
 			        canvas1.getChildren().addAll(circleR);
+			        
 				} else if (shapeType.getSelectionModel().getSelectedItem() == "Triangle") {
 					triangleR = new Polygon(300,250,200);
 			    	triangleR.setCursor(Cursor.MOVE);
@@ -178,6 +192,11 @@ public class ImageController {
 	}
 	
 
+	/**
+	 * Saves the image when the button is pressed.
+	 *
+	 * @throws SQLException the SQL exception
+	 */
 	@FXML
 	public void buttonSavePressed() throws SQLException {
 		WritableImage image = canvas1.snapshot(new SnapshotParameters(), null);
@@ -197,11 +216,21 @@ public class ImageController {
 	}
 
 
+	/**
+	 * Pass stage reference.
+	 *
+	 * @param window the window
+	 */
 	public void passStageReference(Stage window) {
 		this.window = window;
 		
 	}
 
+	/**
+	 * Exit button.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@FXML
 	private void exit() throws IOException {
 		window.close();
@@ -328,6 +357,11 @@ public class ImageController {
                             }
                         };
             
+            /**
+             * Enlarge the shape when scrolling.
+             *
+             * @param node the node
+             */
             public void addMouseScrolling(Node node) {
                 node.setOnScroll((ScrollEvent t) -> {
 
@@ -340,6 +374,12 @@ public class ImageController {
                     node.setScaleY(node.getScaleY() * zoom);
                 });
             }
+	
+	/**
+	 * Sets the user.
+	 *
+	 * @param user the new user
+	 */
 	public void setUser(User user) {
 		this.user = user;
 	}
