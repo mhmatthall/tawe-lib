@@ -1,8 +1,3 @@
-
-/**
- * @author Constantinos Loizou
- */
-
 import java.awt.Window;
 import java.io.IOException;
 import java.net.URL;
@@ -23,20 +18,36 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.image.*;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Borrower's dashboard
+ * @author Constantinos Loizou
+ */
 public class DashboardController {
 
+	/** The user. */
 	private User user;
 
+	/** The welcome label */
 	@FXML
 	Label lblWelcome;
+	
+	/** The username label. */
 	@FXML
 	Label lblUsername;
+	
+	/** The exit button. */
 	@FXML
 	Button btnExit;
+	
+	/** The logout button. */
 	@FXML
 	Button btnLogout;
+	
+	/** The edit button. */
 	@FXML
 	Button btnEdit;
+
 	@FXML
 	Button btnSearch;
 	@FXML
@@ -44,15 +55,22 @@ public class DashboardController {
 	@FXML
 	HBox upperElements;
 
+	/** The window stage. */
 	private Stage window;
 
+	/** The user image. */
 	@FXML
 	public ImageView userimage;
 
+	/**
+	 * Method for edit profile button, calls a pop up window
+	 * and asks what you want to edit
+	 */
 	@FXML
 	private void editProfile() {
-		int selection = SelectionBox.display("Select", "What do you want to edit?", "Edit Personal Details",
-				"Select new Profile Picture from Library", "Draw your own profile picture");
+		int selection = SelectionBox.display("Select", "What do you want to edit?",
+				"Edit Personal Details", "Select new Profile Picture from Library",
+				"Draw your own profile picture");
 		try {
 			switch (selection) {
 			case 1:
@@ -77,6 +95,11 @@ public class DashboardController {
 		}
 	}
 
+	/**
+	 * Switches to a window for edditing user's details
+	 *
+	 * @throws IOException if file "EditUser.fxml" does not exist
+	 */
 	private void editDetails() throws IOException {
 		Stage window = new Stage();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("EditUser.fxml"));
@@ -90,6 +113,9 @@ public class DashboardController {
 
 	}
 
+	/**
+	 * Method for exit button for closing the program.
+	 */
 	@FXML
 	public void exit() {
 		boolean exit = ConfirmationBox.display("Exit", "Are you sure you want to exit?");
@@ -98,6 +124,11 @@ public class DashboardController {
 		}
 	}
 
+	/**
+	 * Method for logout button which switches the scene to a log in window.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@FXML
 	void searchLibrary() throws IOException {
 		Stage window4 = new Stage();
@@ -117,6 +148,11 @@ public class DashboardController {
 		window.setScene(new Scene(previous));
 	}
 
+	/**
+	 * Load image drawer.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private void loadImageDrawer() throws IOException {
 		window.close();
 		Stage window = new Stage();
@@ -129,7 +165,12 @@ public class DashboardController {
 		controller.passStageReference(window);
 		window.show();
 	}
-
+	
+	/**
+	 * Load image selecter.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private void loadImageSelecter() throws IOException {
 		window.close();
 		Stage window = new Stage();
@@ -143,6 +184,11 @@ public class DashboardController {
 		window.show();
 	}
 
+	/**
+	 * Sets the user.
+	 *
+	 * @param user the new user
+	 */
 	public void setUser(User user) {
 		this.user = user;
 		userimage.setImage(new Image(user.getProfileImage().getImage()));
@@ -150,16 +196,23 @@ public class DashboardController {
 		lblWelcome.setText("Welcome " + user.getForename() + " " + user.getSurname());
 	}
 
+	/**
+	 * Gets the user.
+	 *
+	 * @return the user
+	 */
 	public User getUser() {
 		return user;
 	}
 
+	/**
+	 * Pass stage reference.
+	 *
+	 * @param window the window
+	 */
 	public void passStageReference(Stage window) {
 		this.window = window;
 	}
 
-	public void initialize() {
-
-	}
 
 }
