@@ -1023,6 +1023,16 @@ public class DatabaseRequest {
 		return results.getDouble(1);
 	}
 
+	/**
+	 * TODO finish also wut is dis? xD.
+	 *
+	 * @param tables the tables
+	 * @param fields the fields
+	 * @param searchTerm the search term
+	 * @param numberOfResults the number of results
+	 * @return the array list
+	 * @throws SQLException the SQL exception
+	 */
 	public ArrayList<Object> search(ArrayList<String> tables, ArrayList<String> fields, String searchTerm, int numberOfResults) throws SQLException {
 		Analyzer anal;
 		return null;
