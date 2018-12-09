@@ -3,6 +3,7 @@ import javafx.stage.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.geometry.*;
 
 
@@ -48,10 +49,21 @@ public class ConfirmationBox {
 			window.close();
 		});
 		
+		btn1.setMinWidth(50);
+		btn2.setMinWidth(50);
+		
+		ImageView attention = new ImageView("/image_files/attention.png");
+		attention.setFitHeight(30);
+		attention.setFitWidth(30);
+		
+		HBox upperPart = new HBox(10);
+		upperPart.getChildren().addAll(attention, lbl1);
+		upperPart.setAlignment(Pos.CENTER);
+
 		//Here we place the buttons
-		HBox layout3 = new HBox(10);
-		layout3.getChildren().addAll(btn1,btn2);
-		layout3.setAlignment(Pos.CENTER);
+		HBox buttons = new HBox(10);
+		buttons.getChildren().addAll(btn1,btn2);
+		buttons.setAlignment(Pos.CENTER);
 		
 		
 		/*
@@ -59,8 +71,9 @@ public class ConfirmationBox {
 		 * holds out command buttons
 		 */
 		VBox layout = new VBox(10); //pixels apart
-		layout.getChildren().addAll(lbl1,layout3);
-		layout.setAlignment(Pos.CENTER); 
+		layout.getChildren().addAll(upperPart,buttons);
+		layout.setAlignment(Pos.CENTER);
+		layout.setPadding(new Insets(10, 10, 10, 10));
 		
 		Scene scene = new Scene(layout);
 		

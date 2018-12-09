@@ -67,6 +67,8 @@ public class SearchLibraryController {
 			type = "Laptop";
 		}
 		
+		
+		
 		ArrayList<Resource> resourceArList = new DatabaseRequest().browseResources();
 		ObservableList<Resource> resourceObList = FXCollections.observableArrayList(resourceArList);
 		for (Resource resource : resourceArList) {

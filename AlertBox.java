@@ -2,6 +2,7 @@ import javafx.scene.*;
 import javafx.stage.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.geometry.*;
 
 
@@ -28,20 +29,25 @@ public class AlertBox {
 		Label lbl1 = new Label(msg);
 		
 		Button btn1 = new Button("OK");
-		btn1.setMinWidth(50);
+		btn1.setMinWidth(75);
 		btn1.setOnAction(e -> window.close());
 		
-		/*
-		 * Inside the VBox we load a label and an HBox that
-		 * holds out command buttons
-		 */
-		VBox layout = new VBox(10);
-		layout.getChildren().addAll(lbl1,btn1);
-		layout.setAlignment(Pos.CENTER); 
+		ImageView info = new ImageView("/image_files/info.png");
+		info.setFitHeight(30);
+		info.setFitWidth(30);
+		
+		HBox layout = new HBox(10);
+		layout.getChildren().addAll(info,lbl1);
+		layout.setAlignment(Pos.CENTER);
+		
+		VBox root = new VBox(10);
+		root.getChildren().addAll(layout,btn1);
+		root.setAlignment(Pos.CENTER); 
+		root.setPadding(new Insets(10, 10, 10, 10));
 		
 		
 		
-		Scene scene = new Scene(layout);
+		Scene scene = new Scene(root);
 		
 		window.setScene(scene);
 		window.showAndWait();

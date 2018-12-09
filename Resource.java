@@ -84,7 +84,7 @@ public class Resource {
 
 	}
 
-	public ArrayList<Copy> viewCopies() {
+	public ArrayList<Copy> viewCopies() throws SQLException {
 		return new DatabaseRequest().getCopies(resourceID);
 	}
 
