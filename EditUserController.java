@@ -47,7 +47,7 @@ public class EditUserController {
 
 	@FXML
 	private void deleteUser() throws SQLException {
-		if (!user.isLibrarian()) {
+		if (!editor.isLibrarian()) {
 			AlertBox.display("If you want to delete your account,\nplease talk to a Librarian");
 			return;
 		}
