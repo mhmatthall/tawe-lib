@@ -24,49 +24,27 @@ import javafx.stage.Stage;
  */
 public class ControlPanelController {
 
-	/** The user. */
 	private User user;
-
-	/** The window. */
 	private Stage window;
-
-	/** The welcome label. */
+	
 	@FXML
 	Label lblWelcome;
-
-	/** The username label. */
 	@FXML
 	Label lblUsername;
-
-	/** The exit button. */
 	@FXML
 	Button btnExit;
-
-	/** The logout button. */
 	@FXML
 	Button btnLogout;
-
-	/** The create resource button. */
 	@FXML
 	Button btnCreateResource;
-
-	/** The search user button. */
 	@FXML
 	Button btnSearchUser;
-
-	/** The search library button. */
 	@FXML
 	Button btnSearchLibrary;
-
-	/** The new user button. */
 	@FXML
 	Button btnNewUser;
-
-	/** The edit button. */
 	@FXML
 	Button btnEdit;
-
-	/** The librarian image. */
 	@FXML
 	public ImageView libImage;
 

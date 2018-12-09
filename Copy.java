@@ -7,25 +7,12 @@
  */
 public class Copy {
 	
-	/** The next copy ID. Used for assigning IDs */
 	private static int nextCopyID;
-	
-	/** The copy ID. */
 	private String copyID;
-	
-	/** The resource ID. */
 	private String resourceID;
-	
-	/** The loan time in days */
 	private int loanTime;
-	
-	/** The is on loan. */
 	private boolean isOnLoan;
-	
-	/** The is reserved. */
 	private boolean isReserved;
-	
-	/** The reserving user. */
 	private String reservingUser;	// Username of user reserving the copy
 	
 	/**
