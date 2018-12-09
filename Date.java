@@ -1,25 +1,33 @@
-/*
- * @author
- * 		Rimantas Kazlauskas
- */
-
 import java.util.Calendar;
+
+
+/**
+ * Encapsulation of Java's Calendar class for ease of use
+ * 
+ * @author Rimantas Kazlauskas
+ */
 
 
 public class Date {
 	Calendar date;
 	
 	/**
-	 * Initialises to a set date
+	 * initialises date to a set date.
+	 *
+	 * @param day between 1-31
+	 * @param month between 1-12
 	 * @param year 
-	 * @param month between 1-12 (e.g. May is 5)
-	 * @param day between 1-31 (e.g. 25th is 25)
 	 */
 	public Date(int day, int month, int year){
 		date = Calendar.getInstance();
 		setDate(year, month-1, day);
 	}
 	
+	/**
+	 * initialises date to a set date. used by DatabaseRequest
+	 *
+	 * @param date as a string of 8 characters "DDMMYYYY"
+	 */
 	public Date (String date) {
 		this.date = Calendar.getInstance();
 		int day = Integer.parseInt(date.substring(0, 2));
@@ -30,14 +38,16 @@ public class Date {
 	}
 	
 	/**
-	 * Initialises current date
+	 * initialises current date.
 	 */
 	public Date(){
 		date = Calendar.getInstance();
 	}
 	
 	/**
-	 * @return year
+	 * Gets the year.
+	 *
+	 * @return year as string
 	 */
 	public String getYear() {
 		return "" + date.get(Calendar.YEAR);
@@ -45,7 +55,9 @@ public class Date {
 	}
 	
 	/**
-	 * @return month
+	 * Gets the month.
+	 *
+	 * @return month as string
 	 */
 	public String getMonth() {
 		if ((date.get((Calendar.MONTH))) + 1 < 10) {
@@ -57,7 +69,9 @@ public class Date {
 	}
 
 	/**
-	 * @return day
+	 * Gets the day.
+	 *
+	 * @return day as string
 	 */
 	public String getDay() {
 		if (date.get((Calendar.DATE)) < 10) {
@@ -69,7 +83,10 @@ public class Date {
 	}
 	
 	/**
-	 * @param anotherDate 
+	 * Compares 2 dates.
+	 * <p>Example: date1.compare(date2).</p>
+	 * 
+	 * @param anotherDate date to be compared with
 	 * @return day difference between 2 dates
 	 */
 	public int compare(Date anotherDate) {
@@ -100,7 +117,8 @@ public class Date {
 						days += remainingDays + getDaysInYear();
 					}else {
 						tempDate.setDate(Integer.parseInt(tempDate.getYear()) + 1, 
-								Integer.parseInt(tempDate.getMonth()), Integer.parseInt(tempDate.getDay()));
+								Integer.parseInt(tempDate.getMonth()), 
+								Integer.parseInt(tempDate.getDay()));
 						days += tempDate.getMaxDaysInYear();
 					}
 				}
@@ -109,33 +127,68 @@ public class Date {
 		}
 	}
 	
+	/**
+	 * Gets date as days instead of the usual dd/mm/yyyy format
+	 * (e.g. december 31st is 365)
+	 *
+	 * @return date in days
+	 */
 	private int getDaysInYear() {
 		return date.get(Calendar.DAY_OF_YEAR);
 	}
 	
+	/**
+	 * Gets the maximum days in a year.
+	 *
+	 * @return max days in a year
+	 */
 	private int getMaxDaysInYear() {
 		return date.getMaximum(Calendar.DAY_OF_YEAR);
 	}
+	
+	/**
+	 * Forwards the date by a specified amount of days
+	 *
+	 * @param days to be forwarded
+	 */
 	public void forwardDate(int days) {
 		date.add(Calendar.DAY_OF_MONTH, days);
 	}
 	
+	/**
+	 * sets date to a specified date.
+	 *
+	 * @param year minimum 1
+	 * @param month 0-11
+	 * @param day 1-30
+	 */
 	private void setDate(int year, int month, int day) {
 		date.set(year, month, day);
 	}
 	
+	/** returns date in DDMMYYYY format, used for database
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		return getDay() + "" + getMonth() + "" + getYear();
 	}
 	
 	/**
-	 * @param date
-	 * @return boolean, whatever the the object is before param date
+	 * Checks whatever the date is before another date
+	 *
+	 * @param date to be compared
+	 * @return True of <b>this</b> is before the param date
 	 */
 	public boolean isBefore(Date date) {
 		int bool = this.date.compareTo(date.toCalendar());
 		return bool > 0;
 	}
+	
+	/**
+	 * effectively casting back to Calendar
+	 *
+	 * @return <b>this</b> as calendar
+	 */
 	private Calendar toCalendar() {
 		return date;
 	}
