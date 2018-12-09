@@ -41,7 +41,7 @@
                               <Font size="16.0" />
                            </font></Label>
                         <Label fx:id="lblUsername" text="Username: username" />
-                        <Label fx:id="lblAccountType" text="Account type: Standard" />
+                        <Label fx:id="lblAccountType" text="Account type: Borrower" />
                         <Label fx:id="lblBalance" text="Account Balance: £0.00" />
                      </children>
                      <opaqueInsets>
@@ -60,16 +60,15 @@
                <children>
                   <VBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>
-                        <Button mnemonicParsing="false" prefWidth="145.0" text="My Borrwed Items" />
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="My Requested Items" />
+                        <Button mnemonicParsing="false" prefWidth="145.0" text="My Loans" />
                         <Button mnemonicParsing="false" prefWidth="145.0" text="My Reserved tems" />
+                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="My Transactions" />
                      </children>
                   </VBox>
                   <Region HBox.hgrow="ALWAYS" />
                   <VBox alignment="CENTER_RIGHT" spacing="5.0">
                      <children>
                         <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#searchLibrary" prefWidth="145.0" text="Search the Library" />
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="My Transactions" />
                         <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#editProfile" prefWidth="145.0" text="Edit Profile" />
                      </children>
                   </VBox>

@@ -65,6 +65,10 @@ public class SearchLibraryController {
 		String searchTerm = txtSearchBox.getText();
 		
 		ArrayList<Resource> results = new DatabaseRequest().searchResources(searchTerm);
+		if (results.isEmpty()) {
+			AlertBox.display("No results matching search term");
+			return;
+		}
 		ObservableList<Resource> resourceObList = FXCollections.observableArrayList(results);
 		
 
