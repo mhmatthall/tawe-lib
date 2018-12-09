@@ -58,7 +58,7 @@
                <graphic>
                   <ImageView fitHeight="100.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@image_files/prof1.png" />
+                        <Image url="@../image_files/prof1.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -67,7 +67,7 @@
                <graphic>
                   <ImageView fitHeight="98.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@image_files/prof2.png" />
+                        <Image url="@../image_files/prof2.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -76,7 +76,7 @@
                <graphic>
                   <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@image_files/prof3.png" />
+                        <Image url="@../image_files/prof3.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -85,7 +85,7 @@
                <graphic>
                   <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@image_files/prof4.png" />
+                        <Image url="@../image_files/prof4.png" />
                      </image>
                   </ImageView>
                </graphic>
