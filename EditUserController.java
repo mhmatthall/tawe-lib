@@ -22,7 +22,6 @@ public class EditUserController {
 	Label lblStaff;
 	@FXML
 	Label lblEmpDate;
-
 	@FXML
 	TextField txtFname;
 	@FXML
@@ -36,7 +35,7 @@ public class EditUserController {
 	@FXML
 	Button btnClose;
 	@FXML
-	Button btnDelete;
+	public Button btnDelete;
 
 	private Stage window;
 
@@ -47,6 +46,10 @@ public class EditUserController {
 
 	@FXML
 	private void deleteUser() throws SQLException {
+		if (!user.isLibrarian()) {			
+			AlertBox.display("If you want to delete your account,\nplease talk to a Librarian");
+			return;
+		}
 		boolean choice = ConfirmationBox.display("WARNING", "Are you sure you delete this user?");
 		if (choice) {
 			new DatabaseRequest().deleteUser(lblUsername.getText());
@@ -81,6 +84,7 @@ public class EditUserController {
 			lblStaff.setText(stuffNum.toString());
 		} else {
 			lblAccType.setText("User");
+		//	btnDelete.setDisable(true);
 
 		}
 
@@ -109,6 +113,9 @@ public class EditUserController {
 		}
 		window.close();
 	}
-
+	public void disableDeleteButton() {
+		btnDelete.setDisable(true);
+	}
+	
 
 }

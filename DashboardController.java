@@ -52,7 +52,7 @@ public class DashboardController {
 		try {
 			switch (selection) {
 			case 1:
-				// Edit profile details
+				editDetails();
 				break;
 			case 2:
 				loadImageSelecter();
@@ -70,6 +70,19 @@ public class DashboardController {
 			e.printStackTrace();
 			Platform.exit();
 		}
+	}
+
+	private void editDetails() throws IOException {
+		Stage window = new Stage();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("EditUser.fxml"));
+		Pane pane = loader.load();
+		EditUserController controller = loader.getController();
+		Scene scene = new Scene(pane);
+		window.setScene(scene);
+		controller.passStageReference(window);
+		controller.setUser(user);
+		window.show();
+		
 	}
 
 	@FXML
