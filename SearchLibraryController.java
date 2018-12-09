@@ -71,11 +71,6 @@ public class SearchLibraryController {
 		}
 		ObservableList<Resource> resourceObList = FXCollections.observableArrayList(results);
 		
-
-//		if (radioGroup.getSelectedToggle().equals(rbBooks)) {
-//		} else if (radioGroup.getSelectedToggle().equals(rbDVDs)) {
-//		} else if (radioGroup.getSelectedToggle().equals(rbLaptops)) {
-//		}
 		
 		// String has to match EXACTLY the attribute of resource constructor
 		resultsTitle.setCellValueFactory(new PropertyValueFactory<Resource, String>("title")); // ONLY THESE TWO
@@ -91,9 +86,9 @@ public class SearchLibraryController {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/ResourcePage.fxml"));
 		Pane details = loader.load();
 		ResourcePageController controller = loader.getController();
-		if (resultsTable.getSelectionModel().getSelectedItem().getResourceID().charAt(0) == 'B') {
+		if (resultsTable.getSelectionModel().getSelectedItem() instanceof Book) {
 			controller.setBook(resultsTable.getSelectionModel().getSelectedItem());
-		} else if(resultsTable.getSelectionModel().getSelectedItem().getResourceID().charAt(0) == 'D') {
+		} else if(resultsTable.getSelectionModel().getSelectedItem() instanceof DVD) {
 			controller.setDVD(resultsTable.getSelectionModel().getSelectedItem());
 		} else {
 			controller.setLaptop(resultsTable.getSelectionModel().getSelectedItem());

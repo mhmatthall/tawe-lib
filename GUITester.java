@@ -14,10 +14,9 @@ public class GUITester extends Application {
 	private static final int WINDOW_HEIGHT = 500;
 	private static final int WINDOW_WIDTH = 600;
 	static Stage window;
-	static Book resource = new Book("B-09", "title", 2017, null, 
-			null, "author", "publisher", "genre", 
-			"ISBN", "language");
-	static User user = new Librarian("hey","", "", "", "", null, 0, null);
+	static Book resource = new Book("B-09", "title", 2017, null, null, "author", "publisher", "genre", "ISBN",
+			"language");
+	static User user = new Librarian("hey", "", "", "", "", null, 0, null);
 
 	public static void main(String[] args) {
 		launch(args);
@@ -40,9 +39,9 @@ public class GUITester extends Application {
 		Scene scene = new Scene(dashboard);
 		window.setScene(scene);
 		window.show();
-		
+
 	}
-	
+
 	public static void showDashboard() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(GUIMain.class.getResource("ResourcePage.fxml"));
@@ -54,12 +53,12 @@ public class GUITester extends Application {
 		Scene scene = new Scene(dashboard);
 		window.setScene(scene);
 		window.show();
-		//window.
+		// window.
 	}
-	
+
 	/**
-	 * Method to be executed upon program close request.
-	 * Pop out a confirmation window asking the user to confirm he wants to exit
+	 * Method to be executed upon program close request. Pop out a confirmation
+	 * window asking the user to confirm he wants to exit
 	 */
 	private void close() {
 		boolean exit = ConfirmationBox.display("Exit", "Are you sure you want to exit?");

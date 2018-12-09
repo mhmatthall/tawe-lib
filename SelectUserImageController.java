@@ -39,26 +39,26 @@ import javafx.stage.Stage;
  * @author Caleb Warburton
  */
 public class SelectUserImageController {
-	
+
 	private User user;
-	
+
 	private Stage window;
-	
+
 	@FXML
 	public Button prof1;
-	
+
 	@FXML
 	public Button btnExit;
-	
+
 	@FXML
 	public Button prof2;
-	
+
 	@FXML
 	public Button prof3;
-	
+
 	@FXML
 	public Button prof4;
-	
+
 	/**
 	 * sets the user who needs image change
 	 *
@@ -67,7 +67,7 @@ public class SelectUserImageController {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
 	/**
 	 * Passes the stage reference.
 	 *
@@ -75,9 +75,9 @@ public class SelectUserImageController {
 	 */
 	public void passStageReference(Stage window) {
 		this.window = window;
-		
+
 	}
-	
+
 	/**
 	 * sets profile picture 1.
 	 *
@@ -90,7 +90,7 @@ public class SelectUserImageController {
 		new DatabaseRequest().editUser(user);
 		AlertBox.display("Profile picture updated");
 	}
-	
+
 	/**
 	 * sets profile picture 2.
 	 *
@@ -103,7 +103,7 @@ public class SelectUserImageController {
 		new DatabaseRequest().editUser(user);
 		AlertBox.display("Profile picture updated");
 	}
-	
+
 	/**
 	 * sets profile picture 3.
 	 *
@@ -116,7 +116,7 @@ public class SelectUserImageController {
 		new DatabaseRequest().editUser(user);
 		AlertBox.display("Profile picture updated");
 	}
-	
+
 	/**
 	 * sets profile picture 4.
 	 *
@@ -129,7 +129,7 @@ public class SelectUserImageController {
 		new DatabaseRequest().editUser(user);
 		AlertBox.display("Profile picture updated");
 	}
-	
+
 	/**
 	 * method for exit button
 	 *

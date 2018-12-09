@@ -13,7 +13,6 @@ public class Resource {
 	protected Thumbnail thumbnail;
 	protected RequestQueue queue;
 
-
 	public Resource(String title, int year, Thumbnail thumbnail) {
 		this.title = title;
 		this.year = year;

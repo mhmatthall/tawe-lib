@@ -26,7 +26,7 @@ public class ControlPanelController {
 
 	private User user;
 	private Stage window;
-	
+
 	@FXML
 	Label lblWelcome;
 	@FXML
@@ -60,8 +60,7 @@ public class ControlPanelController {
 	 */
 	@FXML
 	public void exit() {
-		boolean exit = ConfirmationBox.display("Exit", "Are you sure you want" +
-				" to exit?");
+		boolean exit = ConfirmationBox.display("Exit", "Are you sure you want" + " to exit?");
 		if (exit) {
 			Platform.exit();
 		}
@@ -72,10 +71,8 @@ public class ControlPanelController {
 	 */
 	@FXML
 	private void editProfile() {
-		int selection = SelectionBox.display("Select", "What do you want to edit?", 
-				"Edit Personal Details",
-				"Select new Profile Picture from Library", 
-				"Draw your own profile picture");
+		int selection = SelectionBox.display("Select", "What do you want to edit?", "Edit Personal Details",
+				"Select new Profile Picture from Library", "Draw your own profile picture");
 		try {
 			switch (selection) {
 			case 1:
@@ -91,8 +88,7 @@ public class ControlPanelController {
 				return;
 			}
 		} catch (IOException e) {
-			System.out.println("Caught IO Exception coming from " + e.getCause() 
-				+ e.getClass() + " from class "
+			System.out.println("Caught IO Exception coming from " + e.getCause() + e.getClass() + " from class "
 					+ this.getClass().toString());
 			System.out.println(e.getMessage());
 			System.out.println("\n");
@@ -114,12 +110,11 @@ public class ControlPanelController {
 	}
 
 	/**
-	 * Creates the resource by a Pop out of a new window to select resource type
-	 * and then creates a resource of that type
+	 * Creates the resource by a Pop out of a new window to select resource type and
+	 * then creates a resource of that type
 	 */
 	public void createResource() {
-		int type = SelectionBox.display("Select", "Please select resource type",
-				"Book", "DVD", "Laptop");
+		int type = SelectionBox.display("Select", "Please select resource type", "Book", "DVD", "Laptop");
 		try {
 			switch (type) {
 			case 1:
@@ -133,8 +128,7 @@ public class ControlPanelController {
 				break;
 			}
 		} catch (IOException e) {
-			System.out.println("Caught IO Exception coming from " + e.getCause()
-				+ e.getClass());
+			System.out.println("Caught IO Exception coming from " + e.getCause() + e.getClass());
 			System.out.println(e.getMessage());
 			Platform.exit();
 		}
@@ -226,6 +220,7 @@ public class ControlPanelController {
 		controller.setSessionUser(user);
 		window3.show();
 	}
+
 	private void editDetails() throws IOException {
 		Stage window = new Stage();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/EditUser.fxml"));
@@ -239,6 +234,7 @@ public class ControlPanelController {
 		window.show();
 
 	}
+
 	/**
 	 * Method for a button to make a new user.
 	 *

@@ -12,48 +12,56 @@ import javafx.stage.Stage;
  *
  */
 public class NewBookController {
-	
+
 	private Stage window;
-	
-	@FXML Button btnCreate;
-	@FXML Button btnCancel;
-	@FXML TextField txtTitle;
-	@FXML TextField txtAuthor;
-	@FXML TextField txtYear;
-	@FXML TextField txtPublisher;
-	@FXML TextField txtLanguage;
-	@FXML TextField txtISBN;
-	@FXML TextField txtGenre;
-	
-	
+
 	@FXML
-	private void constructBook() throws SQLException{
+	Button btnCreate;
+	@FXML
+	Button btnCancel;
+	@FXML
+	TextField txtTitle;
+	@FXML
+	TextField txtAuthor;
+	@FXML
+	TextField txtYear;
+	@FXML
+	TextField txtPublisher;
+	@FXML
+	TextField txtLanguage;
+	@FXML
+	TextField txtISBN;
+	@FXML
+	TextField txtGenre;
+
+	@FXML
+	private void constructBook() throws SQLException {
 		String title = txtTitle.getText();
 		int year = Integer.parseInt(txtYear.getText());
-		String author = txtAuthor.getText(); 
+		String author = txtAuthor.getText();
 		String publisher = (txtPublisher.getText());
 		String language = txtLanguage.getText();
 		Thumbnail thumb = new Thumbnail("book.png");
-		String isbn =  txtISBN.getText();
+		String isbn = txtISBN.getText();
 		String genre = txtGenre.getText();
-		
+
 		Book book1 = new Book(title, year, thumb, author, publisher, genre, isbn, language);
-		
+
 		DatabaseRequest db = new DatabaseRequest();
 		db.addResource(book1);
-		
+
 		System.out.println(book1.toString());
 		close();
 	}
-	
+
 	@FXML
 	private void close() {
 		window.close();
 	}
-	
+
 	public void passStageReference(Stage window) {
 		this.window = window;
-		
+
 	}
-	
+
 }

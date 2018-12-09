@@ -5,9 +5,9 @@
 
 public class Thumbnail extends MyImage {
 	String defaulImage = "book.png";
-	
-	public Thumbnail (String fileName){
+
+	public Thumbnail(String fileName) {
 		super(fileName);
 	}
-	
+
 }

@@ -1,25 +1,25 @@
 // TODO: Auto-generated Javadoc
 /**
- * The Class Copy.
- * Models copy of a resource 
+ * The Class Copy. Models copy of a resource
+ * 
  * @author Constantinos Loizou
  * 
  */
 public class Copy {
-	
+
 	private static int nextCopyID;
 	private String copyID;
 	private String resourceID;
 	private int loanTime;
 	private boolean isOnLoan;
 	private boolean isReserved;
-	private String reservingUser;	// Username of user reserving the copy
-	
+	private String reservingUser; // Username of user reserving the copy
+
 	/**
 	 * Used for creating a new copy
 	 *
 	 * @param resourceID the resource ID
-	 * @param loanTime the loan time
+	 * @param loanTime   the loan time
 	 */
 	public Copy(String resourceID, int loanTime) {
 		this.resourceID = resourceID;
@@ -30,19 +30,19 @@ public class Copy {
 		copyID = ("C" + nextCopyID);
 		nextCopyID++;
 	}
-	
+
 	/**
 	 * Used for fetching a copy by DatabaseRequest from database
 	 *
-	 * @param copyID the copy ID
-	 * @param resourceID the resource ID
-	 * @param loanTime the loan time in days
-	 * @param isOnLoan the is on loan
-	 * @param isReserved the is reserved
+	 * @param copyID        the copy ID
+	 * @param resourceID    the resource ID
+	 * @param loanTime      the loan time in days
+	 * @param isOnLoan      the is on loan
+	 * @param isReserved    the is reserved
 	 * @param reservingUser the reserving user
 	 */
-	public Copy(String copyID, String resourceID, int loanTime, 
-			boolean isOnLoan, boolean isReserved, String reservingUser) {
+	public Copy(String copyID, String resourceID, int loanTime, boolean isOnLoan, boolean isReserved,
+			String reservingUser) {
 		this.copyID = copyID;
 		this.resourceID = resourceID;
 		this.loanTime = loanTime;
@@ -50,7 +50,7 @@ public class Copy {
 		this.isReserved = isReserved;
 		this.reservingUser = reservingUser;
 	}
-	
+
 	/**
 	 * Checks if copy is loaned.
 	 *
@@ -138,9 +138,7 @@ public class Copy {
 	 * @param loanTime the loan time in days
 	 */
 	public void setLoanTime(int loanTime) {
-		this.loanTime = loanTime;	
-		}
-	
+		this.loanTime = loanTime;
+	}
 
-	
 }
