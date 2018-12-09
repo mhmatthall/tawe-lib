@@ -66,8 +66,8 @@ public class ResourcePageController {
 			btnLoans.setDisable(true);
 		}
 	}
-	public void setBook(Book resource) {
-		this.book = resource;
+	public void setBook(Resource resource) throws SQLException {
+		this.book = (Book) new DatabaseRequest().getResource(resource.getResourceID());
 		System.out.println(resource.toString());
 		lblTitle.setText(resource.getTitle());
 		lbl1.setText("Year: " + Integer.toString(resource.getYear()));
@@ -77,19 +77,19 @@ public class ResourcePageController {
 		lbl5.setText("ISBN: " + ((Book)resource).getISBN());
 		lbl6.setText("Language: " + ((Book)resource).getLanguage());
 	}
-	public void setDVD(DVD resource) {
-		this.dvd = resource;
-		lblTitle.setText(resource.getTitle());
-		lbl1.setText("Year: " + Integer.toString(resource.getYear()));
-		lbl2.setText(((DVD)resource).getDirector());
-		lbl3.setText(Integer.toString(((DVD)resource).getRuntime()));
-		lbl4.setText("Language: " + ((DVD)resource).getLanguage());
+	public void setDVD(Resource resource) throws SQLException { 
+		this.dvd = (DVD) new DatabaseRequest().getResource(resource.getResourceID());
+		lblTitle.setText(dvd.getTitle());
+		lbl1.setText("Year: " + Integer.toString(dvd.getYear()));
+		lbl2.setText(((DVD)dvd).getDirector());
+		lbl3.setText(Integer.toString(((DVD)dvd).getRuntime()));
+		lbl4.setText("Language: " + ((DVD)dvd).getLanguage());
 		lbl5.disableProperty();
 		lbl6.disableProperty();
 	}
 
-	public void setLaptop(Laptop resource) {
-		this.laptop = resource;
+	public void setLaptop(Resource resource) throws SQLException {
+		this.laptop = (Laptop) new DatabaseRequest().getResource(resource.getResourceID());
 		lblTitle.setText(resource.getTitle());
 		lbl1.setText(Integer.toString(resource.getYear()));
 		lbl2.setText(((Laptop)resource).getManufacturer());
