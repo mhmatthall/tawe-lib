@@ -6,26 +6,12 @@
 
 public class Book extends Resource {
 	
-	/** Fine per day when overdue */
 	protected static double fineDay = 2.00;
-
-
-	/** Max fine for the book */
 	protected static double fineMax = 25.00;
-	
-	/** The author of the book. */
 	private String author;
-	
-	/** The publisher of the book. */
 	private String publisher;
-	
-	/** The genre of the book. */
 	private String genre;
-	
-	/** The ISBN number of the book. */
 	private String ISBN;
-	
-	/** The language of the book. */
 	private String language;
 	
 	/**
