@@ -15,6 +15,8 @@ public class ResourcePageController {
 	private Resource resource;
 	private Stage window;
 	@FXML
+	Label lblTitle;
+	@FXML
 	Label lbl1;
 	@FXML
 	Label lbl2;
@@ -69,7 +71,8 @@ public class ResourcePageController {
 			System.out.println("");
 			Book book = (Book) resource ;
 			System.out.println(resource.toString());
-			lbl1.setText("2017");
+			lblTitle.setText(book.getTitle());
+			lbl1.setText("Year: " + Integer.toString(book.getYear()));
 			lbl2.setText("Author: " + book.getAuthor());
 			lbl3.setText("Publisher: " + book.getPublisher());
 			lbl4.setText("Genre: " + book.getGenre());
@@ -77,14 +80,16 @@ public class ResourcePageController {
 			lbl6.setText("Language: " + book.getLanguage());
 		} else if (resource.getResourceID().charAt(0) == 'D') {
 			DVD dvd = (DVD) resource ;
-			lbl1.setText(Integer.toString(dvd.getYear()));
+			lblTitle.setText(dvd.getTitle());
+			lbl1.setText("Year: " + Integer.toString(dvd.getYear()));
 			lbl2.setText(dvd.getDirector());
 			lbl3.setText(Integer.toString(dvd.getRuntime()));
-			lbl4.setText(dvd.getLanguage());
+			lbl4.setText("Language: " + dvd.getLanguage());
 			lbl5.disableProperty();
 			lbl6.disableProperty();
 		} else if (resource.getResourceID().charAt(0) == 'L') {
 			Laptop laptop = (Laptop) resource;
+			lblTitle.setText(laptop.getTitle());
 			lbl1.setText(Integer.toString(laptop.getYear()));
 			lbl2.setText(laptop.getManufacturer());
 			lbl3.setText(laptop.getModel());
@@ -95,19 +100,6 @@ public class ResourcePageController {
 	}
 	@FXML
 	public void initialize() {
-	}
-	@FXML
-	private void btnLoans() throws IOException {
-		window.close();
-		Stage window = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("NewLoan.fxml"));
-		Pane dashboard = loader.load();
-		NewLoanController controller = loader.getController();
-		controller.setResource(resource);
-		controller.passStageReference(window);
-		Scene scene = new Scene(dashboard);
-		window.setScene(scene);
-		window.show();
 	}
 	public void passStageReference(Stage window) {
 		this.window = window;
