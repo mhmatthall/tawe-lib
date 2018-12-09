@@ -244,17 +244,21 @@ public class DatabaseRequest {
 	public void editResource(Resource newDetails) throws SQLException {
 		Statement query = conn.createStatement();
 
-		query.addBatch("UPDATE RESOURCE SET " + "title = '" + newDetails.getTitle() + "', " + "year_released = '"
-				+ newDetails.getYear() + "', " + "thumbnail = '" + newDetails.getThumbnail().getImage() + "', "
-				+ "queue = '" + newDetails.getQueue().toString() + "', " + "WHERE resource_id = '"
-				+ newDetails.getResourceID() + "'");
+		query.addBatch("UPDATE RESOURCE SET "
+				+ "title = '" + newDetails.getTitle() + "', "
+				+ "year_released = '" + newDetails.getYear() + "', "
+				+ "thumbnail = '" + newDetails.getThumbnail().getImage() + "', "
+				+ "queue = '" + newDetails.getQueue().toString() + "' " 
+				+ "WHERE resource_id = '" + newDetails.getResourceID() + "'");
 
 		if (newDetails instanceof Book) {
-			query.addBatch("UPDATE BOOK SET " + "author = '" + ((Book) newDetails).getAuthor() + "', " + "publisher = '"
-					+ ((Book) newDetails).getPublisher() + "', " + "genre = '" + ((Book) newDetails).getGenre() + "', "
-					+ "isbn = '" + ((Book) newDetails).getISBN() + "', " + "language = '"
-					+ ((Book) newDetails).getLanguage() + "', " + "WHERE resource_id = '" + newDetails.getResourceID()
-					+ "'");
+			query.addBatch("UPDATE BOOK SET "
+					+ "author = '" + ((Book) newDetails).getAuthor() + "', "
+					+ "publisher = '" + ((Book) newDetails).getPublisher() + "', "
+					+ "genre = '" + ((Book) newDetails).getGenre() + "', "
+					+ "isbn = '" + ((Book) newDetails).getISBN() + "', "
+					+ "language = '" + ((Book) newDetails).getLanguage() + "' "
+					+ "WHERE resource_id = '" + newDetails.getResourceID() + "'");
 
 		} else if (newDetails instanceof DVD) {
 			String subtitleLanguages = "";
@@ -262,15 +266,18 @@ public class DatabaseRequest {
 				subtitleLanguages = subtitleLanguages + language + ",";
 			}
 
-			query.addBatch("UPDATE DVD SET " + "director = '" + ((DVD) newDetails).getDirector() + "', " + "runtime = '"
-					+ ((DVD) newDetails).getRuntime() + "', " + "language = '" + ((DVD) newDetails).getLanguage()
-					+ "', " + "subtitle_languages = '" + subtitleLanguages + "', " + "WHERE resource_id = '"
-					+ newDetails.getResourceID() + "'");
+			query.addBatch("UPDATE DVD SET "
+					+ "director = '" + ((DVD) newDetails).getDirector() + "', "
+					+ "runtime = '"	+ ((DVD) newDetails).getRuntime() + "', "
+					+ "language = '" + ((DVD) newDetails).getLanguage()	+ "', "
+					+ "subtitle_languages = '" + subtitleLanguages + "' "
+					+ "WHERE resource_id = '" + newDetails.getResourceID() + "'");
 		} else {
-			query.addBatch("UPDATE LAPTOP SET " + "manufacturer = '" + ((Laptop) newDetails).getManufacturer() + "', "
-					+ "model = '" + ((Laptop) newDetails).getModel() + "', " + "operating_system = '"
-					+ ((Laptop) newDetails).getOperatingSys() + "', " + "WHERE resource_id = '"
-					+ newDetails.getResourceID() + "'");
+			query.addBatch("UPDATE LAPTOP SET "
+					+ "manufacturer = '" + ((Laptop) newDetails).getManufacturer() + "', "
+					+ "model = '" + ((Laptop) newDetails).getModel() + "', "
+					+ "operating_system = '" + ((Laptop) newDetails).getOperatingSys() + "' "
+					+ "WHERE resource_id = '" + newDetails.getResourceID() + "'");
 		}
 
 		query.executeBatch(); // Runs the queued queries sequentially
