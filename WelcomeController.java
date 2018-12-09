@@ -1,8 +1,3 @@
-
-/**
- * @author Constantinos Loizou
- */
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -23,6 +18,11 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * A start up window class
+ * 
+ * @author Constantinos Loizou
+ */
 public class WelcomeController {
 
 	private User user;
@@ -34,8 +34,13 @@ public class WelcomeController {
 	@FXML Button btnLogin;
 	@FXML TextField txtUsername;
 
+	/**
+	 * Method for "about" button.
+	 * 
+	 * @throws IOException if file "About.fmxl" in /fxml_files/ doesn't exist
+	 */
 	@FXML
-	public void buttonAboutPressed() throws Exception {
+	public void buttonAboutPressed() throws IOException {
 
 		Parent root = FXMLLoader.load(getClass().getResource("/fxml_files/About.fxml"));
 		Stage primaryStage = new Stage();
@@ -50,6 +55,9 @@ public class WelcomeController {
 
 	}
 
+	/**
+	 * Method for exit button; exits the program
+	 */
 	@FXML
 	public void buttonExitPressed() {
 		boolean exit = ConfirmationBox.display("Exit", "Are you sure you want to exit?");
@@ -58,6 +66,9 @@ public class WelcomeController {
 		}
 	}
 
+	/**
+	 * Method for Login button.
+	 */
 	@FXML
 	public void buttonLoginPressed() {
 
@@ -94,6 +105,11 @@ public class WelcomeController {
 		}
 	}
 
+	/**
+	 * Opens up Librarian dashboard
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private void showControlPanel() throws IOException {
 /* C:\Users\lkonn\Google Drive\University\Year 2\CS230\Assignment 2\tawe-lib\fxml_files\ControlPanel 
  * FXMLLoader loader = new FXMLLoader(getClass().getResource("ControlPanel.fxml"));*/
@@ -109,6 +125,11 @@ public class WelcomeController {
 
 	}
 
+	/**
+	 * Opens up borrowers dashboard.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private void showDashboard() throws IOException {
 		
 		Stage window = (Stage) btnExit.getScene().getWindow();
@@ -123,11 +144,19 @@ public class WelcomeController {
 
 	}
 
+	/**
+	 * On enter press Login
+	 *
+	 * @param ae Activation event
+	 */
 	@FXML
 	public void onEnter(ActionEvent ae) {
 		buttonLoginPressed();
 	}
 
+	/**
+	 * starts up on launch. Probably used for debug
+	 */
 	public void initialize() {
 	//	txtUsername.requestFocus();
 	//	txtUsername.setText("Foo");
