@@ -43,13 +43,13 @@ public class SearchLibraryController {
 	@FXML
 	TextField txtSearchBox;
 	@FXML
-	TableView<Book> resultsTable;
+	TableView<Resource> resultsTable;
 	@FXML
-	TableColumn<Book, String> resultsTitle = new TableColumn<>();
+	TableColumn<Resource, String> resultsTitle = new TableColumn<>();
 	@FXML
-	TableColumn<Book, String> resultsYear = new TableColumn<>();
+	TableColumn<Resource, String> resultsYear = new TableColumn<>();
 	@FXML
-	TableColumn<Book, String> resultsID = new TableColumn<>();
+	TableColumn<Resource, String> resultsID = new TableColumn<>();
 
 	@FXML
 	private void close() {
@@ -77,20 +77,20 @@ public class SearchLibraryController {
 			resourceObList.add(resource);
 		}
 		// String has to match EXACTLY the attribute of resource constructor
-		resultsTitle.setCellValueFactory(new PropertyValueFactory<Book, String>("title")); // ONLY THESE TWO
-		resultsYear.setCellValueFactory(new PropertyValueFactory<Book, String>("year")); // ROWS WORK, WTF?
-		resultsID.setCellValueFactory(new PropertyValueFactory<Book, String>("resourceID"));
+		resultsTitle.setCellValueFactory(new PropertyValueFactory<Resource, String>("title")); // ONLY THESE TWO
+		resultsYear.setCellValueFactory(new PropertyValueFactory<Resource, String>("year")); // ROWS WORK, WTF?
+		resultsID.setCellValueFactory(new PropertyValueFactory<Resource, String>("resourceID"));
 		resultsTable.setItems(resourceObList);
 	}
 	@FXML
 	private void selectItem() throws IOException {
-		Book resource = (Book) resultsTable.getSelectionModel().getSelectedItem();
-		System.out.println(resource.getTitle() + " " + resource.getResourceID());
+		System.out.println(resultsTable.getSelectionModel().getSelectedItem().getTitle() + 
+				" " + resultsTable.getSelectionModel().getSelectedItem().getResourceID());
 		Stage window = new Stage();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/ResourcePage.fxml"));
 		Pane details = loader.load();
 		ResourcePageController controller = loader.getController();
-		controller.setResource(resource);
+		controller.setResource(resultsTable.getSelectionModel().getSelectedItem());
 		controller.passStageReference(window);
 		Scene scene = new Scene(details);
 		window.setScene(scene);
