@@ -159,12 +159,4 @@ public class WelcomeController {
 		buttonLoginPressed();
 	}
 
-	/**
-	 * starts up on launch. Probably used for debug
-	 */
-	public void initialize() {
-		// txtUsername.requestFocus();
-		// txtUsername.setText("Foo");
-		System.out.println(this);
-	}
 }
