@@ -45,8 +45,6 @@ import javafx.stage.Stage;
  * @author Yiu Fung Tsang, Caleb Warburton
  *
  */
-
-// TODO: Auto-generated Javadoc
 public class ImageController {
 	Polygon triangleR;
 	Rectangle rectangleR;
@@ -88,7 +86,7 @@ public class ImageController {
 	private AnchorPane canvas1;
 
 	/**
-	 * Initialize.
+	 * Initialises image controller.
 	 */
 	@FXML
 	public void initialize() {
