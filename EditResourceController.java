@@ -4,7 +4,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+
 /**
+ * Controls resource editing in GUI
  * 
  * @author Constantinos Loizou
  *
@@ -53,27 +55,46 @@ public class EditResourceController{
 
 
 
+	/**
+	 * Update.
+	 */
 	@FXML
 	private void update() {
 
 	}
 
+	/**
+	 * Delete.
+	 */
 	@FXML
 	private void delete() {
 
 	}
 
+	/**
+	 * Close.
+	 */
 	@FXML
 	private void close() {
 		window.close();
 	}
 
 	
+	/**
+	 * Pass stage reference.
+	 *
+	 * @param window the window
+	 */
 	public void passStageReference(Stage window) {
 		this.window = window;
 		
 	}
 
+	/**
+	 * Pass resource reference.
+	 *
+	 * @param resource the resource
+	 */
 	public void passResourceReference(Resource resource) {
 		this.resource = resource;
 		
