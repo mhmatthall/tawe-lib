@@ -84,7 +84,7 @@ public class ImageController {
 		
 	@FXML
 	public void initialize() {
-	ObservableList<String> value = FXCollections.observableArrayList("rectangle", "circle","triangle","vertical line", "horizontal line");
+	ObservableList<String> value = FXCollections.observableArrayList("Rectangle", "Circle","Triangle","Vertical line", "Horizontal line");
 	shapeType.setItems(value);
 	shapeType.getSelectionModel().selectFirst();
 	}
