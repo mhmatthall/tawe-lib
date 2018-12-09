@@ -3,8 +3,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Class for modelling User, mainly used as a sort-of-abstract class and 
- * is a super class for Librarian and Borrower
+ * Class for modelling User, mainly used as a sort-of-abstract class and is a
+ * super class for Librarian and Borrower
  * 
  * @author Caleb Warburton
  */
@@ -23,15 +23,15 @@ public class User {
 	/**
 	 * Instantiates a new user.
 	 *
-	 * @param username the username
-	 * @param forename the forename
-	 * @param surname the surname
-	 * @param phoneNumber the phone number
-	 * @param address the address
+	 * @param username     the username
+	 * @param forename     the forename
+	 * @param surname      the surname
+	 * @param phoneNumber  the phone number
+	 * @param address      the address
 	 * @param profileImage the profile image
 	 */
 	public User(String username, String forename, String surname, String phoneNumber, String address,
-		UserImage profileImage) {
+			UserImage profileImage) {
 		this.username = username;
 		this.forename = forename;
 		this.surname = surname;
@@ -94,7 +94,6 @@ public class User {
 		return profileImage;
 	}
 
-
 	/**
 	 * To string old.
 	 *
@@ -102,7 +101,8 @@ public class User {
 	 */
 	public String toStringOld() {
 		String x;
-		x = ("UserName: " + username + "\nForename: " + forename + "\nSurname: " + surname + "\nPhone Number: " + phoneNumber + "\nAddress: " + address);
+		x = ("UserName: " + username + "\nForename: " + forename + "\nSurname: " + surname + "\nPhone Number: "
+				+ phoneNumber + "\nAddress: " + address);
 		return x;
 	}
 
@@ -114,8 +114,10 @@ public class User {
 	public boolean isLibrarian() {
 		return isLibrarian;
 	}
-	
-	/** human readable
+
+	/**
+	 * human readable
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
@@ -130,7 +132,7 @@ public class User {
 		} else {
 			result += "\nAccount Type: BORROWER";
 		}
-		
+
 		return result;
 	}
 

@@ -20,12 +20,13 @@ import javafx.scene.image.*;
 
 /**
  * Borrower's dashboard
+ * 
  * @author Constantinos Loizou
  */
 public class DashboardController {
 
 	private User user;
-	
+
 	@FXML
 	Label lblWelcome;
 	@FXML
@@ -44,18 +45,17 @@ public class DashboardController {
 	HBox upperElements;
 	@FXML
 	public ImageView userimage;
-	
+
 	private Stage window;
 
 	/**
-	 * Method for edit profile button, calls a pop up window
-	 * and asks what you want to edit
+	 * Method for edit profile button, calls a pop up window and asks what you want
+	 * to edit
 	 */
 	@FXML
 	private void editProfile() {
-		int selection = SelectionBox.display("Select", "What do you want to edit?",
-				"Edit Personal Details", "Select new Profile Picture from Library",
-				"Draw your own profile picture");
+		int selection = SelectionBox.display("Select", "What do you want to edit?", "Edit Personal Details",
+				"Select new Profile Picture from Library", "Draw your own profile picture");
 		try {
 			switch (selection) {
 			case 1:
@@ -151,7 +151,7 @@ public class DashboardController {
 		controller.passStageReference(window);
 		window.show();
 	}
-	
+
 	/**
 	 * Load image selector.
 	 *
@@ -199,6 +199,5 @@ public class DashboardController {
 	public void passStageReference(Stage window) {
 		this.window = window;
 	}
-
 
 }

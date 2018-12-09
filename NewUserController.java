@@ -83,22 +83,21 @@ public class NewUserController {
 		String phone = txtPhone.getText();
 		String address = txtAddress.getText();
 		String username = txtUsername.getText();
-		
-		//Check if username is taken
+
+		// Check if username is taken
 //		if (new DatabaseRequest().getUser(username) != null) {
 //			AlertBox.display("Username Not Available!");
 //			txtUsername.setText("");
 //			return;
 //		} 
-		
+
 		try {
 			User user = new DatabaseRequest().getUser(username);
 			AlertBox.display("Username unavailable");
 			return;
 		} catch (SQLException e1) {
-			//No need to do anything
+			// No need to do anything
 		}
-		
 
 		UserImage profPic = new UserImage("image_files//prof1.png");
 

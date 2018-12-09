@@ -14,25 +14,27 @@ public class DVD extends Resource {
 	private int runtime;
 	private String language;
 	private ArrayList<String> subLang = new ArrayList<String>();
-	
+
 	public DVD(String title, int year, Thumbnail thumbnail, String director, int runtime, String language) {
 		super(title, year, thumbnail);
 		this.director = director;
 		this.language = language;
 		this.runtime = runtime;
 	}
-	
-	public DVD(String resourceID, String title, int year, Thumbnail thumbnail, RequestQueue queue, String director, int runtime, String language, ArrayList<String> subLang) {
+
+	public DVD(String resourceID, String title, int year, Thumbnail thumbnail, RequestQueue queue, String director,
+			int runtime, String language, ArrayList<String> subLang) {
 		super(resourceID, title, year, thumbnail, queue);
 		this.director = director;
 		this.language = language;
 		this.runtime = runtime;
 		this.subLang = subLang;
 	}
-	
-	public String toString() {	
+
+	public String toString() {
 		String x;
-		x = ("Title: " + title + " \nYear: " + year + " \nDirector: " + director + " \nRuntime: " + runtime + " \nLanguage: " + language);
+		x = ("Title: " + title + " \nYear: " + year + " \nDirector: " + director + " \nRuntime: " + runtime
+				+ " \nLanguage: " + language);
 		return x;
 	}
 
@@ -67,7 +69,7 @@ public class DVD extends Resource {
 	public void setSubLang(ArrayList<String> subLang) {
 		this.subLang = subLang;
 	}
-	
+
 	public static double getFineDay() {
 		return fineDay;
 	}
@@ -75,5 +77,5 @@ public class DVD extends Resource {
 	public static double getFineMax() {
 		return fineMax;
 	}
-	
+
 }

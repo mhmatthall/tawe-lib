@@ -86,7 +86,7 @@ public class SearchUserController {
 	public void passStageReference(Stage window) {
 		this.window = window;
 	}
-	
+
 	public void setSessionUser(User sessionUser) {
 		this.sessionUser = sessionUser;
 	}
