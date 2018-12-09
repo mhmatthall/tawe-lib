@@ -13,8 +13,7 @@ import java.util.Arrays;
  * @version 1.0
  */
 public class DatabaseRequest {
-	// Name (and subsequently directory) of the database
-	private static final String DATABASE_NAME = "tawe-lib";
+	private static final String DATABASE_NAME = "tawe-lib"; // Name (and subsequently directory) of the database
 	private static Connection conn;
 
 	/**
@@ -47,11 +46,11 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Adds a new user into the database.
+	 * Adds a new user to the database.
 	 *
 	 * @param newUser the user to be added
-	 * @throws SQLException if there was an syntax or other SQL error returned upon
-	 *                      adding the user
+	 * @throws SQLException if there was an syntax, duplicate key, or other 
+	 *                      SQL error returned upon adding the user
 	 */
 	public void addUser(User newUser) throws SQLException {
 		// Two queries are added to a batch, then run sequentially:
@@ -60,17 +59,23 @@ public class DatabaseRequest {
 
 		// user table insertion
 		Statement queries = conn.createStatement();
-		queries.addBatch("INSERT INTO LIBRARY_USER VALUES(" + "'" + newUser.getUsername() + "', " + "'"
-				+ newUser.getForename() + "', " + "'" + newUser.getSurname() + "'," + "'" + newUser.getPhoneNumber()
-				+ "', " + "'" + newUser.getAddress() + "', " + "'" + newUser.getProfileImage().getImage() + "')");
+		queries.addBatch("INSERT INTO LIBRARY_USER VALUES("
+				+ "'" + newUser.getUsername() + "', "
+				+ "'" + newUser.getForename() + "', "
+				+ "'" + newUser.getSurname() + "',"
+				+ "'" + newUser.getPhoneNumber() + "', "
+				+ "'" + newUser.getAddress() + "', "
+				+ "'" + newUser.getProfileImage().getImage() + "')");
 
 		// librarian/borrower table insertion
 		if (newUser instanceof Librarian) {
-			queries.addBatch("INSERT INTO LIBRARIAN VALUES('" + newUser.getUsername() + "', " + "'"
-					+ ((Librarian) newUser).getEmploymentDate().toString() + "', "
+			queries.addBatch("INSERT INTO LIBRARIAN VALUES('"
+					+ newUser.getUsername() + "', "
+					+ "'" + ((Librarian) newUser).getEmploymentDate().toString() + "', "
 					+ ((Librarian) newUser).getStaffNumber() + ")");
 		} else {
-			queries.addBatch("INSERT INTO BORROWER VALUES('" + newUser.getUsername() + "', "
+			queries.addBatch("INSERT INTO BORROWER VALUES('"
+					+ newUser.getUsername() + "', "
 					+ ((Borrower) newUser).getBalance() + ")");
 		}
 
@@ -78,26 +83,31 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Edits user already inside the database.
+	 * Edits a pre-existing user in the database.
 	 *
 	 * @param newDetails user with new details
-	 * @throws SQLException if accessing database failed
+	 * @throws SQLException if there was an syntax, duplicate key, or other 
+	 *                      SQL error returned upon adding the user
 	 */
 	public void editUser(User newDetails) throws SQLException {
 		Statement query = conn.createStatement();
 
-		query.addBatch("UPDATE LIBRARY_USER SET " + "forename = '" + newDetails.getForename() + "', " + "surname = '"
-				+ newDetails.getSurname() + "', " + "phone_number = '" + newDetails.getPhoneNumber() + "', "
-				+ "address = '" + newDetails.getAddress() + "', " + "profile_image = '"
-				+ newDetails.getProfileImage().getImage() + "' " + "WHERE username = '" + newDetails.getUsername()
-				+ "'");
+		query.addBatch("UPDATE LIBRARY_USER SET "
+				+ "forename = '" + newDetails.getForename() + "', "
+				+ "surname = '" + newDetails.getSurname() + "', "
+				+ "phone_number = '" + newDetails.getPhoneNumber() + "', "
+				+ "address = '" + newDetails.getAddress() + "', "
+				+ "profile_image = '" + newDetails.getProfileImage().getImage() + "' "
+				+ "WHERE username = '" + newDetails.getUsername() + "'");
 
 		if (newDetails instanceof Librarian) {
-			query.addBatch("UPDATE LIBRARIAN SET " + "staff_number = " + ((Librarian) newDetails).getStaffNumber()
-					+ ", " + "employment_date = '" + ((Librarian) newDetails).getEmploymentDate().toString() + "' "
+			query.addBatch("UPDATE LIBRARIAN SET "
+					+ "staff_number = " + ((Librarian) newDetails).getStaffNumber() + ", "
+					+ "employment_date = '" + ((Librarian) newDetails).getEmploymentDate().toString() + "' "
 					+ "WHERE username = '" + newDetails.getUsername() + "'");
 		} else {
-			query.addBatch("UPDATE BORROWER SET " + "balance = " + ((Borrower) newDetails).getBalance() + " "
+			query.addBatch("UPDATE BORROWER SET "
+					+ "balance = " + ((Borrower) newDetails).getBalance() + " "
 					+ "WHERE username = '" + newDetails.getUsername() + "'");
 		}
 
@@ -105,10 +115,11 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Deletes the user from the database.
+	 * Deletes a user from the database.
 	 *
 	 * @param username of user to be deleted
-	 * @throws SQLException if access to database fails
+	 * @throws SQLException if there was an syntax, duplicate key, or other 
+	 *                      SQL error returned upon adding the user
 	 */
 	public void deleteUser(String username) throws SQLException {
 		Statement query = conn.createStatement();
@@ -126,11 +137,12 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Gets the user from the database.
+	 * Gets a pre-existing user from the database.
 	 *
 	 * @param username of the user
-	 * @return the user if successful, null if user doesn't exist
-	 * @throws SQLException if accessing the database fails
+	 * @return a User object with the retrieved user details
+	 * @throws SQLException if there was an syntax, duplicate key, or other 
+	 *                      SQL error returned upon adding the user
 	 */
 	public User getUser(String username) throws SQLException {
 		Statement query = conn.createStatement();
@@ -139,9 +151,9 @@ public class DatabaseRequest {
 
 		if (userIsLibrarian(username)) {
 			// User is a librarian
-			results = query.executeQuery("SELECT LIBRARY_USER.*, LIBRARIAN.STAFF_NUMBER, LIBRARIAN.EMPLOYMENT_DATE "
-					+ "FROM LIBRARY_USER INNER JOIN LIBRARIAN ON LIBRARY_USER.USERNAME = LIBRARIAN.USERNAME "
-					+ "WHERE LIBRARY_USER.USERNAME = '" + username + "'");
+			results = query.executeQuery("SELECT LIBRARY_USER.*, LIBRARIAN.staff_number, LIBRARIAN.employment_date "
+					+ "FROM LIBRARY_USER INNER JOIN LIBRARIAN ON LIBRARY_USER.username = LIBRARIAN.username "
+					+ "WHERE LIBRARY_USER.username = '" + username + "'");
 			results.next();
 
 			out = new Librarian(username, results.getString(2), // forename
@@ -154,9 +166,9 @@ public class DatabaseRequest {
 
 		} else {
 			// User is a borrower
-			results = query.executeQuery("SELECT LIBRARY_USER.*, BORROWER.BALANCE "
-					+ "FROM LIBRARY_USER INNER JOIN BORROWER ON LIBRARY_USER.USERNAME = BORROWER.USERNAME "
-					+ "WHERE LIBRARY_USER.USERNAME = '" + username + "'");
+			results = query.executeQuery("SELECT LIBRARY_USER.*, BORROWER.balance "
+					+ "FROM LIBRARY_USER INNER JOIN BORROWER ON LIBRARY_USER.username = BORROWER.username "
+					+ "WHERE LIBRARY_USER.username = '" + username + "'");
 			results.next();
 
 			out = new Borrower(username, results.getString(2), // forename
@@ -171,11 +183,12 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Checks whatever the user is a lib.
+	 * Checks if a user is a librarian.
 	 *
 	 * @param username of the user
-	 * @return true if user is librarian
-	 * @throws SQLException if accessing database has failed
+	 * @return true if the user is a librarian
+	 * @throws SQLException if there was an syntax, duplicate key, or other 
+	 *                      SQL error returned upon adding the user
 	 */
 	private boolean userIsLibrarian(String username) throws SQLException {
 		Statement userTypeCheck = conn.createStatement();
@@ -186,7 +199,7 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Adds resource to the database.
+	 * Adds a resource to the database.
 	 *
 	 * @param newResource resource to be added
 	 * @throws SQLException if connection to the database has failed
@@ -236,21 +249,28 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Edits the resource in a database.
+	 * Edits a pre-existing resource in the database.
 	 *
 	 * @param newDetails the new details of the resource
-	 * @throws SQLException if connection to the database has failed
+	 * @throws SQLException if there was an syntax, duplicate key, or other 
+	 *                      SQL error returned upon adding the user
 	 */
 	public void editResource(Resource newDetails) throws SQLException {
+		// Two queries are added to a batch, then run sequentially:
+		// - one updates the resource in the RESOURCE table,
+		// - the other updates the resource in either the BOOK, DVD, or LAPTOP table
+		
 		Statement query = conn.createStatement();
 
+		// resource table insertion
 		query.addBatch("UPDATE RESOURCE SET "
 				+ "title = '" + newDetails.getTitle() + "', "
-				+ "year_released = '" + newDetails.getYear() + "', "
+				+ "year_released = " + newDetails.getYear() + ", "
 				+ "thumbnail = '" + newDetails.getThumbnail().getImage() + "', "
 				+ "queue = '" + newDetails.getQueue().toString() + "' " 
 				+ "WHERE resource_id = '" + newDetails.getResourceID() + "'");
-
+		
+		// specific table insertions
 		if (newDetails instanceof Book) {
 			query.addBatch("UPDATE BOOK SET "
 					+ "author = '" + ((Book) newDetails).getAuthor() + "', "
@@ -268,7 +288,7 @@ public class DatabaseRequest {
 
 			query.addBatch("UPDATE DVD SET "
 					+ "director = '" + ((DVD) newDetails).getDirector() + "', "
-					+ "runtime = '"	+ ((DVD) newDetails).getRuntime() + "', "
+					+ "runtime = "	+ ((DVD) newDetails).getRuntime() + ", "
 					+ "language = '" + ((DVD) newDetails).getLanguage()	+ "', "
 					+ "subtitle_languages = '" + subtitleLanguages + "' "
 					+ "WHERE resource_id = '" + newDetails.getResourceID() + "'");
@@ -434,8 +454,11 @@ public class DatabaseRequest {
 	 */
 	public boolean checkAvailability(String resourceID) throws SQLException {
 		Statement query = conn.createStatement();
-		ResultSet results = query.executeQuery("SELECT COUNT(*) " + "FROM COPY " + "WHERE resource_id = '" + resourceID
-				+ "' " + "AND is_reserved = 0 " + "AND is_on_loan = 0");
+		ResultSet results = query.executeQuery("SELECT COUNT(*) "
+				+ "FROM COPY "
+				+ "WHERE resource_id = '" + resourceID + "' "
+				+ "AND is_reserved = 0 "
+				+ "AND is_on_loan = 0");
 
 		results.next();
 
@@ -576,6 +599,40 @@ public class DatabaseRequest {
 		return out;
 	}
 
+	/**
+	 * Gets all copies a given user has on loan.
+	 *
+	 * @param username of a user
+	 * @return arrayList of copies
+	 * @throws SQLException if connection to database has failed
+	 */
+	public ArrayList<Loan> getUserCopiesOnLoan(String username) throws SQLException {
+		Statement query = conn.createStatement();
+		ResultSet results = query.executeQuery("SELECT * FROM "
+				+ "LOAN INNER JOIN COPY ON COPY.copy_id = LOAN.copy_id "
+				+ "WHERE username = '" + username + "' "
+				+ "AND is_returned = 0");
+
+		ArrayList<Loan> userLoans = new ArrayList<Loan>();
+		Loan currentLoan;
+
+		while (results.next()) {
+			// Format boolean true/false to 1/0 for database insertion
+			boolean isReturned = results.getInt(6) != 0;
+
+			currentLoan = new Loan(results.getString(1),
+					new Date(results.getString(2)),
+					results.getString(3),
+					results.getString(4),
+					new Date(results.getString(5)),
+					isReturned);
+
+			userLoans.add(currentLoan);
+		}
+
+		return userLoans;
+	}
+	
 	/**
 	 * Gets all available copies of a given resource from the database, sorted loan length descending
 	 *
@@ -831,35 +888,6 @@ public class DatabaseRequest {
 		}
 
 		return overdueLoans;
-	}
-
-	/**
-	 * Gets all copies a given user has on loan.
-	 *
-	 * @param username of a user
-	 * @return arrayList of copies
-	 * @throws SQLException if connection to database has failed
-	 */
-	public ArrayList<Copy> getUserCopiesOnLoan(String username) throws SQLException {
-		Statement query = conn.createStatement();
-		ResultSet results = query.executeQuery("SELECT * FROM " + "COPY INNER JOIN LOAN ON COPY.copy_id = LOAN.copy_id "
-				+ "WHERE username = '" + username + "' " + "AND is_returned = 0");
-
-		ArrayList<Copy> userLoans = new ArrayList<Copy>();
-		Copy currentCopy;
-
-		while (results.next()) {
-			// Format integer 1/0 from database back into boolean true/false
-			boolean isOnLoan = results.getInt(4) != 0;
-			boolean isReserved = results.getInt(5) != 0;
-
-			currentCopy = new Copy(results.getString(1), results.getString(2), results.getInt(3), isOnLoan, isReserved,
-					results.getString(6));
-
-			userLoans.add(currentCopy);
-		}
-
-		return userLoans;
 	}
 
 	/**
