@@ -16,7 +16,7 @@ public class DatabaseRequest {
 	private static Connection conn;
 
 	/**
-	 * Instantiates a new database request, tries to establish a connection.
+	 * Instantiates a new database request by trying to establish a connection.
 	 *
 	 * @throws SQLException if it fails to establish a connection
 	 */
@@ -25,14 +25,14 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Establish connection to the database.
+	 * Establishes a connection to the database.
 	 *
-	 * @throws SQLException if connection fails to be established
+	 * @throws SQLException if it fails to establish a connection
 	 */
 	private void establishConnection() throws SQLException {
 		// Prompts the driver file (derby.jar) to load the database
 		conn = DriverManager.getConnection("jdbc:derby:" + DATABASE_NAME);
-		
+
 		/*
 		 * This sets the transaction data isolation settings for the database.
 		 * This setting, READ_UNCOMMITTED, allows a row to be accessed whilst it
@@ -48,7 +48,7 @@ public class DatabaseRequest {
 	 * Adds a new user into the database.
 	 *
 	 * @param newUser the user to be added
-	 * @throws SQLException if the connection fails to access the Database
+	 * @throws SQLException if there was an syntax or other SQL error returned upon adding the user
 	 */
 	public void addUser(User newUser) throws SQLException {
 		// Two queries are added to a batch, then run sequentially:
@@ -461,14 +461,14 @@ public class DatabaseRequest {
 				+ "AND is_on_loan = 0");
 
 		results.next();
-		
+
 		if (results.getInt(1) == 0) {
 			return false;
 		}
 
 		return true;
 	}
-	
+
 	/**
 	 * Adds a copy to the database.
 	 *
@@ -559,30 +559,30 @@ public class DatabaseRequest {
 	public ArrayList<Copy> getCopies(String resourceID) throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT * FROM COPY WHERE resource_id = '" + resourceID + "'");
-		
+
 		boolean isOnLoan;
 		boolean isReserved;
 		Copy currentCopy;
 		ArrayList<Copy> out = new ArrayList<Copy>();
-		
+
 		while (results.next()) {
 			// Format integer 1/0 from database back into boolean true/false
 			isOnLoan = results.getInt(4) != 0;
 			isReserved = results.getInt(5) != 0;
-			
+
 			currentCopy = new Copy(results.getString(1),
 					results.getString(2),
 					results.getInt(3),
 					isOnLoan,
 					isReserved,
 					results.getString(6));
-			
+
 			out.add(currentCopy);
 		}
-		
+
 		return out;
 	}
-	
+
 	/**
 	 * Gets all the copies that are reserved for a user.
 	 *
@@ -593,30 +593,30 @@ public class DatabaseRequest {
 	public ArrayList<Copy> getUserReservedCopies(String username) throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT * FROM COPY WHERE reserved_by_user_id = '" + username + "'");
-		
+
 		boolean isOnLoan;
 		boolean isReserved;
 		Copy currentCopy;
 		ArrayList<Copy> out = new ArrayList<Copy>();
-		
+
 		while (results.next()) {
 			// Format integer 1/0 from database back into boolean true/false
 			isOnLoan = results.getInt(4) != 0;
 			isReserved = results.getInt(5) != 0;
-			
+
 			currentCopy = new Copy(results.getString(1),
 					results.getString(2),
 					results.getInt(3),
 					isOnLoan,
 					isReserved,
 					results.getString(6));
-			
+
 			out.add(currentCopy);
 		}
-		
+
 		return out;
 	}
-	
+
 	/**
 	 * Gets all available copies of a given resource from the database.
 	 *
@@ -630,30 +630,30 @@ public class DatabaseRequest {
 				+ "WHERE resource_id = '" + resourceID + "' "
 				+ "AND is_on_loan = 0 "
 				+ "AND is_reserved = 0");
-		
+
 		boolean isOnLoan;
 		boolean isReserved;
 		Copy currentCopy;
 		ArrayList<Copy> out = new ArrayList<Copy>();
-		
+
 		while (results.next()) {
 			// Format integer 1/0 from database back into boolean true/false
 			isOnLoan = results.getInt(4) != 0;
 			isReserved = results.getInt(5) != 0;
-			
+
 			currentCopy = new Copy(results.getString(1),
 					results.getString(2),
 					results.getInt(3),
 					isOnLoan,
 					isReserved,
 					results.getString(6));
-			
+
 			out.add(currentCopy);
 		}
-		
+
 		return out;
 	}
-	
+
 	/**
 	 * gets all the borrowers that are registered in the database.
 	 *
@@ -732,7 +732,7 @@ public class DatabaseRequest {
 				"'" + newLoan.getReturnDate().toString() + "', " +
 				isReturned + ")");
 	}
-	
+
 	/**
 	 * Edits loan in the database.
 	 *
@@ -752,7 +752,7 @@ public class DatabaseRequest {
 				"is_returned = " + isReturned + " " +
 				"WHERE loan_id = '" + newDetails.getCopyID() + "'");
 	}
-	
+
 	/**
 	 * Deletes the loan from the database.
 	 *
@@ -763,7 +763,7 @@ public class DatabaseRequest {
 		Statement query = conn.createStatement();
 		query.executeUpdate("DELETE FROM LOAN WHERE loan_id = '" + loanID + "'");
 	}
-	
+
 	/**
 	 * Gets a loan from the database.
 	 *
@@ -789,7 +789,7 @@ public class DatabaseRequest {
 
 		return out;
 	}
-	
+
 	/**
 	 * Gets the loan history of a given copy?.
 	 *
@@ -946,7 +946,7 @@ public class DatabaseRequest {
 				"'" + newFine.getDateIssued().toString() + "', " +
 				isPaid + ")");
 	}
-	
+
 	/**
 	 * Edits fine in the database.
 	 *
@@ -967,7 +967,7 @@ public class DatabaseRequest {
 				"is_paid = " + isPaid + " " +
 				"WHERE fine_id = '" + newDetails.getFineID() + "'");
 	}
-	
+
 	/**
 	 * Delete fine from the database.
 	 *
@@ -978,7 +978,7 @@ public class DatabaseRequest {
 		Statement query = conn.createStatement();
 		query.executeUpdate("DELETE FROM FINE WHERE fine_id = '" + fineID + "'");
 	}
-	
+
 	/**
 	 * Gets fine from the database.
 	 * <p>this so monotonous </p>
@@ -1019,33 +1019,34 @@ public class DatabaseRequest {
 		ResultSet results = query.executeQuery("SELECT SUM(amount) - SUM(amount_paid) "
 				+ "FROM FINE WHERE username = '" + username + "' "
 				+ "AND is_paid = 0");
-		
+
 		results.next();
-		
+
 		return results.getDouble(1);
 	}
-	
+
 	/**
 	 * Searches the database for a resource containing a given key
 	 *
 	 * @param searchTerm a keyword to be searched by e.g. ID, Title, and year
-	 * @return ArrayList of resources
+	 * @return ArrayList of Resources (which can be cast into their actual types)
+	 * 		e.g. 
 	 * @throws SQLException if connection to the database fails
 	 */
 	public ArrayList<Resource> searchResources(String searchTerm) throws SQLException {
 		Statement query = conn.createStatement();
-		ResultSet results = query.executeQuery("SELECT resource_id FROM "
-				+ "RESOURCE "
-				+ "WHERE resource_id LIKE '" + searchTerm + "%', "
-				+ "OR title LIKE '" + searchTerm + "%', "
+		ResultSet results = query.executeQuery("SELECT resource_id "
+				+ "FROM RESOURCE "
+				+ "WHERE resource_id LIKE '" + searchTerm + "%' "
+				+ "OR title LIKE '" + searchTerm + "%' "
 				+ "OR year LIKE '" + searchTerm + "%'");
 
 		ArrayList<Resource> resultsList = new ArrayList<Resource>();
-		
+
 		while (results.next()) {
 			resultsList.add(getResource(results.getString(1)));
 		}
-		
+
 		return resultsList;
 	}
 }
