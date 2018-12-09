@@ -16,7 +16,6 @@ import javafx.geometry.*;
  */
 public class ConfirmationBox {
 	
-	/** The answer. */
 	private static boolean answer;
 	
 	/**

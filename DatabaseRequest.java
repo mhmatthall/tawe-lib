@@ -773,4 +773,14 @@ public class DatabaseRequest {
 		return out;
 	}
 
+	public double totalUserFines(String username) throws SQLException {
+		Statement query = conn.createStatement();
+		ResultSet results = query.executeQuery("SELECT SUM(amount) - SUM(amount_paid) "
+				+ "FROM FINE WHERE username = '" + username + "' "
+				+ "AND is_paid = 0");
+		
+		results.next();
+		
+		return results.getDouble(1);
+	}
 }

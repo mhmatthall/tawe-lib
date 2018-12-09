@@ -27,7 +27,7 @@
    <bottom>
       <HBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnSearch" minWidth="75.0" mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="75.0" text="Search" />
+            <Button fx:id="btnSelect" minHeight="25.0" minWidth="75.0" mnemonicParsing="false" text="Select" />
             <Region prefHeight="25.0" prefWidth="99.0" HBox.hgrow="ALWAYS" />
             <Button fx:id="btnCancel" minHeight="25.0" minWidth="75.0" mnemonicParsing="false" onAction="#close" prefHeight="25.0" prefWidth="75.0" text="Cancel" />
          </children>
@@ -47,6 +47,8 @@
                   </RadioButton>
                   <RadioButton fx:id="rbDVDs" mnemonicParsing="false" text="DVDs" toggleGroup="$radioGroup" />
                   <RadioButton fx:id="rbLaptops" mnemonicParsing="false" text="Laptops" toggleGroup="$radioGroup" />
+                  <Region prefHeight="25.0" prefWidth="108.0" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnSearch" minWidth="75.0" mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="75.0" text="Search" />
                </children>
             </HBox>
             <TableView fx:id="resultsTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
