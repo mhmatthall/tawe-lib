@@ -32,6 +32,12 @@ import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+
+/**
+ * Class in charge of user being able to select his own avatar.
+ * 
+ * @author Caleb Warburton
+ */
 public class SelectUserImageController {
 	
 	private User user;
@@ -53,39 +59,82 @@ public class SelectUserImageController {
 	@FXML
 	public Button prof4;
 	
+	/**
+	 * sets the user who needs image change
+	 *
+	 * @param user the new user
+	 */
 	public void setUser(User user) {
 		this.user = user;
 	}
 	
+	/**
+	 * Passes the stage reference.
+	 *
+	 * @param window the stage to be passed
+	 */
 	public void passStageReference(Stage window) {
 		this.window = window;
 		
 	}
 	
+	/**
+	 * sets profile picture 1.
+	 *
+	 * @throws SQLException if database fails
+	 */
 	@FXML
 	public void buttonProf1Pressed() throws SQLException {
 		UserImage selectedImage = new UserImage("image_files//prof1.png");
 		user.setProfileImage(selectedImage);
 		new DatabaseRequest().editUser(user);
+		AlertBox.display("Profile picture updated");
 	}
+	
+	/**
+	 * sets profile picture 2.
+	 *
+	 * @throws SQLException if database fails
+	 */
 	@FXML
 	public void buttonProf2Pressed() throws SQLException {
 		UserImage selectedImage = new UserImage("image_files//prof2.png");
 		user.setProfileImage(selectedImage);
 		new DatabaseRequest().editUser(user);
+		AlertBox.display("Profile picture updated");
 	}
+	
+	/**
+	 * sets profile picture 3.
+	 *
+	 * @throws SQLException if database fails
+	 */
 	@FXML
 	public void buttonProf3Pressed() throws SQLException {
 		UserImage selectedImage = new UserImage("image_files//prof3.png");
 		user.setProfileImage(selectedImage);
 		new DatabaseRequest().editUser(user);
+		AlertBox.display("Profile picture updated");
 	}
+	
+	/**
+	 * sets profile picture 4.
+	 *
+	 * @throws SQLException if database fails
+	 */
 	@FXML
 	public void buttonProf4Pressed() throws SQLException {
 		UserImage selectedImage = new UserImage("image_files//prof4.png");
 		user.setProfileImage(selectedImage);
 		new DatabaseRequest().editUser(user);
+		AlertBox.display("Profile picture updated");
 	}
+	
+	/**
+	 * method for exit button
+	 *
+	 * @throws IOException if file "ControlPanle.fxml" doesn't exist in /fxml_files/
+	 */
 	@FXML
 	private void exit() throws IOException {
 		window.close();

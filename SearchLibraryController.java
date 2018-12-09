@@ -24,8 +24,7 @@ import javafx.stage.Stage;
  */
 public class SearchLibraryController {
 	private Stage window;
-	private String type;
-
+	
 	@FXML
 	Button btnSearch;
 	@FXML
@@ -64,18 +63,16 @@ public class SearchLibraryController {
 		}
 
 		if (radioGroup.getSelectedToggle().equals(rbBooks)) {
-			type = "Book";
 		} else if (radioGroup.getSelectedToggle().equals(rbDVDs)) {
-			type = "DVD";
 		} else if (radioGroup.getSelectedToggle().equals(rbLaptops)) {
-			type = "Laptop";
 		}
 
+		//Get all resources from the database and add them into an array
 		ArrayList<Resource> resourceArList = new DatabaseRequest().browseResources();
 		ObservableList<Resource> resourceObList = FXCollections.observableArrayList(resourceArList);
-		for (Resource resource : resourceArList) {
+	/*	for (Resource resource : resourceArList) {
 			resourceObList.add(resource);
-		}
+		}*/
 		// String has to match EXACTLY the attribute of resource constructor
 		resultsTitle.setCellValueFactory(new PropertyValueFactory<Resource, String>("title")); // ONLY THESE TWO
 		resultsYear.setCellValueFactory(new PropertyValueFactory<Resource, String>("year")); // ROWS WORK, WTF?

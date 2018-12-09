@@ -35,17 +35,13 @@ public class DatabaseRequest {
 		
 		/*
 		 * This sets the transaction data isolation settings for the database.
-		 * This setting, SERIALIZABLE, forces queries to be run serially (one after
-		 * another) so that each query performs its own actions before the next is
-		 * allowed to begin.
+		 * This setting, READ_UNCOMMITTED, allows a row to be accessed whilst it
+		 * is being edited.
 		 * 
-		 * The default, READ_COMMITTED, runs queries concurrently, which creates a
-		 * deadlock and times out the connection.
+		 * Others run queries concurrently, which creates a deadlock and times out
+		 * the connection.
 		 */
-		conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
-		
-		// Load the luceneSupport search library
-		//conn.createStatement().execute("call syscs_util.syscs_register_tool('luceneSupport', true)");
+		conn.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 	}
 
 	/**
@@ -1029,8 +1025,27 @@ public class DatabaseRequest {
 		return results.getDouble(1);
 	}
 	
-	//TODO JavaDoc?
-	public ArrayList<Object> search(ArrayList<String> tables, ArrayList<String> columns, String searchTerm, int numberOfResults) throws SQLException {
-		return null;
+	/**
+	 * Searches the database for a resource containing a given key
+	 *
+	 * @param searchTerm a keyword to be searched by e.g. ID, Title, and year
+	 * @return ArrayList of resources
+	 * @throws SQLException if connection to the database fails
+	 */
+	public ArrayList<Resource> searchResources(String searchTerm) throws SQLException {
+		Statement query = conn.createStatement();
+		ResultSet results = query.executeQuery("SELECT resource_id FROM "
+				+ "RESOURCE "
+				+ "WHERE resource_id LIKE '" + searchTerm + "%', "
+				+ "OR title LIKE '" + searchTerm + "%', "
+				+ "OR year LIKE '" + searchTerm + "%'");
+
+		ArrayList<Resource> resultsList = new ArrayList<Resource>();
+		
+		while (results.next()) {
+			resultsList.add(getResource(results.getString(1)));
+		}
+		
+		return resultsList;
 	}
 }
