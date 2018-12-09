@@ -947,7 +947,6 @@ public class DatabaseRequest {
 	 *
 	 * @param searchTerm a keyword to be searched by e.g. ID, Title, and year
 	 * @return ArrayList of Resources (which can be cast into their actual types)
-	 *         e.g.
 	 * @throws SQLException if connection to the database fails
 	 */
 	public ArrayList<Resource> searchResources(String searchTerm) throws SQLException {
