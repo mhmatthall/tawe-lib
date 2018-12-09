@@ -9,14 +9,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
-public class ReservedItemsController {
+public class BorrowsController {
 	private Stage window;
 	public User user;
 	
 	@FXML
 	public Label lblTitle;
 	@FXML
-	public ListView<String> reservations;
+	public ListView<String> borrows;
 	@FXML
 	public Button exit;
 	
@@ -33,7 +33,7 @@ public class ReservedItemsController {
 	
 	public void setUser(User user) throws SQLException {
 		this.user = user;
-		ArrayList<Copy> items = new DatabaseRequest().getUserReservedCopies(user.getUsername());
+		ArrayList<Copy> items = new DatabaseRequest().getUserCopiesOnLoan(user.getUsername());		
 		Resource resources;
 		ArrayList<String> details = new ArrayList<>();
 		for (Copy copy : items) {
@@ -41,7 +41,7 @@ public class ReservedItemsController {
 			details.add("ID: " + resources.getResourceID() + " Title: " + resources.getTitle());
 		}
 		ObservableList<String> values = FXCollections.observableArrayList(details);
-		reservations.setItems(values);
+		borrows.setItems(values);
 	}
 	
 

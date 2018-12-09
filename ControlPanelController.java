@@ -199,6 +199,7 @@ public class ControlPanelController {
 		SearchLibraryController controller = loader.getController();
 		Scene scene = new Scene(pane);
 		window4.setScene(scene);
+		controller.setUser(user);
 		controller.passStageReference(window4);
 		window4.show();
 	}

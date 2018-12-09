@@ -24,6 +24,7 @@ import javafx.stage.Stage;
  */
 public class SearchLibraryController {
 	private Stage window;
+	private User user;
 	
 	@FXML
 	Button btnSearch;
@@ -94,11 +95,14 @@ public class SearchLibraryController {
 			controller.setLaptop(resultsTable.getSelectionModel().getSelectedItem());
 		}
 		controller.passStageReference(window);
+		controller.setUser(user);
 		Scene scene = new Scene(details);
 		window.setScene(scene);
 		window.show();
 	}
-	
+	public void setUser(User user) {
+		this.user = user;
+	}
 	public void passStageReference(Stage window) {
 		this.window = window;
 	}
