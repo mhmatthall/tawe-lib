@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 public class EditUserController {
 
 	private User user;
+	private User editor;
 
 	@FXML
 	Label lblUsername;
@@ -116,6 +117,7 @@ public class EditUserController {
 	public void disableDeleteButton() {
 		btnDelete.setDisable(true);
 	}
+	
 	
 
 }
