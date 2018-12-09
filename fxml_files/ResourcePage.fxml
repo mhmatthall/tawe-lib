@@ -20,7 +20,7 @@
    <bottom>
       <HBox spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnExit" minWidth="75.0" mnemonicParsing="false" onAction="#exit" text="Exit" />
+            <Button fx:id="btnExit" minWidth="75.0" mnemonicParsing="false" text="Exit" />
          </children>
       </HBox>
    </bottom>
@@ -63,8 +63,8 @@
                   <Region HBox.hgrow="ALWAYS" />
                   <VBox alignment="CENTER_RIGHT" spacing="5.0">
                      <children>
-                        <Button fx:id="btnLoans" mnemonicParsing="false" onAction="#loan" prefWidth="145.0" text="Loan this Resource" />
-                        <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#editProfile" prefWidth="145.0" text="Edit Item" />
+                        <Button fx:id="btnLoans" mnemonicParsing="false" prefWidth="145.0" text="Loan this Resource" />
+                        <Button fx:id="btnEdit" mnemonicParsing="false" prefWidth="145.0" text="Edit Item" />
                      </children>
                   </VBox>
                </children></HBox>

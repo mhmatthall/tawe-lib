@@ -104,15 +104,15 @@ public class ResourcePageController {
 
 	@FXML
 	private void btnLoans() throws IOException, SQLException {
-		Stage door = new Stage();
+		Stage window = new Stage();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/NewLoan.fxml"));
 		Pane dashboard = loader.load();
 		NewLoanController controller = loader.getController();
 		controller.setResource(resource);
-		controller.passStageReference(door);
+		controller.passStageReference(window);
 		Scene scene = new Scene(dashboard);
-		door.setScene(scene);
-		door.show();
+		window.setScene(scene);
+		window.show();
 	}
 	public void passStageReference(Stage window) {
 		this.window = window;
