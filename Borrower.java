@@ -8,7 +8,6 @@ import java.util.ArrayList;
  */
 public class Borrower extends User {
 	
-	/** The balance of borrower. */
 	private double balance;
 	
 	
