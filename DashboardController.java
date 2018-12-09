@@ -94,6 +94,7 @@ public class DashboardController {
 		window.setScene(scene);
 		controller.passStageReference(window);
 		controller.setUser(user);
+		controller.setEditor(user);
 		window.show();
 
 	}

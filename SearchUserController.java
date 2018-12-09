@@ -21,6 +21,7 @@ public class SearchUserController {
 	private Stage window;
 	private String userID;
 	private User user;
+	private User sessionUser;
 
 	@FXML
 	Button btnSearch;
@@ -60,6 +61,7 @@ public class SearchUserController {
 		window.setScene(scene);
 		controller.passStageReference(window);
 		controller.setUser(user);
+		controller.setEditor(sessionUser);
 		window.show();
 
 	}
@@ -83,6 +85,10 @@ public class SearchUserController {
 
 	public void passStageReference(Stage window) {
 		this.window = window;
+	}
+	
+	public void setSessionUser(User sessionUser) {
+		this.sessionUser = sessionUser;
 	}
 
 }

@@ -79,7 +79,7 @@ public class ControlPanelController {
 		try {
 			switch (selection) {
 			case 1:
-				// Edit profile details
+				editDetails();
 				break;
 			case 2:
 				loadImageSelecter();
@@ -223,9 +223,22 @@ public class ControlPanelController {
 		Scene scene = new Scene(pane);
 		window3.setScene(scene);
 		controller.passStageReference(window3);
+		controller.setSessionUser(user);
 		window3.show();
 	}
+	private void editDetails() throws IOException {
+		Stage window = new Stage();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/EditUser.fxml"));
+		Pane pane = loader.load();
+		EditUserController controller = loader.getController();
+		Scene scene = new Scene(pane);
+		window.setScene(scene);
+		controller.passStageReference(window);
+		controller.setUser(user);
+		controller.setEditor(user);
+		window.show();
 
+	}
 	/**
 	 * Method for a button to make a new user.
 	 *
