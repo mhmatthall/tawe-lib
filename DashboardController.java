@@ -37,8 +37,12 @@ public class DashboardController {
 	Button btnLogout;
 	@FXML
 	Button btnEdit;
-	@FXML ImageView profImg;
-	@FXML HBox upperElements;
+	@FXML
+	Button btnSearch;
+	@FXML
+	ImageView profImg;
+	@FXML
+	HBox upperElements;
 
 	private Stage window;
 
@@ -60,7 +64,8 @@ public class DashboardController {
 			case 3:
 				loadImageDrawer();
 				break;
-			default: return;
+			default:
+				return;
 			}
 		} catch (IOException e) {
 			System.out.println("Caught IO Exception coming from " + e.getCause() + e.getClass() + " from class "
@@ -82,7 +87,7 @@ public class DashboardController {
 		controller.passStageReference(window);
 		controller.setUser(user);
 		window.show();
-		
+
 	}
 
 	@FXML
@@ -91,6 +96,18 @@ public class DashboardController {
 		if (exit) {
 			Platform.exit();
 		}
+	}
+
+	@FXML
+	void searchLibrary() throws IOException {
+		Stage window4 = new Stage();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("SearchLibrary.fxml"));
+		Pane pane = loader.load();
+		SearchLibraryController controller = loader.getController();
+		Scene scene = new Scene(pane);
+		window4.setScene(scene);
+		controller.passStageReference(window4);
+		window4.show();
 	}
 
 	@FXML
@@ -112,6 +129,7 @@ public class DashboardController {
 		controller.passStageReference(window);
 		window.show();
 	}
+
 	private void loadImageSelecter() throws IOException {
 		window.close();
 		Stage window = new Stage();
@@ -139,8 +157,9 @@ public class DashboardController {
 	public void passStageReference(Stage window) {
 		this.window = window;
 	}
+
 	public void initialize() {
-		
+
 	}
 
 }

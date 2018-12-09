@@ -126,13 +126,13 @@ public class Fine {
 		Resource res = new DatabaseRequest().getResource(resID);
 		
 		if (res instanceof Book) {
-			amountTotal = (Book.getFineDay() * timeOverdue);
+			amount = (Book.getFineDay() * timeOverdue);
 		} else if (res instanceof DVD) {
-			amountTotal = (DVD.getFineDay() * timeOverdue);
+			amount = (DVD.getFineDay() * timeOverdue);
 		} else if(res instanceof Laptop) {
-			amountTotal = (Laptop.getFineDay() * timeOverdue);
+			amount = (Laptop.getFineDay() * timeOverdue);
 		}
-		return amountTotal;
+		return amount;
 	}
 	
 	/*
