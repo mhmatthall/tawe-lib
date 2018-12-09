@@ -193,7 +193,7 @@ public class ImageController {
 		window.close();
 		Stage window = new Stage();
 		if (user.isLibrarian()) {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("ControlPanel.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/ControlPanel.fxml"));
 			Pane dashboard = loader.load();
 			ControlPanelController controller = loader.getController();
 			controller.setUser(user);
@@ -202,7 +202,7 @@ public class ImageController {
 			window.setScene(scene);
 			window.show();
 		} else {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("UserDashboard.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/UserDashboard.fxml"));
 			Pane dashboard = loader.load();
 			DashboardController controller = loader.getController();
 			controller.setUser(user);

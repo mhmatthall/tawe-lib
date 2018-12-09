@@ -37,7 +37,7 @@ public class WelcomeController {
 	@FXML
 	public void buttonAboutPressed() throws Exception {
 
-		Parent root = FXMLLoader.load(getClass().getResource("About.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/fxml_files/About.fxml"));
 		Stage primaryStage = new Stage();
 		Scene scene = new Scene(root);
 
@@ -95,9 +95,10 @@ public class WelcomeController {
 	}
 
 	private void showControlPanel() throws IOException {
-
+/* C:\Users\lkonn\Google Drive\University\Year 2\CS230\Assignment 2\tawe-lib\fxml_files\ControlPanel 
+ * FXMLLoader loader = new FXMLLoader(getClass().getResource("ControlPanel.fxml"));*/
 		Stage window = (Stage) btnExit.getScene().getWindow();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("ControlPanel.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/ControlPanel.fxml"));
 		Pane controlPanel = loader.load();
 		ControlPanelController controller = loader.getController();
 		controller.setUser(user);

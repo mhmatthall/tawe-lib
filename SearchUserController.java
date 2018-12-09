@@ -12,7 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
- * 
+ *
  * @author Constantinos Loizou
  *
  */
@@ -53,7 +53,7 @@ public class SearchUserController {
 
 	private void editUser(User user) throws IOException {
 		Stage window = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("EditUser.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/EditUser.fxml"));
 		Pane pane = loader.load();
 		EditUserController controller = loader.getController();
 		Scene scene = new Scene(pane);

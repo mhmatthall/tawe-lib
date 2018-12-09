@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="326.0" prefWidth="390.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="DashboardController">
+   <top>
+      <Label fx:id="lblDashboardTitle" text="MY DASHBOARD" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="23.0" />
+         </font></Label>
+   </top>
+   <bottom>
+      <HBox spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnLogout" minWidth="75.0" mnemonicParsing="false" onAction="#logout" text="Logout" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnExit" minWidth="75.0" mnemonicParsing="false" onAction="#exit" text="Exit" />
+         </children>
+      </HBox>
+   </bottom>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox fx:id="upperElements" prefHeight="106.0" prefWidth="370.0" spacing="10.0">
+               <children>
+                  <VBox alignment="CENTER_LEFT" prefHeight="111.0" prefWidth="263.0" spacing="5.0">
+                     <children>
+                        <Label fx:id="lblWelcome" prefHeight="25.0" prefWidth="291.0" text="Welcome, USER_NAME">
+                           <font>
+                              <Font size="16.0" />
+                           </font></Label>
+                        <Label fx:id="lblUsername" text="Username: username" />
+                        <Label fx:id="lblAccountType" text="Account type: Standard" />
+                        <Label fx:id="lblBalance" text="Account Balance: £0.00" />
+                     </children>
+                     <opaqueInsets>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </opaqueInsets>
+                  </VBox>
+                  <Region prefHeight="86.0" prefWidth="46.0" HBox.hgrow="ALWAYS" />
+                  <ImageView fx:id="userimage" fitHeight="111.0" fitWidth="177.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" top="10.0" />
+               </padding>
+            </HBox>
+            <Region VBox.vgrow="ALWAYS" />
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+               <children>
+                  <VBox alignment="CENTER_LEFT" spacing="5.0">
+                     <children>
+                        <Button mnemonicParsing="false" prefWidth="145.0" text="My Borrwed Items" />
+                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="My Requested Items" />
+                        <Button mnemonicParsing="false" prefWidth="145.0" text="My Reserved tems" />
+                     </children>
+                  </VBox>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <VBox alignment="CENTER_RIGHT" spacing="5.0">
+                     <children>
+                        <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#searchLibrary" prefWidth="145.0" text="Search the Library" />
+                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="My Transactions" />
+                        <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#editProfile" prefWidth="145.0" text="Edit Profile" />
+                     </children>
+                  </VBox>
+               </children></HBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" />
+         </padding>
+      </VBox>
+   </center>
+</BorderPane>

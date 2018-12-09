@@ -18,49 +18,34 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.image.*;
 
-// TODO: Auto-generated Javadoc
 /**
  * Borrower's dashboard
  * @author Constantinos Loizou
  */
 public class DashboardController {
 
-	/** The user. */
 	private User user;
-
-	/** The welcome label */
+	
 	@FXML
 	Label lblWelcome;
-	
-	/** The username label. */
 	@FXML
 	Label lblUsername;
-	
-	/** The exit button. */
 	@FXML
 	Button btnExit;
-	
-	/** The logout button. */
 	@FXML
 	Button btnLogout;
-	
-	/** The edit button. */
 	@FXML
 	Button btnEdit;
-
 	@FXML
 	Button btnSearch;
 	@FXML
 	ImageView profImg;
 	@FXML
 	HBox upperElements;
-
-	/** The window stage. */
-	private Stage window;
-
-	/** The user image. */
 	@FXML
 	public ImageView userimage;
+	
+	private Stage window;
 
 	/**
 	 * Method for edit profile button, calls a pop up window
@@ -102,7 +87,7 @@ public class DashboardController {
 	 */
 	private void editDetails() throws IOException {
 		Stage window = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("EditUser.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/EditUser.fxml"));
 		Pane pane = loader.load();
 		EditUserController controller = loader.getController();
 		Scene scene = new Scene(pane);
@@ -132,7 +117,7 @@ public class DashboardController {
 	@FXML
 	void searchLibrary() throws IOException {
 		Stage window4 = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("SearchLibrary.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/SearchLibrary.fxml"));
 		Pane pane = loader.load();
 		SearchLibraryController controller = loader.getController();
 		Scene scene = new Scene(pane);
@@ -144,7 +129,7 @@ public class DashboardController {
 	@FXML
 	public void logout() throws IOException {
 		Stage window = (Stage) btnExit.getScene().getWindow();
-		Pane previous = FXMLLoader.load(getClass().getResource("Welcome.fxml"));
+		Pane previous = FXMLLoader.load(getClass().getResource("/fxml_files/Welcome.fxml"));
 		window.setScene(new Scene(previous));
 	}
 
@@ -156,7 +141,7 @@ public class DashboardController {
 	private void loadImageDrawer() throws IOException {
 		window.close();
 		Stage window = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateImage.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/CreateImage.fxml"));
 		Pane pane = loader.load();
 		ImageController controller = loader.getController();
 		controller.setUser(user);
@@ -174,7 +159,7 @@ public class DashboardController {
 	private void loadImageSelecter() throws IOException {
 		window.close();
 		Stage window = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("SelectUserImage.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/SelectUserImage.fxml"));
 		Pane pane = loader.load();
 		SelectUserImageController controller = loader.getController();
 		controller.setUser(user);

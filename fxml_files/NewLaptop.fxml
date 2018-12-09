@@ -11,9 +11,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane minHeight="322.0" minWidth="250.0" prefHeight="415.0" prefWidth="315.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EditUserController">
+<BorderPane minHeight="322.0" minWidth="250.0" prefHeight="322.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="NewLaptopController">
    <top>
-      <Label fx:id="lblTitle" text="User Account Details" BorderPane.alignment="CENTER">
+      <Label fx:id="lblTitle" text="Create new Laptop" BorderPane.alignment="CENTER">
          <font>
             <Font size="23.0" />
          </font></Label>
@@ -21,11 +21,9 @@
    <bottom>
       <HBox spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnUpdate" minWidth="75.0" mnemonicParsing="false" onAction="#update" text="Update Account" />
+            <Button fx:id="btnCreate" minWidth="75.0" mnemonicParsing="false" onAction="#constructLaptop" text="Create" />
             <Region HBox.hgrow="ALWAYS" />
-            <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#deleteUser" text="Delete User" />
-            <Region HBox.hgrow="ALWAYS" />
-            <Button fx:id="btnClose" minWidth="75.0" mnemonicParsing="false" onAction="#close" text="Cancel" />
+            <Button fx:id="btnCancel" minWidth="75.0" mnemonicParsing="false" onAction="#close" text="Cancel" />
          </children>
       </HBox>
    </bottom>
@@ -37,50 +35,32 @@
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Label text="Username" />
-                  <Label fx:id="lblUsername" prefHeight="17.0" prefWidth="148.0" />
+                  <Label text="Title" />
+                  <TextField fx:id="txtTitle" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Label text="Forename" />
-                  <TextField fx:id="txtFname" />
+                  <Label text="Year" />
+                  <TextField fx:id="txtYear" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Label text="Surname" />
-                  <TextField fx:id="txtLname" />
+                  <Label text="Manufacturer" />
+                  <TextField fx:id="txtManufacturer" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Label text="Phone" />
-                  <TextField fx:id="txtPhone" />
+                  <Label text="Model" />
+                  <TextField fx:id="txtModel" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Label text="Address" />
-                  <TextField fx:id="txtAddress" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-               <children>
-                  <Label text="Account Type" />
-                  <Label fx:id="lblAccType" prefHeight="17.0" prefWidth="145.0" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-               <children>
-                  <Label fx:id="lblEmp" disable="true" text="Employment Date" />
-                  <Label fx:id="lblEmpDate" prefHeight="17.0" prefWidth="148.0" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-               <children>
-                  <Label fx:id="lblStaffNum" disable="true" text="Staff number" />
-                  <Label fx:id="lblStaff" prefHeight="17.0" prefWidth="148.0" />
+                  <Label text="Operating System" />
+                  <TextField fx:id="txtOS" />
                </children>
             </HBox>
             <Text fill="#f80303" strokeType="OUTSIDE" strokeWidth="0.0" text="Have to be able to select thumbnail too" />

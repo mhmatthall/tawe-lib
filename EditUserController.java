@@ -35,7 +35,7 @@ public class EditUserController {
 	@FXML
 	Button btnClose;
 	@FXML
-	public Button btnDelete;
+	Button btnDelete;
 
 	private Stage window;
 
@@ -84,7 +84,7 @@ public class EditUserController {
 			lblStaff.setText(stuffNum.toString());
 		} else {
 			lblAccType.setText("User");
-		//	btnDelete.setDisable(true);
+		    btnDelete.setDisable(true);
 
 		}
 
