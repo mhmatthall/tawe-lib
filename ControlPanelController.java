@@ -131,7 +131,7 @@ public class ControlPanelController {
 	@FXML
 	public void logout() throws IOException {
 		Stage window = (Stage) btnExit.getScene().getWindow();
-		Pane previous = FXMLLoader.load(getClass().getResource("Welcome.fxml"));
+		Pane previous = FXMLLoader.load(getClass().getResource("/fxml_files/Welcome.fxml"));
 		window.setScene(new Scene(previous));
 	}
 
@@ -171,7 +171,7 @@ public class ControlPanelController {
 	 */
 	private void createLaptop() throws IOException {
 		Stage window = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("NewLaptop.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/NewLaptop.fxml"));
 		Pane pane = loader.load();
 		NewLaptopController controller = loader.getController();
 		Scene scene = new Scene(pane);
@@ -188,7 +188,7 @@ public class ControlPanelController {
 	 */
 	private void createDVD() throws IOException {
 		Stage window = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("NewDVD.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/NewDVD.fxml"));
 		Pane pane = loader.load();
 		NewDVDController controller = loader.getController();
 		Scene scene = new Scene(pane);
@@ -204,7 +204,7 @@ public class ControlPanelController {
 	 */
 	private void createBook() throws IOException {
 		Stage window2 = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("NewBook.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/NewBook.fxml"));
 		Pane pane = loader.load();
 		NewBookController controller = loader.getController();
 		Scene scene = new Scene(pane);
@@ -222,7 +222,7 @@ public class ControlPanelController {
 	@FXML
 	void searchLibrary() throws IOException {
 		Stage window4 = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("SearchLibrary.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/SearchLibrary.fxml"));
 		Pane pane = loader.load();
 		SearchLibraryController controller = loader.getController();
 		Scene scene = new Scene(pane);
@@ -239,7 +239,7 @@ public class ControlPanelController {
 	@FXML
 	private void searchUser() throws IOException {
 		Stage window3 = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("SearchUser.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/SearchUser.fxml"));
 		Pane pane = loader.load();
 		SearchUserController controller = loader.getController();
 		Scene scene = new Scene(pane);
@@ -256,7 +256,7 @@ public class ControlPanelController {
 	@FXML
 	private void newUser() throws IOException {
 		Stage window = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("NewUser.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/NewUser.fxml"));
 		Pane pane = loader.load();
 		NewUserController controller = loader.getController();
 		Scene scene = new Scene(pane);
@@ -273,7 +273,7 @@ public class ControlPanelController {
 	private void loadImageDrawer() throws IOException {
 		window.close();
 		Stage window = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateImage.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/CreateImage.fxml"));
 		Pane pane = loader.load();
 		ImageController controller = loader.getController();
 		controller.setUser(user);
@@ -291,7 +291,7 @@ public class ControlPanelController {
 	private void loadImageSelecter() throws IOException {
 		window.close();
 		Stage window = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("SelectUserImage.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/SelectUserImage.fxml"));
 		Pane pane = loader.load();
 		SelectUserImageController controller = loader.getController();
 		controller.setUser(user);

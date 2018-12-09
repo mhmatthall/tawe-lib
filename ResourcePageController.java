@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,7 +40,7 @@ public class ResourcePageController {
 	@FXML
 	HBox upperElements;
 	
-	@FXML private void loan() throws IOException {
+	@FXML private void loan() throws IOException, SQLException {
 		Stage window = new Stage();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("NewLoan.fxml"));
 		Pane pane = loader.load();
@@ -94,10 +95,10 @@ public class ResourcePageController {
 		}
 	}
 	@FXML
-	private void btnLoans() throws IOException {
+	private void btnLoans() throws IOException, SQLException {
 		window.close();
 		Stage window = new Stage();
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("NewLoan.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/NewLoan.fxml"));
 		Pane dashboard = loader.load();
 		NewLoanController controller = loader.getController();
 		controller.setResource(resource);
