@@ -69,7 +69,6 @@ public class ResourcePageController {
 		this.resource = resource;
 		System.out.println(resource.toString());
 		if (resource.getResourceID().charAt(0) == 'B') {
-			System.out.println("");
 			Book book = (Book) resource ;
 			System.out.println(resource.toString());
 			lblTitle.setText(book.getTitle());
@@ -105,16 +104,15 @@ public class ResourcePageController {
 
 	@FXML
 	private void btnLoans() throws IOException, SQLException {
-		window.close();
-		Stage window = new Stage();
+		Stage door = new Stage();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/NewLoan.fxml"));
 		Pane dashboard = loader.load();
 		NewLoanController controller = loader.getController();
 		controller.setResource(resource);
-		controller.passStageReference(window);
+		controller.passStageReference(door);
 		Scene scene = new Scene(dashboard);
-		window.setScene(scene);
-		window.show();
+		door.setScene(scene);
+		door.show();
 	}
 	public void passStageReference(Stage window) {
 		this.window = window;
