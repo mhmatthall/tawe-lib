@@ -43,6 +43,8 @@ public class DashboardController {
 	@FXML
 	Button btnReservations;
 	@FXML
+	Button btnLoan;
+	@FXML
 	ImageView profImg;
 	@FXML
 	HBox upperElements;
@@ -115,6 +117,20 @@ public class DashboardController {
 
 	}
 
+	@FXML
+	private void openBorrowedItems() throws IOException, SQLException {
+		Stage window = new Stage();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/BorrowedResources.fxml"));
+		Pane pane = loader.load();
+		BorrowsController controller = loader.getController();
+		Scene scene = new Scene(pane);
+		window.setScene(scene);
+		controller.passStageReference(window);
+		controller.setUser(user);
+		window.show();
+
+	}
+	
 	/**
 	 * Method for exit button for closing the program.
 	 */
@@ -140,6 +156,7 @@ public class DashboardController {
 		Scene scene = new Scene(pane);
 		window4.setScene(scene);
 		controller.passStageReference(window4);
+		controller.setUser(user);
 		window4.show();
 	}
 
