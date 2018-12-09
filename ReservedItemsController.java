@@ -38,7 +38,7 @@ public class ReservedItemsController {
 		ArrayList<String> details = new ArrayList<>();
 		for (Copy copy : items) {
 			resources = new DatabaseRequest().getResource(copy.getResourceID());
-			details.add(resources.toString());
+			details.add("ID: " + resources.getResourceID() + " Title: " + resources.getTitle());
 		}
 		ObservableList<String> values = FXCollections.observableArrayList(details);
 		reservations.setItems(values);

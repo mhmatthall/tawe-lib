@@ -61,7 +61,7 @@
                   <VBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>
                         <Button mnemonicParsing="false" prefWidth="145.0" text="My Loans" />
-                        <Button mnemonicParsing="false" prefWidth="145.0" text="My Reserved tems" />
+                        <Button fx:id="btnReservations" mnemonicParsing="false" onAction="#openReservations" prefWidth="145.0" text="My Reserved tems" />
                         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="My Transactions" />
                      </children>
                   </VBox>

@@ -41,6 +41,8 @@ public class DashboardController {
 	@FXML
 	Button btnSearch;
 	@FXML
+	Button btnReservations;
+	@FXML
 	ImageView profImg;
 	@FXML
 	HBox upperElements;
@@ -99,7 +101,7 @@ public class DashboardController {
 		window.show();
 
 	}
-	
+	@FXML
 	private void openReservations() throws IOException, SQLException {
 		Stage window = new Stage();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/ReservedResources.fxml"));
