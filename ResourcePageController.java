@@ -12,14 +12,13 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class ResourcePageController {
-	private Resource resource;
 	private User user;
 	private DVD dvd;
 	private Book book;
 	private Laptop laptop;
 	private Stage window;
 	private Resource resource;
-	
+
 	@FXML
 	Label lblTitle;
 	@FXML
@@ -47,8 +46,8 @@ public class ResourcePageController {
 	@FXML
 	HBox upperElements;
 
-	
-	@FXML private void loan() throws IOException, SQLException {
+	@FXML
+	private void loan() throws IOException, SQLException {
 		Stage window = new Stage();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("NewLoan.fxml"));
 		Pane pane = loader.load();
@@ -57,7 +56,7 @@ public class ResourcePageController {
 		controller.passStageReference(window);
 		Scene scene = new Scene(pane);
 		window.setScene(scene);
-		
+
 		window.show();
 	}
 
@@ -70,26 +69,29 @@ public class ResourcePageController {
 			btnLoans.setDisable(true);
 		}
 	}
+
 	public void setBook(Resource resource) throws SQLException {
 		this.book = (Book) new DatabaseRequest().getResource(resource.getResourceID());
 		this.resource = book;
 		System.out.println(resource.toString());
 		lblTitle.setText(resource.getTitle());
 		lbl1.setText("Year: " + Integer.toString(resource.getYear()));
-		lbl2.setText("Author: " + ((Book)resource).getAuthor());
-		lbl3.setText("Publisher: " + ((Book)resource).getPublisher());
-		lbl4.setText("Genre: " + ((Book)resource).getGenre());
-		lbl5.setText("ISBN: " + ((Book)resource).getISBN());
-		lbl6.setText("Language: " + ((Book)resource).getLanguage());
+		lbl2.setText("Author: " + ((Book) resource).getAuthor());
+		lbl3.setText("Publisher: " + ((Book) resource).getPublisher());
+		lbl4.setText("Genre: " + ((Book) resource).getGenre());
+		lbl5.setText("ISBN: " + ((Book) resource).getISBN());
+		lbl6.setText("Language: " + ((Book) resource).getLanguage());
 	}
-	public void setDVD(Resource resource) throws SQLException { 
+
+
+	public void setDVD(Resource resource) throws SQLException {
 		this.dvd = (DVD) new DatabaseRequest().getResource(resource.getResourceID());
 		this.resource = dvd;
 		lblTitle.setText(dvd.getTitle());
 		lbl1.setText("Year: " + Integer.toString(dvd.getYear()));
 		lbl2.setText(dvd.getDirector());
 		lbl3.setText(Integer.toString(dvd.getRuntime()));
-		lbl4.setText("Language: " + (dvd.getLanguage());
+		lbl4.setText("Language: " + (dvd.getLanguage()));
 		lbl5.disableProperty();
 		lbl6.disableProperty();
 	}
@@ -106,7 +108,6 @@ public class ResourcePageController {
 		lbl6.disableProperty();
 	}
 
-
 	@FXML
 	private void btnLoans() throws IOException, SQLException {
 		Stage window = new Stage();
@@ -119,12 +120,12 @@ public class ResourcePageController {
 		window.setScene(scene);
 		window.show();
 	}
-	
+
 	@FXML
 	private void close() {
 		window.close();
 	}
-	
+
 	@FXML
 	private void editResource() throws IOException {
 		Stage window = new Stage();
@@ -137,14 +138,14 @@ public class ResourcePageController {
 		window.setScene(scene);
 		window.show();
 	}
-	
+
 	public void passStageReference(Stage window) {
 		this.window = window;
-		
+
 	}
 
 	public void setResource(Resource resource) {
 		this.resource = resource;
-		
+
 	}
 }

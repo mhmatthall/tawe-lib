@@ -111,20 +111,23 @@ public class EditResourceController {
 		txtYear.setText(Integer.toString(resource.getYear()));
 
 		if (resource instanceof Book) {
-		lblDirector.setDisable(true);
-		lblDVDLanguage.setDisable(true);
-		lblRuntime.setDisable(true);
-		txtDirector.setDisable(true);
-		txtDVDLanguage.setDisable(true);
-		txtRuntime.setDisable(true);
-		lblMake.setDisable(true);
-		lblModel.setDisable(true);
-		lblOS.setDisable(true);
-		txtMake.setDisable(true);
-		txtModel.setDisable(true);
-		txtOS.setDisable(true);
+			lblDirector.setDisable(true);
+			lblDVDLanguage.setDisable(true);
+			lblRuntime.setDisable(true);
+			txtDirector.setDisable(true);
+			txtDVDLanguage.setDisable(true);
+			txtRuntime.setDisable(true);
+			lblMake.setDisable(true);
+			lblModel.setDisable(true);
+			lblOS.setDisable(true);
+			txtMake.setDisable(true);
+			txtModel.setDisable(true);
+			txtOS.setDisable(true);
 		}
+	}
+	public void passResourceReference(Resource resource) {
+		this.resource = resource;
 
 	}
-
 }
+

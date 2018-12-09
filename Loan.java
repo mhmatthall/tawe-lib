@@ -14,9 +14,7 @@ public class Loan {
 	private Date returnDate;
 	private boolean isReturned;
 
-
- 
-	//creating new loan
+	// creating new loan
 	public Loan(String copyID, String username) throws SQLException {
 		DatabaseRequest db = new DatabaseRequest();
 		this.copyID = copyID;
@@ -27,9 +25,9 @@ public class Loan {
 		this.returnDate.forwardDate(db.getCopy(copyID).getLoanTime());
 		nextLoanID++;
 	}
-	//db constructor
-	public Loan(String loanID, Date issueDate, String username, String copyID, 
-			Date returnDate, boolean isReturned) {
+
+	// db constructor
+	public Loan(String loanID, Date issueDate, String username, String copyID, Date returnDate, boolean isReturned) {
 		this.loanID = loanID;
 		this.issueDate = issueDate;
 		this.username = username;
@@ -37,14 +35,15 @@ public class Loan {
 		this.returnDate = returnDate;
 		this.isReturned = isReturned;
 	}
-	
+
 	public String getLoanID() {
 		return loanID;
 	}
+
 	public boolean isReturned() {
 		return isReturned;
 	}
-	
+
 	public void returnResource() {
 		isReturned = true;
 	}
@@ -90,16 +89,13 @@ public class Loan {
 		c.setOnLoan(isOnLoan);
 		new DatabaseRequest().editCopy(c);
 	}
-	
-	public void setReservationStatus(boolean isReserved, String newUsername) throws SQLException{
+
+	public void setReservationStatus(boolean isReserved, String newUsername) throws SQLException {
 		Copy c = new DatabaseRequest().getCopy(copyID);
 		c.setReserved(isReserved);
 		c.setReservingUser(newUsername);
 		new DatabaseRequest().editCopy(c);
-		
+
 	}
-	
-	
-		
-	
+
 }
