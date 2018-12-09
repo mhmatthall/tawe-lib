@@ -17,7 +17,7 @@ public class GUITester extends Application {
 	static Book resource = new Book("B-09", "title", 2017, null, 
 			null, "author", "publisher", "genre", 
 			"ISBN", "language");
-	static User user = new Borrower("hey","", "", "", "", null, 0);
+	static User user = new Librarian("hey","", "", "", "", null, 0, null);
 
 	public static void main(String[] args) {
 		launch(args);
