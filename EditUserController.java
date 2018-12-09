@@ -6,6 +6,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+// TODO: Auto-generated Javadoc
+/**
+ * Handles user editing.
+ * 
+ * @author Constantinos Loizou
+ *
+ */
 public class EditUserController {
 
 	private User user;
@@ -40,14 +47,22 @@ public class EditUserController {
 
 	private Stage window;
 
+	/**
+	 * Closes the window
+	 */
 	@FXML
 	private void close() {
 		window.close();
 	}
 
+	/**
+	 * Deletes user
+	 *
+	 * @throws SQLException if connection to database fails
+	 */
 	@FXML
 	private void deleteUser() throws SQLException {
-		if (!user.isLibrarian()) {
+		if (!editor.isLibrarian()) {
 			AlertBox.display("If you want to delete your account,\nplease talk to a Librarian");
 			return;
 		}
@@ -62,11 +77,21 @@ public class EditUserController {
 		}
 	}
 
+	/**
+	 * Pass stage reference.
+	 *
+	 * @param window the window
+	 */
 	public void passStageReference(Stage window) {
 		this.window = window;
 
 	}
 
+	/**
+	 * Sets the user.
+	 *
+	 * @param user the new user
+	 */
 	public void setUser(User user) {
 		System.out.println(user.toString());
 		this.user = user;
@@ -90,6 +115,11 @@ public class EditUserController {
 
 	}
 
+	/**
+	 * Update.
+	 *
+	 * @throws SQLException if connection to database fails
+	 */
 	@FXML
 	public void update() throws SQLException {
 		String username = lblUsername.getText();
@@ -113,10 +143,18 @@ public class EditUserController {
 		window.close();
 	}
 
+	/**
+	 * Disables delete button.
+	 */
 	public void disableDeleteButton() {
 		btnDelete.setDisable(true);
 	}
 
+	/**
+	 * Checks the Editor. If user is Borrower, delete button gets disabled
+	 *
+	 * @param editor user who is editing
+	 */
 	public void setEditor(User editor) {
 		this.editor = editor;
 		if (!editor.isLibrarian()) {

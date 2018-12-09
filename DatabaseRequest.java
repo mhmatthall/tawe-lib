@@ -244,17 +244,21 @@ public class DatabaseRequest {
 	public void editResource(Resource newDetails) throws SQLException {
 		Statement query = conn.createStatement();
 
-		query.addBatch("UPDATE RESOURCE SET " + "title = '" + newDetails.getTitle() + "', " + "year_released = '"
-				+ newDetails.getYear() + "', " + "thumbnail = '" + newDetails.getThumbnail().getImage() + "', "
-				+ "queue = '" + newDetails.getQueue().toString() + "', " + "WHERE resource_id = '"
-				+ newDetails.getResourceID() + "'");
+		query.addBatch("UPDATE RESOURCE SET "
+				+ "title = '" + newDetails.getTitle() + "', "
+				+ "year_released = '" + newDetails.getYear() + "', "
+				+ "thumbnail = '" + newDetails.getThumbnail().getImage() + "', "
+				+ "queue = '" + newDetails.getQueue().toString() + "' " 
+				+ "WHERE resource_id = '" + newDetails.getResourceID() + "'");
 
 		if (newDetails instanceof Book) {
-			query.addBatch("UPDATE BOOK SET " + "author = '" + ((Book) newDetails).getAuthor() + "', " + "publisher = '"
-					+ ((Book) newDetails).getPublisher() + "', " + "genre = '" + ((Book) newDetails).getGenre() + "', "
-					+ "isbn = '" + ((Book) newDetails).getISBN() + "', " + "language = '"
-					+ ((Book) newDetails).getLanguage() + "', " + "WHERE resource_id = '" + newDetails.getResourceID()
-					+ "'");
+			query.addBatch("UPDATE BOOK SET "
+					+ "author = '" + ((Book) newDetails).getAuthor() + "', "
+					+ "publisher = '" + ((Book) newDetails).getPublisher() + "', "
+					+ "genre = '" + ((Book) newDetails).getGenre() + "', "
+					+ "isbn = '" + ((Book) newDetails).getISBN() + "', "
+					+ "language = '" + ((Book) newDetails).getLanguage() + "' "
+					+ "WHERE resource_id = '" + newDetails.getResourceID() + "'");
 
 		} else if (newDetails instanceof DVD) {
 			String subtitleLanguages = "";
@@ -262,15 +266,18 @@ public class DatabaseRequest {
 				subtitleLanguages = subtitleLanguages + language + ",";
 			}
 
-			query.addBatch("UPDATE DVD SET " + "director = '" + ((DVD) newDetails).getDirector() + "', " + "runtime = '"
-					+ ((DVD) newDetails).getRuntime() + "', " + "language = '" + ((DVD) newDetails).getLanguage()
-					+ "', " + "subtitle_languages = '" + subtitleLanguages + "', " + "WHERE resource_id = '"
-					+ newDetails.getResourceID() + "'");
+			query.addBatch("UPDATE DVD SET "
+					+ "director = '" + ((DVD) newDetails).getDirector() + "', "
+					+ "runtime = '"	+ ((DVD) newDetails).getRuntime() + "', "
+					+ "language = '" + ((DVD) newDetails).getLanguage()	+ "', "
+					+ "subtitle_languages = '" + subtitleLanguages + "' "
+					+ "WHERE resource_id = '" + newDetails.getResourceID() + "'");
 		} else {
-			query.addBatch("UPDATE LAPTOP SET " + "manufacturer = '" + ((Laptop) newDetails).getManufacturer() + "', "
-					+ "model = '" + ((Laptop) newDetails).getModel() + "', " + "operating_system = '"
-					+ ((Laptop) newDetails).getOperatingSys() + "', " + "WHERE resource_id = '"
-					+ newDetails.getResourceID() + "'");
+			query.addBatch("UPDATE LAPTOP SET "
+					+ "manufacturer = '" + ((Laptop) newDetails).getManufacturer() + "', "
+					+ "model = '" + ((Laptop) newDetails).getModel() + "', "
+					+ "operating_system = '" + ((Laptop) newDetails).getOperatingSys() + "' "
+					+ "WHERE resource_id = '" + newDetails.getResourceID() + "'");
 		}
 
 		query.executeBatch(); // Runs the queued queries sequentially
@@ -570,16 +577,19 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Gets all available copies of a given resource from the database.
+	 * Gets all available copies of a given resource from the database, sorted loan length descending
 	 *
-	 * @param resourceID
+	 * @param resourceID The unique ID of a resource
 	 * @return ArrayList of the available copies
 	 * @throws SQLException if connection to the database has failed
 	 */
 	public ArrayList<Copy> getAvailableCopies(String resourceID) throws SQLException {
 		Statement query = conn.createStatement();
-		ResultSet results = query.executeQuery("SELECT * FROM COPY " + "WHERE resource_id = '" + resourceID + "' "
-				+ "AND is_on_loan = 0 " + "AND is_reserved = 0");
+		ResultSet results = query.executeQuery("SELECT * FROM COPY "
+				+ "WHERE resource_id = '" + resourceID + "' "
+				+ "AND is_on_loan = 0 "
+				+ "AND is_reserved = 0 "
+				+ "ORDER BY loan_duration DESC");
 
 		boolean isOnLoan;
 		boolean isReserved;
@@ -725,7 +735,7 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Gets the loan history of a given copy?.
+	 * Gets the loan history of a given copy.
 	 *
 	 * @param copyID of the copies history to fetch
 	 * @return ArrayList of loans
@@ -944,7 +954,6 @@ public class DatabaseRequest {
 	 *
 	 * @param searchTerm a keyword to be searched by e.g. ID, Title, and year
 	 * @return ArrayList of Resources (which can be cast into their actual types)
-	 *         e.g.
 	 * @throws SQLException if connection to the database fails
 	 */
 	public ArrayList<Resource> searchResources(String searchTerm) throws SQLException {

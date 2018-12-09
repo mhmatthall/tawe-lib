@@ -172,9 +172,9 @@ public class Book extends Resource {
 	}
 
 	/**
-	 * Gets the fine maximum fine.
+	 * gets maximum amount of fine
 	 *
-	 * @return the fine maximum fine
+	 * @return Maximum fine amount
 	 */
 	public static double getFineMax() {
 		return fineMax;

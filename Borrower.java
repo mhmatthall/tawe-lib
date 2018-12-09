@@ -37,7 +37,7 @@ public class Borrower extends User {
 	 */
 	public ArrayList<Copy> getLoanedCopies() throws SQLException {
 		DatabaseRequest db = new DatabaseRequest();
-		return null; // db.getUserLoans(getUsername());
+		return db.getUserCopiesOnLoan(getUsername());
 	}
 
 	/**

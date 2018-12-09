@@ -6,7 +6,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+
 /**
+ * Controls resource editing in GUI
  *
  * @author Constantinos Loizou
  *
@@ -86,6 +88,9 @@ public class EditResourceController {
 	@FXML
 	TextField txtOS;
 
+	/**
+	 * Update.
+	 */
 	@FXML
 	private void update() throws SQLException {
 		String title = txtTitle.getText();
@@ -116,6 +121,9 @@ public class EditResourceController {
 		}
 	}
 
+	/**
+	 * Delete.
+	 */
 	@FXML
 	private void delete() throws SQLException {
 		boolean flag = ConfirmationBox.display("WARNING", "Are you sure you want to delete this resource?");
@@ -128,11 +136,19 @@ public class EditResourceController {
 		}
 	}
 
+	/**
+	 * Close.
+	 */
 	@FXML
 	private void close() {
 		window.close();
 	}
 
+	/**
+	 * Pass stage reference.
+	 *
+	 * @param window the window
+	 */
 	public void passStageReference(Stage window) {
 		this.window = window;
 	}
@@ -141,6 +157,11 @@ public class EditResourceController {
 		loadResourceData(resID);
 	}
 
+	/**
+	 * Pass resource reference.
+	 *
+	 * @param resource the resource
+	 */
 	private void loadResourceData(String resID) throws SQLException {
 		this.resource = new DatabaseRequest().getResource(resID);
 
@@ -170,6 +191,14 @@ public class EditResourceController {
 
 	}
 
+	/**
+	 * Pass resource reference.
+	 *
+	 * @param resource the resource
+	 */
+	public void passResourceReference(Resource resource) {
+		this.resource = resource;
+
 	private void disableBookIrrelevantkFeatures() {
 		lblDVD.setDisable(true);
 		lblLaptop.setDisable(true);
@@ -186,7 +215,7 @@ public class EditResourceController {
 		txtModel.setDisable(true);
 		txtOS.setDisable(true);
 	}
-	
+
 	private void disableDVDIrrelevantFeatures() {
 		lblBook.setDisable(true);
 		lblLaptop.setDisable(true);
@@ -208,7 +237,7 @@ public class EditResourceController {
 		txtModel.setDisable(true);
 		txtOS.setDisable(true);
 	}
-	
+
 	private void disableLaptopIrrelevantFeatures() {
 		lblBook.setDisable(true);
 		lblDVD.setDisable(true);
