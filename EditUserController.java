@@ -84,7 +84,7 @@ public class EditUserController {
 			lblStaff.setText(stuffNum.toString());
 		} else {
 			lblAccType.setText("User");
-		//	btnDelete.setDisable(true);
+		    btnDelete.setDisable(true);
 
 		}
 

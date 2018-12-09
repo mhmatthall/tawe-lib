@@ -23,7 +23,7 @@
          <children>
             <Button fx:id="btnUpdate" minWidth="75.0" mnemonicParsing="false" onAction="#update" text="Update Account" />
             <Region HBox.hgrow="ALWAYS" />
-            <Button mnemonicParsing="false" onAction="#deleteUser" text="Delete User" />
+            <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#deleteUser" text="Delete User" />
             <Region HBox.hgrow="ALWAYS" />
             <Button fx:id="btnClose" minWidth="75.0" mnemonicParsing="false" onAction="#close" text="Cancel" />
          </children>

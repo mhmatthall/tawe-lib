@@ -54,21 +54,27 @@ public class ResourcePageController {
 
 	public void setUser(User user) {
 		this.user = user;
+		if (user.isLibrarian()) {
+			btnRequest.setDisable(true);
+		} else {
+			btnEdit.setDisable(true);
+			btnLoans.setDisable(true);
+		}
 	}
 
 	public void setResource(Resource resource) {
 		this.resource = resource;
-	}
-	@FXML
-	public void initialize() {
+		System.out.println(resource.toString());
 		if (resource.getResourceID().charAt(0) == 'B') {
+			System.out.println("");
 			Book book = (Book) resource ;
-			lbl1.setText(Integer.toString(book.getYear()));
-			lbl2.setText(book.getAuthor());
-			lbl3.setText(book.getPublisher());
-			lbl4.setText(book.getGenre());
-			lbl5.setText(book.getISBN());
-			lbl6.setText(book.getLanguage());
+			System.out.println(resource.toString());
+			lbl1.setText("2017");
+			lbl2.setText("Author: " + book.getAuthor());
+			lbl3.setText("Publisher: " + book.getPublisher());
+			lbl4.setText("Genre: " + book.getGenre());
+			lbl5.setText("ISBN: " + book.getISBN());
+			lbl6.setText("Language: " + book.getLanguage());
 		} else if (resource.getResourceID().charAt(0) == 'D') {
 			DVD dvd = (DVD) resource ;
 			lbl1.setText(Integer.toString(dvd.getYear()));
@@ -86,12 +92,9 @@ public class ResourcePageController {
 			lbl5.disableProperty();
 			lbl6.disableProperty();
 		}
-		if (user.isLibrarian()) {
-			btnRequest.disableProperty();
-		} else {
-			btnEdit.disableProperty();
-			btnLoans.disableProperty();
-		}
+	}
+	@FXML
+	public void initialize() {
 	}
 	@FXML
 	private void btnLoans() throws IOException {
