@@ -5,4 +5,4 @@ set PATH=%PATH%;%DERBY_HOME%\bin
 ij
 
 rem Default URL is
-rem connect 'jdbc:derby:C:\Users\mhmat\Documents\GitHub\tawe-lib\tawe-lib'
+rem connect 'jdbc:derby:C:\Users\mhmat\Documents\GitHub\tawe-lib\tawe-lib';

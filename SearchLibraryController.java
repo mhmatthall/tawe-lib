@@ -68,15 +68,10 @@ public class SearchLibraryController {
 		ObservableList<Resource> resourceObList = FXCollections.observableArrayList(results);
 		
 
-		if (radioGroup.getSelectedToggle().equals(rbBooks)) {
-		} else if (radioGroup.getSelectedToggle().equals(rbDVDs)) {
-		} else if (radioGroup.getSelectedToggle().equals(rbLaptops)) {
-		}
-
-		//Get all resources from the database and add them into an array
-	//	ArrayList<Resource> resourceArList = new DatabaseRequest().browseResources();
-		
-		
+//		if (radioGroup.getSelectedToggle().equals(rbBooks)) {
+//		} else if (radioGroup.getSelectedToggle().equals(rbDVDs)) {
+//		} else if (radioGroup.getSelectedToggle().equals(rbLaptops)) {
+//		}
 		
 		// String has to match EXACTLY the attribute of resource constructor
 		resultsTitle.setCellValueFactory(new PropertyValueFactory<Resource, String>("title")); // ONLY THESE TWO

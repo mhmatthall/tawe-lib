@@ -362,7 +362,7 @@ public class DatabaseRequest {
 			RequestQueue queue = convertRequestQueue(results.getString(5));	// request queue
 
 			// Format languages back into arraylist from database string
-			String[] langs = results.getString(10).split(",");
+			String[] langs = results.getString(9).split(",");
 			ArrayList<String> subLang = new ArrayList<>(Arrays.asList(langs));
 
 			out = new DVD(resourceID,
@@ -407,7 +407,7 @@ public class DatabaseRequest {
 	private String getResourceType(String resourceID) throws SQLException {
 		// Check if there's an entry in the BOOK table; it must be a book
 		Statement isBook = conn.createStatement();
-		ResultSet rsBook = isBook.executeQuery("SELECT COUNT(*) FROM LIBRARIAN WHERE username = '" + resourceID + "'");
+		ResultSet rsBook = isBook.executeQuery("SELECT COUNT(*) FROM BOOK WHERE resource_id = '" + resourceID + "'");
 		rsBook.next();
 
 		if (rsBook.getInt(1) == 1) {
@@ -416,7 +416,7 @@ public class DatabaseRequest {
 
 		// Check if there's an entry in the DVD table; it must be a DVD
 		Statement isDVD = conn.createStatement();
-		ResultSet rsDVD = isDVD.executeQuery("SELECT COUNT(*) FROM LIBRARIAN WHERE username = '" + resourceID + "'");
+		ResultSet rsDVD = isDVD.executeQuery("SELECT COUNT(*) FROM DVD WHERE resource_id = '" + resourceID + "'");
 		rsDVD.next();
 
 		if (rsDVD.getInt(1) == 1) {
@@ -1037,8 +1037,8 @@ public class DatabaseRequest {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT resource_id "
 				+ "FROM RESOURCE "
-				+ "WHERE resource_id LIKE '" + searchTerm + "%' "
-				+ "OR title LIKE '" + searchTerm + "%'");
+				+ "WHERE resource_id LIKE '%" + searchTerm + "%' "
+				+ "OR title LIKE '%" + searchTerm + "%'");
 
 		ArrayList<Resource> resultsList = new ArrayList<Resource>();
 
