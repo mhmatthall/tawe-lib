@@ -64,7 +64,7 @@ public class DatabaseRequest {
 
 		query.addBatch("UPDATE LIBRARY_USER SET " +
 				"forename = '" + newDetails.getForename() + "', " +
-				"surname = '" + newDetails.getForename() + "', " +
+				"surname = '" + newDetails.getSurname() + "', " +
 				"phone_number = '" + newDetails.getPhoneNumber() + "', " +
 				"address = '" + newDetails.getAddress() + "', " +
 				"profile_image = '" + newDetails.getProfileImage().getImage() + "' " +
