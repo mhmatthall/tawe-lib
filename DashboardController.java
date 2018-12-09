@@ -81,7 +81,7 @@ public class DashboardController {
 	}
 
 	/**
-	 * Switches to a window for edditing user's details
+	 * Switches to a window for editing user's details
 	 *
 	 * @throws IOException if file "EditUser.fxml" does not exist
 	 */
