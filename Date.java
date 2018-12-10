@@ -90,7 +90,8 @@ public class Date {
 	 * @return day difference between 2 dates
 	 */
 	public int compare(Date anotherDate) {
-		int year = Integer.parseInt(getYear()) - Integer.parseInt(anotherDate.getYear());
+		int year = Integer.parseInt(getYear()) -
+				Integer.parseInt(anotherDate.getYear());
 		if (year == 0) {
 			return Math.abs(getDaysInYear() - anotherDate.getDaysInYear());
 		} else {
@@ -102,20 +103,23 @@ public class Date {
 					if (i == Math.abs(year)) {
 						days += remainingDays + anotherDate.getDaysInYear();
 					} else {
-						tempDate.set(tempDate.get(Calendar.YEAR) + 1, tempDate.get(Calendar.MONTH),
+						tempDate.set(tempDate.get(Calendar.YEAR) + 1,
+								tempDate.get(Calendar.MONTH),
 								tempDate.get(Calendar.DATE));
 						days += tempDate.getMaximum(Calendar.DAY_OF_YEAR);
 					}
 				}
 			} else {
-				int remainingDays = anotherDate.getMaxDaysInYear() - anotherDate.getDaysInYear();
+				int remainingDays = anotherDate.getMaxDaysInYear() - 
+						anotherDate.getDaysInYear();
 				Date tempDate = anotherDate;
 				for (int i = 1; i <= Math.abs(year); i++) {
 					if (i == Math.abs(year)) {
 						days += remainingDays + getDaysInYear();
 					} else {
 						tempDate.setDate(Integer.parseInt(tempDate.getYear()) + 1,
-								Integer.parseInt(tempDate.getMonth()), Integer.parseInt(tempDate.getDay()));
+								Integer.parseInt(tempDate.getMonth()), 
+								Integer.parseInt(tempDate.getDay()));
 						days += tempDate.getMaxDaysInYear();
 					}
 				}

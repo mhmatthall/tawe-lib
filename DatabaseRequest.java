@@ -13,7 +13,8 @@ import java.util.Arrays;
  * @version 1.0
  */
 public class DatabaseRequest {
-	private static final String DATABASE_NAME = "tawe-lib"; // Name (and subsequently directory) of the database
+	// Name (and subsequently directory) of the database
+	private static final String DATABASE_NAME = "tawe-lib"; 
 	private static Connection conn;
 
 	/**
@@ -151,7 +152,8 @@ public class DatabaseRequest {
 
 		if (userIsLibrarian(username)) {
 			// User is a librarian
-			results = query.executeQuery("SELECT LIBRARY_USER.*, LIBRARIAN.staff_number, LIBRARIAN.employment_date "
+			results = query.executeQuery("SELECT LIBRARY_USER.*, LIBRARIAN.staff_number,"
+					+ " LIBRARIAN.employment_date "
 					+ "FROM LIBRARY_USER INNER JOIN LIBRARIAN ON LIBRARY_USER.username = LIBRARIAN.username "
 					+ "WHERE LIBRARY_USER.username = '" + username + "'");
 			results.next();	// select the first row of results
@@ -192,7 +194,8 @@ public class DatabaseRequest {
 	 */
 	private boolean userIsLibrarian(String username) throws SQLException {
 		Statement userTypeCheck = conn.createStatement();
-		ResultSet rs = userTypeCheck.executeQuery("SELECT COUNT(*) FROM LIBRARIAN WHERE username = '" + username + "'");
+		ResultSet rs = userTypeCheck.executeQuery("SELECT COUNT(*) FROM LIBRARIAN WHERE username = '"
+		+ username + "'");
 		rs.next();	// select the first row of results
 		int userType = rs.getInt(1); // userType = 0 if borrower, 1 if librarian
 		return (userType == 1);

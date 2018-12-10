@@ -101,21 +101,24 @@ public class EditResourceController {
 			String language = txtBookLanguage.getText();
 			String genre = txtGenre.getText();
 			String isbn = txtISBN.getText();
-			Book newBook = new Book(title, year, resource.getThumbnail(), author, publisher, genre, isbn, language);
+			Book newBook = new Book(title, year, resource.getThumbnail(),
+					author, publisher, genre, isbn, language);
 			new DatabaseRequest().editResource(newBook);
 			AlertBox.display("Resource Updated");
 		} else if (resource instanceof DVD) {
 			String director = txtDirector.getText();
 			String language = txtDVDLanguage.getText();
 			int runtime = Integer.parseInt(txtRuntime.getText());
-			DVD newDVD = new DVD(title, year, resource.getThumbnail(), director, runtime, language);
+			DVD newDVD = new DVD(title, year, resource.getThumbnail(),
+					director, runtime, language);
 			new DatabaseRequest().editResource(newDVD);
 			AlertBox.display("Resource Updated");
 		} else {
 			String make = txtMake.getText();
 			String model = txtModel.getText();
 			String os = txtOS.getText();
-			Laptop newLaptop = new Laptop(title, year, resource.getThumbnail(), make, model, os);
+			Laptop newLaptop = new Laptop(title, year, resource.getThumbnail(),
+					make, model, os);
 			new DatabaseRequest().editResource(newLaptop);
 			AlertBox.display("Resource Updated");
 		}

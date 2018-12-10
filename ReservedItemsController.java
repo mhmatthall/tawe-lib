@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
-/**
+/** To check user's reserved copies
  * 
  * @author Caleb Warburton
  *

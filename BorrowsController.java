@@ -9,6 +9,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
+/**What's the borrower borrowing.
+ * 
+ * @author Caleb Warburton
+ *
+ */
 public class BorrowsController {
 	private Stage window;
 	public User user;
@@ -20,6 +25,9 @@ public class BorrowsController {
 	@FXML
 	public Button exit;
 	
+	/**
+	 * Close the window.
+	 */
 	@FXML
 	private void close() {
 		window.close();
@@ -27,10 +35,21 @@ public class BorrowsController {
 	
 
 	
+	/**
+	 * Pass stage reference.
+	 *
+	 * @param window the window
+	 */
 	public void passStageReference(Stage window) {
 		this.window = window;
 	}
 	
+	/**
+	 * Retrieve what the borrower is borrowing from the database.
+	 *
+	 * @param user the new user
+	 * @throws SQLException the SQL exception
+	 */
 	public void setUser(User user) throws SQLException {
 		this.user = user;
 		ArrayList<Loan> items = new DatabaseRequest().getUserCopiesOnLoan(user.getUsername());		

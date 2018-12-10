@@ -59,8 +59,9 @@ public class DashboardController {
 	 */
 	@FXML
 	private void editProfile() {
-		int selection = SelectionBox.display("Select", "What do you want to edit?", "Edit Personal Details",
-				"Select new Profile Picture from Library", "Draw your own profile picture");
+		int selection = SelectionBox.display("Select", "What do you want to edit?",
+				"Edit Personal Details","Select new Profile Picture from Library",
+				"Draw your own profile picture");
 		try {
 			switch (selection) {
 			case 1:
@@ -76,8 +77,8 @@ public class DashboardController {
 				return;
 			}
 		} catch (IOException e) {
-			System.out.println("Caught IO Exception coming from " + e.getCause() + e.getClass() + " from class "
-					+ this.getClass().toString());
+			System.out.println("Caught IO Exception coming from " +
+			e.getCause() + e.getClass() + " from class "+ this.getClass().toString());
 			System.out.println(e.getMessage());
 			System.out.println("\n");
 			e.printStackTrace();
