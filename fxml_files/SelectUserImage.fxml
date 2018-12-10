@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="400.0" prefWidth="585.0" spacing="10.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SelectUserImageController">
+<VBox alignment="CENTER" prefHeight="400.0" prefWidth="585.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.192" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SelectUserImageController">
   <children>
       <Label text="Select new Profile Picture from the library">
          <font>

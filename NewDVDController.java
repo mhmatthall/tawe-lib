@@ -37,7 +37,7 @@ public class NewDVDController {
 	 * @throws SQLException if connection to database fails
 	 */
 	@FXML
-	private void constructDVD() throws SQLException {
+	private void constructDVD() {
 		String title = txtTitle.getText();
 		int year = Integer.parseInt(txtYear.getText());
 		String director = txtDirector.getText();
@@ -46,8 +46,12 @@ public class NewDVDController {
 		Thumbnail thumb = new Thumbnail("dvd.png");
 
 		DVD dvd1 = new DVD(title, year, thumb, director, runtime, language);
-		new DatabaseRequest().addResource(dvd1);
-
+		try {
+			new DatabaseRequest().addResource(dvd1);
+		} catch (SQLException e) {
+				System.out.println("CAUGHT SQL EXCEPTION - Unique ID already exists");
+				constructDVD();
+		}
 		System.out.println(dvd1.toString());
 		close();
 	}

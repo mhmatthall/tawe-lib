@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="399.0" prefWidth="803.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EditResourceController">
+<BorderPane prefHeight="399.0" prefWidth="803.0" xmlns="http://javafx.com/javafx/8.0.192" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EditResourceController">
    <top>
       <Label text="Edit Resource" BorderPane.alignment="CENTER">
          <font>
