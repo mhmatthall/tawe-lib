@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
- * 
+ * in charge of creating a DVD for the database
  * @author Constantinos Loizou
  *
  */
@@ -31,6 +31,11 @@ public class NewDVDController {
 	@FXML
 	TextField txtLanguage;
 
+	/**
+	 * Construct DVD and puts it into a database
+	 *
+	 * @throws SQLException if connection to database fails
+	 */
 	@FXML
 	private void constructDVD() throws SQLException {
 		String title = txtTitle.getText();
@@ -47,13 +52,19 @@ public class NewDVDController {
 		close();
 	}
 
+	/**
+	 * Close the window.
+	 */
 	@FXML
 	private void close() {
 		window.close();
 	}
 
-//	DatabaseRequest
-
+	/**
+	 * Pass stage reference.
+	 *
+	 * @param window the staged to be passed
+	 */
 	public void passStageReference(Stage window) {
 		this.window = window;
 
