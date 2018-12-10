@@ -1,15 +1,14 @@
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * Class for modelling User, mainly used as a sort-of-abstract class and is a
- * super class for Librarian and Borrower
+ * Class for modelling User
  * 
  * @author Caleb Warburton
  */
 /*
- * TODO add missing UML methods is this still needed?
  */
 public class User {
 	private String username;
@@ -39,7 +38,15 @@ public class User {
 		this.address = address;
 		this.profileImage = profileImage;
 	}
-
+	
+	/**
+	 * Sets the profile image.
+	 *
+	 * @param profileImage Image to be set as an avatar
+	 */
+	public void setProfileImage(UserImage profileImage) {
+		this.profileImage = profileImage;
+	}
 	/**
 	 * Gets the surname.
 	 *
@@ -95,18 +102,6 @@ public class User {
 	}
 
 	/**
-	 * To string old.
-	 *
-	 * @return the string
-	 */
-	public String toStringOld() {
-		String x;
-		x = ("UserName: " + username + "\nForename: " + forename + "\nSurname: " + surname + "\nPhone Number: "
-				+ phoneNumber + "\nAddress: " + address);
-		return x;
-	}
-
-	/**
 	 * Checks if user is librarian.
 	 *
 	 * @return true, if it is librarian
@@ -116,7 +111,7 @@ public class User {
 	}
 
 	/**
-	 * human readable
+	 * human readable 
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
@@ -137,11 +132,72 @@ public class User {
 	}
 
 	/**
-	 * Sets the profile image.
+	 * Requests a resource.
 	 *
-	 * @param profileImage Image to be set as an avatar
+	 * @param resourceID to be requested
+	 * @param username of a user that is requesting
+	 * @throws SQLException if the connection to database has failed
 	 */
-	public void setProfileImage(UserImage profileImage) {
-		this.profileImage = profileImage;
+	public void requestResource(String resourceID, String username) throws SQLException {
+
+		DatabaseRequest db = new DatabaseRequest();
+
+		if (db.checkAvailability(resourceID)) {
+			reserveResource(resourceID, username);
+
+		} else {
+
+			Resource r = db.getResource(resourceID);
+			r.getQueue().addUser(username);
+
+			db.editResource(r);
+
+		}
 	}
+
+	/**
+	 * Reserve resource.
+	 *
+	 * @param resourceID of a resource to be reserved
+	 * @param username of a user who is reserving
+	 * @throws SQLException if connection to the database has failed
+	 */
+	public void reserveResource(String resourceID, String username) throws SQLException {
+
+		DatabaseRequest db = new DatabaseRequest();
+		Copy c = null;
+		ArrayList<Copy> copies = db.getAvailableCopies(resourceID);
+		if (copies.isEmpty()) {
+
+			Loan l = db.getOldestLoan(resourceID);
+			l.setReservationStatus(true, username);
+
+			c = db.getCopy(l.getCopyID());
+			int loanLength = c.getLoanTime();
+			c.setReservingUser(username);
+			c.setReserved(true);
+
+			Date d = l.getIssueDate();
+			d.forwardDate(loanLength);
+
+			if (d.isBefore(new Date())) {
+				Date tomorrow = new Date();
+				tomorrow.forwardDate(1);
+				l.setReturnDate(tomorrow);
+			} else {
+				Date dueDate = l.getIssueDate();
+				dueDate.forwardDate(loanLength);
+
+			}
+		} else {
+			c = copies.get(0);
+			c.setReserved(true);
+			c.setReservingUser(username);
+		}
+
+		db.editCopy(c);
+
+	}
+	
+	
 }

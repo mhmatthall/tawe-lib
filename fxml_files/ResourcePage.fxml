@@ -58,7 +58,7 @@
                <children>
                   <VBox alignment="CENTER_LEFT" spacing="5.0">
                      <children>
-                        <Button fx:id="btnRequest" mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="Request Item" />
+                        <Button fx:id="btnRequest" mnemonicParsing="false" onAction="#makeRequest" prefHeight="25.0" prefWidth="145.0" text="Request Item" />
                      </children>
                   </VBox>
                   <Region HBox.hgrow="ALWAYS" />

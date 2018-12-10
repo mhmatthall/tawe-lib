@@ -172,7 +172,7 @@ public class Book extends Resource {
 	}
 
 	/**
-	 * gets maximum amount of fine
+	 * Gets maximum amount of fine
 	 *
 	 * @return Maximum fine amount
 	 */

@@ -107,12 +107,10 @@ public class SearchLibraryController {
 		resultsTable.setItems(resourceObList);
 	}
 
-	
 	/**
-	 * Select item.
-	 *
-	 * @throws IOException file ResourcePage.fxml is missing
-	 * @throws SQLException fails to connect to Database
+	 * Lists all resources
+	 * 
+	 * @throws SQLException if cannot connect to Database
 	 */
 
 
@@ -121,13 +119,19 @@ public class SearchLibraryController {
 		ArrayList<Resource> allRes = new DatabaseRequest().browseResources();
 		
 		ObservableList<Resource> resourceObList = FXCollections.observableArrayList(allRes);
-		resultsTitle.setCellValueFactory(new PropertyValueFactory<Resource, String>("title")); // ONLY THESE TWO
-		resultsYear.setCellValueFactory(new PropertyValueFactory<Resource, String>("year")); // ROWS WORK, WTF?
+		resultsTitle.setCellValueFactory(new PropertyValueFactory<Resource, String>("title")); 
+		resultsYear.setCellValueFactory(new PropertyValueFactory<Resource, String>("year")); 
 		resultsID.setCellValueFactory(new PropertyValueFactory<Resource, String>("resourceID"));
 		resultsTable.setItems(resourceObList);
 	}
 
 	
+	/**
+	 * Selects a resource from the results table
+	 *
+	 * @throws IOException file "ResourcePage.fxml" is missing
+	 * @throws SQLException fails to connect to Database
+	 */
 	@FXML
 	private void selectItem() throws IOException, SQLException {
 		

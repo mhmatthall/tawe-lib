@@ -34,7 +34,6 @@ public class NewDVDController {
 	/**
 	 * Construct DVD and puts it into a database
 	 *
-	 * @throws SQLException if connection to database fails
 	 */
 	@FXML
 	private void constructDVD() {
@@ -65,7 +64,8 @@ public class NewDVDController {
 	}
 
 	/**
-	 * Pass stage reference.
+	 * Passes current stage onto next class to load new scene on it.
+	 * Closes and reverts to previous stage.
 	 *
 	 * @param window the staged to be passed
 	 */

@@ -133,7 +133,7 @@ public class SelectUserImageController {
 	/**
 	 * method for exit button
 	 *
-	 * @throws IOException if file "ControlPanle.fxml" doesn't exist in /fxml_files/
+	 * @throws IOException if file "ControlPanel.fxml" doesn't exist in /fxml_files/
 	 */
 	@FXML
 	private void exit() throws IOException {

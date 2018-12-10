@@ -17,7 +17,7 @@ public class NewLoanController {
 	private Stage window;
 	private Resource resource;
 	int i = 0;
-	private ObservableList<String> usersWaiting;
+	public ObservableList<String> usersWaiting;
 	public ObservableList<String> copies = FXCollections.observableArrayList("");
 
 	@FXML
@@ -32,11 +32,11 @@ public class NewLoanController {
 	/**
 	 * constructs a loan and adds it to the database.
 	 *
-	 * @throws SQLException the SQL exception
+	 * @throws SQLException if cannot connect to the Database
 	 */
 	@FXML
 	private void loan() throws SQLException {
-		// int i = userList.getSelectionModel().getSelectedIndex();
+		int i = userList.getSelectionModel().getSelectedIndex();
 		String username = userList.getSelectionModel().getSelectedItem();
 		Loan loan1 = new Loan(copies.get(i), username);
 		try {
@@ -50,7 +50,8 @@ public class NewLoanController {
 	}
 
 	/**
-	 * Pass stage reference.
+	 * Passes current stage onto next class to load new scene on it.
+	 * Closes and reverts to previous stage.
 	 *
 	 * @param window stage window
 	 */
@@ -62,19 +63,23 @@ public class NewLoanController {
 	 * reserves a copy for a user if its not reserved by others
 	 *
 	 * @param resource the new resource
-	 * @throws SQLException the SQL exception
+	 * @throws SQLException if cannot connect to the Database
 	 */
 	public void setResource(Resource resource) throws SQLException {
 		this.resource = resource;
-		// Add users that have reserved the resource to a list
-		for (Copy copy : resource.viewCopies()) {
-			if (copy.getReservingUser() != null) {
-				usersWaiting.add(copy.getReservingUser());
-				copies.add(copy.getCopyID());
+		ObservableList<String> usersWaiting = FXCollections.observableArrayList("");;
+		for (Copy copy : new DatabaseRequest().getCopies(resource.getResourceID())) {
+			try {
+				if (copy.getReservingUser() != null){
+					usersWaiting.add(copy.getReservingUser());
+					copies.add(copy.getCopyID());
+				}
+				} catch( NullPointerException e){
+					
+				}
 
 			}
-		}
-		userList.setItems(copies);
+		userList.setItems(usersWaiting);
 		userList.getSelectionModel().selectFirst();
 	}
 

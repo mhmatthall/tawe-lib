@@ -1,4 +1,4 @@
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class Copy. Models copy of a resource
  * 
@@ -26,7 +26,7 @@ public class Copy {
 		this.loanTime = loanTime;
 		isOnLoan = false;
 		isReserved = false;
-		reservingUser = "";
+		reservingUser = null;
 		copyID = ("C" + nextCopyID);
 		nextCopyID++;
 	}

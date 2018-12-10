@@ -104,6 +104,13 @@ public class DashboardController {
 		window.show();
 
 	}
+	
+	/**
+	 * Opens a window for users to reserve a resource
+	 * 
+	 * @throws IOException if file "ReservedResources.fxml" does not exist
+	 * @throws SQLException if cannot connect to Database
+	 */
 	@FXML
 	private void openReservations() throws IOException, SQLException {
 		Stage window = new Stage();
@@ -117,6 +124,13 @@ public class DashboardController {
 		window.show();
 
 	}
+	
+	/**
+	 * Opens a window for users to see their borrowed resources
+	 * 
+	 * @throws IOException if file BorrowedResources.fxml
+	 * @throws SQLException if cannot connect to Database
+	 */
 
 	@FXML
 	private void openBorrowedItems() throws IOException, SQLException {
@@ -146,7 +160,7 @@ public class DashboardController {
 	/**
 	 * Method for logout button which switches the scene to a log in window.
 	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException if file "SearchLibrary.fxml" does not exist
 	 */
 	@FXML
 	void searchLibrary() throws IOException {
@@ -160,7 +174,12 @@ public class DashboardController {
 		controller.setUser(user);
 		window4.show();
 	}
-
+	
+	/**
+	 * Method to logout of account.
+	 * 
+	 * @throws IOException if file "Welcome.fxml" does not exist
+	 */
 	@FXML
 	public void logout() throws IOException {
 		Stage window = (Stage) btnExit.getScene().getWindow();
@@ -169,9 +188,9 @@ public class DashboardController {
 	}
 
 	/**
-	 * Load image drawer.
+	 * Load image drawer to draw an image.
 	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException if file "CreateImage.fxml" does not exist
 	 */
 	private void loadImageDrawer() throws IOException {
 		window.close();
@@ -189,7 +208,7 @@ public class DashboardController {
 	/**
 	 * Load image selector.
 	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException if file "SelectUserImage.fxml" does not exist
 	 */
 	private void loadImageSelecter() throws IOException {
 		window.close();
@@ -206,8 +225,9 @@ public class DashboardController {
 
 	/**
 	 * Sets the user.
+	 * Welcome screen for the user.
 	 *
-	 * @param user the new user
+	 * @param user the user
 	 */
 	public void setUser(User user) {
 		this.user = user;
@@ -226,7 +246,8 @@ public class DashboardController {
 	}
 
 	/**
-	 * Pass stage reference.
+	 * Passes current stage onto next class to load new scene on it.
+	 * Closes and reverts to previous stage.
 	 *
 	 * @param window the window
 	 */
