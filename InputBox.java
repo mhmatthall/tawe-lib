@@ -12,11 +12,21 @@ import javafx.geometry.*;
  * @author Constantinos Loizou
  * 
  */
+
 public class InputBox {
 
 	private static String answer;
 
 
+	/**
+	 * Display a pop-out window prompting user for a text input. Then returns a string us the user's input
+	 * Used in cases where input is needed but no appropriate TextField exist in the GUI 
+	 *
+	 * @param title the title of the  pop-out window
+	 * @param msg the message to be displayed
+	 * @return string the user entered.
+	 */
+	
 	public static String display(String title, String msg) {
 
 		Stage window = new Stage();
@@ -44,6 +54,7 @@ public class InputBox {
 		/*
 		 * Inside the VBox we load a label and an HBox that holds out command buttons
 		 */
+		
 		VBox layout = new VBox(10); // pixels apart
 		layout.getChildren().addAll(lbl1, txtBox, btn1);
 		layout.setAlignment(Pos.CENTER);

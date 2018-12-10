@@ -7,7 +7,7 @@ import javafx.application.Platform;
 import javafx.geometry.*;
 
 /**
- * Selection Box
+ * The Selection Box class
  * 
  * @author Constantinos Loizou
  *
@@ -18,8 +18,8 @@ public class SelectionBox {
 	private static int answer;
 
 	/**
-	 * Displays an alert box with options for the user to press to the given question.
-	 * Each option returns a different value as a different button was pressed.
+	 * Displays a pop-out window with 3 options buttons for the user to press to answer a given question.
+	 * Each option returns a different integer value as a different button was pressed.
 	 *
 	 * @param title the title
 	 * @param msg  message displayed
