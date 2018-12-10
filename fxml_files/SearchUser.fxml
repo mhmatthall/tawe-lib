@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane minHeight="145.0" minWidth="250.0" prefHeight="175.0" prefWidth="376.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SearchUserController">
+<BorderPane minHeight="145.0" minWidth="250.0" prefHeight="175.0" prefWidth="376.0" xmlns="http://javafx.com/javafx/8.0.192" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SearchUserController">
    <top>
       <Label fx:id="lblTitle" text="Search for User" BorderPane.alignment="CENTER">
          <font>

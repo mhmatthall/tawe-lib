@@ -41,7 +41,7 @@ public class NewBookController {
 	 * @throws SQLException if connection to the database fails
 	 */
 	@FXML
-	private void constructBook() throws SQLException {
+	private void constructBook() {
 		String title = txtTitle.getText();
 		int year = Integer.parseInt(txtYear.getText());
 		String author = txtAuthor.getText();
@@ -52,9 +52,16 @@ public class NewBookController {
 		String genre = txtGenre.getText();
 
 		Book book1 = new Book(title, year, thumb, author, publisher, genre, isbn, language);
-
-		DatabaseRequest db = new DatabaseRequest();
-		db.addResource(book1);
+		
+		DatabaseRequest db;
+		try {
+			db = new DatabaseRequest();
+			db.addResource(book1);
+		} catch (SQLException e) {
+			System.out.println("CAUGHT SQL EXCEPTION - Unique ID already exists");
+			constructBook();
+		}
+		
 
 		System.out.println(book1.toString());
 		close();
