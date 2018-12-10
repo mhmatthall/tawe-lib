@@ -10,6 +10,15 @@ public class RequestQueue {
 	private String resourceID = null;
 
 	/**
+	 * Constructs an empty Queue.
+	 *
+	 * @param resourceID 
+	 */
+	public RequestQueue() {
+		first = new QueueElement(null, new QueueElement(null, null));
+	}
+	
+	/**
 	 * Constructs an empty Queue with resource assicated with it.
 	 *
 	 * @param resourceID 
