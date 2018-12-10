@@ -245,7 +245,7 @@ public class DashboardController {
 		userimage.setImage(new Image(user.getProfileImage().getImage()));
 		lblUsername.setText("Username: " + user.getUsername());
 		lblWelcome.setText("Welcome " + user.getForename() + " " + user.getSurname());
-		lblBalance.setText(Double.toString(new DatabaseRequest().totalUserFines(user.getUsername())));
+		//lblBalance.setText(Double.toString(new DatabaseRequest().totalUserFines(user.getUsername())));
 		
 	}
 
