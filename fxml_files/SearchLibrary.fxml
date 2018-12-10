@@ -2,19 +2,18 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane minHeight="145.0" minWidth="250.0" prefHeight="421.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SearchLibraryController">
+<BorderPane minHeight="145.0" minWidth="250.0" prefHeight="421.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/8.0.192" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SearchLibraryController">
    <top>
       <Label text="Search the Library" BorderPane.alignment="CENTER">
          <font>
@@ -39,15 +38,12 @@
             <TextField fx:id="txtSearchBox" onAction="#search" promptText="Enter search keywords..." />
             <HBox alignment="CENTER_LEFT" prefHeight="31.0" prefWidth="356.0" spacing="10.0">
                <children>
-                  <Label text="Search for" />
-                  <RadioButton fx:id="rbBooks" mnemonicParsing="false" text="Books">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="radioGroup" />
-                     </toggleGroup>
-                  </RadioButton>
-                  <RadioButton fx:id="rbDVDs" mnemonicParsing="false" text="DVDs" toggleGroup="$radioGroup" />
-                  <RadioButton fx:id="rbLaptops" mnemonicParsing="false" text="Laptops" toggleGroup="$radioGroup" />
-                  <Region prefHeight="25.0" prefWidth="108.0" HBox.hgrow="ALWAYS" />
+                  <Label prefHeight="17.0" prefWidth="61.0" text="Search for" />
+                  <CheckBox fx:id="cbBooks" mnemonicParsing="false" text="Books" />
+                  <CheckBox fx:id="cbDVDs" mnemonicParsing="false" text="DVDs" />
+                  <CheckBox fx:id="cbLaptops" mnemonicParsing="false" text="Laptops" />
+                  <Region prefHeight="31.0" prefWidth="6.0" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnListAll" mnemonicParsing="false" onAction="#listAll" prefHeight="25.0" prefWidth="83.0" text="List all" />
                   <Button fx:id="btnSearch" minWidth="75.0" mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="75.0" text="Search" />
                </children>
             </HBox>

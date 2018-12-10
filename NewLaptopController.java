@@ -31,7 +31,7 @@ public class NewLaptopController {
 	TextField txtOS;
 
 	@FXML
-	private void constructLaptop() throws SQLException {
+	private void constructLaptop() {
 		String title = txtTitle.getText();
 		int year = Integer.parseInt(txtYear.getText());
 		String make = txtManufacturer.getText();
@@ -40,7 +40,12 @@ public class NewLaptopController {
 		Thumbnail thumb = new Thumbnail("laptop.png");
 
 		Laptop laptop1 = new Laptop(title, year, thumb, make, model, os);
-		new DatabaseRequest().addResource(laptop1);
+		try {
+			new DatabaseRequest().addResource(laptop1);
+		} catch (SQLException e) {
+			System.out.println("CAUGHT SQL EXCEPTION - Unique ID already exists");
+			constructLaptop();
+		}
 
 		System.out.println(laptop1.toString());
 
