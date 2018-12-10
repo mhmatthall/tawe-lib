@@ -9,28 +9,46 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * @author Caleb Warburton
+ *
+ */
+
 public class ReservedItemsController {
 	private Stage window;
 	public User user;
-	
+
 	@FXML
 	public Label lblTitle;
 	@FXML
 	public ListView<String> reservations;
 	@FXML
 	public Button exit;
-	
+
+	/**
+	 * Closing the window.
+	 */
 	@FXML
 	private void close() {
 		window.close();
 	}
-	
 
-	
+	/**
+	 * Pass stage reference.
+	 *
+	 * @param window the window
+	 */
 	public void passStageReference(Stage window) {
 		this.window = window;
 	}
-	
+
+	/**
+	 * Retrieve user's reserved copies from the database.
+	 *
+	 * @param user the new user
+	 * @throws SQLException the SQL exception
+	 */
 	public void setUser(User user) throws SQLException {
 		this.user = user;
 		ArrayList<Copy> items = new DatabaseRequest().getUserReservedCopies(user.getUsername());
@@ -43,6 +61,5 @@ public class ReservedItemsController {
 		ObservableList<String> values = FXCollections.observableArrayList(details);
 		reservations.setItems(values);
 	}
-	
 
 }
