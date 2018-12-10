@@ -19,7 +19,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 
-/**
+/** Search function for the library
  * @author Constantinos Loizou
  *
  */
