@@ -1,7 +1,7 @@
 import java.util.NoSuchElementException;
 
 /**
- * Queue ADT implamented, stores usernames
+ * Queue ADT implemented, stores usernames
  * @author Rimantas Kazlauskas
  *
  */
