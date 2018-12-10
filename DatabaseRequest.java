@@ -1024,8 +1024,13 @@ public class DatabaseRequest {
 		// Format integer 1/0 from database back into boolean true/false
 		boolean isPaid = results.getInt(7) != 0;
 
-		Fine out = new Fine(fineID, results.getDouble(2), results.getDouble(3), results.getString(4),
-				new Date(results.getString(5)), new Date(results.getString(6)), isPaid);
+		Fine out = new Fine(fineID,
+				results.getDouble(2),
+				results.getDouble(3),
+				results.getString(4),
+				new Date(results.getString(5)),
+				new Date(results.getString(6)),
+				isPaid);
 
 		return out;
 	}
@@ -1055,7 +1060,47 @@ public class DatabaseRequest {
 	 *                      SQL error returned upon adding the user
 	 */
 	public void payFines(String username, double amountBeingPaid) throws SQLException {
+		// get a list of the fines under username that aren't paid off
+		// cycle through until paid off
+		Statement query = conn.createStatement();
+
+		ResultSet results = query.executeQuery("SELECT * FROM FINE "
+				+ "WHERE username = '" + username + "'"
+				+ "AND is_returned = 0");
+
+		ArrayList<Fine> userFines = new ArrayList<Fine>();
+		Fine temp;
+		// Format integer 1/0 from database back into boolean true/false
+		boolean isPaid = results.getInt(7) != 0;
+
+		while (results.next()) {
+			temp = new Fine(results.getString(1),
+					results.getDouble(2),
+					results.getDouble(3),
+					results.getString(4),
+					new Date(results.getString(5)),
+					new Date(results.getString(6)),
+					isPaid);
+
+			userFines.add(temp);
+		}
 		
+		
+		for (Fine currentFine : userFines) {
+			// If we haven't finished paying it off
+			if (!(amountBeingPaid == 0)) {
+				// If we're paying more than this fine's total
+				if (amountBeingPaid >= currentFine.getAmount()) {
+					amountBeingPaid-= currentFine.getAmount();
+					currentFine.setAmountPaid(currentFine.getAmount());
+					currentFine.setPaid(true);
+					currentFine.setDatePaid(new Date());
+				} else {
+					amountBeingPaid = 0;
+					currentFine.setAmountPaid(currentFine.getAmountPaid() + amountBeingPaid);				
+				}
+			}
+		}
 	}
 	
 	/**
