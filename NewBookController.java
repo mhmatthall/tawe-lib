@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
+ * In charge of creating new books for the Database
  * 
  * @author Constantinos Loizou
  *
@@ -34,6 +35,11 @@ public class NewBookController {
 	@FXML
 	TextField txtGenre;
 
+	/**
+	 * Constructs a book and inserts it into a database.
+	 *
+	 * @throws SQLException if connection to the database fails
+	 */
 	@FXML
 	private void constructBook() throws SQLException {
 		String title = txtTitle.getText();
@@ -54,11 +60,19 @@ public class NewBookController {
 		close();
 	}
 
+	/**
+	 * Close the window
+	 */
 	@FXML
 	private void close() {
 		window.close();
 	}
 
+	/**
+	 * Pass stage reference.
+	 *
+	 * @param window current stage
+	 */
 	public void passStageReference(Stage window) {
 		this.window = window;
 
