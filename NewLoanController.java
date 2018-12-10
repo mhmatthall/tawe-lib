@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 /**
- * 
+ * in charge of creating a loan for the database
  * @author Constantinos Loizou
  *
  */
@@ -29,6 +29,11 @@ public class NewLoanController {
 	@FXML
 	ChoiceBox<String> userList;
 
+	/**
+	 * constructs a loan and adds it to the database.
+	 *
+	 * @throws SQLException the SQL exception
+	 */
 	@FXML
 	private void loan() throws SQLException {
 		// int i = userList.getSelectionModel().getSelectedIndex();
@@ -44,10 +49,21 @@ public class NewLoanController {
 
 	}
 
+	/**
+	 * Pass stage reference.
+	 *
+	 * @param window stage window
+	 */
 	public void passStageReference(Stage window) {
 		this.window = window;
 	}
 
+	/**
+	 * reserves a copy for a user if its not reserved by others
+	 *
+	 * @param resource the new resource
+	 * @throws SQLException the SQL exception
+	 */
 	public void setResource(Resource resource) throws SQLException {
 		this.resource = resource;
 		// Add users that have reserved the resource to a list
