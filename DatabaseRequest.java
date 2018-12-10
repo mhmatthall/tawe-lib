@@ -488,18 +488,13 @@ public class DatabaseRequest {
 	 *                      SQL error returned upon adding the user
 	 */
 	public void addCopy(Copy newCopy) throws SQLException {
-		// Format boolean true/false to 1/0 for database insertion
-		int isOnLoan = newCopy.isOnLoan() ? 1 : 0;
-		int isReserved = newCopy.isReserved() ? 1 : 0;
-
 		Statement query = conn.createStatement();
-		query.executeUpdate("INSERT INTO COPY VALUES("
+
+		query.executeUpdate("INSERT INTO COPY (copy_id, resource_id, loan_duration, is_on_loan, is_reserved) VALUES("
 				+ "'" + newCopy.getCopyID() + "', "
 				+ "'" + newCopy.getResourceID() + "', "
 				+ newCopy.getLoanTime() + ", "
-				+ isOnLoan + ", "
-				+ isReserved + ", "
-				+ "'" + newCopy.getReservingUser() + "')");
+				+ 0 + ", " + 0);	// set isReserved and isOnLoan to false, as the copy is new
 	}
 
 	/**
@@ -515,13 +510,23 @@ public class DatabaseRequest {
 		int isReserved = newDetails.isReserved() ? 1 : 0;
 
 		Statement query = conn.createStatement();
-		query.executeUpdate("UPDATE COPY SET "
-				+ "resource_id = '" + newDetails.getResourceID() + "', "
-				+ "loan_duration = " + newDetails.getLoanTime() + ", "
-				+ "is_on_loan = " + isOnLoan + ", "
-				+ "is_reserved = " + isReserved + ", "
-				+ "reserved_by_user_id = '" + newDetails.getReservingUser() + " "
-				+ "WHERE copy_id = '" + newDetails.getCopyID() + "'");
+		if (newDetails.isReserved()) {
+			query.executeUpdate("UPDATE COPY SET "
+					+ "resource_id = '" + newDetails.getResourceID() + "', "
+					+ "loan_duration = " + newDetails.getLoanTime() + ", "
+					+ "is_on_loan = " + isOnLoan + ", "
+					+ "is_reserved = " + isReserved + ", "
+					+ "reserved_by_user_id = '" + newDetails.getReservingUser() + " "
+					+ "WHERE copy_id = '" + newDetails.getCopyID() + "'");
+		} else {
+			query.executeUpdate("UPDATE COPY SET "
+					+ "resource_id = '" + newDetails.getResourceID() + "', "
+					+ "loan_duration = " + newDetails.getLoanTime() + ", "
+					+ "is_on_loan = " + isOnLoan + ", "
+					+ "is_reserved = " + isReserved + ", "
+					+ "reserved_by_user_id = NULL "
+					+ "WHERE copy_id = '" + newDetails.getCopyID() + "'");
+		}
 	}
 
 	/**
