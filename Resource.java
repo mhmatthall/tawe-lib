@@ -80,7 +80,7 @@ public class Resource {
 	 * @param title the new title
 	 */
 	public void setTitle(String title) {
-
+		this.title = title;
 	}
 
 	/**
@@ -88,7 +88,6 @@ public class Resource {
 	 *
 	 * @return the year
 	 */
-	// change in document
 	public int getYear() {
 		return year;
 	}
@@ -98,8 +97,8 @@ public class Resource {
 	 *
 	 * @param year the new year
 	 */
-	public void setYear(String year) {
-
+	public void setYear(int year) {
+		this.year = year;
 	}
 
 	/**
@@ -142,7 +141,7 @@ public class Resource {
 	 * Creates the copy for this resource.
 	 *
 	 * @param loanTime the loan time
-	 * @throws SQLException the SQL exception
+	 * @throws SQLException cannot connect to the Database
 	 */
 	public void createCopy(int loanTime) throws SQLException {
 		Copy c = new Copy(resourceID, loanTime);
@@ -154,7 +153,7 @@ public class Resource {
 	 * View copies.
 	 *
 	 * @return the array list
-	 * @throws SQLException the SQL exception
+	 * @throws SQLException cannot connect to the Database
 	 */
 	public ArrayList<Copy> viewCopies() throws SQLException {
 		return new DatabaseRequest().getCopies(resourceID);

@@ -88,7 +88,7 @@ public class Laptop extends Resource {
 	/**
 	 * Sets the manufacturer.
 	 *
-	 * @param manufacturer to be 
+	 * @param manufacturer the new manufacturer  
 	 */
 	public void setManufacturer(String manufacturer) {
 		this.manufacturer = manufacturer;

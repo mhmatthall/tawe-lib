@@ -34,7 +34,6 @@ public class NewLaptopController {
 	/**
 	 * Construct laptop and puts it into a database.
 	 *
-	 * @throws SQLException the SQL exception
 	 */
 	@FXML
 	private void constructLaptop() {
@@ -67,7 +66,8 @@ public class NewLaptopController {
 	}
 
 	/**
-	 * Pass stage reference.
+	 * Passes current stage onto next class to load new scene on it.
+	 * Closes and reverts to previous stage.
 	 *
 	 * @param window stage window
 	 */

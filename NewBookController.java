@@ -38,7 +38,6 @@ public class NewBookController {
 	/**
 	 * Constructs a book and inserts it into a database.
 	 *
-	 * @throws SQLException if connection to the database fails
 	 */
 	@FXML
 	private void constructBook() {
@@ -76,7 +75,8 @@ public class NewBookController {
 	}
 
 	/**
-	 * Pass stage reference.
+	 * Passes current stage onto next class to load new scene on it.
+	 * Closes and reverts to previous stage.
 	 *
 	 * @param window current stage
 	 */

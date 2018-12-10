@@ -8,8 +8,6 @@ import java.sql.SQLException;
  *
  */
 /*
- * TODO fix double constructor
- * TODO add missing UML methods 
  */
 
 public class Loan {
@@ -169,7 +167,7 @@ public class Loan {
 	 * Sets the loan status.
 	 *
 	 * @param isOnLoan the new loan status
-	 * @throws SQLException the SQL exception
+	 * @throws SQLException if cannot connect to Database
 	 */
 	public void setLoanStatus(boolean isOnLoan) throws SQLException {
 		Copy c = new DatabaseRequest().getCopy(copyID);
@@ -182,7 +180,7 @@ public class Loan {
 	 *
 	 * @param isReserved the is reserved
 	 * @param newUsername the new username
-	 * @throws SQLException the SQL exception
+	 * @throws SQLException if cannot connect to Database
 	 */
 	public void setReservationStatus(boolean isReserved, String newUsername) throws SQLException {
 		Copy c = new DatabaseRequest().getCopy(copyID);

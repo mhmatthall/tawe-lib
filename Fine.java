@@ -1,6 +1,7 @@
 import java.sql.SQLException;
 
 /**
+ * Class for modelling a fine
  * 
  * @author Constantinos Loizou
  * @version 1.0
@@ -80,7 +81,7 @@ public class Fine {
 	/**
 	 * Sets the amount.
 	 *
-	 * @param amount to be set
+	 * @param amount the amount to be set
 	 */
 	public void setAmount(double amount) {
 		this.amount = amount;

@@ -10,6 +10,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
 /**
+ * In charge of creating a new user on the database.
  * 
  * @author Constantinos Loizou
  *
@@ -47,7 +48,11 @@ public class NewUserController {
 	Label lblEmp;
 	@FXML
 	Label lblStaffNum;
-
+	
+	/**
+	 * 
+	 * Enables fields needed to create a Librarian
+	 */
 	@FXML
 	private void rbLibrarian() {
 		txtEmpDate.setDisable(false);
@@ -57,6 +62,9 @@ public class NewUserController {
 		isLibrarian = true;
 	}
 
+	/**
+	 * Disables fields needed to create a Librarian
+	 */
 	@FXML
 	private void rbBorrower() {
 		txtEmpDate.setDisable(true);
@@ -65,17 +73,33 @@ public class NewUserController {
 		lblStaffNum.setDisable(true);
 		isLibrarian = false;
 	}
+	
+	/**
+	 * closes window
+	 */
 
 	@FXML
 	private void close() {
 		window.close();
 	}
 
+	/**
+	 * Passes current stage onto next class to load new scene on it.
+	 * Closes and reverts to previous stage.
+	 * 
+	 * @param window the window
+	 */
 	public void passStageReference(Stage window) {
 		this.window = window;
 
 	}
-
+	
+	
+	/**
+	 * Method to create a user
+	 * 
+	 * @throws SQLException if cannot connect to Database
+	 */
 	@FXML
 	private void constructUser() throws SQLException {
 		String forename = txtFname.getText();
@@ -83,13 +107,6 @@ public class NewUserController {
 		String phone = txtPhone.getText();
 		String address = txtAddress.getText();
 		String username = txtUsername.getText();
-
-		// Check if username is taken
-//		if (new DatabaseRequest().getUser(username) != null) {
-//			AlertBox.display("Username Not Available!");
-//			txtUsername.setText("");
-//			return;
-//		} 
 
 		try {
 			User user = new DatabaseRequest().getUser(username);

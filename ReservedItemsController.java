@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
-/** To check user's reserved copies
+/** Checks user's reserved copies
  * 
  * @author Caleb Warburton
  *
@@ -35,8 +35,9 @@ public class ReservedItemsController {
 	}
 
 	/**
-	 * Pass stage reference.
-	 *
+	 * Passes current stage onto next class to load new scene on it.
+	 * Closes and reverts to previous stage.
+	 * 
 	 * @param window the window
 	 */
 	public void passStageReference(Stage window) {
@@ -47,7 +48,7 @@ public class ReservedItemsController {
 	 * Retrieve user's reserved copies from the database.
 	 *
 	 * @param user the new user
-	 * @throws SQLException the SQL exception
+	 * @throws SQLException if cannot connect to the Database
 	 */
 	public void setUser(User user) throws SQLException {
 		this.user = user;
