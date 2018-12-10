@@ -35,6 +35,8 @@ public class ResourcePageController {
 	@FXML
 	Label lbl6;
 	@FXML
+	Label lblCopies;
+	@FXML
 	Button btnExit;
 	@FXML
 	Button btnRequest;
@@ -83,6 +85,7 @@ public class ResourcePageController {
 		lbl4.setText("Genre: " + ((Book) resource).getGenre());
 		lbl5.setText("ISBN: " + ((Book) resource).getISBN());
 		lbl6.setText("Language: " + ((Book) resource).getLanguage());
+		lblCopies.setText(Integer.toString(book.viewCopies().size()));
 	}
 
 
@@ -97,7 +100,12 @@ public class ResourcePageController {
 		lbl4.setText("Language: " + (dvd.getLanguage()));
 		lbl5.disableProperty();
 		lbl6.disableProperty();
-	}
+		if (dvd.viewCopies().isEmpty() == true){
+			lblCopies.setText(Integer.toString(0));
+		} else {
+			lblCopies.setText(Integer.toString(dvd.viewCopies().size()));
+		}
+		}
 
 	public void setLaptop(Resource resource) throws SQLException {
 		this.laptop = (Laptop) new DatabaseRequest().getResource(resource.getResourceID());
@@ -110,6 +118,7 @@ public class ResourcePageController {
 		lbl4.setText(laptop.getOperatingSys());
 		lbl5.disableProperty();
 		lbl6.disableProperty();
+		lblCopies.setText(Integer.toString(laptop.viewCopies().size()));
 	}
 
 	@FXML
