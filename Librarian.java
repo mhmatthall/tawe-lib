@@ -96,7 +96,7 @@ public class Librarian extends User {
 		Fine f = db.getFine(fineID);
 
 		if (amount < f.getMinimumPayment())
-			throw new IllegalArgumentException("Cannot pay less than £" + f.getMinimumPayment());
+			throw new IllegalArgumentException("Cannot pay less than " + f.getMinimumPayment());
 		else if (f.getAmountPaid() + amount > f.getAmount()) {
 			throw new IllegalArgumentException("Cant pay more than the total fine amount");
 		}

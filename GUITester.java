@@ -36,6 +36,8 @@ public class GUITester extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		double test = ValueBox.display("tittle", "enter a numbee");
+		System.out.println(test);
 		window = primaryStage;
 		
 		System.out.println(InputBox.display("Number of copies", "Please enter the number of copies"));
