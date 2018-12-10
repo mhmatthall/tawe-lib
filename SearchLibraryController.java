@@ -73,8 +73,24 @@ public class SearchLibraryController {
 	private void search() throws SQLException {
 
 		String searchTerm = txtSearchBox.getText();
-
-		ArrayList<Resource> results = new DatabaseRequest().searchResources(searchTerm);
+		ArrayList<String> type = new ArrayList<>();
+		
+		if ( !((cbBooks.isSelected()) || (cbDVDs.isSelected()) || (cbLaptops.isSelected())) ) {
+			AlertBox.display("Please select at least one resource type");
+			return;
+		}
+		
+		if (cbBooks.isSelected()) {
+			type.add("BOOK");
+		}
+		if (cbDVDs.isSelected()){
+			type.add("DVD");
+		}
+		if (cbLaptops.isSelected()) {
+			type.add("LAPTOP");
+		}
+		
+		ArrayList<Resource> results = new DatabaseRequest().searchResources(searchTerm, type);
 		if (results.isEmpty()) {
 			AlertBox.display("No results matching search term");
 			return;
