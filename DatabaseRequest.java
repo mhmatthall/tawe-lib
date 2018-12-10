@@ -480,8 +480,9 @@ public class DatabaseRequest {
 	/**
 	 * Adds a copy to the database.
 	 *
-	 * @param newCopy a copy to be added
-	 * @throws SQLException if connection to the database has failed
+	 * @param newCopy the copy to be added
+	 * @throws SQLException if there was an syntax, duplicate key, or other 
+	 *                      SQL error returned upon adding the user
 	 */
 	public void addCopy(Copy newCopy) throws SQLException {
 		// Format boolean true/false to 1/0 for database insertion
@@ -999,8 +1000,8 @@ public class DatabaseRequest {
 
 		for (String currentTable : tables) {
 			ResultSet results = query.executeQuery(
-					"SELECT resource_id "
-							+ "FROM " + currentTable
+					"SELECT RESOURCE.resource_id "
+							+ "FROM RESOURCE INNER JOIN " + currentTable + " ON RESOURCE.resource_id = " + currentTable + ".resource_id "
 							+ "WHERE resource_id LIKE '%" + searchTerm + "%' "
 							+ "OR title LIKE '%" + searchTerm + "%'");
 
