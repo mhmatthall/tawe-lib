@@ -11,8 +11,6 @@ public class RequestQueue {
 
 	/**
 	 * Constructs an empty Queue.
-	 *
-	 * @param resourceID 
 	 */
 	public RequestQueue() {
 		first = new QueueElement(null, new QueueElement(null, null));
@@ -21,7 +19,7 @@ public class RequestQueue {
 	/**
 	 * Constructs an empty Queue with resource associated with it.
 	 *
-	 * @param resourceID 
+	 * @param resourceID of a resource to be loane
 	 */
 	public RequestQueue(String resourceID) {
 		this.resourceID = resourceID;
