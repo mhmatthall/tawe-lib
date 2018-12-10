@@ -89,8 +89,11 @@ public class EditUserController {
 
 	}
 
-	@FXML private void payFines() {
-		
+	@FXML private void payFines() throws SQLException {
+		double amount = ValueBox.display("Loan Payment", "Enter amount to pay");
+		new DatabaseRequest().payFines(user.getUsername(), amount);
+		AlertBox.display("Fine payment complete");
+		window.close();
 	}
 	
 	/**
