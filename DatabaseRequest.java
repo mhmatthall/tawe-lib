@@ -493,16 +493,21 @@ public class DatabaseRequest {
 		int isReserved = newCopy.isReserved() ? 1 : 0;
 
 		Statement query = conn.createStatement();
-		query.executeUpdate("INSERT INTO COPY VALUES(" + "'" + newCopy.getCopyID() + "', " + "'"
-				+ newCopy.getResourceID() + "', " + "'" + newCopy.getLoanTime() + "', " + "'" + isOnLoan + "', " + "'"
-				+ isReserved + "', " + "'" + newCopy.getReservingUser() + "')");
+		query.executeUpdate("INSERT INTO COPY VALUES("
+				+ "'" + newCopy.getCopyID() + "', "
+				+ "'" + newCopy.getResourceID() + "', "
+				+ "'" + newCopy.getLoanTime() + "', "
+				+ isOnLoan + ", "
+				+ isReserved + ", "
+				+ "'" + newCopy.getReservingUser() + "')");
 	}
 
 	/**
-	 * Edits details of a copy.
+	 * Edits a pre-existing copy in the database.
 	 *
-	 * @param newDetails a copy with new details
-	 * @throws SQLException if connection to the database has failed
+	 * @param newDetails a Copy containing the new details
+	 * @throws SQLException if there was an syntax, duplicate key, or other 
+	 *                      SQL error returned upon adding the user
 	 */
 	public void editCopy(Copy newDetails) throws SQLException {
 		// Format boolean true/false to 1/0 for database insertion
@@ -510,17 +515,21 @@ public class DatabaseRequest {
 		int isReserved = newDetails.isReserved() ? 1 : 0;
 
 		Statement query = conn.createStatement();
-		query.executeUpdate("UPDATE COPY SET " + "resource_id = '" + newDetails.getResourceID() + "', "
-				+ "loan_duration = '" + newDetails.getLoanTime() + "', " + "is_on_loan = '" + isOnLoan + "', "
-				+ "is_reserved = '" + isReserved + "', " + "reserved_by_user_id = '" + newDetails.getReservingUser()
-				+ " " + "WHERE copy_id = '" + newDetails.getCopyID() + "'");
+		query.executeUpdate("UPDATE COPY SET "
+				+ "resource_id = '" + newDetails.getResourceID() + "', "
+				+ "loan_duration = " + newDetails.getLoanTime() + ", "
+				+ "is_on_loan = " + isOnLoan + ", "
+				+ "is_reserved = " + isReserved + ", "
+				+ "reserved_by_user_id = '" + newDetails.getReservingUser() + " "
+				+ "WHERE copy_id = '" + newDetails.getCopyID() + "'");
 	}
 
 	/**
-	 * Delete copy.
+	 * Delete copy from the database.
 	 *
-	 * @param copyID the copyID fo a copy to be deleted
-	 * @throws SQLException if connection to the database has failed
+	 * @param copyID the copyID of the copy to be deleted
+	 * @throws SQLException if there was an syntax, duplicate key, or other 
+	 *                      SQL error returned upon adding the user
 	 */
 	public void deleteCopy(String copyID) throws SQLException {
 		Statement query = conn.createStatement();
@@ -531,9 +540,10 @@ public class DatabaseRequest {
 	/**
 	 * Gets copy from the database.
 	 *
-	 * @param copyID of a copy to be fetched
-	 * @return the copy
-	 * @throws SQLException if connection to the database has failed
+	 * @param copyID of the copy to be retrieved
+	 * @return the copy retrieved from the database
+	 * @throws SQLException if there was an syntax, duplicate key, or other 
+	 *                      SQL error returned upon adding the user
 	 */
 	public Copy getCopy(String copyID) throws SQLException {
 		Statement query = conn.createStatement();
@@ -556,7 +566,8 @@ public class DatabaseRequest {
 	 * 
 	 * @param resourceID of which copies we want to look up
 	 * @return ArrayList of copies
-	 * @throws SQLException if connection to the database has failed
+	 * @throws SQLException if there was an syntax, duplicate key, or other 
+	 *                      SQL error returned upon adding the user
 	 */
 	public ArrayList<Copy> getCopies(String resourceID) throws SQLException {
 		Statement query = conn.createStatement();
@@ -572,7 +583,11 @@ public class DatabaseRequest {
 			isOnLoan = results.getInt(4) != 0;
 			isReserved = results.getInt(5) != 0;
 
-			currentCopy = new Copy(results.getString(1), results.getString(2), results.getInt(3), isOnLoan, isReserved,
+			currentCopy = new Copy(results.getString(1),
+					results.getString(2),
+					results.getInt(3),
+					isOnLoan,
+					isReserved,
 					results.getString(6));
 
 			out.add(currentCopy);
@@ -584,8 +599,8 @@ public class DatabaseRequest {
 	/**
 	 * Gets all the copies that are reserved for a user.
 	 *
-	 * @param username username
-	 * @return ArrayList of reserved copies
+	 * @param username username to list the copies for
+	 * @return ArrayList of the copies reserved by the user
 	 * @throws SQLException if connection to the database has failed
 	 */
 	public ArrayList<Copy> getUserReservedCopies(String username) throws SQLException {
@@ -612,16 +627,44 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Gets all copies a given user has on loan.
+	 * Gets all loans issued to the current user.
 	 *
 	 * @param username of a user
-	 * @return arrayList of copies
-	 * @throws SQLException if connection to database has failed
+	 * @return arrayList of loans issued to the current user
+	 * @throws SQLException if there was an syntax, duplicate key, or other 
+	 *                      SQL error returned upon adding the user
 	 */
 	public ArrayList<Loan> getUserCopiesOnLoan(String username) throws SQLException {
 		Statement query = conn.createStatement();
 		ResultSet results = query.executeQuery("SELECT * FROM "
 				+ "LOAN INNER JOIN COPY ON COPY.copy_id = LOAN.copy_id "
+				+ "WHERE username = '" + username + "' "
+				+ "AND is_returned = 0");
+
+		ArrayList<Loan> userLoans = new ArrayList<Loan>();
+		Loan currentLoan;
+
+		while (results.next()) {
+			// Format boolean true/false to 1/0 for database insertion
+			boolean isReturned = results.getInt(6) != 0;
+
+			currentLoan = new Loan(results.getString(1),
+					new Date(results.getString(2)),
+					results.getString(3),
+					results.getString(4),
+					new Date(results.getString(5)),
+					isReturned);
+
+			userLoans.add(currentLoan);
+		}
+
+		return userLoans;
+	}
+	
+	public ArrayList<Resource> getUserRequestedResources(String username) throws SQLException {
+		Statement query = conn.createStatement();
+		ResultSet results = query.executeQuery("SELECT * FROM "
+				+ "RESOURCE INNER JOIN COPY ON COPY.copy_id = LOAN.copy_id "
 				+ "WHERE username = '" + username + "' "
 				+ "AND is_returned = 0");
 
