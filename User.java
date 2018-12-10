@@ -213,5 +213,42 @@ public class User {
 
 	}
 	
+	/**
+	 * Return a user's loan and free up the copy in the system
+	 *
+	 * @param loan to be returned
+	 * @throws SQLException if connection to database has failed
+	 */
+	public void returnLoan(Loan loan) throws SQLException {
+		DatabaseRequest db = new DatabaseRequest();
+		Copy c = db.getCopy(loan.getCopyID());
+		Resource r = db.getResource(c.getResourceID());
+
+		// if the loan is overdue
+		if ((new Date()).isBefore(loan.getReturnDate())) {
+			// fine the user
+			Fine f = new Fine(loan.getLoanID());
+			// save the fine in the database
+			db.addFine(f);
+		}
+
+		// set the copy as no longer on loan
+		loan.setLoanStatus(false);
+
+		// if there isn't anyone waiting for the resource
+		if (r.getQueue().isEmpty()) {
+			// set the loan as returned (therefore complete)
+			loan.returnResource();
+		} else {
+			// reserve the resource for the user next in the resource's request queue
+			reserveResource(r.getResourceID(), r.getQueue().peek());
+			// then remove them from the queue
+			r.getQueue().dequeue();
+		}
+
+		// update the resource and loan in the database
+		db.editResource(r);
+		db.editLoan(loan);
+	}
 	
 }
