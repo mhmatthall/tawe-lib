@@ -63,10 +63,12 @@ public class EditUserController {
 	@FXML
 	private void deleteUser() throws SQLException {
 		if (!editor.isLibrarian()) {
-			AlertBox.display("If you want to delete your account,\nplease talk to a Librarian");
+			AlertBox.display("If you want to delete your account,\nplease talk"
+					+ " to a Librarian");
 			return;
 		}
-		boolean choice = ConfirmationBox.display("WARNING", "Are you sure you delete this user?");
+		boolean choice = ConfirmationBox.display("WARNING", "Are you sure you"
+				+ " delete this user?");
 		if (choice) {
 			new DatabaseRequest().deleteUser(lblUsername.getText());
 			AlertBox.display("User deleted");
@@ -129,14 +131,16 @@ public class EditUserController {
 		String address = txtAddress.getText();
 
 		if (user.isLibrarian()) {
-			Librarian updatedUser = new Librarian(user.getUsername(), firstName, lastName, phone, address,
-					user.getProfileImage(), ((Librarian) user).getStaffNumber(),
+			Librarian updatedUser = new Librarian(user.getUsername(),
+					firstName, lastName, phone, address, user.getProfileImage(),
+					((Librarian) user).getStaffNumber(),
 					((Librarian) user).getEmploymentDate());
 			new DatabaseRequest().editUser(updatedUser);
 			AlertBox.display("User Updated");
 		} else {
-			Borrower updatedUser = new Borrower(user.getUsername(), firstName, lastName, phone, address,
-					user.getProfileImage(), ((Borrower) user).getBalance());
+			Borrower updatedUser = new Borrower(user.getUsername(), firstName,
+					lastName, phone, address,user.getProfileImage(),
+					((Borrower) user).getBalance());
 			new DatabaseRequest().editUser(updatedUser);
 			AlertBox.display("User Updated");
 		}

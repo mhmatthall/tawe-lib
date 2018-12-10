@@ -9,19 +9,31 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+// TODO: Auto-generated Javadoc
 public class GUITester extends Application {
 
 	private static final int WINDOW_HEIGHT = 500;
 	private static final int WINDOW_WIDTH = 600;
+
 	static Stage window;
-	static Book resource = new Book("B-09", "title", 2017, null, null, "author", "publisher", "genre", "ISBN",
-			"language");
+	static Book resource = new Book("B-09", "title", 2017, null, null, "author",
+			"publisher", "genre", "ISBN","language");
 	static User user = new Librarian("hey", "", "", "", "", null, 0, null);
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javafx.application.Application#start(javafx.stage.Stage)
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		window = primaryStage;
@@ -42,6 +54,11 @@ public class GUITester extends Application {
 
 	}
 
+	/**
+	 * Show dashboard.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public static void showDashboard() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(GUIMain.class.getResource("ResourcePage.fxml"));

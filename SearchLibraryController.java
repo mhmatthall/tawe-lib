@@ -53,7 +53,9 @@ public class SearchLibraryController {
 	TableColumn<Resource, String> resultsYear = new TableColumn<>();
 	@FXML
 	TableColumn<Resource, String> resultsID = new TableColumn<>();
-
+	
+	ArrayList<Resource> results = new ArrayList<>();
+	
 	/**
 	 * Closes window.
 	 */
@@ -91,7 +93,7 @@ public class SearchLibraryController {
 			type.add("LAPTOP");
 		}
 		
-		ArrayList<Resource> results = new DatabaseRequest().searchResources(searchTerm, type);
+		results = new DatabaseRequest().searchResources(searchTerm, type);
 		if (results.isEmpty()) {
 			AlertBox.display("No results matching search term");
 			return;
@@ -128,6 +130,12 @@ public class SearchLibraryController {
 	
 	@FXML
 	private void selectItem() throws IOException, SQLException {
+		
+		if (results.isEmpty()) {
+			AlertBox.display("Nothing selected");
+			return;
+		}
+		
 		System.out.println(resultsTable.getSelectionModel().getSelectedItem().getTitle() + " "
 				+ resultsTable.getSelectionModel().getSelectedItem().getResourceID());
 		Stage window = new Stage();

@@ -41,8 +41,8 @@ public class Copy {
 	 * @param isReserved    the is reserved
 	 * @param reservingUser the reserving user
 	 */
-	public Copy(String copyID, String resourceID, int loanTime, boolean isOnLoan, boolean isReserved,
-			String reservingUser) {
+	public Copy(String copyID, String resourceID, int loanTime, boolean isOnLoan,
+			boolean isReserved, String reservingUser) {
 		this.copyID = copyID;
 		this.resourceID = resourceID;
 		this.loanTime = loanTime;
