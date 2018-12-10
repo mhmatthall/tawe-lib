@@ -716,19 +716,12 @@ public class DatabaseRequest {
 	public ArrayList<Resource> browseResources() throws SQLException {
 		Statement query = conn.createStatement();
 
-		ResultSet results = query.executeQuery("SELECT * FROM RESOURCE");
+		ResultSet results = query.executeQuery("SELECT resource_id FROM RESOURCE");
 
 		ArrayList<Resource> out = new ArrayList<Resource>();
-		Resource temp;	// select the first row of results
 
 		while (results.next()) {
-			temp = new Resource(results.getString(1), // resourceID
-					results.getString(2), // title
-					results.getInt(3), // year
-					new Thumbnail(results.getString(4)), // thumbnail
-					convertRequestQueue(results.getString(5))); // request queue
-
-			out.add(temp);
+			out.add(getResource(results.getString(1)));
 		}
 
 		return out;
@@ -987,7 +980,7 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Searches the database for a resource containing a given key
+	 * Searches the database for Resource
 	 *
 	 * @param searchTerm a keyword to be searched by e.g. ID, Title, and year
 	 * @return ArrayList of Resources (which can be cast into their actual types)
