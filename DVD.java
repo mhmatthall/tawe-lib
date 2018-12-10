@@ -27,7 +27,8 @@ public class DVD extends Resource {
 	 * @param runtime of DVD in minutes
 	 * @param language of DVD
 	 */
-	public DVD(String title, int year, Thumbnail thumbnail, String director, int runtime, String language) {
+	public DVD(String title, int year, Thumbnail thumbnail, String director,
+			int runtime, String language) {
 		super(title, year, thumbnail);
 		this.director = director;
 		this.language = language;
@@ -64,8 +65,8 @@ public class DVD extends Resource {
 	 */
 	public String toString() {
 		String x;
-		x = ("Title: " + title + " \nYear: " + year + " \nDirector: " + director + " \nRuntime: " + runtime
-				+ " \nLanguage: " + language);
+		x = ("Title: " + title + " \nYear: " + year + " \nDirector: " +
+		director + " \nRuntime: " + runtime + " \nLanguage: " + language);
 		return x;
 	}
 

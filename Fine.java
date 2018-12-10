@@ -47,8 +47,8 @@ public class Fine {
 	 * @param dateIssued the date issued
 	 * @param isPaid the is paid
 	 */
-	public Fine(String fineID, double amount, double amountPaid, String loanID, Date datePaid, Date dateIssued,
-			boolean isPaid) {
+	public Fine(String fineID, double amount, double amountPaid, String loanID,
+			Date datePaid, Date dateIssued, boolean isPaid) {
 		// Required to load Fines from the database
 		this.fineID = fineID;
 		this.amount = amount;
