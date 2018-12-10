@@ -52,7 +52,6 @@ public class NewBookController {
 		String genre = txtGenre.getText();
 
 		Book book1 = new Book(title, year, thumb, author, publisher, genre, isbn, language);
-		
 		DatabaseRequest db;
 		try {
 			db = new DatabaseRequest();
@@ -61,7 +60,6 @@ public class NewBookController {
 			System.out.println("CAUGHT SQL EXCEPTION - Unique ID already exists");
 			constructBook();
 		}
-		
 
 		System.out.println(book1.toString());
 		close();
