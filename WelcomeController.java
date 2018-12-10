@@ -110,7 +110,7 @@ public class WelcomeController {
 	/**
 	 * Opens up Librarian dashboard
 	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException if file "ControlPanel.fxml" cannot be found
 	 */
 	private void showControlPanel() throws IOException {
 
@@ -129,7 +129,7 @@ public class WelcomeController {
 	/**
 	 * Opens up borrowers dashboard.
 	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException if file "UserDashboard.fxml" cannot be found
 	 */
 	private void showDashboard() throws IOException {
 
