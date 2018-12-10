@@ -201,6 +201,24 @@ public class ResourcePageController {
 		window.show();
 	}
 
+	public void newCopies(int newCopiesNo, int copyLength, int currentPosition) throws SQLException {
+		DatabaseRequest db = new DatabaseRequest();
+		for (int i = currentPosition; i < newCopiesNo; i++) {
+			try{	Copy addition = new Copy(resource.getResourceID(),copyLength);
+					db.addCopy(addition);
+			}catch (SQLException e) {
+				newCopies(newCopiesNo, copyLength, i);
+			}
+		}
+	}
+	
+	@FXML
+	private void makeCopies() throws SQLException {
+		int copyLength = Integer.parseInt(InputBox.display("new copies", "How many copies do you wish to add?").get(0));
+		int newCopiesNo = Integer.parseInt(InputBox.display("new copies", "How many copies do you wish to add?").get(1));
+		newCopies(newCopiesNo,copyLength,0);
+	}
+	
 	/**
 	 * Pass stage reference.
 	 *
