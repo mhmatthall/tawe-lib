@@ -18,7 +18,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * Controller of librarian control panel/dashboard
+ * Controller of librarian control panel dashboard
  * 
  * @author Constantinos Loizou
  */
