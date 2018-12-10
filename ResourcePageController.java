@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -182,6 +183,11 @@ public class ResourcePageController {
 		window.close();
 	}
 
+	@FXML
+	private void makeRequest() throws SQLException {
+		user.requestResource(resource.getResourceID(),user.getUsername());
+	}
+	
 	/**
 	 * Edits the resource from the database.
 	 *
@@ -204,11 +210,12 @@ public class ResourcePageController {
 	public void newCopies(int newCopiesNo, int copyLength, int currentPosition) throws SQLException {
 		DatabaseRequest db = new DatabaseRequest();
 		for (int i = currentPosition; i < newCopiesNo; i++) {
-			try{	Copy addition = new Copy(resource.getResourceID(),copyLength);
-					db.addCopy(addition);
-			}catch (SQLException e) {
-				newCopies(newCopiesNo, copyLength, i);
-			}
+			//try{	
+				Copy addition = new Copy(resource.getResourceID(),copyLength);
+				db.addCopy(addition);
+			//}catch (SQLException e) {
+			//	newCopies(newCopiesNo, copyLength, i);
+			//}
 		}
 	}
 	
