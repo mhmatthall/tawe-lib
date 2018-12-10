@@ -7,7 +7,7 @@ import javafx.application.Platform;
 import javafx.geometry.*;
 
 /**
- * 
+ * Methods for the selection box of searching
  * @author Constantinos Loizou
  *
  */
