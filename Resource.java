@@ -1,10 +1,9 @@
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-// TODO: Auto-generated Javadoc
-/*
- * TODO add missing methods defined in UML diagram
- * TODO fix missing setters
+/**
+ * Models resources in library, acts as a super class for book, dvd and laptop
+ * @author Ben Rochford
+ *
  */
 public class Resource {
 	private static int nextID = 1;
@@ -15,7 +14,7 @@ public class Resource {
 	protected RequestQueue queue;
 
 	/**
-	 * Instantiates a new resource.
+	 * creates a new resource for database
 	 *
 	 * @param title the title
 	 * @param year the year
@@ -41,7 +40,7 @@ public class Resource {
 	}
 
 	/**
-	 * Instantiates a new resource.
+	 * Initialises resource object from the database by databaseRequest
 	 *
 	 * @param resourceID the resource ID
 	 * @param title the title
@@ -140,7 +139,7 @@ public class Resource {
 	}
 
 	/**
-	 * Creates the copy.
+	 * Creates the copy for this resource.
 	 *
 	 * @param loanTime the loan time
 	 * @throws SQLException the SQL exception
@@ -165,7 +164,7 @@ public class Resource {
 	 * Checks if is copy available.
 	 *
 	 * @return true, if is copy available
-	 * @throws SQLException the SQL exception
+	 * @throws SQLException if connection to database fails
 	 */
 	public boolean isCopyAvailable() throws SQLException {
 		return new DatabaseRequest().checkAvailability(resourceID);
