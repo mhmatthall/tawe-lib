@@ -41,8 +41,6 @@ public class SearchLibraryController {
 	@FXML
 	CheckBox cbLaptops;
 	@FXML
-	ToggleGroup radioGroup;
-	@FXML
 	TextField txtSearchBox;
 	@FXML
 	TableView<Resource> resultsTable;
@@ -60,10 +58,6 @@ public class SearchLibraryController {
 
 	@FXML
 	private void search() throws SQLException {
-		if (radioGroup.getSelectedToggle() == null) {
-			AlertBox.display("Please select resource type");
-			return;
-		}
 
 		String searchTerm = txtSearchBox.getText();
 
@@ -84,6 +78,7 @@ public class SearchLibraryController {
 	@FXML 
 	private void listAll() throws SQLException {
 		ArrayList<Resource> allRes = new DatabaseRequest().browseResources();
+		
 		ObservableList<Resource> resourceObList = FXCollections.observableArrayList(allRes);
 		resultsTitle.setCellValueFactory(new PropertyValueFactory<Resource, String>("title")); // ONLY THESE TWO
 		resultsYear.setCellValueFactory(new PropertyValueFactory<Resource, String>("year")); // ROWS WORK, WTF?
@@ -103,8 +98,10 @@ public class SearchLibraryController {
 			controller.setBook(resultsTable.getSelectionModel().getSelectedItem());
 		} else if (resultsTable.getSelectionModel().getSelectedItem() instanceof DVD) {
 			controller.setDVD(resultsTable.getSelectionModel().getSelectedItem());
-		} else {
+		} else if (resultsTable.getSelectionModel().getSelectedItem() instanceof Laptop){
 			controller.setLaptop(resultsTable.getSelectionModel().getSelectedItem());
+		} else {
+			throw new IllegalArgumentException("UNKNOWN RESOURCE TYPE");
 		}
 		controller.passStageReference(window);
 		controller.setUser(user);
