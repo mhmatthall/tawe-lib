@@ -18,10 +18,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+
 /**
  * @author Constantinos Loizou
  *
  */
+
 public class SearchLibraryController {
 	private Stage window;
 	private User user;
@@ -51,11 +53,22 @@ public class SearchLibraryController {
 	@FXML
 	TableColumn<Resource, String> resultsID = new TableColumn<>();
 
+	/**
+	 * Closes window.
+	 */
+	
 	@FXML
 	private void close() {
 		window.close();
 	}
 
+	/**
+	 * Searches Database with searchTerm.
+	 * Displays list of resources matching searchTerm in table form. 
+	 *
+	 * @throws SQLException fails to connect to Database
+	 */
+	
 	@FXML
 	private void search() throws SQLException {
 		if (radioGroup.getSelectedToggle() == null) {
@@ -74,11 +87,19 @@ public class SearchLibraryController {
 		
 		
 		// String has to match EXACTLY the attribute of resource constructor
-		resultsTitle.setCellValueFactory(new PropertyValueFactory<Resource, String>("title")); // ONLY THESE TWO
-		resultsYear.setCellValueFactory(new PropertyValueFactory<Resource, String>("year")); // ROWS WORK, WTF?
+		resultsTitle.setCellValueFactory(new PropertyValueFactory<Resource, String>("title")); 
+		resultsYear.setCellValueFactory(new PropertyValueFactory<Resource, String>("year")); 
 		resultsID.setCellValueFactory(new PropertyValueFactory<Resource, String>("resourceID"));
 		resultsTable.setItems(resourceObList);
 	}
+	
+	/**
+	 * Select item.
+	 *
+	 * @throws IOException file ResourcePage.fxml is missing
+	 * @throws SQLException fails to connect to Database
+	 */
+	
 	@FXML
 	private void selectItem() throws IOException, SQLException {
 		System.out.println(resultsTable.getSelectionModel().getSelectedItem().getTitle() + 
@@ -100,9 +121,24 @@ public class SearchLibraryController {
 		window.setScene(scene);
 		window.show();
 	}
+	
+	/**
+	 * Sets the user.
+	 *
+	 * @param user set user
+	 */
+	
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	/**
+	 * Passes current stage onto next class to load new scene on it.
+	 * Closes and reverts to previous stage.
+	 *
+	 * @param window the window
+	 */
+	
 	public void passStageReference(Stage window) {
 		this.window = window;
 	}
