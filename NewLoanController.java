@@ -67,7 +67,6 @@ public class NewLoanController {
 	 */
 	public void setResource(Resource resource) throws SQLException {
 		this.resource = resource;
-		// Add users that have reserved the resource to a list
 		for (Copy copy : resource.viewCopies()) {
 			if (copy.getReservingUser() != null) {
 				usersWaiting.add(copy.getReservingUser());

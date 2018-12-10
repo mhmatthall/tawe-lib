@@ -9,9 +9,8 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<BorderPane minHeight="322.0" minWidth="250.0" prefHeight="415.0" prefWidth="315.0" xmlns="http://javafx.com/javafx/8.0.192" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EditUserController">
+<BorderPane minHeight="322.0" minWidth="250.0" prefHeight="401.0" prefWidth="481.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EditUserController">
    <top>
       <Label fx:id="lblTitle" text="User Account Details" BorderPane.alignment="CENTER">
          <font>
@@ -22,6 +21,8 @@
       <HBox spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="btnUpdate" minWidth="75.0" mnemonicParsing="false" onAction="#update" text="Update Account" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnPayFines" mnemonicParsing="false" onAction="#payFines" text="Pay off Fines" />
             <Region HBox.hgrow="ALWAYS" />
             <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#deleteUser" text="Delete User" />
             <Region HBox.hgrow="ALWAYS" />
@@ -83,7 +84,6 @@
                   <Label fx:id="lblStaff" prefHeight="17.0" prefWidth="148.0" />
                </children>
             </HBox>
-            <Text fill="#f80303" strokeType="OUTSIDE" strokeWidth="0.0" text="Have to be able to select thumbnail too" />
          </children>
          <opaqueInsets>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

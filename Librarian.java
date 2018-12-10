@@ -2,7 +2,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * @author Matt Hall
+ * @author Matt Hall, Ben Rochford
  */
 public class Librarian extends User {
 	protected int staffNumber;
@@ -72,42 +72,52 @@ public class Librarian extends User {
 	 * @throws SQLException if connection to the database has failed
 	 */
 	public void issueLoan(String resourceID, String username) throws SQLException {
-
 		DatabaseRequest db = new DatabaseRequest();
+		// gets the first available copy
 		Copy c = db.getAvailableCopies(resourceID).get(0);
 
+		// issue new loan
 		Loan l = new Loan(c.getCopyID(), username);
 
+		// save the new loan in the database
 		db.addLoan(l);
 
 	}
 
 	/**
-	 * Return loan.
+	 * Return a user's loan and free up the copy in the system
 	 *
 	 * @param loan to be returned
 	 * @throws SQLException if connection to database has failed
 	 */
 	public void returnLoan(Loan loan) throws SQLException {
-
 		DatabaseRequest db = new DatabaseRequest();
 		Copy c = db.getCopy(loan.getCopyID());
 		Resource r = db.getResource(c.getResourceID());
 
+		// if the loan is overdue
 		if ((new Date()).isBefore(loan.getReturnDate())) {
+			// fine the user
 			Fine f = new Fine(loan.getLoanID());
+			// save the fine in the database
 			db.addFine(f);
 		}
 
+		// set the copy as no longer on loan
 		loan.setLoanStatus(false);
 
+		// if there isn't anyone waiting for the resource
 		if (r.getQueue().isEmpty()) {
+			// set the loan as returned (therefore complete)
 			loan.returnResource();
 		} else {
+			// reserve the resource for the user next in the resource's request queue
 			reserveResource(r.getResourceID(), r.getQueue().peek());
+			// then remove them from the queue
 			r.getQueue().dequeue();
 		}
 
+		// update the resource and loan in the database
 		db.editResource(r);
 		db.editLoan(loan);
 	}
@@ -120,88 +130,19 @@ public class Librarian extends User {
 	 * @throws SQLException if connection to database has failed
 	 */
 	public void payFine(String fineID, double amount) throws SQLException {
-
 		DatabaseRequest db = new DatabaseRequest();
 		Fine f = db.getFine(fineID);
 
 		if (amount < f.getMinimumPayment())
-			throw new IllegalArgumentException("Cannot pay less than ï¿½" + f.getMinimumPayment());
+			throw new IllegalArgumentException("Cannot pay less than £" + f.getMinimumPayment());
 		else if (f.getAmountPaid() + amount > f.getAmount()) {
 			throw new IllegalArgumentException("Cant pay more than the total fine amount");
 		}
 
 		f.setAmountPaid(f.getAmountPaid() + amount);
 
+		// save the fine in the database
 		db.editFine(f);
 
 	}
-
-	/**
-	 * Requests a resource.
-	 *
-	 * @param resourceID to be requested
-	 * @param username of a user that is requesting
-	 * @throws SQLException if the connection to database has failed
-	 */
-	public void requestResource(String resourceID, String username) throws SQLException {
-
-		DatabaseRequest db = new DatabaseRequest();
-
-		if (db.checkAvailability(resourceID)) {
-			reserveResource(resourceID, username);
-
-		} else {
-
-			Resource r = db.getResource(resourceID);
-			r.getQueue().addUser(username);
-
-			db.editResource(r);
-
-		}
-	}
-
-	/**
-	 * Reserve resource.
-	 *
-	 * @param resourceID of a resource to be reserved
-	 * @param username of a user who is reserving
-	 * @throws SQLException if connection to the database has failed
-	 */
-	public void reserveResource(String resourceID, String username) throws SQLException {
-
-		DatabaseRequest db = new DatabaseRequest();
-		Copy c = null;
-		ArrayList<Copy> copies = db.getAvailableCopies(resourceID);
-		if (copies.isEmpty()) {
-
-			Loan l = db.getOldestLoan(resourceID);
-			l.setReservationStatus(true, username);
-
-			c = db.getCopy(l.getCopyID());
-			int loanLength = c.getLoanTime();
-			c.setReservingUser(username);
-			c.setReserved(true);
-
-			Date d = l.getIssueDate();
-			d.forwardDate(loanLength);
-
-			if (d.isBefore(new Date())) {
-				Date tomorrow = new Date();
-				tomorrow.forwardDate(1);
-				l.setReturnDate(tomorrow);
-			} else {
-				Date dueDate = l.getIssueDate();
-				dueDate.forwardDate(loanLength);
-
-			}
-		} else {
-			c = copies.get(0);
-			c.setReserved(true);
-			c.setReservingUser(username);
-		}
-
-		db.editCopy(c);
-
-	}
-
 }

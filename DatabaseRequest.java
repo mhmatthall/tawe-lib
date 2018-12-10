@@ -456,8 +456,8 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Checks if there are any available copies of a given resource
-	 *
+	 * Checks if there are any available copies of a given resource, that is, they
+	 * are not on loan OR reserved
 	 * @param resourceID of the resource we are checking available copies for
 	 * @return true if there are available copies
 	 * @throws SQLException if there was an syntax, duplicate key, or other 
@@ -488,18 +488,13 @@ public class DatabaseRequest {
 	 *                      SQL error returned upon adding the user
 	 */
 	public void addCopy(Copy newCopy) throws SQLException {
-		// Format boolean true/false to 1/0 for database insertion
-		int isOnLoan = newCopy.isOnLoan() ? 1 : 0;
-		int isReserved = newCopy.isReserved() ? 1 : 0;
-
 		Statement query = conn.createStatement();
-		query.executeUpdate("INSERT INTO COPY VALUES("
+
+		query.executeUpdate("INSERT INTO COPY (copy_id, resource_id, loan_duration, is_on_loan, is_reserved) VALUES("
 				+ "'" + newCopy.getCopyID() + "', "
 				+ "'" + newCopy.getResourceID() + "', "
-				+ "'" + newCopy.getLoanTime() + "', "
-				+ isOnLoan + ", "
-				+ isReserved + ", "
-				+ "'" + newCopy.getReservingUser() + "')");
+				+ newCopy.getLoanTime() + ", "
+				+ 0 + ", " + 0 + ")");	// set isReserved and isOnLoan to false, as the copy is new
 	}
 
 	/**
@@ -515,13 +510,23 @@ public class DatabaseRequest {
 		int isReserved = newDetails.isReserved() ? 1 : 0;
 
 		Statement query = conn.createStatement();
-		query.executeUpdate("UPDATE COPY SET "
-				+ "resource_id = '" + newDetails.getResourceID() + "', "
-				+ "loan_duration = " + newDetails.getLoanTime() + ", "
-				+ "is_on_loan = " + isOnLoan + ", "
-				+ "is_reserved = " + isReserved + ", "
-				+ "reserved_by_user_id = '" + newDetails.getReservingUser() + " "
-				+ "WHERE copy_id = '" + newDetails.getCopyID() + "'");
+		if (newDetails.isReserved()) {
+			query.executeUpdate("UPDATE COPY SET "
+					+ "resource_id = '" + newDetails.getResourceID() + "', "
+					+ "loan_duration = " + newDetails.getLoanTime() + ", "
+					+ "is_on_loan = " + isOnLoan + ", "
+					+ "is_reserved = " + isReserved + ", "
+					+ "reserved_by_user_id = '" + newDetails.getReservingUser() + "' "
+					+ "WHERE copy_id = '" + newDetails.getCopyID() + "'");
+		} else {
+			query.executeUpdate("UPDATE COPY SET "
+					+ "resource_id = '" + newDetails.getResourceID() + "', "
+					+ "loan_duration = " + newDetails.getLoanTime() + ", "
+					+ "is_on_loan = " + isOnLoan + ", "
+					+ "is_reserved = " + isReserved + ", "
+					+ "reserved_by_user_id = NULL "
+					+ "WHERE copy_id = '" + newDetails.getCopyID() + "'");
+		}
 	}
 
 	/**
@@ -555,7 +560,11 @@ public class DatabaseRequest {
 		boolean isOnLoan = results.getInt(4) != 0;
 		boolean isReserved = results.getInt(5) != 0;
 
-		Copy out = new Copy(copyID, results.getString(2), results.getInt(3), isOnLoan, isReserved,
+		Copy out = new Copy(copyID,
+				results.getString(2),
+				results.getInt(3),
+				isOnLoan,
+				isReserved,
 				results.getString(6));
 
 		return out;
@@ -627,7 +636,7 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Gets all loans issued to the current user.
+	 * Gets all loans issued to the given user.
 	 *
 	 * @param username of a user
 	 * @return arrayList of loans issued to the current user
@@ -660,32 +669,45 @@ public class DatabaseRequest {
 
 		return userLoans;
 	}
-	
+
+	/**
+	 * Get a list of the resources that the user has requested, but are unavailable.
+	 * @param username the username to search for
+	 * @return the list of resources that the user has requested
+	 * @throws SQLException if there was an syntax, duplicate key, or other 
+	 *                      SQL error returned upon adding the user
+	 */
 	public ArrayList<Resource> getUserRequestedResources(String username) throws SQLException {
 		Statement query = conn.createStatement();
-		ResultSet results = query.executeQuery("SELECT * FROM "
-				+ "RESOURCE INNER JOIN COPY ON COPY.copy_id = LOAN.copy_id "
-				+ "WHERE username = '" + username + "' "
-				+ "AND is_returned = 0");
+		ResultSet results = query.executeQuery("SELECT * "
+				+ "FROM RESOURCE "
+				+ "WHERE queue <> ''");
 
-		ArrayList<Loan> userLoans = new ArrayList<Loan>();
-		Loan currentLoan;
+		ArrayList<Resource> resources = new ArrayList<Resource>();
+		Resource currentResource;
 
 		while (results.next()) {
-			// Format boolean true/false to 1/0 for database insertion
-			boolean isReturned = results.getInt(6) != 0;
-
-			currentLoan = new Loan(results.getString(1),
-					new Date(results.getString(2)),
-					results.getString(3),
-					results.getString(4),
-					new Date(results.getString(5)),
-					isReturned);
-
-			userLoans.add(currentLoan);
+			// convert the current result into a new resource
+			currentResource = new Resource(results.getString(1),
+					results.getString(2),
+					results.getInt(3),
+					new Thumbnail(results.getString(4)),
+					convertRequestQueue(results.getString(5)));
+			
+			// extract the resource queue
+			RequestQueue qTest = currentResource.getQueue();
+			
+			// iterate through the queue
+			while (!qTest.isEmpty()) {
+				// if the username is on the request queue
+				if (username.equals(qTest.peek())) {
+					// add it to the output
+					resources.add(currentResource);
+				}
+				qTest.dequeue();
+			}
 		}
-
-		return userLoans;
+		return resources;
 	}
 	
 	/**
@@ -1025,6 +1047,17 @@ public class DatabaseRequest {
 		return results.getDouble(1);
 	}
 
+	/**
+	 * Pays one or more fines held by a user based on how much is paid
+	 * @param username the username of the user having their fines paid off 
+	 * @param amountBeingPaid the amount that the user is wishing to pay
+	 * @throws SQLException if there was an syntax, duplicate key, or other 
+	 *                      SQL error returned upon adding the user
+	 */
+	public void payFines(String username, double amountBeingPaid) throws SQLException {
+		
+	}
+	
 	/**
 	 * Searches the database for Resource
 	 *

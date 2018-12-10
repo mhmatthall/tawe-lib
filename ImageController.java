@@ -146,7 +146,7 @@ public class ImageController {
 			triangleR.setOnMouseDragged(TriangleOnMouseDraggedEventHandler);
 			addMouseScrolling(triangleR);
 			canvas1.getChildren().addAll(triangleR);
-			triangleR.getPoints().addAll(new Double[] { 300.0, 200.0, 450.0, });
+			triangleR.getPoints().addAll(new Double[] { 300.0, 200.0, 300.0, });
 		} else if (shapeType.getSelectionModel().getSelectedItem() == "Vertical Line") {
 			lineV = new Line();
 			lineV.setCursor(Cursor.MOVE);

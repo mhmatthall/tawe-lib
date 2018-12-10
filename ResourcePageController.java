@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -185,6 +186,11 @@ public class ResourcePageController {
 		window.close();
 	}
 
+	@FXML
+	private void makeRequest() throws SQLException {
+		user.requestResource(resource.getResourceID(),user.getUsername());
+	}
+	
 	/**
 	 * Edits the resource from the database.
 	 *
@@ -204,6 +210,25 @@ public class ResourcePageController {
 		window.show();
 	}
 
+	public void newCopies(int newCopiesNo, int copyLength, int currentPosition) throws SQLException {
+		DatabaseRequest db = new DatabaseRequest();
+		for (int i = currentPosition; i < newCopiesNo; i++) {
+			//try{	
+				Copy addition = new Copy(resource.getResourceID(),copyLength);
+				db.addCopy(addition);
+			//}catch (SQLException e) {
+			//	newCopies(newCopiesNo, copyLength, i);
+			//}
+		}
+	}
+	
+	@FXML
+	private void makeCopies() throws SQLException {
+		int copyLength = Integer.parseInt(InputBox.display("new copies", "How many copies do you wish to add?").get(0));
+		int newCopiesNo = Integer.parseInt(InputBox.display("new copies", "How many copies do you wish to add?").get(1));
+		newCopies(newCopiesNo,copyLength,0);
+	}
+	
 	/**
 	 * Passes current stage onto next class to load new scene on it.
 	 * Closes and reverts to previous stage.
