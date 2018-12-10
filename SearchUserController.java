@@ -62,7 +62,7 @@ public class SearchUserController {
 	 * Edits the user.
 	 *
 	 * @param user the user
-	 * @throws IOException Signals that an I/O exception has occurred
+	 * @throws IOException if file "EditUser.fxml" cannot be found
 	 */
 	private void editUser(User user) throws IOException {
 		Stage window = new Stage();
@@ -93,7 +93,7 @@ public class SearchUserController {
 	 * Searches on pressing enter.
 	 *
 	 * @param ae action event
-	 * @throws SQLException fails to connect to Database
+	 * @throws SQLException if cannot connect to Database
 	 */
 	
 	@FXML

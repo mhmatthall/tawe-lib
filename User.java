@@ -4,13 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Class for modelling User, mainly used as a sort-of-abstract class and is a
- * super class for Librarian and Borrower
+ * Class for modelling User
  * 
  * @author Caleb Warburton
  */
 /*
- * TODO add missing UML methods is this still needed?
  */
 public class User {
 	private String username;
@@ -104,18 +102,6 @@ public class User {
 	}
 
 	/**
-	 * To string old.
-	 *
-	 * @return the string
-	 */
-	public String toStringOld() {
-		String x;
-		x = ("UserName: " + username + "\nForename: " + forename + "\nSurname: " + surname + "\nPhone Number: "
-				+ phoneNumber + "\nAddress: " + address);
-		return x;
-	}
-
-	/**
 	 * Checks if user is librarian.
 	 *
 	 * @return true, if it is librarian
@@ -125,7 +111,7 @@ public class User {
 	}
 
 	/**
-	 * human readable
+	 * human readable 
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
