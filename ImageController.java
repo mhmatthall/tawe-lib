@@ -226,7 +226,7 @@ public class ImageController {
 	 * @throws IOException if file/s "ControlPanel.fxml" or "UserDashboard.fxml" cannot be found
 	 */
 	@FXML
-	private void exit() throws IOException {
+	private void exit() throws IOException, SQLException {
 		window.close();
 		Stage window = new Stage();
 		if (user.isLibrarian()) {
