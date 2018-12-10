@@ -1,7 +1,7 @@
 import java.util.NoSuchElementException;
 
 /**
- * Queue ADT implamented, stores usernames
+ * Queue ADT implemented, stores usernames
  * @author Rimantas Kazlauskas
  *
  */
@@ -9,6 +9,15 @@ public class RequestQueue {
 	private QueueElement first;
 	private String resourceID = null;
 
+	/**
+	 * Constructs an empty Queue.
+	 *
+	 * @param resourceID 
+	 */
+	public RequestQueue() {
+		first = new QueueElement(null, new QueueElement(null, null));
+	}
+	
 	/**
 	 * Constructs an empty Queue with resource assicated with it.
 	 *
