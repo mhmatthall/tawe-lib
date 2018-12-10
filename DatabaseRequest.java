@@ -154,7 +154,7 @@ public class DatabaseRequest {
 			results = query.executeQuery("SELECT LIBRARY_USER.*, LIBRARIAN.staff_number, LIBRARIAN.employment_date "
 					+ "FROM LIBRARY_USER INNER JOIN LIBRARIAN ON LIBRARY_USER.username = LIBRARIAN.username "
 					+ "WHERE LIBRARY_USER.username = '" + username + "'");
-			results.next();
+			results.next();	// select the first row of results
 
 			out = new Librarian(username, results.getString(2), // forename
 					results.getString(3), // surname
@@ -169,7 +169,7 @@ public class DatabaseRequest {
 			results = query.executeQuery("SELECT LIBRARY_USER.*, BORROWER.balance "
 					+ "FROM LIBRARY_USER INNER JOIN BORROWER ON LIBRARY_USER.username = BORROWER.username "
 					+ "WHERE LIBRARY_USER.username = '" + username + "'");
-			results.next();
+			results.next();	// select the first row of results
 
 			out = new Borrower(username, results.getString(2), // forename
 					results.getString(3), // surname
@@ -193,7 +193,7 @@ public class DatabaseRequest {
 	private boolean userIsLibrarian(String username) throws SQLException {
 		Statement userTypeCheck = conn.createStatement();
 		ResultSet rs = userTypeCheck.executeQuery("SELECT COUNT(*) FROM LIBRARIAN WHERE username = '" + username + "'");
-		rs.next();
+		rs.next();	// select the first row of results
 		int userType = rs.getInt(1); // userType = 0 if borrower, 1 if librarian
 		return (userType == 1);
 	}
@@ -251,7 +251,7 @@ public class DatabaseRequest {
 	/**
 	 * Edits a pre-existing resource in the database.
 	 *
-	 * @param newDetails the new details of the resource
+	 * @param newDetails the Resource containing the new details
 	 * @throws SQLException if there was an syntax, duplicate key, or other 
 	 *                      SQL error returned upon adding the user
 	 */
@@ -304,10 +304,11 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Deletes the resource from the database.
+	 * Deletes a resource from the database.
 	 *
 	 * @param resourceID of the resource to be deleted
-	 * @throws SQLException if connection to database has failed
+	 * @throws SQLException if there was an syntax, duplicate key, or other 
+	 *                      SQL error returned upon adding the user
 	 */
 	public void deleteResource(String resourceID) throws SQLException {
 		Statement query = conn.createStatement();
@@ -325,7 +326,8 @@ public class DatabaseRequest {
 	 *
 	 * @param resourceID ID of a resource to be retrieved from the database
 	 * @return the resource
-	 * @throws SQLException if connection to the database fails
+	 * @throws SQLException if there was an syntax, duplicate key, or other 
+	 *                      SQL error returned upon adding the user
 	 */
 	public Resource getResource(String resourceID) throws SQLException {
 		Statement query = conn.createStatement();
@@ -333,12 +335,12 @@ public class DatabaseRequest {
 		Resource out = null;
 
 		if (getResourceType(resourceID).equals("BOOK")) {
-			// Resource is a book
+			// if resource is a book
 			results = query.executeQuery(
 					"SELECT RESOURCE.*, BOOK.AUTHOR, BOOK.PUBLISHER, BOOK.GENRE, BOOK.ISBN, BOOK.LANGUAGE "
 							+ "FROM RESOURCE INNER JOIN BOOK ON RESOURCE.RESOURCE_ID = BOOK.RESOURCE_ID "
 							+ "WHERE RESOURCE.RESOURCE_ID = '" + resourceID + "'");
-			results.next();
+			results.next();	// select the first row of results
 
 			RequestQueue queue = convertRequestQueue(results.getString(5)); // request queue
 
@@ -353,12 +355,12 @@ public class DatabaseRequest {
 					results.getString(10)); // language
 
 		} else if (getResourceType(resourceID).equals("DVD")) {
-			// Resource is a DVD
+			// if resource is a DVD
 			results = query
 					.executeQuery("SELECT RESOURCE.*, DVD.DIRECTOR, DVD.RUNTIME, DVD.LANGUAGE, DVD.SUBTITLE_LANGUAGES "
 							+ "FROM RESOURCE INNER JOIN DVD ON RESOURCE.RESOURCE_ID = DVD.RESOURCE_ID "
 							+ "WHERE RESOURCE.RESOURCE_ID = '" + resourceID + "'");
-			results.next();
+			results.next();	// select the first row of results
 
 			RequestQueue queue = convertRequestQueue(results.getString(5)); // request queue
 
@@ -376,12 +378,12 @@ public class DatabaseRequest {
 					subLang); // subtitle languages
 
 		} else {
-			// Resource is a laptop
+			// if resource is a laptop
 			results = query
 					.executeQuery("SELECT RESOURCE.*, LAPTOP.MANUFACTURER, LAPTOP.MODEL, LAPTOP.OPERATING_SYSTEM "
 							+ "FROM RESOURCE INNER JOIN LAPTOP ON RESOURCE.RESOURCE_ID = LAPTOP.RESOURCE_ID "
 							+ "WHERE RESOURCE.RESOURCE_ID = '" + resourceID + "'");
-			results.next();
+			results.next();	// select the first row of results
 
 			RequestQueue queue = convertRequestQueue(results.getString(5)); // request queue
 
@@ -398,17 +400,19 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Gets the resource type, <strong>assuming resource already exists!</strong>
+	 * Gets the resource type. As it assumes that the given resource exists,
+	 * it is only used internally within this class.
 	 *
 	 * @param resourceID ID of a resource
-	 * @return the resource type
-	 * @throws SQLException if connection to the database has failed
+	 * @return the resource type as a string (matches a database table)
+	 * @throws SQLException if there was an syntax, duplicate key, or other 
+	 *                      SQL error returned upon adding the user
 	 */
 	private String getResourceType(String resourceID) throws SQLException {
 		// Check if there's an entry in the BOOK table; it must be a book
 		Statement isBook = conn.createStatement();
 		ResultSet rsBook = isBook.executeQuery("SELECT COUNT(*) FROM BOOK WHERE resource_id = '" + resourceID + "'");
-		rsBook.next();
+		rsBook.next();	// select the first row of results
 
 		if (rsBook.getInt(1) == 1) {
 			return "BOOK";
@@ -417,7 +421,7 @@ public class DatabaseRequest {
 		// Check if there's an entry in the DVD table; it must be a DVD
 		Statement isDVD = conn.createStatement();
 		ResultSet rsDVD = isDVD.executeQuery("SELECT COUNT(*) FROM DVD WHERE resource_id = '" + resourceID + "'");
-		rsDVD.next();
+		rsDVD.next();	// select the first row of results
 
 		if (rsDVD.getInt(1) == 1) {
 			return "DVD";
@@ -428,16 +432,19 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Convert string of queue from database into RequestQueue
+	 * Convert a request queue from a string (provided by the database) into
+	 * a RequestQueue (to be stored in the User)
 	 *
 	 * @param queue as a string
 	 * @return the request queue
-	 * @throws SQLException if connection to database has failed
+	 * @throws SQLException if there was an syntax, duplicate key, or other 
+	 *                      SQL error returned upon adding the user
 	 */
 	private RequestQueue convertRequestQueue(String queue) throws SQLException {
-		String[] requests = queue.split(",");
+		String[] requests = queue.split(",");	// Create a string array of the elements in the queue
 
 		RequestQueue rq = new RequestQueue();
+		
 		for (int i = 0; i < requests.length; i++) {
 			rq.addUser(requests[i]);
 		}
@@ -448,9 +455,10 @@ public class DatabaseRequest {
 	/**
 	 * Checks if there are any available copies of a given resource
 	 *
-	 * @param resourceID of a resource we are checking available copies for
+	 * @param resourceID of the resource we are checking available copies for
 	 * @return true if there are available copies
-	 * @throws SQLException if the connection to the database has failed
+	 * @throws SQLException if there was an syntax, duplicate key, or other 
+	 *                      SQL error returned upon adding the user
 	 */
 	public boolean checkAvailability(String resourceID) throws SQLException {
 		Statement query = conn.createStatement();
@@ -460,7 +468,7 @@ public class DatabaseRequest {
 				+ "AND is_reserved = 0 "
 				+ "AND is_on_loan = 0");
 
-		results.next();
+		results.next();	// select the first row of results
 
 		if (results.getInt(1) == 0) {
 			return false;
@@ -984,15 +992,21 @@ public class DatabaseRequest {
 	 * @return ArrayList of Resources (which can be cast into their actual types)
 	 * @throws SQLException if connection to the database fails
 	 */
-	public ArrayList<Resource> searchResources(String searchTerm) throws SQLException {
+	public ArrayList<Resource> searchResources(String searchTerm, ArrayList<String> tables) throws SQLException {
 		Statement query = conn.createStatement();
-		ResultSet results = query.executeQuery("SELECT resource_id " + "FROM RESOURCE " + "WHERE resource_id LIKE '%"
-				+ searchTerm + "%' " + "OR title LIKE '%" + searchTerm + "%'");
 
 		ArrayList<Resource> resultsList = new ArrayList<Resource>();
 
-		while (results.next()) {
-			resultsList.add(getResource(results.getString(1)));
+		for (String currentTable : tables) {
+			ResultSet results = query.executeQuery(
+					"SELECT resource_id "
+							+ "FROM " + currentTable
+							+ "WHERE resource_id LIKE '%" + searchTerm + "%' "
+							+ "OR title LIKE '%" + searchTerm + "%'");
+
+			while (results.next()) {
+				resultsList.add(getResource(results.getString(1)));
+			}
 		}
 
 		return resultsList;
