@@ -6,14 +6,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="343.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.191" xmlns:fx="http://javafx.com/fxml/1" fx:controller="WelcomeController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="343.0" spacing="10.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="WelcomeController">
    <children>
       <Label text="About Tawe-Lib">
          <font>
             <Font size="21.0" />
          </font>
       </Label>
-      <TextArea editable="false" prefHeight="330.0" prefWidth="310.0" text="Tawe-Lib by SwanGroup42 LTD&#10;&#10;Product version: 0.01&#10;&#10;Developed by: CS-230 Group 42&#10;&#10;    Ben Rochford&#10;    Caleb Warburton&#10;    Constantinos Loizou&#10;    Kevin Yiu Tsang&#10;    Matthew Hall&#10;    Rimantas Kazlauskas&#10;&#10;&#10;Copyright © 2018 - SwanGroup42 Enterprices LTD&#10;All legal rights reserved.&#10;" />
+      <TextArea editable="false" prefHeight="330.0" prefWidth="310.0" text="Tawe-Lib by SwanGroup42 LTD&#10;&#10;Product version: 1.1&#10;&#10;Developed by: CS-230 Group 42&#10;&#10;    Ben Rochford&#10;    Caleb Warburton&#10;    Constantinos Loizou&#10;    Kevin Yiu Fung Tsang&#10;    Matthew Hall&#10;    Rimantas Kazlauskas&#10;&#10;Created for&#10;CS-230 Software Engineering / Coursework 2&#10;&#10;Tools used in the development include&#10;Java 8&#10;JavaFX libraries&#10;Eclipse IDE&#10;Gluon Scence Builder&#10;Apache Derby Database (licenced under Apache Derby 2.0 license)&#10;GitHub&#10;&#10;** DO NOT STEAL OUR SOFTWARE **&#10;&#10;Copyright © 2018 - SwanGroup42 Enterprices LTD" />
    </children>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

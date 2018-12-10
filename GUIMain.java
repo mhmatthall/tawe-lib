@@ -45,12 +45,11 @@ public class GUIMain extends Application {
 		Parent root = FXMLLoader.load(getClass().getResource("Welcome.fxml"));
 		welcomeScene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-//TODO: RE-ENABLE THIS FEATURE
-		/*
-		 * window.setTitle("Tawe-Lib by SwanGroup42 Studios PLC.");
-		 * window.setOnCloseRequest(e -> { e.consume(); // Discard close request, we'll
-		 * handle it manually close(); });
-		 */
+		window.setTitle("Tawe-Lib by SwanGroup42 Studios PLC.");
+		window.setOnCloseRequest(e -> {
+			e.consume(); // Discard close request, we'll handle it manually
+			close();
+		});
 
 		window.setScene(welcomeScene);
 		window.setMinWidth(WINDOW_WIDTH);

@@ -37,7 +37,9 @@ public class GUITester extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		window = primaryStage;
-
+		
+		System.out.println(InputBox.display("Number of copies", "Please enter the number of copies"));
+		
 		// Specify the FXML controller
 		Parent root = FXMLLoader.load(getClass().getResource("ResourcePage.fxml"));
 

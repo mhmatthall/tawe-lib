@@ -113,11 +113,7 @@ public class WelcomeController {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	private void showControlPanel() throws IOException {
-		/*
-		 * C:\Users\lkonn\Google Drive\University\Year 2\CS230\Assignment
-		 * 2\tawe-lib\fxml_files\ControlPanel FXMLLoader loader = new
-		 * FXMLLoader(getClass().getResource("ControlPanel.fxml"));
-		 */
+
 		Stage window = (Stage) btnExit.getScene().getWindow();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/ControlPanel.fxml"));
 		Pane controlPanel = loader.load();
