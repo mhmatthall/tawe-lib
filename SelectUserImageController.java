@@ -134,9 +134,10 @@ public class SelectUserImageController {
 	 * method for exit button
 	 *
 	 * @throws IOException if file "ControlPanel.fxml" doesn't exist in /fxml_files/
+	 * @throws SQLException 
 	 */
 	@FXML
-	private void exit() throws IOException {
+	private void exit() throws IOException, SQLException {
 		window.close();
 		Stage window = new Stage();
 		if (user.isLibrarian()) {
