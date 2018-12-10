@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
+ * in charge of creating a laptop for the database
  * 
  * @author Constantinos Loizou
  *
@@ -30,6 +31,11 @@ public class NewLaptopController {
 	@FXML
 	TextField txtOS;
 
+	/**
+	 * Construct laptop and puts it into a database.
+	 *
+	 * @throws SQLException the SQL exception
+	 */
 	@FXML
 	private void constructLaptop() throws SQLException {
 		String title = txtTitle.getText();
@@ -47,11 +53,19 @@ public class NewLaptopController {
 		close();
 	}
 
+	/**
+	 * Close the window.
+	 */
 	@FXML
 	private void close() {
 		window.close();
 	}
 
+	/**
+	 * Pass stage reference.
+	 *
+	 * @param window stage window
+	 */
 	public void passStageReference(Stage window) {
 		this.window = window;
 
