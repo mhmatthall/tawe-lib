@@ -12,7 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 
-/**
+/** Searches Users in the Library
  *
  * @author Constantinos Loizou
  *

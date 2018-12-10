@@ -1,17 +1,8 @@
-import java.sql.SQLException;
 import java.util.NoSuchElementException;
 
-/*
- * What is this class doing? Isn't this what RequestQueue is supposed to do?
- * 
- * now it is request que
- * TODO conform to code style
- * TODO change it from storing Objects to Strings, as it should only be storing usernames
- * ^String is an object since its a class. For all intents and purposes it doesn't matter.
- */
-
 /**
- * @author Rimantas
+ * Queue ADT implemented, stores usernames
+ * @author Rimantas Kazlauskas
  *
  */
 public class RequestQueue {
@@ -20,21 +11,36 @@ public class RequestQueue {
 
 	/**
 	 * Constructs an empty Queue.
+	 *
+	 * @param resourceID 
+	 */
+	public RequestQueue() {
+		first = new QueueElement(null, new QueueElement(null, null));
+	}
+	
+	/**
+	 * Constructs an empty Queue with resource assicated with it.
+	 *
+	 * @param resourceID 
 	 */
 	public RequestQueue(String resourceID) {
 		this.resourceID = resourceID;
 		first = new QueueElement(null, new QueueElement(null, null));
 	}
 
-	public RequestQueue() {
-		first = new QueueElement(null, new QueueElement(null, null));
-	}
 
+	/**
+	 * Gets the resource ID.
+	 *
+	 * @return the resource ID
+	 */
 	public String getResourceID() {
 		return resourceID;
 	}
 
 	/**
+	 * Checks if Queue is empty.
+	 *
 	 * @return boolean indicating whatever queue is empty
 	 */
 	public boolean isEmpty() {
@@ -42,10 +48,11 @@ public class RequestQueue {
 	}
 
 	/**
+	 * Peek.
+	 *
 	 * @return 1st element in queue
-	 * @throws NoSuchElementException why tho
 	 */
-	public String peek() throws NoSuchElementException {
+	public String peek() {
 		if (first.getElement() == null) {
 			throw new NoSuchElementException("Queue is empty");
 		} else {
@@ -54,9 +61,9 @@ public class RequestQueue {
 	}
 
 	/**
-	 * @throws NoSuchElementException why tho
+	 * Dequeue.
 	 */
-	public void dequeue() throws NoSuchElementException {
+	public void dequeue() {
 		if (first.getElement() == null) {
 			throw new NoSuchElementException("No such element exists to dequeue");
 		} else {
@@ -65,6 +72,8 @@ public class RequestQueue {
 	}
 
 	/**
+	 * Adds the user.
+	 *
 	 * @param element puts object into Q
 	 */
 	public void addUser(String element) {
@@ -85,7 +94,7 @@ public class RequestQueue {
 	}
 
 	/**
-	 * Method to print the full contents of the queue in order from head to tail.
+	 * human readable, effectively to string
 	 */
 	public void print() {
 		String r = "The queue is empty\n";
@@ -104,6 +113,10 @@ public class RequestQueue {
 		System.out.print(r);
 	}
 
+	/**
+	 * Database readable toString()
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		String r = null;
 		if (first.getElement() != null) {
@@ -121,6 +134,11 @@ public class RequestQueue {
 		return r;
 	}
 
+	/**
+	 * Sets the resource ID.
+	 *
+	 * @param resourceId the new resource ID
+	 */
 	public void setResourceID(String resourceId) {
 		if (resourceID == null) {
 			this.resourceID = resourceId;
