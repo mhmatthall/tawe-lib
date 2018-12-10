@@ -97,12 +97,12 @@ public class ImageController {
 	}
 
 	/**
+	 * Method for adding shapes in the profile image creator.
 	 * A selected shape is created when the button is pressed.
 	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	@FXML
-	public void buttonCreatePressed() throws IOException {
+	public void buttonCreatePressed() {
 		if (shapeType.getSelectionModel().getSelectedItem() == "Rectangle") {
 			rectangleR = new Rectangle(100, 100, 100, 100);
 			if (fill.isSelected()) {
@@ -189,7 +189,7 @@ public class ImageController {
 	/**
 	 * Saves the image when the button is pressed.
 	 *
-	 * @throws SQLException the SQL exception
+	 * @throws SQLException if cannot connect to Database
 	 */
 	@FXML
 	public void buttonSavePressed() throws SQLException {
@@ -210,8 +210,9 @@ public class ImageController {
 	}
 
 	/**
-	 * Pass stage reference.
-	 *
+	 * Passes current stage onto next class to load new scene on it.
+	 * Closes and reverts to previous stage.
+	 * 
 	 * @param window the window
 	 */
 	public void passStageReference(Stage window) {
@@ -222,7 +223,7 @@ public class ImageController {
 	/**
 	 * Exit button.
 	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException if file/s "ControlPanel.fxml" or "UserDashboard.fxml" cannot be found
 	 */
 	@FXML
 	private void exit() throws IOException {
@@ -343,7 +344,7 @@ public class ImageController {
 	};
 
 	/**
-	 * Enlarge the shape when scrolling.
+	 * Alter the shape size by scrolling.
 	 *
 	 * @param node the node
 	 */

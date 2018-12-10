@@ -89,8 +89,11 @@ public class EditResourceController {
 	TextField txtOS;
 
 	/**
-	 * Update.
+	 * Method to update the details of specified resource
+	 * 
+	 * @throws SQLException if cannot connect to Database
 	 */
+	
 	@FXML
 	private void update() throws SQLException {
 		String title = txtTitle.getText();
@@ -125,8 +128,11 @@ public class EditResourceController {
 	}
 
 	/**
-	 * Delete.
+	 * Method to delete a resource
+	 * 
+	 * @throws SQLException if cannot connect to Database
 	 */
+	
 	@FXML
 	private void delete() throws SQLException {
 		boolean flag = ConfirmationBox.display("WARNING", "Are you sure you want to delete this resource?");
@@ -140,7 +146,7 @@ public class EditResourceController {
 	}
 
 	/**
-	 * Close.
+	 * Closes window
 	 */
 	@FXML
 	private void close() {
@@ -148,7 +154,8 @@ public class EditResourceController {
 	}
 
 	/**
-	 * Pass stage reference.
+	 * Passes current stage onto next class to load new scene on it.
+	 * Closes and reverts to previous stage.
 	 *
 	 * @param window the window
 	 */
@@ -156,14 +163,20 @@ public class EditResourceController {
 		this.window = window;
 	}
 
+	/**
+	 * Passes the resource ID.
+	 * 
+	 * @param resID the resource ID
+	 * @throws SQLException if cannot connect to the Database
+	 */
 	public void passResourceID(String resID) throws SQLException {
 		loadResourceData(resID);
 	}
 
 	/**
-	 * Pass resource reference.
+	 * Loads the resource data.
 	 *
-	 * @param resource the resource
+	 * @param resID the resource
 	 */
 	private void loadResourceData(String resID) throws SQLException {
 		this.resource = new DatabaseRequest().getResource(resID);
@@ -203,6 +216,10 @@ public class EditResourceController {
 		this.resource = resource;
 	}
 	
+	/**
+	 * Disables irrelevant buttons and labels
+	 */
+	
 	private void disableBookIrrelevantkFeatures() {
 		lblDVD.setDisable(true);
 		lblLaptop.setDisable(true);
@@ -220,6 +237,9 @@ public class EditResourceController {
 		txtOS.setDisable(true);
 	}
 
+	/**
+	 * Disables irrelevant buttons and labels
+	 */
 	private void disableDVDIrrelevantFeatures() {
 		lblBook.setDisable(true);
 		lblLaptop.setDisable(true);
@@ -242,6 +262,9 @@ public class EditResourceController {
 		txtOS.setDisable(true);
 	}
 
+	/**
+	 * Disables irrelevant buttons and labels
+	 */
 	private void disableLaptopIrrelevantFeatures() {
 		lblBook.setDisable(true);
 		lblDVD.setDisable(true);

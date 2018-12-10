@@ -27,6 +27,8 @@ public class QueueElement {
 	}
 
 	/**
+	 * Method to get element
+	 * 
 	 * @return element
 	 */
 	public String getElement() {
@@ -34,6 +36,8 @@ public class QueueElement {
 	}
 
 	/**
+	 * Method to get the next element in the queue
+	 * 
 	 * @return next element in linked list
 	 */
 	public QueueElement getNext() {

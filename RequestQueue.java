@@ -19,7 +19,7 @@ public class RequestQueue {
 	}
 	
 	/**
-	 * Constructs an empty Queue with resource assicated with it.
+	 * Constructs an empty Queue with resource associated with it.
 	 *
 	 * @param resourceID 
 	 */
@@ -72,7 +72,7 @@ public class RequestQueue {
 	}
 
 	/**
-	 * Adds the user.
+	 * Adds the user to queue.
 	 *
 	 * @param element puts object into Q
 	 */
@@ -94,7 +94,7 @@ public class RequestQueue {
 	}
 
 	/**
-	 * human readable, effectively to string
+	 * human readable, effectively toString
 	 */
 	public void print() {
 		String r = "The queue is empty\n";

@@ -32,7 +32,7 @@ public class NewLoanController {
 	/**
 	 * constructs a loan and adds it to the database.
 	 *
-	 * @throws SQLException the SQL exception
+	 * @throws SQLException if cannot connect to the Database
 	 */
 	@FXML
 	private void loan() throws SQLException {
@@ -50,7 +50,8 @@ public class NewLoanController {
 	}
 
 	/**
-	 * Pass stage reference.
+	 * Passes current stage onto next class to load new scene on it.
+	 * Closes and reverts to previous stage.
 	 *
 	 * @param window stage window
 	 */
@@ -62,7 +63,7 @@ public class NewLoanController {
 	 * reserves a copy for a user if its not reserved by others
 	 *
 	 * @param resource the new resource
-	 * @throws SQLException the SQL exception
+	 * @throws SQLException if cannot connect to the Database
 	 */
 	public void setResource(Resource resource) throws SQLException {
 		this.resource = resource;

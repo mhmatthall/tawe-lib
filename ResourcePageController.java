@@ -59,8 +59,8 @@ public class ResourcePageController {
 	/**
 	 * To check loan.
 	 *
-	 * @throws IOException  Signals that an I/O exception has occurred.
-	 * @throws SQLException the SQL exception
+	 * @throws IOException  if file "NewLoan.fxml" cannot be found
+	 * @throws SQLException if cannot connect to the Database
 	 */
 	@FXML
 	private void loan() throws IOException, SQLException {
@@ -77,7 +77,7 @@ public class ResourcePageController {
 	}
 
 	/**
-	 * Determine if the user is librarian or borrower.
+	 * Determines if the user is librarian or borrower.
 	 *
 	 * @param user the new user
 	 */
@@ -92,10 +92,11 @@ public class ResourcePageController {
 	}
 
 	/**
-	 * Retrieve info of the book from the database.
+	 * Retrieves information of the book from the database.
+	 * Sets the information of book
 	 *
 	 * @param resource the new book
-	 * @throws SQLException the SQL exception
+	 * @throws SQLException if cannot connect to the Database
 	 */
 	public void setBook(Resource resource) throws SQLException {
 		this.book = (Book) new DatabaseRequest().getResource(resource.getResourceID());
@@ -113,10 +114,11 @@ public class ResourcePageController {
 	}
 
 	/**
-	 * Retrieve info of the DVD from the database
+	 * Retrieves information of the DVD from the database
+	 * Sets the information of DVD
 	 *
 	 * @param resource the new dvd
-	 * @throws SQLException the SQL exception
+	 * @throws SQLException if cannot connect to the Database
 	 */
 	public void setDVD(Resource resource) throws SQLException {
 		this.dvd = (DVD) new DatabaseRequest().getResource(resource.getResourceID());
@@ -137,10 +139,11 @@ public class ResourcePageController {
 	}
 
 	/**
-	 * Retrieve info of laptop from the database.
-	 *
+	 * Retrieves information of laptop from the database.
+	 * Sets the information of laptop
+	 * 
 	 * @param resource the new laptop
-	 * @throws SQLException the SQL exception
+	 * @throws SQLException if cannot connect to the Database
 	 */
 	public void setLaptop(Resource resource) throws SQLException {
 		this.laptop = (Laptop) new DatabaseRequest().getResource(resource.getResourceID());
@@ -159,8 +162,8 @@ public class ResourcePageController {
 	/**
 	 * Retrieve loans from the database.
 	 *
-	 * @throws IOException  Signals that an I/O exception has occurred.
-	 * @throws SQLException the SQL exception
+	 * @throws IOException  if file "NewLoan.fxml" cannot be found
+	 * @throws SQLException if cannot connect to the Database
 	 */
 	@FXML
 	private void btnLoans() throws IOException, SQLException {
@@ -191,8 +194,8 @@ public class ResourcePageController {
 	/**
 	 * Edits the resource from the database.
 	 *
-	 * @throws IOException  Signals that an I/O exception has occurred.
-	 * @throws SQLException the SQL exception
+	 * @throws IOException if file "EditResource.fxml" cannot be found
+	 * @throws SQLException if cannot connect to the Database
 	 */
 	@FXML
 	private void editResource() throws IOException, SQLException {
@@ -227,8 +230,9 @@ public class ResourcePageController {
 	}
 	
 	/**
-	 * Pass stage reference.
-	 *
+	 * Passes current stage onto next class to load new scene on it.
+	 * Closes and reverts to previous stage.
+	 * 
 	 * @param window the window
 	 */
 	public void passStageReference(Stage window) {

@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Handles user editing.
  * 
@@ -60,7 +60,7 @@ public class EditUserController {
 	/**
 	 * Deletes user
 	 *
-	 * @throws SQLException if connection to database fails
+	 * @throws SQLException if cannot connect to Database
 	 */
 	@FXML
 	private void deleteUser() throws SQLException {
@@ -80,8 +80,8 @@ public class EditUserController {
 	}
 
 	/**
-	 * Pass stage reference.
-	 *
+	 * Passes current stage onto next class to load new scene on it.
+	 * Closes and reverts to previous stage.
 	 * @param window the window
 	 */
 	public void passStageReference(Stage window) {

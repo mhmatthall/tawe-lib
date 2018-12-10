@@ -18,7 +18,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * Controller of librarian control panel/dashboard
+ * Controller of librarian control panel dashboard
  * 
  * @author Constantinos Loizou
  */
@@ -47,13 +47,6 @@ public class ControlPanelController {
 	Button btnEdit;
 	@FXML
 	public ImageView libImage;
-
-	// THE PROBLEM IS IN THESE 2
-	/*
-	 * @FXML Label lblUsername;
-	 * 
-	 * @FXML Label lblWelcome;
-	 */
 
 	/**
 	 * Method for exit button.
@@ -134,8 +127,7 @@ public class ControlPanelController {
 		}
 	}
 
-	// TODO: Throw exception or alerbox if one of the fields has been left empty
-
+	
 	/**
 	 * Method for a button for creating a laptop.
 	 *
@@ -207,7 +199,7 @@ public class ControlPanelController {
 	/**
 	 * Method for a button for searching users.
 	 *
-	 * @throws IOException if file "SearchUsers.fxml" does not exist.
+	 * @throws IOException if file "SearchUser.fxml" does not exist.
 	 */
 	@FXML
 	private void searchUser() throws IOException {
@@ -222,6 +214,12 @@ public class ControlPanelController {
 		window3.show();
 	}
 
+	/**
+	 * Method for a button to edit details.
+	 * 
+	 * 
+	 * @throws IOException if file "EditUser.fxml" does not exist.
+	 */
 	private void editDetails() throws IOException {
 		Stage window = new Stage();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/EditUser.fxml"));
@@ -239,7 +237,7 @@ public class ControlPanelController {
 	/**
 	 * Method for a button to make a new user.
 	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException if file "NewUser.fxml" does not exist.
 	 */
 	@FXML
 	private void newUser() throws IOException {
@@ -274,7 +272,7 @@ public class ControlPanelController {
 	/**
 	 * Load image selecter.
 	 *
-	 * @throws IOException if file "SelectUserImage.fxml" doesn't exist .
+	 * @throws IOException if file "SelectUserImage.fxml" does not exist .
 	 */
 	private void loadImageSelecter() throws IOException {
 		window.close();
@@ -290,9 +288,10 @@ public class ControlPanelController {
 	}
 
 	/**
-	 * Passes the stage reference to the next controller.
-	 *
-	 * @param window to be passed on
+	 * Passes current stage onto next class to load new scene on it.
+	 * Closes and reverts to previous stage.
+	 * 
+	 * @param window the window
 	 */
 	public void passStageReference(Stage window) {
 		this.window = window;

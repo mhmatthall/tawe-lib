@@ -125,9 +125,9 @@ public class DVD extends Resource {
 	}
 
 	/**
-	 * Gets the sub langGets the sub lang.
+	 * Gets the subtitle language.
 	 *
-	 * @return the sub lang
+	 * @return the subtitle language
 	 */
 	public ArrayList<String> getSubLang() {
 		return subLang;

@@ -1,4 +1,4 @@
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class Copy. Models copy of a resource
  * 
