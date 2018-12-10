@@ -31,7 +31,7 @@ public class InputBox {
 	 * @return string the user entered.
 	 */
 	
-	public static String display(String title, String msg) {
+	public static ArrayList<String> display(String title, String msg) {
 		ArrayList<String> answers = new ArrayList<>();
 		Stage window = new Stage();
 
