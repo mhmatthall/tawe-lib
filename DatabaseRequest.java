@@ -719,7 +719,7 @@ public class DatabaseRequest {
 		ResultSet results = query.executeQuery("SELECT * FROM RESOURCE");
 
 		ArrayList<Resource> out = new ArrayList<Resource>();
-		Resource temp;
+		Resource temp;	// select the first row of results
 
 		while (results.next()) {
 			temp = new Resource(results.getString(1), // resourceID
@@ -1002,7 +1002,7 @@ public class DatabaseRequest {
 			ResultSet results = query.executeQuery(
 					"SELECT RESOURCE.resource_id "
 							+ "FROM RESOURCE INNER JOIN " + currentTable + " ON RESOURCE.resource_id = " + currentTable + ".resource_id "
-							+ "WHERE resource_id LIKE '%" + searchTerm + "%' "
+							+ "WHERE RESOURCE.resource_id LIKE '%" + searchTerm + "%' "
 							+ "OR title LIKE '%" + searchTerm + "%'");
 
 			while (results.next()) {

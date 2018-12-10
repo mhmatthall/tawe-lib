@@ -30,17 +30,6 @@ public class Borrower extends User {
 	}
 
 	/**
-	 * Gets the array list of loaned copies. TODO re-add commented out return
-	 * 
-	 * @return the loaned resources
-	 * @throws SQLException
-	 */
-	public ArrayList<Copy> getLoanedCopies() throws SQLException {
-		DatabaseRequest db = new DatabaseRequest();
-		return db.getUserCopiesOnLoan(getUsername());
-	}
-
-	/**
 	 * Gets the array list of reserved resources.
 	 *
 	 * @return the reserved resources
