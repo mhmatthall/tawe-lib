@@ -719,7 +719,7 @@ public class DatabaseRequest {
 		ResultSet results = query.executeQuery("SELECT * FROM RESOURCE");
 
 		ArrayList<Resource> out = new ArrayList<Resource>();
-		Resource temp;
+		Resource temp;	// select the first row of results
 
 		while (results.next()) {
 			temp = new Resource(results.getString(1), // resourceID
