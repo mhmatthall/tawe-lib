@@ -12,7 +12,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/** To check whether the resources available or not.
+ * 
+ * @author Caleb Warburton
+ *
+ */
 public class ResourcePageController {
+
 	private User user;
 	private DVD dvd;
 	private Book book;
@@ -49,6 +55,12 @@ public class ResourcePageController {
 	@FXML
 	HBox upperElements;
 
+	/**
+	 * To check loan.
+	 *
+	 * @throws IOException  Signals that an I/O exception has occurred.
+	 * @throws SQLException the SQL exception
+	 */
 	@FXML
 	private void loan() throws IOException, SQLException {
 		Stage window = new Stage();
@@ -63,6 +75,11 @@ public class ResourcePageController {
 		window.show();
 	}
 
+	/**
+	 * Determine if the user is librarian or borrower.
+	 *
+	 * @param user the new user
+	 */
 	public void setUser(User user) {
 		this.user = user;
 		if (user.isLibrarian()) {
@@ -73,6 +90,12 @@ public class ResourcePageController {
 		}
 	}
 
+	/**
+	 * Retrieve info of the book from the database.
+	 *
+	 * @param resource the new book
+	 * @throws SQLException the SQL exception
+	 */
 	public void setBook(Resource resource) throws SQLException {
 		this.book = (Book) new DatabaseRequest().getResource(resource.getResourceID());
 		this.resource = book;
@@ -88,7 +111,12 @@ public class ResourcePageController {
 		lblCopies.setText(Integer.toString(book.viewCopies().size()));
 	}
 
-
+	/**
+	 * Retrieve info of the DVD from the database
+	 *
+	 * @param resource the new dvd
+	 * @throws SQLException the SQL exception
+	 */
 	public void setDVD(Resource resource) throws SQLException {
 		this.dvd = (DVD) new DatabaseRequest().getResource(resource.getResourceID());
 		this.resource = dvd;
@@ -100,13 +128,19 @@ public class ResourcePageController {
 		lbl4.setText("Language: " + (dvd.getLanguage()));
 		lbl5.disableProperty();
 		lbl6.disableProperty();
-		if (dvd.viewCopies().isEmpty() == true){
+		if (dvd.viewCopies().isEmpty() == true) {
 			lblCopies.setText(Integer.toString(0));
 		} else {
 			lblCopies.setText(Integer.toString(dvd.viewCopies().size()));
 		}
-		}
+	}
 
+	/**
+	 * Retrieve info of laptop from the database.
+	 *
+	 * @param resource the new laptop
+	 * @throws SQLException the SQL exception
+	 */
 	public void setLaptop(Resource resource) throws SQLException {
 		this.laptop = (Laptop) new DatabaseRequest().getResource(resource.getResourceID());
 		this.resource = laptop;
@@ -121,6 +155,12 @@ public class ResourcePageController {
 		lblCopies.setText(Integer.toString(laptop.viewCopies().size()));
 	}
 
+	/**
+	 * Retrieve loans from the database.
+	 *
+	 * @throws IOException  Signals that an I/O exception has occurred.
+	 * @throws SQLException the SQL exception
+	 */
 	@FXML
 	private void btnLoans() throws IOException, SQLException {
 		Stage window = new Stage();
@@ -134,11 +174,20 @@ public class ResourcePageController {
 		window.show();
 	}
 
+	/**
+	 * Close the window.
+	 */
 	@FXML
 	private void close() {
 		window.close();
 	}
 
+	/**
+	 * Edits the resource from the database.
+	 *
+	 * @throws IOException  Signals that an I/O exception has occurred.
+	 * @throws SQLException the SQL exception
+	 */
 	@FXML
 	private void editResource() throws IOException, SQLException {
 		Stage window = new Stage();
@@ -152,11 +201,21 @@ public class ResourcePageController {
 		window.show();
 	}
 
+	/**
+	 * Pass stage reference.
+	 *
+	 * @param window the window
+	 */
 	public void passStageReference(Stage window) {
 		this.window = window;
 
 	}
 
+	/**
+	 * Sets the resource.
+	 *
+	 * @param resource the new resource
+	 */
 	public void setResource(Resource resource) {
 		this.resource = resource;
 
