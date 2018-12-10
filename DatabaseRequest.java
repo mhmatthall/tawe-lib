@@ -516,7 +516,7 @@ public class DatabaseRequest {
 					+ "loan_duration = " + newDetails.getLoanTime() + ", "
 					+ "is_on_loan = " + isOnLoan + ", "
 					+ "is_reserved = " + isReserved + ", "
-					+ "reserved_by_user_id = '" + newDetails.getReservingUser() + " "
+					+ "reserved_by_user_id = '" + newDetails.getReservingUser() + "' "
 					+ "WHERE copy_id = '" + newDetails.getCopyID() + "'");
 		} else {
 			query.executeUpdate("UPDATE COPY SET "
