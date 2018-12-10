@@ -33,12 +33,17 @@ public class BorrowsController {
 	
 	public void setUser(User user) throws SQLException {
 		this.user = user;
-		ArrayList<Copy> items = new DatabaseRequest().getUserCopiesOnLoan(user.getUsername());		
+		ArrayList<Loan> items = new DatabaseRequest().getUserCopiesOnLoan(user.getUsername());		
 		Resource resources;
+		Copy copies;
 		ArrayList<String> details = new ArrayList<>();
-		for (Copy copy : items) {
-			resources = new DatabaseRequest().getResource(copy.getResourceID());
-			details.add("ID: " + resources.getResourceID() + " Title: " + resources.getTitle());
+		DatabaseRequest db = new DatabaseRequest();
+		for (Loan loan : items) {
+			if (loan.isReturned() == false) {
+				copies = db.getCopy(loan.getCopyID());
+				resources = db.getResource(copies.getResourceID());
+				details.add("ID: " + resources.getResourceID() + " Title: " + resources.getTitle() + "Date Due: " + loan.getReturnDate().toString());
+			}
 		}
 		ObservableList<String> values = FXCollections.observableArrayList(details);
 		borrows.setItems(values);

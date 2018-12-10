@@ -13,12 +13,12 @@ public class Laptop extends Resource {
 	/**
 	 * Creates a new laptop
 	 *
-	 * @param title the title
-	 * @param year the year
-	 * @param thumbnail the thumbnail
-	 * @param manufacturer the manufacturer
-	 * @param model the model
-	 * @param operatingSys the operating sys
+	 * @param title the name of a laptop
+	 * @param year of manufacture
+	 * @param thumbnail of the laptop
+	 * @param manufacturer of the laptop
+	 * @param model of the laptop
+	 * @param operatingSys of a laptop
 	 */
 	public Laptop(String title, int year, Thumbnail thumbnail, String manufacturer, 
 			String model, String operatingSys) {
@@ -31,14 +31,14 @@ public class Laptop extends Resource {
 	/**
 	 * Laptop's constructor for DatabaseRequest to initialise laptop 
 	 *
-	 * @param resourceID the resource ID
-	 * @param title the title
-	 * @param year the year
-	 * @param thumbnail the thumbnail
-	 * @param queue the queue
-	 * @param manufacturer the manufacturer
-	 * @param model the model
-	 * @param operatingSys the operating sys
+	 * @param resourceID of the laptop
+	 * @param title the name of the laptop
+	 * @param year of manufacture
+	 * @param thumbnail of the laptop
+	 * @param queue of users waiting for the laptop
+	 * @param manufacturer of the laptop
+	 * @param model of the laptop
+	 * @param operatingSys of the laptop
 	 */
 	public Laptop(String resourceID, String title, int year, Thumbnail thumbnail,
 			RequestQueue queue, String manufacturer, String model, String operatingSys) {

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane minHeight="330.0" minWidth="395.0" prefHeight="330.0" prefWidth="392.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ControlPanelController">
+<BorderPane minHeight="330.0" minWidth="395.0" prefHeight="330.0" prefWidth="392.0" xmlns="http://javafx.com/javafx/8.0.192" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ControlPanelController">
    <top>
       <Label fx:id="lblControlPanelTitle" text="LIBRARIAN CONTROL PANEL" BorderPane.alignment="CENTER">
          <font>

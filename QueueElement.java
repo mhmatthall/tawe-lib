@@ -1,11 +1,7 @@
 /**
- * @author Rimantas
+ * element of a queue, needed to make queue ADT work.
+ * @author Rimantas Kazlauskas
  *
- */
-
-/*
- * TODO conform to coding style Why does this class exist? We should only be
- * keeping usernames in the RequestQueue
  */
 public class QueueElement {
 	private String element; // the element contained in this linked list

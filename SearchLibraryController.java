@@ -27,7 +27,7 @@ import javafx.stage.Stage;
 public class SearchLibraryController {
 	private Stage window;
 	private User user;
-	
+
 	@FXML
 	Button btnSearch;
 	@FXML
@@ -35,11 +35,13 @@ public class SearchLibraryController {
 	@FXML
 	Button btnSelect;
 	@FXML
-	RadioButton rbBooks;
+	Button btnListAll;
 	@FXML
-	RadioButton rbDVDs;
+	CheckBox cbBooks;
 	@FXML
-	RadioButton rbLaptops;
+	CheckBox cbDVDs;
+	@FXML
+	CheckBox cbLaptops;
 	@FXML
 	ToggleGroup radioGroup;
 	@FXML
@@ -75,23 +77,23 @@ public class SearchLibraryController {
 			AlertBox.display("Please select resource type");
 			return;
 		}
-		
+
 		String searchTerm = txtSearchBox.getText();
-		
+
 		ArrayList<Resource> results = new DatabaseRequest().searchResources(searchTerm);
 		if (results.isEmpty()) {
 			AlertBox.display("No results matching search term");
 			return;
 		}
 		ObservableList<Resource> resourceObList = FXCollections.observableArrayList(results);
-		
-		
+
 		// String has to match EXACTLY the attribute of resource constructor
 		resultsTitle.setCellValueFactory(new PropertyValueFactory<Resource, String>("title")); 
 		resultsYear.setCellValueFactory(new PropertyValueFactory<Resource, String>("year")); 
 		resultsID.setCellValueFactory(new PropertyValueFactory<Resource, String>("resourceID"));
 		resultsTable.setItems(resourceObList);
 	}
+
 	
 	/**
 	 * Select item.
@@ -99,18 +101,30 @@ public class SearchLibraryController {
 	 * @throws IOException file ResourcePage.fxml is missing
 	 * @throws SQLException fails to connect to Database
 	 */
+
+
+	@FXML 
+	private void listAll() throws SQLException {
+		ArrayList<Resource> allRes = new DatabaseRequest().browseResources();
+		ObservableList<Resource> resourceObList = FXCollections.observableArrayList(allRes);
+		resultsTitle.setCellValueFactory(new PropertyValueFactory<Resource, String>("title")); // ONLY THESE TWO
+		resultsYear.setCellValueFactory(new PropertyValueFactory<Resource, String>("year")); // ROWS WORK, WTF?
+		resultsID.setCellValueFactory(new PropertyValueFactory<Resource, String>("resourceID"));
+		resultsTable.setItems(resourceObList);
+	}
+
 	
 	@FXML
 	private void selectItem() throws IOException, SQLException {
-		System.out.println(resultsTable.getSelectionModel().getSelectedItem().getTitle() + 
-				" " + resultsTable.getSelectionModel().getSelectedItem().getResourceID());
+		System.out.println(resultsTable.getSelectionModel().getSelectedItem().getTitle() + " "
+				+ resultsTable.getSelectionModel().getSelectedItem().getResourceID());
 		Stage window = new Stage();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/ResourcePage.fxml"));
 		Pane details = loader.load();
 		ResourcePageController controller = loader.getController();
 		if (resultsTable.getSelectionModel().getSelectedItem() instanceof Book) {
 			controller.setBook(resultsTable.getSelectionModel().getSelectedItem());
-		} else if(resultsTable.getSelectionModel().getSelectedItem() instanceof DVD) {
+		} else if (resultsTable.getSelectionModel().getSelectedItem() instanceof DVD) {
 			controller.setDVD(resultsTable.getSelectionModel().getSelectedItem());
 		} else {
 			controller.setLaptop(resultsTable.getSelectionModel().getSelectedItem());
@@ -121,6 +135,7 @@ public class SearchLibraryController {
 		window.setScene(scene);
 		window.show();
 	}
+
 	
 	/**
 	 * Sets the user.
@@ -139,6 +154,8 @@ public class SearchLibraryController {
 	 * @param window the window
 	 */
 	
+
+
 	public void passStageReference(Stage window) {
 		this.window = window;
 	}

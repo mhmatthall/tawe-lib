@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -34,6 +35,8 @@ public class ResourcePageController {
 	@FXML
 	Label lbl6;
 	@FXML
+	Label lblCopies;
+	@FXML
 	Button btnExit;
 	@FXML
 	Button btnRequest;
@@ -42,7 +45,7 @@ public class ResourcePageController {
 	@FXML
 	Button btnLoans;
 	@FXML
-	ImageView profImg;
+	ImageView resourceImg;
 	@FXML
 	HBox upperElements;
 
@@ -73,6 +76,7 @@ public class ResourcePageController {
 	public void setBook(Resource resource) throws SQLException {
 		this.book = (Book) new DatabaseRequest().getResource(resource.getResourceID());
 		this.resource = book;
+		resourceImg.setImage(new Image("image_files/book.png"));
 		System.out.println(resource.toString());
 		lblTitle.setText(resource.getTitle());
 		lbl1.setText("Year: " + Integer.toString(resource.getYear()));
@@ -81,12 +85,14 @@ public class ResourcePageController {
 		lbl4.setText("Genre: " + ((Book) resource).getGenre());
 		lbl5.setText("ISBN: " + ((Book) resource).getISBN());
 		lbl6.setText("Language: " + ((Book) resource).getLanguage());
+		lblCopies.setText(Integer.toString(book.viewCopies().size()));
 	}
 
 
 	public void setDVD(Resource resource) throws SQLException {
 		this.dvd = (DVD) new DatabaseRequest().getResource(resource.getResourceID());
 		this.resource = dvd;
+		resourceImg.setImage(new Image("image_files/dvd.png"));
 		lblTitle.setText(dvd.getTitle());
 		lbl1.setText("Year: " + Integer.toString(dvd.getYear()));
 		lbl2.setText(dvd.getDirector());
@@ -94,11 +100,17 @@ public class ResourcePageController {
 		lbl4.setText("Language: " + (dvd.getLanguage()));
 		lbl5.disableProperty();
 		lbl6.disableProperty();
-	}
+		if (dvd.viewCopies().isEmpty() == true){
+			lblCopies.setText(Integer.toString(0));
+		} else {
+			lblCopies.setText(Integer.toString(dvd.viewCopies().size()));
+		}
+		}
 
 	public void setLaptop(Resource resource) throws SQLException {
 		this.laptop = (Laptop) new DatabaseRequest().getResource(resource.getResourceID());
 		this.resource = laptop;
+		resourceImg.setImage(new Image("image_files/laptop.png"));
 		lblTitle.setText(laptop.getTitle());
 		lbl1.setText(Integer.toString(laptop.getYear()));
 		lbl2.setText(laptop.getManufacturer());
@@ -106,6 +118,7 @@ public class ResourcePageController {
 		lbl4.setText(laptop.getOperatingSys());
 		lbl5.disableProperty();
 		lbl6.disableProperty();
+		lblCopies.setText(Integer.toString(laptop.viewCopies().size()));
 	}
 
 	@FXML

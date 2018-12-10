@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
+ * In charge of creating new books for the Database
  * 
  * @author Constantinos Loizou
  *
@@ -34,8 +35,13 @@ public class NewBookController {
 	@FXML
 	TextField txtGenre;
 
+	/**
+	 * Constructs a book and inserts it into a database.
+	 *
+	 * @throws SQLException if connection to the database fails
+	 */
 	@FXML
-	private void constructBook() throws SQLException {
+	private void constructBook() {
 		String title = txtTitle.getText();
 		int year = Integer.parseInt(txtYear.getText());
 		String author = txtAuthor.getText();
@@ -46,19 +52,34 @@ public class NewBookController {
 		String genre = txtGenre.getText();
 
 		Book book1 = new Book(title, year, thumb, author, publisher, genre, isbn, language);
-
-		DatabaseRequest db = new DatabaseRequest();
-		db.addResource(book1);
+		
+		DatabaseRequest db;
+		try {
+			db = new DatabaseRequest();
+			db.addResource(book1);
+		} catch (SQLException e) {
+			System.out.println("CAUGHT SQL EXCEPTION - Unique ID already exists");
+			constructBook();
+		}
+		
 
 		System.out.println(book1.toString());
 		close();
 	}
 
+	/**
+	 * Close the window
+	 */
 	@FXML
 	private void close() {
 		window.close();
 	}
 
+	/**
+	 * Pass stage reference.
+	 *
+	 * @param window current stage
+	 */
 	public void passStageReference(Stage window) {
 		this.window = window;
 
