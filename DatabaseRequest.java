@@ -496,7 +496,7 @@ public class DatabaseRequest {
 		query.executeUpdate("INSERT INTO COPY VALUES("
 				+ "'" + newCopy.getCopyID() + "', "
 				+ "'" + newCopy.getResourceID() + "', "
-				+ "'" + newCopy.getLoanTime() + "', "
+				+ newCopy.getLoanTime() + ", "
 				+ isOnLoan + ", "
 				+ isReserved + ", "
 				+ "'" + newCopy.getReservingUser() + "')");
@@ -555,7 +555,11 @@ public class DatabaseRequest {
 		boolean isOnLoan = results.getInt(4) != 0;
 		boolean isReserved = results.getInt(5) != 0;
 
-		Copy out = new Copy(copyID, results.getString(2), results.getInt(3), isOnLoan, isReserved,
+		Copy out = new Copy(copyID,
+				results.getString(2),
+				results.getInt(3),
+				isOnLoan,
+				isReserved,
 				results.getString(6));
 
 		return out;
@@ -627,7 +631,7 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Gets all loans issued to the current user.
+	 * Gets all loans issued to the given user.
 	 *
 	 * @param username of a user
 	 * @return arrayList of loans issued to the current user
@@ -660,32 +664,45 @@ public class DatabaseRequest {
 
 		return userLoans;
 	}
-	
+
+	/**
+	 * Get a list of the resources that the user has requested, but are unavailable.
+	 * @param username the username to search for
+	 * @return the list of resources that the user has requested
+	 * @throws SQLException if there was an syntax, duplicate key, or other 
+	 *                      SQL error returned upon adding the user
+	 */
 	public ArrayList<Resource> getUserRequestedResources(String username) throws SQLException {
 		Statement query = conn.createStatement();
-		ResultSet results = query.executeQuery("SELECT * FROM "
-				+ "RESOURCE INNER JOIN COPY ON COPY.copy_id = LOAN.copy_id "
-				+ "WHERE username = '" + username + "' "
-				+ "AND is_returned = 0");
+		ResultSet results = query.executeQuery("SELECT * "
+				+ "FROM RESOURCE "
+				+ "WHERE queue <> ''");
 
-		ArrayList<Loan> userLoans = new ArrayList<Loan>();
-		Loan currentLoan;
+		ArrayList<Resource> resources = new ArrayList<Resource>();
+		Resource currentResource;
 
 		while (results.next()) {
-			// Format boolean true/false to 1/0 for database insertion
-			boolean isReturned = results.getInt(6) != 0;
-
-			currentLoan = new Loan(results.getString(1),
-					new Date(results.getString(2)),
-					results.getString(3),
-					results.getString(4),
-					new Date(results.getString(5)),
-					isReturned);
-
-			userLoans.add(currentLoan);
+			// convert the current result into a new resource
+			currentResource = new Resource(results.getString(1),
+					results.getString(2),
+					results.getInt(3),
+					new Thumbnail(results.getString(4)),
+					convertRequestQueue(results.getString(5)));
+			
+			// extract the resource queue
+			RequestQueue qTest = currentResource.getQueue();
+			
+			// iterate through the queue
+			while (!qTest.isEmpty()) {
+				// if the username is on the request queue
+				if (username.equals(qTest.peek())) {
+					// add it to the output
+					resources.add(currentResource);
+				}
+				qTest.dequeue();
+			}
 		}
-
-		return userLoans;
+		return resources;
 	}
 	
 	/**
@@ -1025,6 +1042,8 @@ public class DatabaseRequest {
 		return results.getDouble(1);
 	}
 
+	// TODO add payFines(String username, double amountBeingPaid)
+	
 	/**
 	 * Searches the database for Resource
 	 *
