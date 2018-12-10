@@ -90,13 +90,14 @@ public class Date {
 	 * @return day difference between 2 dates
 	 */
 	public int compare(Date anotherDate) {
+		//checks year differance
 		int year = Integer.parseInt(getYear()) -
 				Integer.parseInt(anotherDate.getYear());
-		if (year == 0) {
+		if (year == 0) { // if its in same year
 			return Math.abs(getDaysInYear() - anotherDate.getDaysInYear());
 		} else {
 			int days = 0;
-			if (year < 0) {
+			if (year < 0) { // anotherDate year is bigger
 				int remainingDays = getMaxDaysInYear() - getDaysInYear();
 				Calendar tempDate = date;
 				for (int i = 1; i <= Math.abs(year); i++) {
@@ -109,7 +110,7 @@ public class Date {
 						days += tempDate.getMaximum(Calendar.DAY_OF_YEAR);
 					}
 				}
-			} else {
+			} else { //this date is older/later
 				int remainingDays = anotherDate.getMaxDaysInYear() - 
 						anotherDate.getDaysInYear();
 				Date tempDate = anotherDate;
