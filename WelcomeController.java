@@ -70,9 +70,10 @@ public class WelcomeController {
 
 	/**
 	 * Method for Login button.
+	 * @throws SQLException 
 	 */
 	@FXML
-	public void buttonLoginPressed() {
+	public void buttonLoginPressed() throws SQLException {
 
 		if (txtUsername.getText().trim().isEmpty()) {
 			AlertBox.display("Please enter a valid username");
@@ -130,8 +131,9 @@ public class WelcomeController {
 	 * Opens up borrowers dashboard.
 	 *
 	 * @throws IOException if file "UserDashboard.fxml" cannot be found
+	 * @throws SQLException 
 	 */
-	private void showDashboard() throws IOException {
+	private void showDashboard() throws IOException, SQLException {
 
 		Stage window = (Stage) btnExit.getScene().getWindow();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/UserDashboard.fxml"));
@@ -149,9 +151,10 @@ public class WelcomeController {
 	 * On enter press Login
 	 *
 	 * @param ae Activation event
+	 * @throws SQLException 
 	 */
 	@FXML
-	public void onEnter(ActionEvent ae) {
+	public void onEnter(ActionEvent ae) throws SQLException {
 		buttonLoginPressed();
 	}
 
