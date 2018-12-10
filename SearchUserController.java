@@ -11,7 +11,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-/**
+
+/** Searches Users in the Library
  *
  * @author Constantinos Loizou
  *
@@ -30,6 +31,11 @@ public class SearchUserController {
 	@FXML
 	TextField txtUserID;
 
+	/**
+	 * Searches Database for user using userID.
+	 *
+	 * @throws SQLException fails to connect to Database
+	 */
 	@FXML
 	private void searchUser() throws SQLException {
 
@@ -52,6 +58,12 @@ public class SearchUserController {
 		}
 	}
 
+	/**
+	 * Edits the user.
+	 *
+	 * @param user the user
+	 * @throws IOException Signals that an I/O exception has occurred
+	 */
 	private void editUser(User user) throws IOException {
 		Stage window = new Stage();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml_files/EditUser.fxml"));
@@ -66,27 +78,46 @@ public class SearchUserController {
 
 	}
 
-	/*
-	 * FUNDAMENTAL CHANGE NEEDED. REMOVE LIST VIEW AND HAVE A PLAIN SEARCH TEXTFIELD
-	 * IF USER IS NOT FOUND POP OUT NEW ALERT BOX IF USER IS FOUND SWITCH SCENE TO
-	 * USER CONTROL SCENE
-	 */
+	
 
+	/**
+	 * Closes window.
+	 */
 	@FXML
 
 	private void close() {
 		window.close();
 	}
 
+	/**
+	 * Searches on pressing enter.
+	 *
+	 * @param ae action event
+	 * @throws SQLException fails to connect to Database
+	 */
+	
 	@FXML
 	public void onEnter(ActionEvent ae) throws SQLException {
 		searchUser();
 	}
 
+	/**
+	 * Passes current stage onto next class to load new scene on it.
+	 * Closes and reverts to previous stage.
+	 *
+	 * @param window the window
+	 */
+	
 	public void passStageReference(Stage window) {
 		this.window = window;
 	}
 
+	/**
+	 * Sets the session user.
+	 *
+	 * @param sessionUser the new session user
+	 */
+	
 	public void setSessionUser(User sessionUser) {
 		this.sessionUser = sessionUser;
 	}
