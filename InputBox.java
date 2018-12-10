@@ -21,7 +21,7 @@ public class InputBox {
 
 
 
-	public static ArrayList<String> display(String title, String msg) {
+	public static String display(String title, String msg) {
 		ArrayList<String> answers = new ArrayList<>();
 		Stage window = new Stage();
 
