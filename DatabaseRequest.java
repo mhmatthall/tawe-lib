@@ -494,7 +494,7 @@ public class DatabaseRequest {
 				+ "'" + newCopy.getCopyID() + "', "
 				+ "'" + newCopy.getResourceID() + "', "
 				+ newCopy.getLoanTime() + ", "
-				+ 0 + ", " + 0);	// set isReserved and isOnLoan to false, as the copy is new
+				+ 0 + ", " + 0 + ")");	// set isReserved and isOnLoan to false, as the copy is new
 	}
 
 	/**
@@ -1047,7 +1047,15 @@ public class DatabaseRequest {
 		return results.getDouble(1);
 	}
 
-	// TODO add payFines(String username, double amountBeingPaid)
+	/**
+	 * Pays one or more fines held by a user based on how much is paid
+	 * @param username the username of the user 
+	 * @param amountBeingPaid
+	 * @throws SQLException
+	 */
+	public void payFines(String username, double amountBeingPaid) throws SQLException {
+		
+	}
 	
 	/**
 	 * Searches the database for Resource
