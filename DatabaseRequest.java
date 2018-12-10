@@ -456,8 +456,8 @@ public class DatabaseRequest {
 	}
 
 	/**
-	 * Checks if there are any available copies of a given resource
-	 *
+	 * Checks if there are any available copies of a given resource, that is, they
+	 * are not on loan OR reserved
 	 * @param resourceID of the resource we are checking available copies for
 	 * @return true if there are available copies
 	 * @throws SQLException if there was an syntax, duplicate key, or other 
@@ -1049,9 +1049,10 @@ public class DatabaseRequest {
 
 	/**
 	 * Pays one or more fines held by a user based on how much is paid
-	 * @param username the username of the user 
-	 * @param amountBeingPaid
-	 * @throws SQLException
+	 * @param username the username of the user having their fines paid off 
+	 * @param amountBeingPaid the amount that the user is wishing to pay
+	 * @throws SQLException if there was an syntax, duplicate key, or other 
+	 *                      SQL error returned upon adding the user
 	 */
 	public void payFines(String username, double amountBeingPaid) throws SQLException {
 		

@@ -222,5 +222,4 @@ public class Librarian extends User {
 		// update the database
 		db.editCopy(c);
 	}
-
 }
