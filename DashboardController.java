@@ -2,19 +2,27 @@ import java.awt.Window;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.image.*;
@@ -185,6 +193,57 @@ public class DashboardController {
 		Stage window = (Stage) btnExit.getScene().getWindow();
 		Pane previous = FXMLLoader.load(getClass().getResource("/fxml_files/Welcome.fxml"));
 		window.setScene(new Scene(previous));
+	}
+	@FXML
+	public void loanReturn() throws SQLException {
+		ArrayList<String> answers = new ArrayList<>();
+		Stage window = new Stage();
+
+		window.initModality(Modality.APPLICATION_MODAL);
+		window.setTitle("Returning Loans");
+		window.setMinHeight(150);
+		window.setMinWidth(250);
+
+		ChoiceBox<String> loansToReturn = new ChoiceBox<>();
+		
+		ObservableList<String> value = FXCollections.observableArrayList("");
+		for (Loan loan : new DatabaseRequest().getUserCopiesOnLoan(user.getUsername())){
+			if (loan.getUsername().equals(user.getUsername())){
+				value.add(loan.getLoanID());
+			}
+		}
+		loansToReturn.setItems(value);
+		loansToReturn.getSelectionModel().selectFirst();
+		
+		
+		Button btn1 = new Button("Done");
+		btn1.setOnAction(e -> {
+			try {
+				user.returnLoan(new DatabaseRequest().getLoan(loansToReturn.getValue()));
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			window.close();
+		});
+
+		
+
+		btn1.setMinWidth(50);
+
+		/*
+		 * Inside the VBox we load a label and an HBox that holds out command buttons
+		 */
+		
+		VBox layout = new VBox(10); // pixels apart
+		layout.getChildren().addAll(loansToReturn, btn1);
+		layout.setAlignment(Pos.CENTER);
+		layout.setPadding(new Insets(10, 10, 10, 10));
+
+		Scene scene = new Scene(layout);
+
+		window.setScene(scene);
+		window.showAndWait();
 	}
 
 	/**
