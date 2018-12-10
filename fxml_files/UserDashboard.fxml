@@ -68,7 +68,6 @@
                   <Region HBox.hgrow="ALWAYS" />
                   <VBox alignment="CENTER_RIGHT" spacing="5.0">
                      <children>
-                        <Button fx:id="btnReturn" mnemonicParsing="false" onAction="#loanReturn" prefHeight="25.0" prefWidth="144.0" text="Return Loans" />
                         <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#searchLibrary" prefWidth="145.0" text="Search the Library" />
                         <Button fx:id="btnEdit" mnemonicParsing="false" onAction="#editProfile" prefWidth="145.0" text="Edit Profile" />
                      </children>

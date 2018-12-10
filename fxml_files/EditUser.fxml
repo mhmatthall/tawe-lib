@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane minHeight="322.0" minWidth="250.0" prefHeight="401.0" prefWidth="481.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EditUserController">
+<BorderPane minHeight="322.0" minWidth="250.0" prefHeight="401.0" prefWidth="516.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EditUserController">
    <top>
       <Label fx:id="lblTitle" text="User Account Details" BorderPane.alignment="CENTER">
          <font>
@@ -23,6 +23,7 @@
             <Button fx:id="btnUpdate" minWidth="75.0" mnemonicParsing="false" onAction="#update" text="Update Account" />
             <Region HBox.hgrow="ALWAYS" />
             <Button fx:id="btnPayFines" mnemonicParsing="false" onAction="#payFines" text="Pay off Fines" />
+            <Button fx:id="btnReturn" mnemonicParsing="false" onAction="#loanReturn" prefHeight="25.0" prefWidth="84.0" text="Return loans" />
             <Region HBox.hgrow="ALWAYS" />
             <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#deleteUser" text="Delete User" />
             <Region HBox.hgrow="ALWAYS" />
